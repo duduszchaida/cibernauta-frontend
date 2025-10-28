@@ -12,6 +12,7 @@ import Signup from "./pages/Signup";
 import Games from "./pages/Games";
 import CreateGame from "./pages/CreateGame";
 import NotFound from "./pages/NotFound";
+import Game from "./pages/Game";
 
 const queryClient = new QueryClient();
 
@@ -108,6 +109,7 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route path="/game" element={<Game />} />
             <Route
               path="/create-game"
               element={
