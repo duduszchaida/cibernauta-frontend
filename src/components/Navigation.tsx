@@ -25,17 +25,18 @@ export default function Navigation({ username, showGamesLink = false }: Navigati
           className="w-[58px] h-[58px]"
         />
         <span className="text-white text-xl font-bold">Cibernauta</span>
-      </div>
-
-      {showGamesLink && (
+         {showGamesLink && (
         <Link
           to="/games"
-          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-800 text-blue-400 hover:bg-gray-700 transition-colors"
+          className="ml-4 flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-800 text-blue-400 hover:bg-gray-700 transition-colors"
         >
           <Gamepad2 className="w-4 h-4" />
           <span>Jogos</span>
         </Link>
       )}
+      </div>
+
+     
 
       {username && (
         <div className="flex items-center gap-4">

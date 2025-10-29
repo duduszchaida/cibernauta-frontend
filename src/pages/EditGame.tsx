@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { X, Plus } from "lucide-react";
 import { gamesService } from "../services/api";
 import { useToast } from "@/hooks/use-toast";
@@ -10,7 +10,8 @@ interface Level {
   position: string;
 }
 
-export default function CreateGame() {
+export default function EditGame() {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [title, setTitle] = useState("");
@@ -18,9 +19,46 @@ export default function CreateGame() {
   const [imageUrl, setImageUrl] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const [levels, setLevels] = useState<Level[]>([
     { id: "1", title: "", position: "1" },
   ]);
+
+  useEffect(() => {
+    if (id) {
+      loadGame(Number(id));
+    }
+  }, [id]);
+
+  const loadGame = async (gameId: number) => {
+    try {
+      setIsFetching(true);
+      const game = await gamesService.getOne(gameId);
+      setTitle(game.game_title);
+      setDescription(game.description);
+      setImageUrl(game.image_url || "");
+      setDifficulty(game.difficulty.toString());
+
+      if (game.levels && game.levels.length > 0) {
+        setLevels(
+          game.levels.map((level: any, index: number) => ({
+            id: level.level_id?.toString() || Date.now().toString() + index,
+            title: level.level_title,
+            position: (index + 1).toString(),
+          }))
+        );
+      }
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível carregar o jogo",
+        variant: "destructive",
+      });
+      navigate("/games");
+    } finally {
+      setIsFetching(false);
+    }
+  };
 
   const addLevel = () => {
     const nextPosition = levels.length + 1;
@@ -45,7 +83,7 @@ export default function CreateGame() {
   };
 
   const handleSave = async () => {
-
+    
     if (!title.trim()) {
       toast({
         title: "Erro",
@@ -73,6 +111,7 @@ export default function CreateGame() {
       return;
     }
 
+    
     for (const level of levels) {
       if (!level.title.trim()) {
         toast({
@@ -94,7 +133,7 @@ export default function CreateGame() {
 
     setIsLoading(true);
     try {
-      await gamesService.create({
+      await gamesService.update(Number(id), {
         game_title: title,
         description,
         difficulty: Number(difficulty),
@@ -107,12 +146,12 @@ export default function CreateGame() {
 
       toast({
         title: "Sucesso!",
-        description: "Jogo cadastrado com sucesso",
+        description: "Jogo atualizado com sucesso",
       });
       navigate("/games");
     } catch (error: any) {
       toast({
-        title: "Erro ao cadastrar jogo",
+        title: "Erro ao atualizar jogo",
         description: error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
@@ -125,15 +164,23 @@ export default function CreateGame() {
     navigate("/games");
   };
 
+  if (isFetching) {
+    return (
+      <div className="min-h-screen bg-[#274584] flex items-center justify-center">
+        <div className="text-white text-xl">Carregando...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#274584] px-4 py-12 sm:px-6">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-white text-3xl font-normal mb-10">
-          Cadastrar jogo
+          Editar jogo
         </h1>
 
         <div className="space-y-8">
-        
+          
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-300 text-base font-medium mb-2">
@@ -164,7 +211,7 @@ export default function CreateGame() {
             </div>
           </div>
 
-        
+ 
           <div>
             <label className="block text-gray-300 text-base font-medium mb-2">
               Descrição
@@ -179,7 +226,7 @@ export default function CreateGame() {
             />
           </div>
 
-          {/* Dificuldade */}
+       
           <div className="max-w-xs">
             <label className="block text-gray-300 text-base font-medium mb-2">
               Dificuldade
@@ -199,7 +246,7 @@ export default function CreateGame() {
             </p>
           </div>
 
-          {/* Níveis */}
+        
           <div className="space-y-5">
             <div className="flex items-center justify-between">
               <h3 className="text-white text-xl font-normal">Níveis do Jogo</h3>
@@ -287,7 +334,7 @@ export default function CreateGame() {
               disabled={isLoading}
               className="w-full sm:w-[160px] h-[48px] bg-[#2563EB] text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 font-medium text-base shadow-lg"
             >
-              {isLoading ? "Salvando..." : "Salvar Jogo"}
+              {isLoading ? "Salvando..." : "Salvar Alterações"}
             </button>
           </div>
         </div>

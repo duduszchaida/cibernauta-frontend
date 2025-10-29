@@ -9,7 +9,6 @@ export const api = axios.create({
   },
 });
 
-// Interceptor para adicionar token em todas as requisições
 api.interceptors.request.use(
   async (config) => {
     const token = localStorage.getItem('firebase_token');
@@ -23,7 +22,6 @@ api.interceptors.request.use(
   }
 );
 
-// Interceptor para lidar com erros de autenticação
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -36,7 +34,6 @@ api.interceptors.response.use(
   }
 );
 
-// Auth Services
 export const authService = {
   register: async (data: { user_name: string; user_email: string; password: string }) => {
     const response = await api.post('/auth/register', data);
@@ -54,7 +51,6 @@ export const authService = {
   },
 };
 
-// Games Services
 export const gamesService = {
   getAll: async () => {
     const response = await api.get('/games');
@@ -70,6 +66,7 @@ export const gamesService = {
     game_title: string;
     description: string;
     difficulty: number;
+    image_url?: string;
     levels: Array<{ level_title: string; position: number }>;
   }) => {
     const response = await api.post('/games', data);

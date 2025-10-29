@@ -58,7 +58,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password,
       });
 
-      // Login com o custom token retornado
       await signInWithCustomToken(auth, response.customToken);
       
       setUser(response.user);
@@ -71,13 +70,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
-      // Primeiro, fazer login no backend para validar credenciais
+
       const response = await authService.login({
         user_email: email,
         password,
       });
 
-      // Login com o custom token retornado pelo backend
       await signInWithCustomToken(auth, response.customToken);
       
       setUser(response.user);

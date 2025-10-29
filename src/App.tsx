@@ -11,11 +11,12 @@ import Index from "./pages/Index";
 import Signup from "./pages/Signup";
 import Games from "./pages/Games";
 import CreateGame from "./pages/CreateGame";
+import EditGame from "./pages/EditGame";
 import NotFound from "./pages/NotFound";
-
+import Game from "./pages/Game"
 const queryClient = new QueryClient();
 
-// Componente para proteger rotas privadas
+// Componente para proteger rotas de usuarios que não estão logados
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
 
@@ -34,7 +35,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-// Componente para proteger rotas de admin
+//Aqui serve para proteger rotas de admin, que é a de cadastro de game
 function AdminRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
 
@@ -57,7 +58,7 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-// Componente para redirecionar usuários autenticados
+// Componente para redirecionar os usuarios autenticados
 function PublicRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
 
@@ -109,10 +110,26 @@ const App = () => (
               }
             />
             <Route
+              path="/game/:gameId"
+              element={
+                <ProtectedRoute>
+                  <Game />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/create-game"
               element={
                 <AdminRoute>
                   <CreateGame />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/edit-game/:id"
+              element={
+                <AdminRoute>
+                  <EditGame />
                 </AdminRoute>
               }
             />
