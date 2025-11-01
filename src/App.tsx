@@ -13,7 +13,7 @@ import Games from "./pages/Games";
 import CreateGame from "./pages/CreateGame";
 import EditGame from "./pages/EditGame";
 import NotFound from "./pages/NotFound";
-import Game from "./pages/Game"
+import Game from "./pages/Game";
 const queryClient = new QueryClient();
 
 // Componente para proteger rotas de usuarios que não estão logados
@@ -101,22 +101,8 @@ const App = () => (
                 </PublicRoute>
               }
             />
-            <Route
-              path="/games"
-              element={
-                <ProtectedRoute>
-                  <Games />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/game/:gameId"
-              element={
-                <ProtectedRoute>
-                  <Game />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/games" element={<Games />} />
+            <Route path="/game/:gameId" element={<Game />} />
             <Route
               path="/create-game"
               element={

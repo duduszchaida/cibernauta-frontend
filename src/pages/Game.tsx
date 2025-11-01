@@ -58,7 +58,9 @@ export default function Game() {
   if (error || !gameData) {
     return (
       <div className="min-h-screen bg-[#2B71A3] flex flex-col items-center justify-center gap-4">
-        <div className="text-white text-xl">{error || "Jogo não encontrado"}</div>
+        <div className="text-white text-xl">
+          {error || "Jogo não encontrado"}
+        </div>
         <button
           onClick={() => navigate("/games")}
           className="px-4 py-2 bg-[#2563EB] text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -73,23 +75,23 @@ export default function Game() {
     <div className="min-h-screen bg-[#2B71A3]">
       <Navigation username={user?.user_name} showGamesLink={true} />
 
-      <div className="pt-32 pb-12 px-6">
+      <div className="pt-6 pb-12 px-6">
         <div className="max-w-full mx-auto">
-        
           <div className="grid grid-cols-1 xl:grid-cols-[240px,1fr,280px] gap-4 max-w-[1920px] mx-auto">
-            
-            
             <div className="bg-[#374B7C] rounded-2xl p-5 h-fit">
-              <h2 className="text-white text-lg font-semibold mb-5">Controles</h2>
-              
+              <h2 className="text-white text-lg font-semibold mb-5">
+                Controles
+              </h2>
+
               <div className="space-y-4">
-            
                 <div className="bg-[#2B3E68] rounded-xl p-3">
                   <div className="flex items-center gap-3">
                     <div className="bg-[#4A5D8F] p-2 rounded-lg">
                       <Mouse className="w-7 h-7 text-white" />
                     </div>
-                    <span className="text-white text-base font-medium">Interação</span>
+                    <span className="text-white text-base font-medium">
+                      Interação
+                    </span>
                   </div>
                 </div>
 
@@ -113,17 +115,20 @@ export default function Game() {
                         </div>
                       </div>
                     </div>
-                    <span className="text-white text-base font-medium">Movimento</span>
+                    <span className="text-white text-base font-medium">
+                      Movimento
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
 
-         
             <div className="bg-[#374B7C] rounded-2xl p-5">
               <div className="flex items-center justify-between mb-3">
                 <div>
-                  <h1 className="text-white text-xl font-semibold">{gameData.game_title}</h1>
+                  <h1 className="text-white text-xl font-semibold">
+                    {gameData.game_title}
+                  </h1>
                   <p className="text-gray-300 text-sm">Nível: Iniciante</p>
                 </div>
                 <div className="flex items-center gap-2 text-yellow-400">
@@ -131,12 +136,10 @@ export default function Game() {
                 </div>
               </div>
 
-             
               <div className="bg-[#1a2744] rounded-lg overflow-hidden border-4 border-[#2B3E68] flex items-center justify-center">
-                <GameComponent width={900} height={650} />
+                <GameComponent />
               </div>
 
-             
               <div className="mt-4 flex justify-center">
                 <button
                   onClick={() => navigate("/games")}
@@ -147,10 +150,11 @@ export default function Game() {
               </div>
             </div>
 
-           
             <div className="bg-[#374B7C] rounded-2xl p-5 h-fit">
-              <h2 className="text-white text-lg font-semibold mb-5">Sua Pontuação Recorde</h2>
-              
+              <h2 className="text-white text-lg font-semibold mb-5">
+                Sua Pontuação Recorde
+              </h2>
+
               <div className="bg-[#2B3E68] rounded-xl p-6 text-center">
                 <div className="text-[#5B7FC7] text-7xl font-bold mb-2">
                   {highScore}
@@ -161,14 +165,22 @@ export default function Game() {
               <div className="mt-5 space-y-3">
                 <div className="bg-[#2B3E68] rounded-lg p-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm">Pontuação Atual</span>
-                    <span className="text-white font-semibold">{currentScore}</span>
+                    <span className="text-gray-300 text-sm">
+                      Pontuação Atual
+                    </span>
+                    <span className="text-white font-semibold">
+                      {currentScore}
+                    </span>
                   </div>
                 </div>
                 <div className="bg-[#2B3E68] rounded-lg p-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm">Melhor Pontuação</span>
-                    <span className="text-yellow-400 font-semibold">{highScore}</span>
+                    <span className="text-gray-300 text-sm">
+                      Melhor Pontuação
+                    </span>
+                    <span className="text-yellow-400 font-semibold">
+                      {highScore}
+                    </span>
                   </div>
                 </div>
                 <div className="bg-[#2B3E68] rounded-lg p-3">
@@ -181,14 +193,9 @@ export default function Game() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-
-
-

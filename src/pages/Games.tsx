@@ -34,8 +34,8 @@ export default function Games() {
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, [openMenuId]);
 
   const loadGames = async () => {
@@ -85,7 +85,12 @@ export default function Games() {
     setOpenMenuId(null);
   };
 
-  const handleGameClick = (gameId: number) => {
+  /**
+   * Redireciona para a url /game/ seguido do id do jogo oferecido
+   * @param gameId Id do jogo
+   */
+  const redirectGame = (gameId: number) => {
+    console.log(`/game/${gameId}`);
     navigate(`/game/${gameId}`);
   };
 
@@ -104,7 +109,7 @@ export default function Games() {
                 Aprenda segurança digital de forma prática e divertida
               </p>
             </div>
-            
+
             {user?.admin && (
               <button
                 onClick={() => navigate("/create-game")}
@@ -131,7 +136,7 @@ export default function Games() {
               {games.map((game) => (
                 <div
                   key={game.game_id}
-                  onClick={() => handleGameClick(game.game_id)}
+                  onClick={() => redirectGame(game.game_id)}
                   className="bg-[#111827] border border-[#1F2937] rounded-lg overflow-hidden hover:border-gray-700 transition-all duration-300 group cursor-pointer relative"
                 >
                   {user?.admin && (
@@ -139,7 +144,9 @@ export default function Games() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setOpenMenuId(openMenuId === game.game_id ? null : game.game_id);
+                          setOpenMenuId(
+                            openMenuId === game.game_id ? null : game.game_id,
+                          );
                         }}
                         className="bg-[#1F2937] hover:bg-[#374151] p-2 rounded-lg transition-colors"
                       >
@@ -180,8 +187,9 @@ export default function Games() {
                         alt={game.game_title}
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                          e.currentTarget.parentElement!.innerHTML = '<div class="text-6xl">🎮</div>';
+                          e.currentTarget.style.display = "none";
+                          e.currentTarget.parentElement!.innerHTML =
+                            '<div class="text-6xl">🎮</div>';
                         }}
                       />
                     ) : (
@@ -195,14 +203,19 @@ export default function Games() {
                     </h3>
 
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="text-sm text-gray-400">Dificuldade:</span>
-                      <span className="text-sm">{getDifficultyStars(game.difficulty)}</span>
+                      <span className="text-sm text-gray-400">
+                        Dificuldade:
+                      </span>
+                      <span className="text-sm">
+                        {getDifficultyStars(game.difficulty)}
+                      </span>
                     </div>
 
                     {game.levels && game.levels.length > 0 && (
                       <div className="flex items-center gap-2 mb-4">
                         <span className="text-sm text-gray-400">
-                          {game.levels.length} {game.levels.length === 1 ? "nível" : "níveis"}
+                          {game.levels.length}{" "}
+                          {game.levels.length === 1 ? "nível" : "níveis"}
                         </span>
                       </div>
                     )}
