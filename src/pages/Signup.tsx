@@ -5,7 +5,8 @@ import { useAuth } from "../contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Signup() {
-  const [username, setUsername] = useState("");
+  const [loginUsername, setLoginUsername] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -18,11 +19,29 @@ export default function Signup() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!username || !email || !password || !confirmPassword) {
+
+    if (!loginUsername || !fullName || !email || !password || !confirmPassword) {
       toast({
         title: "Erro",
         description: "Por favor, preencha todos os campos",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!/^[a-zA-Z0-9_]+$/.test(loginUsername)) {
+      toast({
+        title: "Erro",
+        description: "O usuário de login deve conter apenas letras e números",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (loginUsername.length > 16) {
+      toast({
+        title: "Erro",
+        description: "O usuário de login deve ter no máximo 16 caracteres",
         variant: "destructive",
       });
       return;
@@ -48,12 +67,12 @@ export default function Signup() {
 
     setIsLoading(true);
     try {
-      await register(username, email, password);
+      await register(loginUsername, fullName, email, password);
       toast({
-        title: "Sucesso!",
-        description: "Conta criada com sucesso",
+        title: "Conta criada!",
+        description: "Verifique seu email para ativar sua conta",
       });
-      navigate("/games");
+      navigate("/verify-email", { state: { email } });
     } catch (error: any) {
       toast({
         title: "Erro ao criar conta",
@@ -70,7 +89,7 @@ export default function Signup() {
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-8">
           <img
-            src="https://api.builder.io/api/v1/image/assets/TEMP/f90f1003dbb52e5b956aed22fffbc71ded713f9f?width=228"
+            src="/logo-cibernauta.png"
             alt="Cibernauta"
             className="w-[114px] h-[114px] mb-4"
           />
@@ -83,15 +102,36 @@ export default function Signup() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-gray-300 text-sm mb-1">
-              Nome de usuário
+              Usuário de login
             </label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 -translate-y-1/2 w-[12px] h-[15px] text-gray-400" />
               <input
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Seu nome de usuário"
+                value={loginUsername}
+                onChange={(e) => setLoginUsername(e.target.value)}
+                placeholder="login"
+                maxLength={16}
+                disabled={isLoading}
+                className="w-full h-[50px] pl-10 pr-4 bg-[#0A274F] border border-[#4C91FF] rounded-lg text-gray-500 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+              />
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              3-16 caracteres. Use apenas letras e números
+            </p>
+          </div>
+
+          <div>
+            <label className="block text-gray-300 text-sm mb-1">
+              Nome completo
+            </label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-[12px] h-[15px] text-gray-400" />
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Seu nome completo"
                 disabled={isLoading}
                 className="w-full h-[50px] pl-10 pr-4 bg-[#0A274F] border border-[#4C91FF] rounded-lg text-gray-500 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
               />

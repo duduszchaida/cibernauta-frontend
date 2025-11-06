@@ -12,7 +12,7 @@ interface GameData {
   description: string;
   difficulty: number;
   image_url?: string;
-  levels: any[];
+  game_url?: string;
 }
 
 export default function Game() {
@@ -71,7 +71,7 @@ export default function Game() {
 
   return (
     <div className="min-h-screen bg-[#2B71A3]">
-      <Navigation username={user?.user_name} showGamesLink={true} />
+      <Navigation full_name={user?.full_name} showGamesLink={true} />
 
       <div className="pt-32 pb-12 px-6">
         <div className="max-w-full mx-auto">
@@ -131,9 +131,9 @@ export default function Game() {
                 </div>
               </div>
 
-             
+
               <div className="bg-[#1a2744] rounded-lg overflow-hidden border-4 border-[#2B3E68] flex items-center justify-center">
-                <GameComponent width={900} height={650} />
+                <GameComponent gameUrl={gameData.game_url} />
               </div>
 
              

@@ -47,3 +47,4 @@ export function findSprite(spriteName: string) {
   }
   return sprite;
 }
+

@@ -1,30 +1,35 @@
-import { useRef, useState } from "react";
-import { startGame } from "./EmailGame/GameManager";
+interface GameComponentProps {
+  gameUrl?: string;
+}
 
-type GameProperties = {
-  width: number;
-  height: number;
-};
+export default function GameComponent({ gameUrl }: GameComponentProps) {
+  const gameScale = 2;
 
-export default function GameComponent(prop: GameProperties) {
-  const [initialized, setInitialized] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const canvasDom = canvasRef.current;
-  const canvasStyle = {
-    cursor: "none",
-  };
-  console.log("game component");
-  if (!initialized && canvasDom) {
-    console.log("initializing");
-    startGame(canvasDom);
-    setInitialized(true);
+  if (!gameUrl) {
+    return (
+      <div
+        style={{
+          width: 352 * gameScale,
+          height: 256 * gameScale,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#9CA3AF'
+        }}
+      >
+        URL do jogo não configurada
+      </div>
+    );
   }
+
   return (
-    <canvas
-      ref={canvasRef}
-      width={prop.width}
-      height={prop.height}
-      style={canvasStyle}
-    ></canvas>
+    <iframe
+      width={352 * gameScale}
+      height={256 * gameScale}
+      src={gameUrl}
+      title="Game"
+      style={{ border: 'none' }}
+      allowFullScreen
+    ></iframe>
   );
 }

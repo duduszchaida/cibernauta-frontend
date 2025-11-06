@@ -1,28 +1,23 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { X, Plus } from "lucide-react";
-import { gamesService } from "../services/api";
+import { gamesService, pendingGamesService } from "../services/api";
 import { useToast } from "@/hooks/use-toast";
-
-interface Level {
-  id: string;
-  title: string;
-  position: string;
-}
+import { useAuth } from "../contexts/AuthContext";
+import { Switch } from "@/components/ui/switch";
 
 export default function EditGame() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [gameUrl, setGameUrl] = useState("");
   const [difficulty, setDifficulty] = useState("");
+  const [enabled, setEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
-  const [levels, setLevels] = useState<Level[]>([
-    { id: "1", title: "", position: "1" },
-  ]);
 
   useEffect(() => {
     if (id) {
@@ -37,17 +32,9 @@ export default function EditGame() {
       setTitle(game.game_title);
       setDescription(game.description);
       setImageUrl(game.image_url || "");
+      setGameUrl(game.game_url || "");
       setDifficulty(game.difficulty.toString());
-
-      if (game.levels && game.levels.length > 0) {
-        setLevels(
-          game.levels.map((level: any, index: number) => ({
-            id: level.level_id?.toString() || Date.now().toString() + index,
-            title: level.level_title,
-            position: (index + 1).toString(),
-          }))
-        );
-      }
+      setEnabled(game.enabled !== undefined ? game.enabled : true);
     } catch (error) {
       toast({
         title: "Erro",
@@ -60,30 +47,7 @@ export default function EditGame() {
     }
   };
 
-  const addLevel = () => {
-    const nextPosition = levels.length + 1;
-    setLevels([
-      ...levels,
-      { id: Date.now().toString(), title: "", position: nextPosition.toString() },
-    ]);
-  };
-
-  const removeLevel = (id: string) => {
-    if (levels.length > 1) {
-      setLevels(levels.filter((level) => level.id !== id));
-    }
-  };
-
-  const updateLevel = (id: string, field: "title" | "position", value: string) => {
-    setLevels(
-      levels.map((level) =>
-        level.id === id ? { ...level, [field]: value } : level
-      )
-    );
-  };
-
   const handleSave = async () => {
-    
     if (!title.trim()) {
       toast({
         title: "Erro",
@@ -102,52 +66,50 @@ export default function EditGame() {
       return;
     }
 
-    if (!difficulty || isNaN(Number(difficulty)) || Number(difficulty) < 1) {
+    if (!difficulty || isNaN(Number(difficulty)) || Number(difficulty) < 1 || Number(difficulty) > 3) {
       toast({
         title: "Erro",
-        description: "Por favor, insira um nível de dificuldade válido (número maior que 0)",
+        description: "Por favor, insira um nível de dificuldade válido (1 a 3)",
         variant: "destructive",
       });
       return;
     }
 
-    
-    for (const level of levels) {
-      if (!level.title.trim()) {
-        toast({
-          title: "Erro",
-          description: "Todos os níveis devem ter um título",
-          variant: "destructive",
-        });
-        return;
-      }
-      if (!level.position || isNaN(Number(level.position))) {
-        toast({
-          title: "Erro",
-          description: "Todos os níveis devem ter uma posição válida",
-          variant: "destructive",
-        });
-        return;
-      }
-    }
-
     setIsLoading(true);
     try {
-      await gamesService.update(Number(id), {
-        game_title: title,
-        description,
-        difficulty: Number(difficulty),
-        image_url: imageUrl.trim() || undefined,
-        levels: levels.map((level) => ({
-          level_title: level.title,
-          position: Number(level.position),
-        })),
-      });
+      
+      if (user?.role === 'ADMIN') {
+        await gamesService.update(Number(id), {
+          game_title: title,
+          description,
+          difficulty: Number(difficulty),
+          image_url: imageUrl.trim() || undefined,
+          game_url: gameUrl.trim() || undefined,
+          enabled,
+        });
 
-      toast({
-        title: "Sucesso!",
-        description: "Jogo atualizado com sucesso",
-      });
+        toast({
+          title: "Sucesso!",
+          description: "Jogo atualizado com sucesso",
+        });
+      } else {
+        await pendingGamesService.create({
+          game_id: Number(id),
+          change_type: 'UPDATE',
+          game_title: title,
+          description,
+          difficulty: Number(difficulty),
+          image_url: imageUrl.trim() || undefined,
+          game_url: gameUrl.trim() || undefined,
+          enabled,
+        });
+
+        toast({
+          title: "Enviado para aprovação!",
+          description: "Suas alterações serão revisadas por um administrador",
+        });
+      }
+
       navigate("/games");
     } catch (error: any) {
       toast({
@@ -180,7 +142,6 @@ export default function EditGame() {
         </h1>
 
         <div className="space-y-8">
-          
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-300 text-base font-medium mb-2">
@@ -211,7 +172,20 @@ export default function EditGame() {
             </div>
           </div>
 
- 
+          <div>
+            <label className="block text-gray-300 text-base font-medium mb-2">
+              URL do Jogo
+            </label>
+            <input
+              type="text"
+              value={gameUrl}
+              onChange={(e) => setGameUrl(e.target.value)}
+              placeholder="https://exemplo.com/jogo"
+              disabled={isLoading}
+              className="w-full h-[56px] px-5 bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg text-white text-base placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 disabled:opacity-50 transition-all"
+            />
+          </div>
+
           <div>
             <label className="block text-gray-300 text-base font-medium mb-2">
               Descrição
@@ -226,98 +200,47 @@ export default function EditGame() {
             />
           </div>
 
-       
-          <div className="max-w-xs">
-            <label className="block text-gray-300 text-base font-medium mb-2">
-              Dificuldade
-            </label>
-            <input
-              type="number"
-              min="1"
-              max="5"
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value)}
-              placeholder="1 a 5"
-              disabled={isLoading}
-              className="w-full h-[56px] px-5 bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg text-white text-base placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 disabled:opacity-50 transition-all"
-            />
-            <p className="text-gray-400 text-sm mt-2">
-              ⭐ 1 = Fácil | ⭐⭐⭐⭐⭐ 5 = Muito Difícil
-            </p>
-          </div>
-
-        
-          <div className="space-y-5">
-            <div className="flex items-center justify-between">
-              <h3 className="text-white text-xl font-normal">Níveis do Jogo</h3>
-              <button
-                onClick={addLevel}
+         
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-gray-300 text-base font-medium mb-2">
+                Dificuldade
+              </label>
+              <input
+                type="number"
+                min="1"
+                max="3"
+                value={difficulty}
+                onChange={(e) => setDifficulty(e.target.value)}
+                placeholder="1 a 3"
                 disabled={isLoading}
-                className="flex items-center gap-2 px-4 py-2 bg-[#2563EB] rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-              >
-                <Plus className="w-5 h-5 text-white" />
-                <span className="text-white font-medium">Adicionar Nível</span>
-              </button>
+                className="w-full h-[56px] px-5 bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg text-white text-base placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 disabled:opacity-50 transition-all"
+              />
+              <p className="text-gray-400 text-sm mt-2">
+                ⭐ 1 = Fácil | ⭐⭐ 2 = Médio | ⭐⭐⭐ 3 = Difícil
+              </p>
             </div>
 
-            <div className="space-y-4">
-              {levels.map((level, index) => (
-                <div
-                  key={level.id}
-                  className="bg-[#2563EB] rounded-lg p-6 relative shadow-lg"
-                >
-                  <div className="flex items-center justify-between mb-5">
-                    <h4 className="text-white text-lg font-medium">
-                      Nível {index + 1}
-                    </h4>
-                    {levels.length > 1 && (
-                      <button
-                        onClick={() => removeLevel(level.id)}
-                        disabled={isLoading}
-                        className="text-white hover:text-red-300 disabled:opacity-50 transition-colors p-1"
-                        title="Remover nível"
-                      >
-                        <X className="w-6 h-6" />
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-1 lg:grid-cols-[1fr,180px] gap-4">
-                    <div>
-                      <label className="block text-gray-200 text-sm font-medium mb-2">
-                        Título do Nível
-                      </label>
-                      <input
-                        type="text"
-                        value={level.title}
-                        onChange={(e) =>
-                          updateLevel(level.id, "title", e.target.value)
-                        }
-                        placeholder="Ex: Introdução à Segurança"
-                        disabled={isLoading}
-                        className="w-full h-[52px] px-4 bg-[#0A274F] border-2 border-[#1e40af] rounded-lg text-white text-base placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-300 disabled:opacity-50 transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-gray-200 text-sm font-medium mb-2">
-                        Posição
-                      </label>
-                      <input
-                        type="number"
-                        min="1"
-                        value={level.position}
-                        onChange={(e) =>
-                          updateLevel(level.id, "position", e.target.value)
-                        }
-                        placeholder="Número"
-                        disabled={isLoading}
-                        className="w-full h-[52px] px-4 bg-[#0A274F] border-2 border-[#1e40af] rounded-lg text-white text-base placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-300 disabled:opacity-50 transition-all text-center"
-                      />
-                    </div>
-                  </div>
+            <div>
+              <label className="block text-gray-300 text-base font-medium mb-2">
+                Status do Jogo
+              </label>
+              <div className="flex items-center h-[56px] px-5 bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg">
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={enabled}
+                    onCheckedChange={setEnabled}
+                    disabled={isLoading}
+                    className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-gray-600"
+                  />
+                  <span className="text-white text-base">
+                    {enabled ? "Jogo habilitado" : "Jogo desabilitado"}
+                  </span>
                 </div>
-              ))}
+              </div>
+              <p className="text-gray-400 text-sm mt-2">
+                Jogos desabilitados não aparecem na lista
+              </p>
             </div>
           </div>
 

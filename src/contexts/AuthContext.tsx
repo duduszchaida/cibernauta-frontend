@@ -1,21 +1,25 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { signInWithCustomToken, signOut, onAuthStateChanged } from 'firebase/auth';
+import { signInWithCustomToken, signOut, onAuthStateChanged, sendEmailVerification } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import { authService } from '../services/api';
 
 interface User {
   user_id: number;
-  user_name: string;
+  username: string;
+  full_name: string;
   user_email: string;
   admin: boolean;
+  role: 'USER' | 'MODERATOR' | 'ADMIN';
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (username: string, email: string, password: string) => Promise<void>;
+  login: (identifier: string, password: string) => Promise<void>;
+  register: (username: string, fullName: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  requestPasswordReset: (email: string) => Promise<void>;
+  refreshUserProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,7 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
           const token = await firebaseUser.getIdToken();
           localStorage.setItem('firebase_token', token);
-          
+
           const userData = await authService.getProfile();
           setUser(userData);
           localStorage.setItem('user', JSON.stringify(userData));
@@ -50,34 +54,48 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  const register = async (username: string, email: string, password: string) => {
+  const register = async (username: string, fullName: string, email: string, password: string) => {
     try {
       const response = await authService.register({
-        user_name: username,
+        username,
+        full_name: fullName,
         user_email: email,
         password,
       });
 
-      await signInWithCustomToken(auth, response.customToken);
-      
-      setUser(response.user);
-      localStorage.setItem('user', JSON.stringify(response.user));
+      // Fazer login com o customToken para poder enviar email de verificação
+      const userCredential = await signInWithCustomToken(auth, response.customToken);
+
+      // Enviar email de verificação através do Firebase
+      if (userCredential.user) {
+        // Configurar o link de redirecionamento após verificação
+        const actionCodeSettings = {
+          url: window.location.origin, // Redireciona para a página inicial após verificar
+        };
+        await sendEmailVerification(userCredential.user, actionCodeSettings);
+        console.log('Email de verificação enviado com sucesso!');
+      }
+
+      // Fazer logout - usuário precisa verificar email antes de usar a conta
+      await signOut(auth);
+
+      return response;
     } catch (error: any) {
       console.error('Registration error:', error);
       throw new Error(error.response?.data?.message || 'Erro ao criar conta');
     }
   };
 
-  const login = async (email: string, password: string) => {
+  const login = async (identifier: string, password: string) => {
     try {
 
       const response = await authService.login({
-        user_email: email,
+        identifier,
         password,
       });
 
       await signInWithCustomToken(auth, response.customToken);
-      
+
       setUser(response.user);
       localStorage.setItem('user', JSON.stringify(response.user));
     } catch (error: any) {
@@ -97,8 +115,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const requestPasswordReset = async (email: string) => {
+    try {
+      await authService.requestPasswordReset(email);
+    } catch (error: any) {
+      console.error('Password reset request error:', error);
+      throw new Error(error.response?.data?.message || 'Erro ao solicitar redefinição de senha');
+    }
+  };
+
+  const refreshUserProfile = async () => {
+    try {
+      const userData = await authService.getProfile();
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+    } catch (error) {
+      console.error('Error refreshing user profile:', error);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, requestPasswordReset, refreshUserProfile }}>
       {children}
     </AuthContext.Provider>
   );

@@ -21,8 +21,8 @@ function renderFrameLoop() {
 
 export function startGame(canvasElement: HTMLCanvasElement) {
 	canvasObject = new CanvasObject({
-		height: 217 * gameScale,
-		width: 300 * gameScale,
+		height: 213 * gameScale,
+		width: 296 * gameScale,
 		backgroundColor: "#000",
 		canvasElement: canvasElement,
 		id: "canvasId",
