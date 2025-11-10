@@ -101,14 +101,7 @@ const App = () => (
                 </PublicRoute>
               }
             />
-            <Route
-              path="/games"
-              element={
-                <ProtectedRoute>
-                  <Games />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/games" element={<Games />} />
             <Route path="/game" element={<Game />} />
             <Route
               path="/create-game"

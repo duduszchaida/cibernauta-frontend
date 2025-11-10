@@ -5,8 +5,10 @@ import { bindMouseEvents } from "./Input/MouseState";
 import updateGameStae from "./Input/UpdateGameState";
 import { bindKeyboardEvents } from "./Input/KeyboardState";
 import GameState from "./GameState";
+import { EMAILSCENE } from "./Scenes/SceneList";
 
-const gameState = new GameState({ sceneName: "desktop" });
+const gameState = new GameState({ sceneName: EMAILSCENE });
+gameState.generateEmail();
 
 let canvasObject: CanvasObject;
 
@@ -14,21 +16,21 @@ const gameScale = 3;
 const cursor = new Cursor();
 
 function renderFrameLoop() {
-	updateGameStae(gameState, cursor);
-	renderScene(gameState.currentScene, canvasObject, cursor);
-	requestAnimationFrame(renderFrameLoop);
+  updateGameStae(gameState, cursor);
+  renderScene(gameState.currentScene, canvasObject, cursor);
+  requestAnimationFrame(renderFrameLoop);
 }
 
 export function startGame(canvasElement: HTMLCanvasElement) {
-	canvasObject = new CanvasObject({
-		height: 256 * gameScale,
-		width: 352 * gameScale,
-		backgroundColor: "#000",
-		canvasElement: canvasElement,
-		id: "canvasId",
-		scale: gameScale,
-	});
-	bindMouseEvents(canvasObject.element, gameScale);
-	bindKeyboardEvents(canvasObject.element);
-	renderFrameLoop();
+  canvasObject = new CanvasObject({
+    height: 256 * gameScale,
+    width: 352 * gameScale,
+    backgroundColor: "#000",
+    canvasElement: canvasElement,
+    id: "canvasId",
+    scale: gameScale,
+  });
+  bindMouseEvents(canvasObject.element, gameScale);
+  bindKeyboardEvents(canvasObject.element);
+  renderFrameLoop();
 }

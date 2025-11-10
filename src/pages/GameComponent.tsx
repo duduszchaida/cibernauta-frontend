@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { startGame } from "./EmailGame/GameManager";
 
 type GameProperties = {
@@ -7,17 +7,16 @@ type GameProperties = {
 };
 
 export default function GameComponent(prop: GameProperties) {
-  const [initialized, setInitialized] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const canvasDom = canvasRef.current;
-  const canvasStyle = {
-    cursor: "none",
-  };
-  if (!initialized && canvasDom) {
-    console.log("initializing");
-    startGame(canvasDom);
-    setInitialized(true);
-  }
+  const canvasStyle = { cursor: "none" };
+
+  useEffect(() => {
+    const canvasDom = canvasRef.current;
+    if (canvasDom) {
+      console.log("initializing");
+      startGame(canvasDom);
+    }
+  }, [canvasRef]);
   return (
     <canvas
       ref={canvasRef}
