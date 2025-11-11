@@ -39,14 +39,14 @@ export default function updateGameStae(gameState: GameState, cursor: Cursor) {
     }
     if (
       x.drag instanceof Function &&
-      mouseState.dragging &&
+      (mouseState.dragging || mouseState.held) &&
       x.hitbox.positionInside(mouseState.draggingFrom)
     ) {
       cursor.state = "pointer";
       if (gameState.currentScene instanceof EmailScene) {
         const result = x.drag(mouseState.pos);
         if (result.type == SCROLLTO) {
-          gameState.currentScene.scrollEmailTo(result.shift);
+          gameState.currentScene.scrollEmailTo(Math.round(result.shift));
         }
       }
     }

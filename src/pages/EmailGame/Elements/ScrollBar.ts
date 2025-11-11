@@ -64,14 +64,14 @@ export default class ScrollBar extends GameObject {
   click = (mousePos: Position) => {
     return {
       type: SCROLLTO,
-      shift: mousePos.y - this.pos.y - (this.barLength / 2 + 3),
+      shift: mousePos.y - this.pos.y - (this.barLength / 4 + 3),
     };
   };
 
   drag = (mousePos: Position) => {
     return {
       type: SCROLLTO,
-      shift: mousePos.y - this.pos.y - (this.barLength / 2 + 3),
+      shift: mousePos.y - this.pos.y - (this.barLength / 4 + 3),
     };
   };
 }
