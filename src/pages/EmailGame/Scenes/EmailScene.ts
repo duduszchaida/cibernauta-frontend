@@ -87,4 +87,9 @@ export default class EmailScene extends Scene {
     this.email.emailContent.scroll(scroll);
     this.scrollBar.scroll(scroll);
   }
+
+  scrollEmailTo(scroll: number) {
+    this.email.emailContent.scrollTo(scroll);
+    this.scrollBar.scrollTo(scroll);
+  }
 }

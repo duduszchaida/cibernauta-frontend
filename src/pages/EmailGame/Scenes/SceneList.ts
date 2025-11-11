@@ -3,6 +3,7 @@ import Position from "../Position";
 import Scene from "./Scene";
 
 export const SCENECHANGE = "sceneChange";
+export const SCROLLTO = "scrollto";
 export const DESKTOPSCENE = "desktop";
 export const EMAILSCENE = "emailScene";
 

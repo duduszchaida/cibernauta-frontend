@@ -35,7 +35,7 @@ export default class EmailContent extends GameObject {
       this.hasScroll = true;
     }
     this.scrollShift = 0;
-    this.scrollShiftAmmount = 9;
+    this.scrollShiftAmmount = 6;
   }
 
   generateLines() {
@@ -92,7 +92,11 @@ export default class EmailContent extends GameObject {
   }
 
   scrollTo(num: number) {
-    this.scrollShift = this.scrollShiftAmmount * num;
+    num = Math.max(num, 0);
+    this.scrollShift = Math.min(
+      this.lines.length * 12 - 176,
+      this.scrollShiftAmmount * num,
+    );
   }
 
   render(canvasObject: CanvasObject): void {

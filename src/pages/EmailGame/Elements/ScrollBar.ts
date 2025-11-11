@@ -1,49 +1,77 @@
 import type CanvasObject from "../CanvasObject";
 import Position from "../Position";
+import { SCROLLTO } from "../Scenes/SceneList";
 import GameObject from "./GameObject";
 
 export default class ScrollBar extends GameObject {
   length: number;
+  barLength: number;
   shift = 0;
   constructor(lines: number, lineHeight: number, scrollAmmount: number) {
-    let textHeight = lines * lineHeight;
-    console.log(textHeight / scrollAmmount);
-    let height = 6 + 182;
+    let textHeight = lines * lineHeight - 178;
+    let length = Math.ceil(textHeight / scrollAmmount);
+    let height = 188;
     super({
-      pos: new Position(332, 58),
+      pos: new Position(330, 58),
       spriteName: "scroll_bar",
       height: height,
-      width: 9,
+      width: 12,
     });
     this.length = length;
+    this.barLength = 182 - 1 * this.length;
   }
 
   scroll(num: number) {
     if (this.shift <= 0 && num < 0) {
       return;
     }
+    if (this.shift >= this.length && num > 0) {
+      return;
+    }
     this.shift += num;
-    console.log(this.shift);
+  }
+
+  scrollTo(num: number) {
+    if (num > 0) {
+      this.shift = Math.min(this.length, num);
+    }
+    if (num < this.length) {
+      this.shift = Math.max(0, num);
+    }
   }
 
   render(canvasObject: CanvasObject): void {
     canvasObject.drawSprite(
       this.sprite,
-      this.pos.add(new Position(0, this.shift)),
+      this.pos.add(new Position(2, this.shift)),
       new Position(8, 3),
     );
     canvasObject.drawSprite(
       this.sprite,
-      this.pos.add(new Position(0, 3 + this.shift)),
-      new Position(8, 182 - 1 * this.length),
+      this.pos.add(new Position(2, 3 + this.shift)),
+      new Position(8, this.barLength),
       new Position(0, 3),
       new Position(8, 1),
     );
     canvasObject.drawSprite(
       this.sprite,
-      this.pos.add(new Position(0, 3 + this.shift + 182 - 1 * this.length)),
+      this.pos.add(new Position(2, 3 + this.shift + this.barLength)),
       new Position(8, 3),
       new Position(0, 4),
     );
   }
+
+  click = (mousePos: Position) => {
+    return {
+      type: SCROLLTO,
+      shift: mousePos.y - this.pos.y - (this.barLength / 2 + 3),
+    };
+  };
+
+  drag = (mousePos: Position) => {
+    return {
+      type: SCROLLTO,
+      shift: mousePos.y - this.pos.y - (this.barLength / 2 + 3),
+    };
+  };
 }

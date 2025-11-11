@@ -28,14 +28,19 @@ export function bindMouseEvents(element: HTMLElement, gameScale: number) {
       mouseState.click = true;
     }
     mouseState.held = false;
+    mouseState.dragging = false;
   });
   element.addEventListener("mousemove", (e) => {
-    if (mouseState.held && !mouseState.dragging) {
-      mouseState.dragging = true;
-      mouseState.draggingFrom = new Position(
-        e.offsetX / gameScale,
-        e.offsetY / gameScale,
-      );
+    if (mouseState.held) {
+      if (!mouseState.dragging) {
+        mouseState.dragging = true;
+        mouseState.draggingFrom = new Position(
+          e.offsetX / gameScale,
+          e.offsetY / gameScale,
+        );
+      }
+    } else {
+      mouseState.dragging = false;
     }
     mouseState.pos = new Position(e.offsetX / gameScale, e.offsetY / gameScale);
   });
