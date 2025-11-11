@@ -5,10 +5,9 @@ import { bindMouseEvents } from "./Input/MouseState";
 import updateGameStae from "./Input/UpdateGameState";
 import { bindKeyboardEvents } from "./Input/KeyboardState";
 import GameState from "./GameState";
-import { EMAILSCENE } from "./Scenes/SceneList";
+import { DESKTOPSCENE, EMAILSCENE } from "./Scenes/SceneList";
 
-const gameState = new GameState({ sceneName: EMAILSCENE });
-gameState.generateEmail();
+const gameState = new GameState({ sceneName: DESKTOPSCENE });
 
 let canvasObject: CanvasObject;
 

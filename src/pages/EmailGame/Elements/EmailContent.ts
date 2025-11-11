@@ -35,7 +35,7 @@ export default class EmailContent extends GameObject {
       this.hasScroll = true;
     }
     this.scrollShift = 0;
-    this.scrollShiftAmmount = 12;
+    this.scrollShiftAmmount = 9;
   }
 
   generateLines() {

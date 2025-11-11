@@ -1,6 +1,7 @@
 import type Cursor from "../Cursor";
 import type GameState from "../GameState";
 import Position from "../Position";
+import EmailScene from "../Scenes/EmailScene";
 import { EMAILSCENE, SCENECHANGE } from "../Scenes/SceneList";
 import mouseState from "./MouseState";
 
@@ -18,18 +19,18 @@ export default function updateGameStae(gameState: GameState, cursor: Cursor) {
       if (mouseState.click) {
         const result = x.click();
         if (result?.type == SCENECHANGE) {
-          gameState.currentScene = gameState.sceneList[result.sceneName];
           if (result.sceneName == EMAILSCENE) {
-            gameState.generateEmail();
+            gameState.sceneList[result.sceneName] = new EmailScene();
           }
+          gameState.currentScene = gameState.sceneList[result.sceneName];
         }
       }
     }
   });
 
-  if (gameState.email) {
+  if (gameState.currentScene instanceof EmailScene) {
     if (mouseState.scroll != 0) {
-      gameState.email.emailContent.scroll(mouseState.scroll);
+      gameState.currentScene.scrollEmail(mouseState.scroll);
     }
   }
 

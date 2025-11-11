@@ -41,10 +41,23 @@ export default class CanvasObject {
     this.ctx.fillRect(0, 0, this.width, this.height);
   }
 
-  drawSprite(sprite: Sprite, pos: Position, length: Position) {
+  drawSprite(
+    sprite: Sprite,
+    pos: Position,
+    length: Position,
+    slicePos: Position = new Position(),
+    sliceLength: Position | null = null,
+  ) {
+    if (!sliceLength) {
+      sliceLength = length;
+    }
     const img = sprite.img;
     this.ctx?.drawImage(
       img,
+      slicePos.x,
+      slicePos.y,
+      sliceLength.x,
+      sliceLength.y,
       pos.x * this.scale,
       pos.y * this.scale,
       length.x * this.scale,

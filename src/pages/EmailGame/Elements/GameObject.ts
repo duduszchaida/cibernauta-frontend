@@ -11,6 +11,7 @@ export default class GameObject {
   width: number;
   hitbox: Hitbox;
   click: Function | null;
+  drag: Function | null;
 
   constructor(args: {
     pos?: Position;
@@ -19,6 +20,7 @@ export default class GameObject {
     height: number;
     hitbox?: Hitbox;
     clickFunction?: Function;
+    dragFunction?: Function;
   }) {
     this.pos = args.pos ?? new Position();
     this.sprite = findSprite(args.spriteName ?? "cam");
@@ -32,6 +34,7 @@ export default class GameObject {
         height: this.height,
       });
     this.click = args.clickFunction ?? null;
+    this.drag = args.dragFunction ?? null;
   }
   render(canvasObject: CanvasObject) {
     canvasObject.drawSprite(

@@ -1,21 +1,10 @@
 import AppIcon from "../Elements/AppIcon";
-import GameObject from "../Elements/GameObject";
 import Position from "../Position";
 import Scene from "./Scene";
 
 export const SCENECHANGE = "sceneChange";
 export const DESKTOPSCENE = "desktop";
 export const EMAILSCENE = "emailScene";
-
-const exitButton = new GameObject({
-  height: 24,
-  width: 24,
-  pos: new Position(324, 4),
-  spriteName: "exit_btn",
-  clickFunction: () => {
-    return { type: SCENECHANGE, sceneName: DESKTOPSCENE };
-  },
-});
 
 const sceneList: Record<string, Scene> = {
   [DESKTOPSCENE]: new Scene({
@@ -44,17 +33,6 @@ const sceneList: Record<string, Scene> = {
         spriteName: "saves_icon",
         appName: "Salvamentos",
       }),
-    ],
-  }),
-  [EMAILSCENE]: new Scene({
-    backgroundSpriteName: "beige_bg",
-    gameObjects: [
-      new GameObject({
-        spriteName: "app_border",
-        width: 352,
-        height: 256,
-      }),
-      exitButton,
     ],
   }),
 };
