@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { signInWithCustomToken, signOut, onAuthStateChanged, sendEmailVerification } from 'firebase/auth';
+import { signInWithCustomToken, signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import { authService } from '../services/api';
 
@@ -62,22 +62,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user_email: email,
         password,
       });
-
-
-      const userCredential = await signInWithCustomToken(auth, response.customToken);
-
-   
-      if (userCredential.user) {
-    
-        const actionCodeSettings = {
-          url: window.location.origin, 
-        };
-        await sendEmailVerification(userCredential.user, actionCodeSettings);
-        console.log('Email de verificação enviado com sucesso!');
-      }
-
-      
-      await signOut(auth);
 
       return response;
     } catch (error: any) {
