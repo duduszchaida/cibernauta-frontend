@@ -63,20 +63,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password,
       });
 
-      // Fazer login com o customToken para poder enviar email de verificação
+
       const userCredential = await signInWithCustomToken(auth, response.customToken);
 
-      // Enviar email de verificação através do Firebase
+   
       if (userCredential.user) {
-        // Configurar o link de redirecionamento após verificação
+    
         const actionCodeSettings = {
-          url: window.location.origin, // Redireciona para a página inicial após verificar
+          url: window.location.origin, 
         };
         await sendEmailVerification(userCredential.user, actionCodeSettings);
         console.log('Email de verificação enviado com sucesso!');
       }
 
-      // Fazer logout - usuário precisa verificar email antes de usar a conta
+      
       await signOut(auth);
 
       return response;

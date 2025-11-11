@@ -13,6 +13,7 @@ interface GameData {
   difficulty: number;
   image_url?: string;
   game_url?: string;
+  enabled?: boolean;
 }
 
 export default function Game() {
@@ -35,6 +36,13 @@ export default function Game() {
 
       try {
         const data = await gamesService.getOne(Number(gameId));
+
+        if (data.enabled === false && user?.role !== 'ADMIN' && user?.role !== 'MODERATOR') {
+          setError("Este jogo está temporariamente desabilitado");
+          setLoading(false);
+          return;
+        }
+
         setGameData(data);
       } catch (err) {
         console.error("Erro ao carregar jogo:", err);
@@ -45,7 +53,7 @@ export default function Game() {
     };
 
     loadGame();
-  }, [gameId]);
+  }, [gameId, user]);
 
   if (loading) {
     return (
@@ -56,15 +64,25 @@ export default function Game() {
   }
 
   if (error || !gameData) {
+    const isDisabledGame = error === "Este jogo está temporariamente desabilitado";
+
     return (
-      <div className="min-h-screen bg-[#2B71A3] flex flex-col items-center justify-center gap-4">
-        <div className="text-white text-xl">{error || "Jogo não encontrado"}</div>
-        <button
-          onClick={() => navigate("/games")}
-          className="px-4 py-2 bg-[#2563EB] text-white rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Voltar para Jogos
-        </button>
+      <div className="min-h-screen bg-[#2B71A3] flex flex-col items-center justify-center gap-4 px-4">
+        <div className={`${isDisabledGame ? 'bg-red-900/30 border-2 border-red-500' : 'bg-[#374B7C]'} rounded-xl p-8 max-w-md text-center`}>
+          <div className="text-6xl mb-4">{isDisabledGame ? '🔒' : '❌'}</div>
+          <div className="text-white text-xl mb-2 font-semibold">
+            {isDisabledGame ? 'Jogo Desabilitado' : 'Erro'}
+          </div>
+          <div className="text-gray-300 mb-6">
+            {error || "Jogo não encontrado"}
+          </div>
+          <button
+            onClick={() => navigate("/games")}
+            className="px-6 py-3 bg-[#2563EB] text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+          >
+            Voltar para Jogos
+          </button>
+        </div>
       </div>
     );
   }
@@ -119,8 +137,18 @@ export default function Game() {
               </div>
             </div>
 
-         
+
             <div className="bg-[#374B7C] rounded-2xl p-5">
+              {gameData.enabled === false && (user?.role === 'ADMIN' || user?.role === 'MODERATOR') && (
+                <div className="mb-4 bg-red-900/30 border-2 border-red-500 rounded-lg p-3 flex items-center gap-2">
+                  <span className="text-red-400 text-2xl">🔒</span>
+                  <div>
+                    <div className="text-red-400 font-semibold text-sm">JOGO DESABILITADO</div>
+                    <div className="text-red-300 text-xs">Você está visualizando este jogo como administrador/moderador</div>
+                  </div>
+                </div>
+              )}
+
               <div className="flex items-center justify-between mb-3">
                 <div>
                   <h1 className="text-white text-xl font-semibold">{gameData.game_title}</h1>
