@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Mail, Lock, Trash2 } from "lucide-react";
+import { User, Mail, Lock, Trash2, Loader2 } from "lucide-react";
 import { usersService, authService } from "../services/api";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "../contexts/AuthContext";
@@ -146,6 +146,7 @@ export default function EditProfile() {
     setIsLoading(true);
     try {
       await authService.deleteAccount();
+      setShowDeleteDialog(false);
       toast({
         title: "Conta deletada",
         description: "Sua conta foi deletada com sucesso",
@@ -158,9 +159,7 @@ export default function EditProfile() {
         description: error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
-      setShowDeleteDialog(false);
     }
   };
 
@@ -245,9 +244,16 @@ export default function EditProfile() {
             <button
               onClick={handleSave}
               disabled={isLoading}
-              className="w-full sm:w-[160px] h-[48px] bg-[#2563EB] text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 font-medium text-base shadow-lg"
+              className="w-full sm:w-[160px] h-[48px] bg-[#2563EB] text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 font-medium text-base shadow-lg flex items-center justify-center gap-2"
             >
-              {isLoading ? "Salvando..." : "Salvar Perfil"}
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Salvando...
+                </>
+              ) : (
+                "Salvar Perfil"
+              )}
             </button>
           </div>
         </div>
@@ -277,7 +283,19 @@ export default function EditProfile() {
       </div>
 
 
-      <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
+      <Dialog
+        open={showPasswordDialog}
+        onOpenChange={(open) => {
+          if (!isLoading) {
+            setShowPasswordDialog(open);
+            if (!open) {
+              setCurrentPassword("");
+              setNewPassword("");
+              setConfirmPassword("");
+            }
+          }
+        }}
+      >
         <DialogContent className="bg-[#1a3a52] border border-[#4C91FF] text-gray-300">
           <DialogHeader>
             <DialogTitle className="text-white">Alterar Senha</DialogTitle>
@@ -340,13 +358,27 @@ export default function EditProfile() {
               disabled={isLoading}
               className="bg-[#2563EB] text-white hover:bg-blue-700"
             >
-              {isLoading ? "Alterando..." : "Alterar Senha"}
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Alterando...
+                </>
+              ) : (
+                "Alterar Senha"
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+      <Dialog
+        open={showDeleteDialog}
+        onOpenChange={(open) => {
+          if (!isLoading) {
+            setShowDeleteDialog(open);
+          }
+        }}
+      >
         <DialogContent className="bg-[#1a3a52] border border-red-500 text-gray-300">
           <DialogHeader>
             <DialogTitle className="text-white">Deletar Conta</DialogTitle>
@@ -369,7 +401,14 @@ export default function EditProfile() {
               disabled={isLoading}
               className="bg-red-600 text-white hover:bg-red-700"
             >
-              {isLoading ? "Deletando..." : "Confirmar Exclusão"}
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Deletando...
+                </>
+              ) : (
+                "Confirmar Exclusão"
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>
