@@ -2,14 +2,17 @@ import type Cursor from "../Cursor";
 import { SCENECHANGE } from "../Elements/ExitBtn";
 import { SCROLLTO } from "../Elements/ScrollBar";
 import type GameState from "../GameState";
-import { gameTimeTracker } from "../GameTimeTracker";
 import Position from "../Position";
 import EmailScene from "../Scenes/EmailScene";
 import { EMAILSCENE } from "../Scenes/SceneReferences";
+import { gameTimeTracker } from "../Time/GameTimeTracker";
 import keyboardState, { PRESSED } from "./KeyboardState";
 import mouseState from "./MouseState";
 
+let lastUpdatedTic = 0;
+
 export default function updateGameState(gameState: GameState, cursor: Cursor) {
+  lastUpdatedTic = gameTimeTracker.currentTic;
   if (keyboardState[" "]?.keyState == PRESSED && !keyboardState[" "]?.read) {
     gameTimeTracker.pause();
   }

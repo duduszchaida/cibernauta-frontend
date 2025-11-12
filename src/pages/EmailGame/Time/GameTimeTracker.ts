@@ -47,4 +47,4 @@ class GameTimeTracker {
   }
 }
 
-export const gameTimeTracker = new GameTimeTracker({ ticsPerSecond: 24 });
+export const gameTimeTracker = new GameTimeTracker({ ticsPerSecond: 10 });
