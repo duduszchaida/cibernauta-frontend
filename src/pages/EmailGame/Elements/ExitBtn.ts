@@ -1,6 +1,7 @@
 import Position from "../Position";
-import { DESKTOPSCENE, SCENECHANGE } from "../Scenes/SceneList";
+import { DESKTOPSCENE } from "../Scenes/SceneReferences";
 import GameObject from "./GameObject";
+export const SCENECHANGE = "sceneChange";
 
 export const exitButton = new GameObject({
   height: 24,

@@ -1,8 +1,8 @@
 import type CanvasObject from "../CanvasObject";
 import Position from "../Position";
-import { SCROLLTO } from "../Scenes/SceneList";
 import GameObject from "./GameObject";
 
+export const SCROLLTO = "scrollto";
 export default class ScrollBar extends GameObject {
   length: number;
   barLength: number;

@@ -1,11 +1,19 @@
 import type Cursor from "../Cursor";
+import { SCENECHANGE } from "../Elements/ExitBtn";
+import { SCROLLTO } from "../Elements/ScrollBar";
 import type GameState from "../GameState";
+import { gameTimeTracker } from "../GameTimeTracker";
 import Position from "../Position";
 import EmailScene from "../Scenes/EmailScene";
-import { EMAILSCENE, SCENECHANGE, SCROLLTO } from "../Scenes/SceneList";
+import { EMAILSCENE } from "../Scenes/SceneReferences";
+import keyboardState, { PRESSED } from "./KeyboardState";
 import mouseState from "./MouseState";
 
-export default function updateGameStae(gameState: GameState, cursor: Cursor) {
+export default function updateGameState(gameState: GameState, cursor: Cursor) {
+  if (keyboardState[" "]?.keyState == PRESSED && !keyboardState[" "]?.read) {
+    gameTimeTracker.pause();
+  }
+
   cursor.state = "arrow";
   cursor.pos = mouseState.pos;
   cursor.spriteShift = new Position(-16, -16);
@@ -59,4 +67,7 @@ export default function updateGameStae(gameState: GameState, cursor: Cursor) {
   }
 
   mouseState.click = false;
+  for (let key in keyboardState) {
+    keyboardState[key].read = true;
+  }
 }

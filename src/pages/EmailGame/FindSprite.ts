@@ -2,8 +2,9 @@ import Sprite from "./Sprite";
 
 const sprites: Record<string, Sprite> = {
   cam: new Sprite("/game/email/cam.png"),
-  blue_bg: new Sprite("/game/email/blue_bg.png"),
-  beige_bg: new Sprite("/game/email/beige_bg.png"),
+  bg_blue: new Sprite("/game/email/bg_blue.png"),
+  bg_beige: new Sprite("/game/email/bg_beige.png"),
+  bg_green: new Sprite("/game/email/bg_green.png"),
   email_ui: new Sprite("/game/email/email_ui.png"),
   concepts_icon: new Sprite("/game/email/concepts_icon.png"),
   email_icon: new Sprite("/game/email/email_icon.png"),

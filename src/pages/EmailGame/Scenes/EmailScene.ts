@@ -1,3 +1,4 @@
+import { appBorder } from "../Elements/AppBorder";
 import { exitButton } from "../Elements/ExitBtn";
 import GameObject from "../Elements/GameObject";
 import ScrollBar from "../Elements/ScrollBar";
@@ -13,15 +14,8 @@ export default class EmailScene extends Scene {
 
   constructor(email?: Email) {
     super({
-      backgroundSpriteName: "beige_bg",
-      gameObjects: [
-        new GameObject({
-          spriteName: "app_border",
-          width: 352,
-          height: 256,
-        }),
-        exitButton,
-      ],
+      backgroundSpriteName: "bg_beige",
+      gameObjects: [appBorder, exitButton],
     });
     if (!email) {
       this.email = new Email({

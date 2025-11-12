@@ -2,12 +2,13 @@ import CanvasObject from "./CanvasObject";
 import Cursor from "./Cursor";
 import renderScene from "./RenderScene";
 import { bindMouseEvents } from "./Input/MouseState";
-import updateGameStae from "./Input/UpdateGameState";
+import updateGameState from "./Input/UpdateGameState";
 import { bindKeyboardEvents } from "./Input/KeyboardState";
 import GameState from "./GameState";
-import { DESKTOPSCENE, EMAILSCENE } from "./Scenes/SceneList";
+import * as sceneReferences from "./Scenes/SceneReferences";
+import { gameTimeTracker } from "./GameTimeTracker.ts";
 
-const gameState = new GameState({ sceneName: DESKTOPSCENE });
+const gameState = new GameState({ sceneName: sceneReferences.TIMERTESTSCENE });
 
 let canvasObject: CanvasObject;
 
@@ -15,7 +16,7 @@ const gameScale = 3;
 const cursor = new Cursor();
 
 function renderFrameLoop() {
-  updateGameStae(gameState, cursor);
+  updateGameState(gameState, cursor);
   renderScene(gameState.currentScene, canvasObject, cursor);
   requestAnimationFrame(renderFrameLoop);
 }
@@ -29,7 +30,8 @@ export function startGame(canvasElement: HTMLCanvasElement) {
     id: "canvasId",
     scale: gameScale,
   });
+  gameTimeTracker.start();
   bindMouseEvents(canvasObject.element, gameScale);
-  bindKeyboardEvents(canvasObject.element);
+  bindKeyboardEvents();
   renderFrameLoop();
 }
