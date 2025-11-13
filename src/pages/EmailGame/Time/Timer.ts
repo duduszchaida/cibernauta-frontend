@@ -1,6 +1,8 @@
+import type CanvasObject from "../CanvasObject";
+import TextObject from "../Elements/TextObject";
 import { gameTimeTracker } from "./GameTimeTracker";
 
-export default class Timer {
+export default class Timer extends TextObject {
     loop: boolean;
     goalSecs: number;
     goalTics: number;
@@ -15,6 +17,7 @@ export default class Timer {
     totalPauseTics = 0;
 
     constructor(args: {goalSecs: number, loop?: boolean, goalFunc?: Function}){
+        super({color: "black", font: "minecraftia", pos: args.pos, text: ""})
         this.goalSecs = args.goalSecs;
         this.loop = args.loop ?? false;
         this.goalFunc = args.goalFunc ?? (() => {console.log("it's done!")});
@@ -69,5 +72,9 @@ export default class Timer {
             secsZero = "0"
         }
         return minZero + minutes + ":" + secsZero + seconds;
+    }
+
+    render(canvasObject: CanvasObject): void {
+        canvasObject.writeText(this.fontSprite, this.font, this.text, this.pos);
     }
 }

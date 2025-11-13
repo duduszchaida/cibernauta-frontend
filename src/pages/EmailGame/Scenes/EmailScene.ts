@@ -6,11 +6,14 @@ import TextObject from "../Elements/TextObject";
 import Email from "../Email";
 import fontMaps from "../FontMaps";
 import Position from "../Position";
+import Timer from "../Time/Timer";
 import Scene from "./Scene";
 
 export default class EmailScene extends Scene {
   scrollBar: ScrollBar;
   email: Email;
+  selectedAnomalies: string[] = [];
+  timer = new Timer({goalSecs: 3000});
 
   constructor(email?: Email) {
     super({
@@ -86,4 +89,30 @@ export default class EmailScene extends Scene {
     this.email.emailContent.scrollTo(scroll);
     this.scrollBar.scrollTo(scroll);
   }
+  
+  newEmail(email: Email){
+    this.email = email;
+    this.selectedAnomalies = [];
+  }
+
+  compareAnomalies(): {wrong: string[], missed: string[]}{
+    if (!this.email){
+      alert('No email');
+      return {wrong: [], missed: []};
+    }
+    let wrongAnomalies: string[] = [];
+    this.selectedAnomalies.forEach(a => {
+      if (!this.email?.anomalies.includes(a)){
+        wrongAnomalies.push(a);
+      }
+    });
+    let missedAnomalies: string[] = [];
+    this.email.anomalies.forEach(a => {
+      if (!this.selectedAnomalies.includes(a)){
+        missedAnomalies.push(a);
+      }
+    });
+    return {wrong: wrongAnomalies, missed: missedAnomalies};
+  }
+
 }
