@@ -9,6 +9,7 @@ const keyboardState: Record<
 
 export function bindKeyboardEvents() {
   window.addEventListener("keydown", (e) => {
+    // console.log(e.key)
     if (keyboardState[e.key] == null) {
       keyboardState[e.key] = { keyState: UNPRESSED, read: false };
     }

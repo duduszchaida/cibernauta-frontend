@@ -4,8 +4,9 @@ import Position from "./Position";
 import type { SpriteList } from "./SpriteList";
 
 export default class Cursor {
-	pos: Position = new Position();
-	state: string = "arrow";
+	pos: Position = new Position(-32, -32);
+	state: "arrow" | "pointer" | "inspect" = "arrow";
+	inspecting: boolean = false;
 	spriteList: SpriteList = {
 		arrow: findSprite("cursor_arrow"),
 	};

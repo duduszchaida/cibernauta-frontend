@@ -1,11 +1,11 @@
 import type CanvasObject from "../CanvasObject";
 import Position from "../Position";
 import { gameTimeTracker } from "../Time/GameTimeTracker";
-import Timer from "../Time/Timer";
 import TextObject from "./TextObject";
+import Timer from "./Timer";
 
 let testTimer: any = null;
-testTimer = new Timer({goalSecs: 20})
+testTimer = new Timer({goalSecs: 20, pos: new Position(200, 16)})
 setTimeout(() => {
   testTimer.start();
 }, 3000)

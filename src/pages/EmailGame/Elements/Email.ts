@@ -1,23 +1,25 @@
-import EmailContent from "./Elements/EmailContent";
+import EmailContent from "./EmailContent";
 
 // Email anomaly references
 export const CONTENT = "content";
 export const ADDRESS = "address";
 export const PICTURE = "picture";
 
+export type AnomalyList = Record<string, boolean>
+
 export default class Email {
   emailContent: EmailContent;
   senderAddress: string;
   senderName: string;
   picture: string;
-  anomalies: string[];
+  anomalies: AnomalyList;
 
   constructor(args: {
     text: string;
     address: string;
     name: string;
     picture: string;
-    anomalies?: string[];
+    anomalies: AnomalyList;
   }) {
     this.emailContent = new EmailContent({
       text: args.text,
@@ -25,6 +27,6 @@ export default class Email {
     this.senderAddress = args.address;
     this.senderName = args.name;
     this.picture = args.picture;
-    this.anomalies = args.anomalies ?? [];
+    this.anomalies = args.anomalies;
   }
 }

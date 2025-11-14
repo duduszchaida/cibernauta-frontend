@@ -8,7 +8,7 @@ import GameState from "./GameState";
 import * as sceneReferences from "./Scenes/SceneReferences";
 import { gameTimeTracker } from "./Time/GameTimeTracker";
 
-const gameState = new GameState({ sceneName: sceneReferences.TIMERTESTSCENE });
+const gameState = new GameState({ sceneName: sceneReferences.DESKTOPSCENE });
 
 let canvasObject: CanvasObject;
 

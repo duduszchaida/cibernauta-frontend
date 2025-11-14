@@ -5,8 +5,8 @@ const sprites: Record<string, Sprite> = {
   bg_blue: new Sprite("/game/email/bg_blue.png"),
   bg_beige: new Sprite("/game/email/bg_beige.png"),
   bg_green: new Sprite("/game/email/bg_green.png"),
-  email_ui: new Sprite("/game/email/email_ui.png"),
   concepts_icon: new Sprite("/game/email/concepts_icon.png"),
+  email_ui: new Sprite("/game/email/email_ui.png"),
   email_icon: new Sprite("/game/email/email_icon.png"),
   settings_icon: new Sprite("/game/email/settings_icon.png"),
   saves_icon: new Sprite("/game/email/saves_icon.png"),
@@ -15,13 +15,12 @@ const sprites: Record<string, Sprite> = {
   cursor_arrow: new Sprite("/game/email/cursor_arrow.png"),
   cursor_drag: new Sprite("/game/email/cursor_drag.png"),
   cursor_pointer: new Sprite("/game/email/cursor_pointer.png"),
+  cursor_inspect: new Sprite("/game/email/cursor_inspect.png"),
   minecraftia_white: new Sprite("/game/email/minecraftia_white.png"),
   minecraftia_black: new Sprite("/game/email/minecraftia_black.png"),
   minecraftia_bnw: new Sprite("/game/email/minecraftia_bnw.png"),
   minecraftia_brown: new Sprite("/game/email/minecraftia_brown.png"),
-  minecraftia_light_brown: new Sprite(
-    "/game/email/minecraftia_light_brown.png",
-  ),
+  minecraftia_light_brown: new Sprite("/game/email/minecraftia_light_brown.png"),
   wcp_black: new Sprite("/game/email/wcp_black.png"),
   wcp_brown: new Sprite("/game/email/wcp_brown.png"),
   app_border: new Sprite("/game/email/app_border.png"),
@@ -34,6 +33,7 @@ const sprites: Record<string, Sprite> = {
   default_picture_5: new Sprite("/game/email/default_picture_5.png"),
   default_picture_6: new Sprite("/game/email/default_picture_6.png"),
   default_picture_7: new Sprite("/game/email/default_picture_7.png"),
+  picture_selected: new Sprite("/game/email/picture_selected.png"),
 };
 
 const spriteArr = Object.values(sprites);

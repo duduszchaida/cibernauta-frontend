@@ -36,6 +36,7 @@ export default class GameObject {
     this.click = args.clickFunction ?? null;
     this.drag = args.dragFunction ?? null;
   }
+
   render(canvasObject: CanvasObject) {
     canvasObject.drawSprite(
       this.sprite,

@@ -1,4 +1,5 @@
 import type Cursor from "../Cursor";
+import EmailComponent, { INSPECT } from "../Elements/EmailComponent";
 import { SCENECHANGE } from "../Elements/ExitBtn";
 import { SCROLLTO } from "../Elements/ScrollBar";
 import type GameState from "../GameState";
@@ -25,17 +26,21 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
   }
 
   gameState.currentScene.gameObjects.forEach((x) => {
-    if (
-      x.click instanceof Function &&
+    if (x.click instanceof Function &&
       x.hitbox.positionInside(mouseState.pos)
     ) {
-      cursor.state = "pointer";
+      if(!(x instanceof EmailComponent)){
+        cursor.state = "pointer";
+      }
       if (mouseState.click) {
         const result = x.click(mouseState.pos);
         if (result) {
           if (result.type == SCENECHANGE) {
             if (result.sceneName == EMAILSCENE) {
               gameState.sceneList[result.sceneName] = new EmailScene();
+            } else {
+              cursor.state = "arrow";
+              cursor.inspecting = false;
             }
             gameState.currentScene = gameState.sceneList[result.sceneName];
           }
@@ -45,6 +50,13 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
           ) {
             gameState.currentScene.scrollEmailTo(result.shift);
           }
+          if (
+            result.type == INSPECT &&
+            cursor.inspecting &&
+            gameState.currentScene instanceof EmailScene
+          ) {
+            gameState.currentScene.selectAnomaly(result.reference);
+          }          
         }
       }
     }
@@ -67,6 +79,13 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
     if (mouseState.scroll != 0) {
       gameState.currentScene.scrollEmail(mouseState.scroll);
     }
+  }
+
+  if (keyboardState["q"]?.keyState == PRESSED && !keyboardState["q"]?.read) {
+    cursor.inspecting = !cursor.inspecting
+  }
+  if (cursor.inspecting){
+    cursor.state = "inspect";
   }
 
   mouseState.click = false;

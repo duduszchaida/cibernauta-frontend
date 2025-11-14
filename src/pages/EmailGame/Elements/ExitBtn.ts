@@ -12,3 +12,4 @@ export const exitButton = new GameObject({
     return { type: SCENECHANGE, sceneName: DESKTOPSCENE };
   },
 });
+
