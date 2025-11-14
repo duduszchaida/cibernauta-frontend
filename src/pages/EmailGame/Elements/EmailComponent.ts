@@ -11,7 +11,7 @@ export default class EmailComponent extends GameObject {
     reference: (typeof ADDRESS) | (typeof CONTENT) | (typeof PICTURE);
     anomaly: boolean;
     selected: boolean = false;
-    selectSprite: Sprite;
+    selectedSprite: Sprite;
 
     constructor(args:{pos?: Position;
         spriteName?: string;
@@ -24,10 +24,9 @@ export default class EmailComponent extends GameObject {
         this.reference = args.reference
         this.anomaly = args.anomaly
         this.click = () => {
-            this.selected = !this.selected;
             return {type: INSPECT, reference: this.reference};
         };
-        this.selectSprite = findSprite(this.reference + "_selected");
+        this.selectedSprite = findSprite(this.reference + "_selected");
     }
     
     render(canvasObject: CanvasObject){
@@ -38,7 +37,7 @@ export default class EmailComponent extends GameObject {
         );
         if (!this.selected){return;}
         canvasObject.drawSprite(
-            this.sprite,
+            this.selectedSprite,
             this.pos,
             new Position(this.width, this.height),
         );

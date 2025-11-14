@@ -1,25 +1,46 @@
-import { appBorder } from "../Elements/AppBorder";
 import { exitButton } from "../Elements/ExitBtn";
 import GameObject from "../Elements/GameObject";
 import ScrollBar from "../Elements/ScrollBar";
 import TextObject from "../Elements/TextObject";
 import Timer from "../Elements/Timer";
-import Email, { PICTURE, type AnomalyList } from "../Elements/Email";
+import Email, { ADDRESS, PICTURE, type AnomalyList } from "../Elements/Email";
 import fontMaps from "../FontMaps";2
 import Position from "../Position";
 import Scene from "./Scene";
 import EmailComponent from "../Elements/EmailComponent";
 
+
+const emailBorder = new GameObject({
+  spriteName: "email_border",
+  width: 352,
+  height: 256,
+});
+
+
 export default class EmailScene extends Scene {
   scrollBar: ScrollBar;
   email: Email;
   selectedAnomalies: AnomalyList = {};
-  timer = new Timer({goalSecs: 300, pos: new Position(292, 5)});
+  timer = new Timer({goalSecs: 300, pos: new Position(293, 4)});
+  [PICTURE]: EmailComponent = new EmailComponent({
+    pos: new Position(8, 8),
+    spriteName: "cam",
+    height: 32,
+    width: 32,
+    anomaly: true,
+    reference: PICTURE
+  });
+  [ADDRESS] = new TextObject({
+    pos: new Position(4, 13),
+    font: "minecraftia",
+    color: "light_brown",
+    text: "<>",
+  });
 
   constructor(email?: Email) {
     super({
       backgroundSpriteName: "bg_beige",
-      gameObjects: [appBorder, exitButton],
+      gameObjects: [emailBorder, exitButton],
     });
     this.gameObjects.push(this.timer)
     if (!email) {
@@ -36,7 +57,7 @@ export default class EmailScene extends Scene {
     }
 
     const emailContent = this.email.emailContent;
-    const picture = new EmailComponent({
+    this[PICTURE] = new EmailComponent({
       pos: new Position(8, 8),
       spriteName: this.email.picture,
       height: 32,
@@ -51,7 +72,7 @@ export default class EmailScene extends Scene {
       color: "brown",
       text: this.email.senderName,
     });
-    const address = new TextObject({
+    this[ADDRESS] = new TextObject({
       pos: new Position(44 + senderName.width, 13),
       font: "minecraftia",
       color: "light_brown",
@@ -78,9 +99,9 @@ export default class EmailScene extends Scene {
     );
 
     this.gameObjects.push(emailContent);
-    this.gameObjects.push(picture);
+    this.gameObjects.push(this[PICTURE]);
     this.gameObjects.push(senderName);
-    this.gameObjects.push(address);
+    this.gameObjects.push(this[ADDRESS]);
     this.gameObjects.push(recepient);
     this.gameObjects.push(scrollSlot);
     this.gameObjects.push(this.scrollBar);
@@ -102,8 +123,10 @@ export default class EmailScene extends Scene {
   }
 
   selectAnomaly(reference: string){
+    if (this[PICTURE].reference == reference) {
+      this[PICTURE].selected = !this[PICTURE].selected
+    }
     this.selectedAnomalies[reference] = !this.selectedAnomalies[reference];
-    console.log(reference + " marked as " + (this.selectedAnomalies[reference] ? "" : "not ") + "an anomaly")
   }
 
   compareAnomalies(): AnomalyList{

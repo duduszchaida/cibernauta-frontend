@@ -18,7 +18,7 @@ export default class Timer extends TextObject {
     totalPauseTics = 0;
 
     constructor(args: {goalSecs: number, loop?: boolean, goalFunc?: Function, pos: Position}){
-        super({color: "black", font: "minecraftia", pos: args.pos, text: ""})
+        super({color: "light_orange", font: "wcp", pos: args.pos, text: ""})
         this.goalSecs = args.goalSecs;
         this.loop = args.loop ?? false;
         this.goalFunc = args.goalFunc ?? (() => {console.log("it's done!")});
