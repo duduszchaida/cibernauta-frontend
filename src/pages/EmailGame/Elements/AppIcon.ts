@@ -23,11 +23,7 @@ export default class AppIcon extends GameObject {
   }
 
   render(canvasObject: CanvasObject) {
-    canvasObject.drawSprite(
-      this.sprite,
-      this.pos,
-      new Position(this.width, this.height),
-    );
+    canvasObject.drawSprite(this.sprite, this.pos, this.width, this.height);
     canvasObject.writeText(
       findSprite("minecraftia_bnw"),
       "minecraftia",

@@ -12,6 +12,7 @@ export default class GameObject {
   hitbox: Hitbox;
   click: Function | null;
   drag: Function | null;
+  invisible: boolean;
 
   constructor(args: {
     pos?: Position;
@@ -21,6 +22,7 @@ export default class GameObject {
     hitbox?: Hitbox;
     clickFunction?: Function;
     dragFunction?: Function;
+    invisible?: boolean;
   }) {
     this.pos = args.pos ?? new Position();
     this.sprite = findSprite(args.spriteName ?? "cam");
@@ -35,13 +37,13 @@ export default class GameObject {
       });
     this.click = args.clickFunction ?? null;
     this.drag = args.dragFunction ?? null;
+    this.invisible = args.invisible ?? false;
   }
 
   render(canvasObject: CanvasObject) {
-    canvasObject.drawSprite(
-      this.sprite,
-      this.pos,
-      new Position(this.width, this.height),
-    );
+    if (this.invisible) {
+      return;
+    }
+    canvasObject.drawSprite(this.sprite, this.pos, this.width, this.height);
   }
 }

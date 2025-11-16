@@ -20,13 +20,18 @@ const sprites: Record<string, Sprite> = {
   minecraftia_black: new Sprite("/game/email/minecraftia_black.png"),
   minecraftia_bnw: new Sprite("/game/email/minecraftia_bnw.png"),
   minecraftia_brown: new Sprite("/game/email/minecraftia_brown.png"),
-  minecraftia_light_brown: new Sprite("/game/email/minecraftia_light_brown.png"),
+  minecraftia_light_brown: new Sprite(
+    "/game/email/minecraftia_light_brown.png",
+  ),
   wcp_black: new Sprite("/game/email/wcp_black.png"),
   wcp_brown: new Sprite("/game/email/wcp_brown.png"),
   wcp_light_orange: new Sprite("/game/email/wcp_light_orange.png"),
   app_border: new Sprite("/game/email/app_border.png"),
   email_border: new Sprite("/game/email/email_border.png"),
   exit_btn: new Sprite("/game/email/exit_btn.png"),
+  btn_safe: new Sprite("/game/email/btn_safe.png"),
+  btn_malicious: new Sprite("/game/email/btn_malicious.png"),
+  btn_spam: new Sprite("/game/email/btn_spam.png"),
   default_picture_0: new Sprite("/game/email/default_picture_0.png"),
   default_picture_1: new Sprite("/game/email/default_picture_1.png"),
   default_picture_2: new Sprite("/game/email/default_picture_2.png"),
@@ -36,6 +41,7 @@ const sprites: Record<string, Sprite> = {
   default_picture_6: new Sprite("/game/email/default_picture_6.png"),
   default_picture_7: new Sprite("/game/email/default_picture_7.png"),
   picture_selected: new Sprite("/game/email/picture_selected.png"),
+  toolbar: new Sprite("/game/email/toolbar.png"),
 };
 
 const spriteArr = Object.values(sprites);

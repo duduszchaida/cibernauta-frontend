@@ -41,6 +41,7 @@ export function bindMouseEvents(element: HTMLElement, gameScale: number) {
       }
     } else {
       mouseState.dragging = false;
+      mouseState.draggingFrom = new Position(-Infinity, -Infinity);
     }
     mouseState.pos = new Position(e.offsetX / gameScale, e.offsetY / gameScale);
   });

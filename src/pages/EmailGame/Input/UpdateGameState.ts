@@ -2,19 +2,27 @@ import type Cursor from "../Cursor";
 import EmailComponent, { INSPECT } from "../Elements/EmailComponent";
 import { SCENECHANGE } from "../Elements/ExitBtn";
 import { SCROLLTO } from "../Elements/ScrollBar";
+import { INSPECTMODE } from "../Elements/Toolbar";
 import type GameState from "../GameState";
 import Position from "../Position";
 import EmailScene from "../Scenes/EmailScene";
 import { EMAILSCENE } from "../Scenes/SceneReferences";
-import { gameTimeTracker } from "../Time/GameTimeTracker";
+import { gameTimeTracker } from "../GameTimeTracker";
 import keyboardState, { PRESSED } from "./KeyboardState";
 import mouseState from "./MouseState";
 
-let lastUpdatedTic = 0;
+function inspectModeSwitch(gameState: GameState) {
+  if (gameState.currentScene instanceof EmailScene) {
+    gameState.inspecting = !gameState.inspecting;
+    gameState.currentScene.inspectModeSwitch();
+  }
+}
 
 export default function updateGameState(gameState: GameState, cursor: Cursor) {
-  lastUpdatedTic = gameTimeTracker.currentTic;
-  if (keyboardState[" "]?.keyState == PRESSED && !keyboardState[" "]?.read) {
+  if (
+    keyboardState["Escape"]?.keyState == PRESSED &&
+    !keyboardState["Escape"]?.read
+  ) {
     gameTimeTracker.pause();
   }
 
@@ -25,49 +33,52 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
     cursor.spriteShift.y += 1;
   }
 
-  gameState.currentScene.gameObjects.forEach((x) => {
-    if (x.click instanceof Function &&
-      x.hitbox.positionInside(mouseState.pos)
+  gameState.currentScene.gameObjects.forEach((obj) => {
+    if (
+      obj.click instanceof Function &&
+      obj.hitbox.positionInside(mouseState.pos)
     ) {
-      if(!(x instanceof EmailComponent)){
+      if (!(obj instanceof EmailComponent)) {
         cursor.state = "pointer";
       }
       if (mouseState.click) {
-        const result = x.click(mouseState.pos);
-        if (result) {
-          if (result.type == SCENECHANGE) {
+        const result = obj.click(mouseState.pos);
+        switch (result?.type) {
+          case SCENECHANGE:
             if (result.sceneName == EMAILSCENE) {
               gameState.sceneList[result.sceneName] = new EmailScene();
             } else {
               cursor.state = "arrow";
-              cursor.inspecting = false;
+              gameState.inspecting = false;
             }
             gameState.currentScene = gameState.sceneList[result.sceneName];
-          }
-          if (
-            result.type == SCROLLTO &&
-            gameState.currentScene instanceof EmailScene
-          ) {
-            gameState.currentScene.scrollEmailTo(result.shift);
-          }
-          if (
-            result.type == INSPECT &&
-            cursor.inspecting &&
-            gameState.currentScene instanceof EmailScene
-          ) {
-            gameState.currentScene.selectAnomaly(result.reference);
-          }          
+            break;
+          case SCROLLTO:
+            if (gameState.currentScene instanceof EmailScene) {
+              gameState.currentScene.scrollEmailTo(result.shift);
+            }
+            break;
+          case INSPECT:
+            if (
+              gameState.inspecting &&
+              gameState.currentScene instanceof EmailScene
+            ) {
+              gameState.currentScene.selectAnomaly(result.reference);
+            }
+            break;
+          case INSPECTMODE:
+            inspectModeSwitch(gameState);
         }
       }
     }
     if (
-      x.drag instanceof Function &&
-      (mouseState.dragging || mouseState.held) &&
-      x.hitbox.positionInside(mouseState.draggingFrom)
+      obj.drag instanceof Function &&
+      (mouseState.dragging || mouseState.click) &&
+      obj.hitbox.positionInside(mouseState.draggingFrom)
     ) {
       cursor.state = "pointer";
       if (gameState.currentScene instanceof EmailScene) {
-        const result = x.drag(mouseState.pos);
+        const result = obj.drag(mouseState.pos);
         if (result.type == SCROLLTO) {
           gameState.currentScene.scrollEmailTo(Math.round(result.shift));
         }
@@ -75,16 +86,21 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
     }
   });
 
-  if (gameState.currentScene instanceof EmailScene) {
-    if (mouseState.scroll != 0) {
+  if (mouseState.scroll != 0) {
+    if (gameState.currentScene instanceof EmailScene) {
       gameState.currentScene.scrollEmail(mouseState.scroll);
     }
   }
 
-  if (keyboardState["q"]?.keyState == PRESSED && !keyboardState["q"]?.read) {
-    cursor.inspecting = !cursor.inspecting
+  if (
+    keyboardState[" "]?.keyState == PRESSED &&
+    !keyboardState[" "]?.read &&
+    gameState.currentScene instanceof EmailScene
+  ) {
+    inspectModeSwitch(gameState);
   }
-  if (cursor.inspecting){
+
+  if (gameState.inspecting) {
     cursor.state = "inspect";
   }
 

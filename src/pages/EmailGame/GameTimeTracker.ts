@@ -41,7 +41,6 @@ class GameTimeTracker {
     } else {
       this.totalPauseLapse +=
         this.currentRealTimeStamp - this.lastPauseTimeStamp;
-      console.log(this.totalPauseLapse);
     }
     this.paused = !this.paused;
   }

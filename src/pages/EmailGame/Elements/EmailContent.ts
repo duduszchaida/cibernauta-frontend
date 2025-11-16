@@ -82,7 +82,9 @@ export default class EmailContent extends GameObject {
     } else {
       if (
         this.scrollShift >=
-        Math.ceil((this.textHeight - this.height) / this.scrollShiftAmmount) *
+        Math.ceil(
+          (this.textHeight - this.height + 36) / this.scrollShiftAmmount,
+        ) *
           this.scrollShiftAmmount
       ) {
         return;
@@ -92,9 +94,9 @@ export default class EmailContent extends GameObject {
   }
 
   scrollTo(num: number) {
-    num = Math.max(num, 0);
+    num = Math.max(Math.ceil(num), 0);
     this.scrollShift = Math.min(
-      this.lines.length * 12 - 176,
+      this.lines.length * 12 - this.height + 36,
       this.scrollShiftAmmount * num,
     );
   }

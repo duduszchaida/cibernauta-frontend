@@ -8,7 +8,7 @@ export default class ScrollBar extends GameObject {
   barLength: number;
   shift = 0;
   constructor(lines: number, lineHeight: number, scrollAmmount: number) {
-    let textHeight = lines * lineHeight - 178;
+    let textHeight = lines * lineHeight - 176 + 36;
     let length = Math.ceil(textHeight / scrollAmmount);
     let height = 188;
     super({
@@ -44,19 +44,23 @@ export default class ScrollBar extends GameObject {
     canvasObject.drawSprite(
       this.sprite,
       this.pos.add(new Position(2, this.shift)),
-      new Position(8, 3),
+      8,
+      3,
     );
     canvasObject.drawSprite(
       this.sprite,
       this.pos.add(new Position(2, 3 + this.shift)),
-      new Position(8, this.barLength),
+      8,
+      this.barLength,
       new Position(0, 3),
-      new Position(8, 1),
+      8,
+      1,
     );
     canvasObject.drawSprite(
       this.sprite,
       this.pos.add(new Position(2, 3 + this.shift + this.barLength)),
-      new Position(8, 3),
+      8,
+      3,
       new Position(0, 4),
     );
   }
