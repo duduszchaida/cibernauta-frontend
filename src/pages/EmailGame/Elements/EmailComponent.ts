@@ -15,11 +15,11 @@ export default class EmailComponent extends GameObject {
 
   constructor(args: {
     pos?: Position;
-    spriteName?: string;
     width: number;
     height: number;
-    reference: typeof ADDRESS | typeof CONTENT | typeof PICTURE;
     anomaly: boolean;
+    spriteName?: string;
+    reference: typeof ADDRESS | typeof CONTENT | typeof PICTURE;
   }) {
     super(args);
     this.reference = args.reference;

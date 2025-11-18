@@ -71,10 +71,10 @@ export default class CanvasObject {
       slicePos.y,
       sliceWidth,
       sliceHeight,
-      pos.x * this.scale,
-      pos.y * this.scale,
-      width * this.scale,
-      height * this.scale,
+      Math.floor(pos.x) * this.scale,
+      Math.floor(pos.y) * this.scale,
+      Math.floor(width) * this.scale,
+      Math.floor(height) * this.scale,
     );
   }
 
@@ -83,21 +83,24 @@ export default class CanvasObject {
     font: string,
     char: string,
     pos: Position,
-    topShift = 0,
-    botShift = 0,
+    slicePosY: number = 0,
+    sliceHeight: number = 0,
   ) {
     const fontMap = fontMaps[font];
     const charMap = fontMap.letters[char];
+    if (sliceHeight == 0) {
+      sliceHeight = fontMaps[font].cellHeight;
+    }
     this.ctx.drawImage(
       fontSprite.img,
       charMap.x * fontMap.cellWidth,
-      charMap.y * fontMap.cellHeight + topShift,
+      charMap.y * fontMap.cellHeight + slicePosY,
       charMap.width,
-      fontMaps[font].cellHeight - (topShift + botShift),
+      sliceHeight,
       pos.x * this.scale,
-      (pos.y + topShift) * this.scale,
+      (pos.y + slicePosY) * this.scale,
       charMap.width * this.scale,
-      (fontMaps[font].cellHeight - (topShift + botShift)) * this.scale,
+      sliceHeight * this.scale,
     );
   }
 
@@ -108,8 +111,8 @@ export default class CanvasObject {
     pos: Position,
     direction = "left",
     limitWidth = 999,
-    topShift = 0,
-    botShift = 0,
+    slicePosY = 0,
+    sliceHeight = 0,
   ) {
     let chars = text.split("");
     let totalWidth = 0;
@@ -138,66 +141,100 @@ export default class CanvasObject {
         font,
         char,
         new Position(pos.x + startX + currentWidth, pos.y + currentHeight),
-        topShift,
-        botShift,
+        slicePosY,
+        sliceHeight,
       );
       currentWidth += charMap.width + 1;
     }
   }
 
+  writeLine(
+    line: Line,
+    pos: Position,
+    fontSprite: Sprite,
+    font: string,
+    sliceY: number,
+    sliceHeight: number,
+  ) {
+    let currentX = 0;
+    line.words.forEach((x) => {
+      this.writeText(
+        fontSprite,
+        font,
+        x,
+        pos.add(currentX, 0),
+        "right",
+        999,
+        sliceY,
+        sliceHeight,
+      );
+      currentX += measureTextWidth(x, font) + 3;
+    });
+  }
+
+  writeParagraph(
+    paragraph: Line[],
+    pos: Position,
+    fontSprite: Sprite,
+    font: string,
+    scrollShift: number,
+    paragraphHeight: number,
+    cellHeight: number,
+    maxRenderHeight: number,
+  ) {
+    let currentY = 0; // Distance in pixels of the current rendering line
+    paragraph.forEach((l) => {
+      let sliceY = 0;
+      let sliceHeight = 0;
+      if (
+        scrollShift < paragraphHeight + currentY + cellHeight &&
+        scrollShift + maxRenderHeight > paragraphHeight + currentY
+      ) {
+        if (scrollShift > paragraphHeight + currentY) {
+          sliceY = scrollShift - (paragraphHeight + currentY);
+          sliceHeight = cellHeight - sliceY;
+        } else if (
+          scrollShift + maxRenderHeight <
+          paragraphHeight + currentY + cellHeight
+        ) {
+          sliceHeight =
+            scrollShift + maxRenderHeight - (paragraphHeight + currentY);
+        }
+        this.writeLine(
+          l,
+          pos.add(0, currentY - scrollShift),
+          fontSprite,
+          font,
+          sliceY,
+          sliceHeight,
+        );
+      }
+      currentY += fontMaps[font].cellHeight;
+    });
+  }
+
   writeEmailContent(
-    lines: Line[],
+    paragraphs: Line[][],
     font: string,
     fontSprite: Sprite,
     pos: Position,
-    scrollShift: number,
+    scrollShift: number, // Distance in pixels of vertical shift from top of the content
     maxRenderHeight: number,
-    maxLineWidth: number,
-    direction = "left",
   ) {
     const fontMap = fontMaps[font];
-    let currentHeight = 0;
-    lines.forEach((line, i) => {
-      let topShift = 0;
-      let topDiff = scrollShift - currentHeight;
-      if (topDiff > 0) {
-        if (topDiff > fontMap.cellHeight) {
-          currentHeight += fontMap.cellHeight;
-          return;
-        }
-        topShift = topDiff;
-      }
-      let botDiff =
-        currentHeight - scrollShift + fontMap.cellHeight - maxRenderHeight;
-      let botShift = 0;
-      if (botDiff > 0) {
-        if (botDiff > fontMap.cellHeight) {
-          return;
-        }
-        botShift = botDiff;
-      }
-      let startX = 0;
-      if (direction == "center") {
-        startX = Math.floor(maxLineWidth / 2) - Math.floor(line.width / 2);
-      }
-      let currentWidth = 0;
-      line.words.forEach((word) => {
-        this.writeText(
-          fontSprite,
-          font,
-          word,
-          new Position(
-            pos.x + startX + currentWidth,
-            pos.y + i * fontMap.cellHeight - scrollShift,
-          ),
-          "left",
-          this.width,
-          topShift,
-          botShift,
-        );
-        currentWidth += measureTextWidth(word, font) + 3;
-      });
-      currentHeight += fontMap.cellHeight;
+    let currentParagraphHeight = 0; // Distance in pixels of the current rendering paragraph
+    paragraphs.forEach((p) => {
+      this.writeParagraph(
+        p,
+        pos.add(0, currentParagraphHeight),
+        fontSprite,
+        font,
+        scrollShift,
+        currentParagraphHeight,
+        fontMap.cellHeight,
+        maxRenderHeight,
+      );
+      currentParagraphHeight += (p.length + 1) * fontMap.cellHeight;
     });
   }
 }

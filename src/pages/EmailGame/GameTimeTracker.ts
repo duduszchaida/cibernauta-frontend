@@ -1,9 +1,9 @@
 class GameTimeTracker {
   ticsPerSecond: number;
   gameStartStamp: number = 0;
-  paused: boolean = true;
   lastPauseTimeStamp: number = 0;
   gameStampBeforePause: number = 0;
+  paused: boolean = true;
 
   totalPauseLapse: number = 0;
   constructor(args: { ticsPerSecond: number }) {

@@ -28,7 +28,7 @@ export default class AppIcon extends GameObject {
       findSprite("minecraftia_bnw"),
       "minecraftia",
       this.appName,
-      this.pos.add(new Position(18, 32)),
+      this.pos.addPos(new Position(18, 32)),
       "center",
     );
   }

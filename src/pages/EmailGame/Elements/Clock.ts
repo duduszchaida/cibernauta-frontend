@@ -34,7 +34,7 @@ export default class Clock extends TextObject {
         this.fontSprite,
         this.font,
         testTimer.timeRemaining(),
-        this.pos.add(new Position(64, 16)),
+        this.pos.addPos(new Position(64, 16)),
       );
     }
   }

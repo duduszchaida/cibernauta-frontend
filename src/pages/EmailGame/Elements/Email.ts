@@ -3,9 +3,10 @@ import EmailContent from "./EmailContent";
 // Email anomaly references
 export const CONTENT = "content";
 export const ADDRESS = "address";
+export const NAME = "name";
 export const PICTURE = "picture";
 
-export type AnomalyList = Record<string, boolean>
+export type AnomalyList = Record<string, boolean>;
 
 export default class Email {
   emailContent: EmailContent;

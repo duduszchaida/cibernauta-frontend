@@ -1,15 +1,16 @@
 import type Cursor from "../Cursor";
-import EmailComponent, { INSPECT } from "../Elements/EmailComponent";
+import type GameState from "../GameState";
 import { SCENECHANGE } from "../Elements/ExitBtn";
 import { SCROLLTO } from "../Elements/ScrollBar";
 import { INSPECTMODE } from "../Elements/Toolbar";
-import type GameState from "../GameState";
-import Position from "../Position";
-import EmailScene from "../Scenes/EmailScene";
 import { EMAILSCENE } from "../Scenes/SceneReferences";
 import { gameTimeTracker } from "../GameTimeTracker";
+import EmailComponent, { INSPECT } from "../Elements/EmailComponent";
+import Position from "../Position";
+import EmailScene from "../Scenes/EmailScene";
 import keyboardState, { PRESSED } from "./KeyboardState";
 import mouseState from "./MouseState";
+import EmailTextComponent from "../Elements/EmailTextComponent";
 
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
@@ -34,11 +35,18 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
   }
 
   gameState.currentScene.gameObjects.forEach((obj) => {
+    if (obj.invisible) {
+      return;
+    }
     if (
       obj.click instanceof Function &&
       obj.hitbox.positionInside(mouseState.pos)
     ) {
-      if (!(obj instanceof EmailComponent)) {
+      if (obj instanceof EmailComponent || obj instanceof EmailTextComponent) {
+        if (gameState.inspecting) {
+          cursor.state = "inspect";
+        }
+      } else {
         cursor.state = "pointer";
       }
       if (mouseState.click) {
@@ -73,7 +81,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
     }
     if (
       obj.drag instanceof Function &&
-      (mouseState.dragging || mouseState.click) &&
+      (mouseState.dragging || mouseState.held) &&
       obj.hitbox.positionInside(mouseState.draggingFrom)
     ) {
       cursor.state = "pointer";
@@ -98,10 +106,6 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
     gameState.currentScene instanceof EmailScene
   ) {
     inspectModeSwitch(gameState);
-  }
-
-  if (gameState.inspecting) {
-    cursor.state = "inspect";
   }
 
   mouseState.click = false;

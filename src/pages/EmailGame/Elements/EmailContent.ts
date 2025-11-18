@@ -13,10 +13,10 @@ export type Line = {
 
 export default class EmailContent extends GameObject {
   text: string;
-  lines: Line[] = [];
+  paragraphs: Line[][] = [];
   font = "minecraftia";
   fontSprite: Sprite;
-  textHeight: number;
+  textHeight = 0;
   scrollShift = 0;
   scrollShiftAmmount: number;
   hasScroll: boolean = false;
@@ -29,8 +29,7 @@ export default class EmailContent extends GameObject {
     });
     this.text = args.text;
     this.fontSprite = findSprite(this.font + "_black");
-    this.generateLines();
-    this.textHeight = this.lines.length * fontMaps[this.font].cellHeight;
+    this.generateParagraphs();
     if (this.textHeight > this.height) {
       this.hasScroll = true;
     }
@@ -38,40 +37,49 @@ export default class EmailContent extends GameObject {
     this.scrollShiftAmmount = 6;
   }
 
-  generateLines() {
-    let letters = this.text.split("");
-    let currentWordStart = 0;
-    let currentWordEnd = 0;
-    let currentLine = 0;
+  generateParagraphs() {
+    let paragraphs = this.text.split("\n\n");
+    let cellHeight = fontMaps[this.font].cellHeight;
+    this.textHeight = 0;
 
-    for (let i = 0; i < letters.length; i++) {
-      if (this.lines[currentLine] == undefined) {
-        this.lines[currentLine] = { words: [], width: 0 };
+    paragraphs.forEach((p, i) => {
+      this.paragraphs[i] = [];
+      let letters = p.split("");
+      let currentWordStart = 0;
+      let currentWordEnd = 0;
+      let currentLine = 0;
+      for (let j = 0; j < letters.length; j++) {
+        // Generates current line in case there isn't any yet
+        if (this.paragraphs[i][currentLine] == undefined) {
+          this.paragraphs[i][currentLine] = { words: [], width: 0 };
+        }
+        let line = this.paragraphs[i][currentLine];
+        const char = letters[j];
+        if (char == " " || char == "\n" || j == letters.length - 1) {
+          if (j == letters.length - 1) {
+            j++;
+          }
+          currentWordEnd = j;
+          let word = p.substring(currentWordStart, currentWordEnd);
+          let wordWidth = measureTextWidth(word, this.font);
+          if (line.width + wordWidth > this.width) {
+            currentLine++;
+            this.textHeight += cellHeight;
+            this.paragraphs[i][currentLine] = { words: [], width: 0 };
+            line = this.paragraphs[i][currentLine];
+          }
+          line.width += wordWidth;
+          line.words.push(word);
+          currentWordStart = j + 1;
+          if (char == "\n") {
+            currentLine++;
+          } else {
+            line.width += 3;
+          }
+        }
       }
-      let line = this.lines[currentLine];
-      const char = letters[i];
-      if (char == " " || char == "\n" || i == letters.length) {
-        if (i == letters.length) {
-          i++;
-        }
-        currentWordEnd = i;
-        let word = this.text.substring(currentWordStart, currentWordEnd);
-        let wordWidth = measureTextWidth(word, this.font);
-        if (line.width + wordWidth > this.width) {
-          currentLine++;
-          this.lines[currentLine] = { words: [], width: 0 };
-          line = this.lines[currentLine];
-        }
-        line.width += wordWidth;
-        line.words.push(word);
-        currentWordStart = i + 1;
-        if (char == "\n") {
-          currentLine++;
-        } else {
-          line.width += 3;
-        }
-      }
-    }
+      this.textHeight += 2 * cellHeight;
+    });
   }
 
   scroll(mult = 1) {
@@ -96,20 +104,19 @@ export default class EmailContent extends GameObject {
   scrollTo(num: number) {
     num = Math.max(Math.ceil(num), 0);
     this.scrollShift = Math.min(
-      this.lines.length * 12 - this.height + 36,
+      this.textHeight - this.height + 36,
       this.scrollShiftAmmount * num,
     );
   }
 
   render(canvasObject: CanvasObject): void {
     canvasObject.writeEmailContent(
-      this.lines,
+      this.paragraphs,
       this.font,
       this.fontSprite,
       this.pos,
       this.scrollShift,
       this.height,
-      this.width,
     );
   }
 }

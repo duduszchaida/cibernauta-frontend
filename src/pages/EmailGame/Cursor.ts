@@ -17,7 +17,7 @@ export default class Cursor {
     }
     canvas.drawSprite(
       this.spriteList[this.state],
-      this.pos.add(this.spriteShift),
+      this.pos.addPos(this.spriteShift),
       32,
       32,
     );

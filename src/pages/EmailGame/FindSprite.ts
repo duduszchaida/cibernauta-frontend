@@ -20,10 +20,12 @@ const sprites: Record<string, Sprite> = {
   minecraftia_black: new Sprite("/game/email/minecraftia_black.png"),
   minecraftia_bnw: new Sprite("/game/email/minecraftia_bnw.png"),
   minecraftia_brown: new Sprite("/game/email/minecraftia_brown.png"),
+  minecraftia_selected: new Sprite("/game/email/minecraftia_selected.png"),
   minecraftia_light_brown: new Sprite(
     "/game/email/minecraftia_light_brown.png",
   ),
   wcp_black: new Sprite("/game/email/wcp_black.png"),
+  wcp_selected: new Sprite("/game/email/wcp_selected.png"),
   wcp_brown: new Sprite("/game/email/wcp_brown.png"),
   wcp_light_orange: new Sprite("/game/email/wcp_light_orange.png"),
   app_border: new Sprite("/game/email/app_border.png"),

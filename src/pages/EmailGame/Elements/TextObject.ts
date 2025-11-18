@@ -4,6 +4,7 @@ import type Position from "../Position";
 import type CanvasObject from "../CanvasObject";
 import type Sprite from "../Sprite";
 import { findSprite } from "../FindSprite";
+import fontMaps from "../FontMaps";
 
 export default class TextObject extends GameObject {
   text: string;
@@ -20,7 +21,7 @@ export default class TextObject extends GameObject {
     let width = measureTextWidth(args.text, args.font);
     super({
       pos: args.pos,
-      height: 0,
+      height: fontMaps[args.font].cellHeight,
       width: width,
     });
     this.text = args.text;
