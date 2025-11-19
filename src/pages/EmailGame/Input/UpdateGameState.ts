@@ -7,7 +7,7 @@ import { EMAILSCENE } from "../Scenes/SceneReferences";
 import { gameTimeTracker } from "../GameTimeTracker";
 import EmailComponent, { INSPECT } from "../Elements/EmailComponent";
 import Position from "../Position";
-import EmailScene from "../Scenes/EmailScene";
+import EmailScene, { JUDGEEMAIl } from "../Scenes/EmailScene";
 import keyboardState, { PRESSED } from "./KeyboardState";
 import mouseState from "./MouseState";
 import EmailTextComponent from "../Elements/EmailTextComponent";
@@ -35,14 +35,15 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
     cursor.spriteShift.y += 1;
   }
 
-  gameState.currentScene.gameObjects.forEach((obj) => {
-    if (obj.invisible) {
-      return;
+  let firstContact = false; // Indicates if the loop has found any objects that the cursor can interact with
+  const gameObjects = gameState.currentScene.gameObjects;
+  for (let i = gameObjects.length - 1; i > -1 && !firstContact; i--) {
+    const obj = gameObjects[i];
+    if (obj.invisible || !obj.hitbox.positionInside(mouseState.pos)) {
+      continue;
     }
-    if (
-      obj.click instanceof Function &&
-      obj.hitbox.positionInside(mouseState.pos)
-    ) {
+    firstContact = true;
+    if (obj.click instanceof Function) {
       if (
         obj instanceof EmailComponent ||
         obj instanceof EmailTextComponent ||
@@ -85,6 +86,17 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             break;
           case INSPECTMODE:
             inspectModeSwitch(gameState);
+            break;
+          case JUDGEEMAIl:
+            if (
+              gameState.inspecting &&
+              gameState.currentScene instanceof EmailScene
+            ) {
+              gameState.currentScene.evaluateEmail(result.class);
+              gameState.currentScene.newEmail();
+              gameState.inspecting = false;
+            }
+            break;
         }
       }
     }
@@ -101,7 +113,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
         }
       }
     }
-  });
+  }
 
   if (mouseState.scroll != 0) {
     if (gameState.currentScene instanceof EmailScene) {
@@ -115,6 +127,14 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
     gameState.currentScene instanceof EmailScene
   ) {
     inspectModeSwitch(gameState);
+  }
+
+  if (
+    keyboardState["p"]?.keyState == PRESSED &&
+    !keyboardState["p"]?.read &&
+    gameState.currentScene instanceof EmailScene
+  ) {
+    gameState.currentScene.endEmails();
   }
 
   mouseState.click = false;

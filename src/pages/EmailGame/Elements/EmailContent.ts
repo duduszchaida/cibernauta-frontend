@@ -22,40 +22,47 @@ export default class EmailContent extends GameObject {
   scrollShift = 0;
   scrollShiftAmmount: number;
   hasScroll: boolean = false;
-  extraHeight = 24;
+  extraHeight = 0;
   selectedParagraph: number | null = null;
 
   constructor(args: { text: string }) {
     super({
       pos: new Position(16, 64),
       width: 304,
-      height: 176,
+      height: 152,
     });
     this.text = args.text;
     this.fontSprite = findSprite(this.font + "_black");
     this.generateParagraphs();
-    if (this.textHeight > this.height) {
+    if (this.textHeight + this.extraHeight > this.height - this.extraHeight) {
       this.hasScroll = true;
     }
     this.scrollShift = 0;
     this.scrollShiftAmmount = 6;
-    this.click = (cursorPos: Position) => {
-      const difPos = cursorPos.subtractPos(this.pos);
-      let paragraphId = -1;
-      let paragraphHeight = 0;
-      let found = false;
-      do {
-        paragraphId++;
-        paragraphHeight +=
-          (this.paragraphs[paragraphId].length + 1) *
-          fontMaps[this.font].cellHeight;
-        if (paragraphHeight - this.scrollShift >= difPos.y) {
-          found = true;
-        }
-      } while (!found);
-      return { type: INSPECT, reference: paragraphId };
-    };
   }
+
+  click = (cursorPos: Position) => {
+    const difPos = cursorPos.subtractPos(this.pos);
+    let paragraphId = -1;
+    let paragraphHeight = 0;
+    let found = false;
+    do {
+      paragraphId++;
+      paragraphHeight +=
+        (this.paragraphs[paragraphId].length + 1) *
+        fontMaps[this.font].cellHeight;
+      if (
+        paragraphHeight -
+          this.scrollShift -
+          fontMaps[this.font].cellHeight / 2 >=
+        difPos.y
+      ) {
+        found = true;
+      }
+    } while (paragraphId < this.paragraphs.length - 1 && !found);
+
+    return { type: INSPECT, reference: found ? paragraphId : null };
+  };
 
   generateParagraphs() {
     let paragraphs = this.text.split("\n\n");
@@ -92,6 +99,7 @@ export default class EmailContent extends GameObject {
           line.words.push(word);
           currentWordStart = j + 1;
           if (char == "\n") {
+            this.textHeight += cellHeight;
             currentLine++;
           } else {
             line.width += 3;
@@ -110,10 +118,7 @@ export default class EmailContent extends GameObject {
     } else {
       if (
         this.scrollShift >=
-        Math.ceil(
-          (this.textHeight - this.height + this.extraHeight) /
-            this.scrollShiftAmmount,
-        ) *
+        Math.floor((this.textHeight - this.height) / this.scrollShiftAmmount) *
           this.scrollShiftAmmount
       ) {
         return;
@@ -125,7 +130,7 @@ export default class EmailContent extends GameObject {
   scrollTo(num: number) {
     num = Math.max(Math.ceil(num), 0);
     this.scrollShift = Math.min(
-      this.textHeight - this.height + this.extraHeight,
+      this.textHeight - this.height,
       this.scrollShiftAmmount * num,
     );
   }

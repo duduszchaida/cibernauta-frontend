@@ -4,8 +4,11 @@ import ScrollBar from "../Elements/ScrollBar";
 import Timer from "../Elements/Timer";
 import Email, {
   ADDRESS,
+  MALICIOUS,
   NAME,
   PICTURE,
+  SAFE,
+  SPAM,
   type AnomalyList,
 } from "../Elements/Email";
 import Position from "../Position";
@@ -13,7 +16,8 @@ import Scene from "./Scene";
 import EmailComponent from "../Elements/EmailComponent";
 import Toolbar from "../Elements/Toolbar";
 import EmailTextComponent from "../Elements/EmailTextComponent";
-import TextObject from "../Elements/TextObject";
+import { Utils } from "../Utils";
+import { EmailList } from "../EmailList";
 
 const emailBorder = new GameObject({
   spriteName: "email_border",
@@ -21,46 +25,56 @@ const emailBorder = new GameObject({
   height: 256,
 });
 
-export const EMAILCLASSIFICATION = "emailclassification";
-export const SAFE = "safe";
+export const JUDGEEMAIl = "judgeEmail";
 
-const safeBtn = new GameObject({
-  height: 24,
-  width: 24,
-  invisible: true,
-  spriteName: "btn_safe",
-  clickFunction: () => {
-    return { type: EMAILCLASSIFICATION, class: SAFE };
-  },
-});
-
-const maliciousBtn = new GameObject({
-  height: 24,
-  width: 24,
-  invisible: true,
-  spriteName: "btn_malicious",
-  clickFunction: () => {
-    return { type: EMAILCLASSIFICATION, class: SAFE };
-  },
-});
-
-const spamBtn = new GameObject({
-  height: 24,
-  width: 24,
-  invisible: true,
-  spriteName: "btn_spam",
-  clickFunction: () => {
-    return { type: EMAILCLASSIFICATION, class: SAFE };
-  },
-});
+function generateBtn(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
+  switch (btn) {
+    case SAFE:
+      return new GameObject({
+        height: 24,
+        width: 24,
+        invisible: true,
+        spriteName: "btn_safe",
+        clickFunction: () => {
+          return { type: JUDGEEMAIl, class: SAFE };
+        },
+      });
+    case MALICIOUS:
+      return new GameObject({
+        height: 24,
+        width: 24,
+        invisible: true,
+        spriteName: "btn_malicious",
+        clickFunction: () => {
+          return { type: JUDGEEMAIl, class: MALICIOUS };
+        },
+      });
+    case SPAM:
+      return new GameObject({
+        height: 24,
+        width: 24,
+        invisible: true,
+        spriteName: "btn_spam",
+        clickFunction: () => {
+          return { type: JUDGEEMAIl, class: SPAM };
+        },
+      });
+  }
+}
 
 export default class EmailScene extends Scene {
   email: Email | null = null;
   scrollBar: ScrollBar | null = null;
   toolBar: Toolbar | null = null;
   timer = new Timer({ goalSecs: 300, pos: new Position(293, 4) });
-  toolButtons: GameObject[] = [safeBtn];
-  selectedAnomalies: AnomalyList = {};
+  toolButtons: GameObject[] = [generateBtn(SAFE)];
+  buttonNames: string[];
+  selectedAnomalies: AnomalyList = {
+    name: false,
+    content: false,
+    address: false,
+    picture: false,
+  };
   [PICTURE]: EmailComponent = new EmailComponent({
     pos: new Position(8, 8),
     height: 32,
@@ -90,21 +104,14 @@ export default class EmailScene extends Scene {
       backgroundSpriteName: "bg_beige",
       gameObjects: [emailBorder, exitButton],
     });
-    buttonNames = buttonNames ?? ["malicious", "spam"];
-    this.generateToolButtons(buttonNames);
-    this.gameObjects.push(this.timer);
-    this.generateEmail(email);
+    this.buttonNames = buttonNames ?? [MALICIOUS, SPAM];
+    this.newEmail(email);
   }
 
   generateEmail(email?: Email) {
     if (!email) {
-      this.email = new Email({
-        text: `Se você ainda faz SEO como era feito em 2014, provavelmente você está, nesse momento, desesperado com a queda de tráfego do seu blog.\n\nA chegada do AI Mode no Google é, sem dúvidas, a maior mudança da SERP desde a atualização Panda.\n\nQuem tem blog "velho" tá aí sofrendo. Aqueles milhares de blog-posts com assuntos longtail super difíceis de dar manutenção e manter relevantes.\n\nFora que a empresa evoluiu, cresceu, as estratégias de marketing também mudaram e, ao mesmo tempo, um monte de banners, ctas, materiais ou estão ultrapassados ou até mesmo com link quebrado espalhados por todos os milhares e milhares de conteúdos.\n\nO custo de manutenção subindo e o orçamento diminuindo, afinal o tráfego está caindo, não apenas pelos desafios que comentei, mas também porque as pessoas estão clicando cada vez menos, com o efeito do que chamamos, desde 2017, de zero-click.\n\nUma soma de fatores está chacoalhando a indústria.\n\nAinda temos o aumento dos muros dos jardins fechados, que também contribui para a diminuição de tráfego nos sites e blogs. Até porque nenhuma rede social quer que o usuário saia para um link externo. Por isso que, quando você cola um link num post, tipo esse, a tendência é que seu alcance seja menor.\n\nHá mais ajustes, mas esses já serão bem recebidos pelas LLMs e a probabilidade de começar a aparecer mais por lá aumenta.\n\nÉ uma longa conversa. De todo modo, esse é um pontapé inicial, pra quem estava se sentindo perdido em meio a tantas mudanças.\n\nMatt\n\nPS: Caso você não queira mais receber emails como esse, basta se descadastrar aqui.`,
-        address: "someaddress@.mail.zig",
-        name: "Ricardo",
-        picture: "default_picture_0",
-        anomalies: {},
-      });
+      let randId = Utils.randomArrayId(EmailList.testing);
+      this.email = new Email(EmailList.testing[randId]);
       this.timer.start();
     } else {
       this.email = email;
@@ -122,12 +129,12 @@ export default class EmailScene extends Scene {
       pos: new Position(44, 10),
       font: "wcp",
       color: "brown",
-      text: this.email.senderName,
+      text: "De: " + this.email.senderName,
       reference: NAME,
       anomaly: false,
     });
     this[ADDRESS] = new EmailTextComponent({
-      pos: new Position(51 + this[NAME].width, 13),
+      pos: new Position(44, 28),
       font: "minecraftia",
       color: "light_brown",
       text: this.email.senderAddress,
@@ -135,18 +142,6 @@ export default class EmailScene extends Scene {
       anomaly: false,
     });
 
-    const recepient = new TextObject({
-      pos: new Position(42, 28),
-      font: "minecraftia",
-      color: "black",
-      text: "Para: Você",
-    });
-
-    const scrollSlot = new GameObject({
-      width: 352,
-      height: 256,
-      spriteName: "scroll_slot",
-    });
     this.scrollBar = new ScrollBar(
       emailContent.textHeight,
       emailContent.scrollShiftAmmount,
@@ -156,13 +151,29 @@ export default class EmailScene extends Scene {
     this.gameObjects.push(this[PICTURE]);
     this.gameObjects.push(this[NAME]);
     this.gameObjects.push(this[ADDRESS]);
-    this.gameObjects.push(recepient);
-    this.gameObjects.push(scrollSlot);
-    this.gameObjects.push(this.scrollBar);
+    if (this.email.emailContent.hasScroll) {
+      this.gameObjects.push(this.scrollBar);
+    }
     this.gameObjects.push(this.toolBar);
     this.toolButtons.forEach((b) => {
       this.gameObjects.push(b);
     });
+  }
+
+  newEmail(email: Email | undefined = undefined) {
+    this.generateToolButtons(this.buttonNames);
+    this.selectedAnomalies = {
+      name: false,
+      content: false,
+      address: false,
+      picture: false,
+    };
+    this.gameObjects = [emailBorder, exitButton, this.timer];
+    this.generateEmail(email);
+  }
+
+  endEmails() {
+    this.gameObjects = [emailBorder, exitButton, this.timer];
   }
 
   scrollEmail(scroll: number) {
@@ -173,11 +184,6 @@ export default class EmailScene extends Scene {
   scrollEmailTo(scroll: number) {
     this.email?.emailContent.scrollTo(scroll);
     this.scrollBar?.scrollTo(scroll);
-  }
-
-  newEmail(email: Email) {
-    this.email = email;
-    this.selectedAnomalies = {};
   }
 
   selectAnomaly(reference: string) {
@@ -212,29 +218,48 @@ export default class EmailScene extends Scene {
     }
   }
 
+  /**
+   *
+   * @returns
+   */
   compareAnomalies(): AnomalyList {
     if (!this.email) {
       alert("No email");
       return {};
     }
-    const result: AnomalyList = {};
+    const result: AnomalyList = {}; // A list of anomalies and if they were correctly evaluated or not
+    const seenAnomalies: string[] = [];
+    console.log(this.selectedAnomalies);
+    console.log(this.email.anomalies);
     for (const a in this.selectedAnomalies) {
+      if (seenAnomalies.includes(a)) {
+        continue;
+      }
       result[a] = this.selectedAnomalies[a] == this.email.anomalies[a];
+      seenAnomalies.push(a);
+    }
+    for (const a in this.email.anomalies) {
+      if (seenAnomalies.includes(a)) {
+        continue;
+      }
+      result[a] = this.selectedAnomalies[a] == this.email.anomalies[a];
+      seenAnomalies.push(a);
     }
     return result;
   }
 
   generateToolButtons(buttonNames: string[] | null) {
+    this.toolButtons = [generateBtn(SAFE)];
     if (buttonNames == null) {
       return;
     }
     buttonNames.forEach((n) => {
       switch (n) {
-        case "malicious":
-          this.toolButtons.push(maliciousBtn);
+        case MALICIOUS:
+          this.toolButtons.push(generateBtn(MALICIOUS));
           break;
-        case "spam":
-          this.toolButtons.push(spamBtn);
+        case SPAM:
+          this.toolButtons.push(generateBtn(SPAM));
           break;
       }
     });
@@ -242,5 +267,15 @@ export default class EmailScene extends Scene {
       b.pos.y = 222;
       b.pos.x = 42 + 32 * i;
     });
+  }
+
+  evaluateEmail(classification: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
+    if (!this.email) {
+      return;
+    }
+    let evaluation = this.compareAnomalies();
+    evaluation.content = this.email?.paragraphCheck();
+    evaluation.class = classification == this.email.class;
+    console.table(evaluation);
   }
 }
