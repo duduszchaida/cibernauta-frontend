@@ -11,6 +11,7 @@ import EmailScene from "../Scenes/EmailScene";
 import keyboardState, { PRESSED } from "./KeyboardState";
 import mouseState from "./MouseState";
 import EmailTextComponent from "../Elements/EmailTextComponent";
+import EmailContent from "../Elements/EmailContent";
 
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
@@ -42,7 +43,11 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
       obj.click instanceof Function &&
       obj.hitbox.positionInside(mouseState.pos)
     ) {
-      if (obj instanceof EmailComponent || obj instanceof EmailTextComponent) {
+      if (
+        obj instanceof EmailComponent ||
+        obj instanceof EmailTextComponent ||
+        obj instanceof EmailContent
+      ) {
         if (gameState.inspecting) {
           cursor.state = "inspect";
         }
@@ -71,7 +76,11 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
               gameState.inspecting &&
               gameState.currentScene instanceof EmailScene
             ) {
-              gameState.currentScene.selectAnomaly(result.reference);
+              if (typeof result.reference == "string") {
+                gameState.currentScene.selectAnomaly(result.reference);
+              } else {
+                gameState.currentScene.selectParagraph(result.reference);
+              }
             }
             break;
           case INSPECTMODE:

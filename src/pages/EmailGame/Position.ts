@@ -11,7 +11,15 @@ export default class Position {
     return new Position(this.x + pos.x, this.y + pos.y);
   }
 
+  subtractPos(pos: Position) {
+    return new Position(this.x - pos.x, this.y - pos.y);
+  }
+
   add(x: number, y: number) {
     return new Position(this.x + x, this.y + y);
+  }
+
+  subtract(x: number, y: number) {
+    return new Position(this.x - x, this.y - y);
   }
 }

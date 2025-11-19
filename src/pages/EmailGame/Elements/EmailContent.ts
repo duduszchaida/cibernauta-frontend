@@ -4,6 +4,7 @@ import fontMaps from "../FontMaps";
 import measureTextWidth from "../MeasureTextWidth";
 import Position from "../Position";
 import type Sprite from "../Sprite";
+import { INSPECT } from "./EmailComponent";
 import GameObject from "./GameObject";
 
 export type Line = {
@@ -16,10 +17,13 @@ export default class EmailContent extends GameObject {
   paragraphs: Line[][] = [];
   font = "minecraftia";
   fontSprite: Sprite;
+  selectedSprite: Sprite = findSprite("paragraph_selected");
   textHeight = 0;
   scrollShift = 0;
   scrollShiftAmmount: number;
   hasScroll: boolean = false;
+  extraHeight = 24;
+  selectedParagraph: number | null = null;
 
   constructor(args: { text: string }) {
     super({
@@ -35,6 +39,22 @@ export default class EmailContent extends GameObject {
     }
     this.scrollShift = 0;
     this.scrollShiftAmmount = 6;
+    this.click = (cursorPos: Position) => {
+      const difPos = cursorPos.subtractPos(this.pos);
+      let paragraphId = -1;
+      let paragraphHeight = 0;
+      let found = false;
+      do {
+        paragraphId++;
+        paragraphHeight +=
+          (this.paragraphs[paragraphId].length + 1) *
+          fontMaps[this.font].cellHeight;
+        if (paragraphHeight - this.scrollShift >= difPos.y) {
+          found = true;
+        }
+      } while (!found);
+      return { type: INSPECT, reference: paragraphId };
+    };
   }
 
   generateParagraphs() {
@@ -91,7 +111,8 @@ export default class EmailContent extends GameObject {
       if (
         this.scrollShift >=
         Math.ceil(
-          (this.textHeight - this.height + 36) / this.scrollShiftAmmount,
+          (this.textHeight - this.height + this.extraHeight) /
+            this.scrollShiftAmmount,
         ) *
           this.scrollShiftAmmount
       ) {
@@ -104,19 +125,24 @@ export default class EmailContent extends GameObject {
   scrollTo(num: number) {
     num = Math.max(Math.ceil(num), 0);
     this.scrollShift = Math.min(
-      this.textHeight - this.height + 36,
+      this.textHeight - this.height + this.extraHeight,
       this.scrollShiftAmmount * num,
     );
   }
 
   render(canvasObject: CanvasObject): void {
-    canvasObject.writeEmailContent(
+    canvasObject.renderEmailContent(
       this.paragraphs,
       this.font,
       this.fontSprite,
       this.pos,
       this.scrollShift,
       this.height,
+      this.selectedParagraph,
+      this.selectedSprite,
     );
+    if (this.selectedParagraph == null) {
+      return;
+    }
   }
 }

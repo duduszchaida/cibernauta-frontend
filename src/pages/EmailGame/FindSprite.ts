@@ -44,6 +44,7 @@ const sprites: Record<string, Sprite> = {
   default_picture_7: new Sprite("/game/email/default_picture_7.png"),
   picture_selected: new Sprite("/game/email/picture_selected.png"),
   toolbar: new Sprite("/game/email/toolbar.png"),
+  paragraph_selected: new Sprite("/game/email/paragraph_selected.png"),
 };
 
 const spriteArr = Object.values(sprites);

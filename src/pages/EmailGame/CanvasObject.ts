@@ -181,6 +181,8 @@ export default class CanvasObject {
     paragraphHeight: number,
     cellHeight: number,
     maxRenderHeight: number,
+    selected: boolean,
+    selectedSprite: Sprite,
   ) {
     let currentY = 0; // Distance in pixels of the current rendering line
     paragraph.forEach((l) => {
@@ -211,19 +213,96 @@ export default class CanvasObject {
       }
       currentY += fontMaps[font].cellHeight;
     });
+    if (selected) {
+      this.drawSprite(
+        selectedSprite,
+        pos.subtract(0, scrollShift + 1),
+        305,
+        1,
+        new Position(4, 0),
+        1,
+        1,
+      );
+      this.drawSprite(
+        selectedSprite,
+        pos.subtract(0, scrollShift - currentY - 2),
+        305,
+        1,
+        new Position(4, 0),
+        1,
+        1,
+      );
+      this.drawSprite(
+        selectedSprite,
+        pos.subtract(4, scrollShift - 3),
+        1,
+        currentY - 4,
+        new Position(3, 0),
+        1,
+        1,
+      );
+      this.drawSprite(
+        selectedSprite,
+        pos.subtract(-305 - 3, scrollShift - 3),
+        1,
+        currentY - 4,
+        new Position(3, 0),
+        1,
+        1,
+      );
+      //
+      this.drawSprite(
+        selectedSprite,
+        pos.subtract(4, scrollShift + 1),
+        4,
+        4,
+        new Position(),
+        4,
+        4,
+      );
+      this.drawSprite(
+        selectedSprite,
+        pos.subtract(-305, scrollShift + 1),
+        4,
+        4,
+        new Position(5, 0),
+        4,
+        4,
+      );
+      this.drawSprite(
+        selectedSprite,
+        pos.subtract(4, scrollShift - currentY + 1),
+        4,
+        4,
+        new Position(0, 5),
+        4,
+        4,
+      );
+      this.drawSprite(
+        selectedSprite,
+        pos.subtract(-305, scrollShift - currentY + 1),
+        4,
+        4,
+        new Position(5, 5),
+        4,
+        4,
+      );
+    }
   }
 
-  writeEmailContent(
+  renderEmailContent(
     paragraphs: Line[][],
     font: string,
     fontSprite: Sprite,
     pos: Position,
     scrollShift: number, // Distance in pixels of vertical shift from top of the content
     maxRenderHeight: number,
+    selectedParagraph: number | null,
+    selectedSprite: Sprite,
   ) {
     const fontMap = fontMaps[font];
     let currentParagraphHeight = 0; // Distance in pixels of the current rendering paragraph
-    paragraphs.forEach((p) => {
+    paragraphs.forEach((p, i) => {
       this.writeParagraph(
         p,
         pos.add(0, currentParagraphHeight),
@@ -233,6 +312,8 @@ export default class CanvasObject {
         currentParagraphHeight,
         fontMap.cellHeight,
         maxRenderHeight,
+        i == selectedParagraph,
+        selectedSprite,
       );
       currentParagraphHeight += (p.length + 1) * fontMap.cellHeight;
     });

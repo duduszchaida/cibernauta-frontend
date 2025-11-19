@@ -193,6 +193,16 @@ export default class EmailScene extends Scene {
     this.selectedAnomalies[reference] = !this.selectedAnomalies[reference];
   }
 
+  selectParagraph(paragraphId: number) {
+    if (this.email) {
+      if (this.email.emailContent.selectedParagraph != paragraphId) {
+        this.email.emailContent.selectedParagraph = paragraphId;
+      } else {
+        this.email.emailContent.selectedParagraph = null;
+      }
+    }
+  }
+
   inspectModeSwitch() {
     if (this.toolBar) {
       this.toolBar.open = !this.toolBar.open;
