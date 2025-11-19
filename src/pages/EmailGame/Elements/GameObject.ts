@@ -13,6 +13,7 @@ export default class GameObject {
   click: Function | null;
   drag: Function | null;
   invisible: boolean;
+  ignoreClick: boolean;
 
   constructor(args: {
     pos?: Position;
@@ -23,6 +24,7 @@ export default class GameObject {
     clickFunction?: Function;
     dragFunction?: Function;
     invisible?: boolean;
+    ignoreClick?: boolean;
   }) {
     this.pos = args.pos ?? new Position();
     this.sprite = findSprite(args.spriteName ?? "cam");
@@ -38,6 +40,7 @@ export default class GameObject {
     this.click = args.clickFunction ?? null;
     this.drag = args.dragFunction ?? null;
     this.invisible = args.invisible ?? false;
+    this.ignoreClick = args.ignoreClick ?? false;
   }
 
   render(canvasObject: CanvasObject) {

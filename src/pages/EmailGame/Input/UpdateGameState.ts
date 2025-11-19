@@ -7,7 +7,7 @@ import { EMAILSCENE } from "../Scenes/SceneReferences";
 import { gameTimeTracker } from "../GameTimeTracker";
 import EmailComponent, { INSPECT } from "../Elements/EmailComponent";
 import Position from "../Position";
-import EmailScene, { JUDGEEMAIl } from "../Scenes/EmailScene";
+import EmailScene, { JUDGEEMAIL } from "../Scenes/EmailScene";
 import keyboardState, { PRESSED } from "./KeyboardState";
 import mouseState from "./MouseState";
 import EmailTextComponent from "../Elements/EmailTextComponent";
@@ -39,7 +39,11 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
   const gameObjects = gameState.currentScene.gameObjects;
   for (let i = gameObjects.length - 1; i > -1 && !firstContact; i--) {
     const obj = gameObjects[i];
-    if (obj.invisible || !obj.hitbox.positionInside(mouseState.pos)) {
+    if (
+      obj.invisible ||
+      obj.ignoreClick ||
+      !obj.hitbox.positionInside(mouseState.pos)
+    ) {
       continue;
     }
     firstContact = true;
@@ -87,7 +91,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
           case INSPECTMODE:
             inspectModeSwitch(gameState);
             break;
-          case JUDGEEMAIl:
+          case JUDGEEMAIL:
             if (
               gameState.inspecting &&
               gameState.currentScene instanceof EmailScene

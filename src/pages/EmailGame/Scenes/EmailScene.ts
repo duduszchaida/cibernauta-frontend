@@ -25,7 +25,14 @@ const emailBorder = new GameObject({
   height: 256,
 });
 
-export const JUDGEEMAIl = "judgeEmail";
+const selectCover = new GameObject({
+  height: 256,
+  width: 352,
+  spriteName: "email_selection_cover",
+  ignoreClick: true,
+});
+
+export const JUDGEEMAIL = "judgeEmail";
 
 function generateBtn(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
   switch (btn) {
@@ -36,7 +43,7 @@ function generateBtn(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
         invisible: true,
         spriteName: "btn_safe",
         clickFunction: () => {
-          return { type: JUDGEEMAIl, class: SAFE };
+          return { type: JUDGEEMAIL, class: SAFE };
         },
       });
     case MALICIOUS:
@@ -46,7 +53,7 @@ function generateBtn(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
         invisible: true,
         spriteName: "btn_malicious",
         clickFunction: () => {
-          return { type: JUDGEEMAIl, class: MALICIOUS };
+          return { type: JUDGEEMAIL, class: MALICIOUS };
         },
       });
     case SPAM:
@@ -56,7 +63,7 @@ function generateBtn(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
         invisible: true,
         spriteName: "btn_spam",
         clickFunction: () => {
-          return { type: JUDGEEMAIl, class: SPAM };
+          return { type: JUDGEEMAIL, class: SPAM };
         },
       });
   }
@@ -148,6 +155,7 @@ export default class EmailScene extends Scene {
     );
     this.toolBar = new Toolbar();
     this.gameObjects.push(emailContent);
+    this.gameObjects.push(selectCover);
     this.gameObjects.push(this[PICTURE]);
     this.gameObjects.push(this[NAME]);
     this.gameObjects.push(this[ADDRESS]);
@@ -218,10 +226,6 @@ export default class EmailScene extends Scene {
     }
   }
 
-  /**
-   *
-   * @returns
-   */
   compareAnomalies(): AnomalyList {
     if (!this.email) {
       alert("No email");

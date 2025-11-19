@@ -8,6 +8,7 @@ const sprites: Record<string, Sprite> = {
   concepts_icon: new Sprite("/game/email/concepts_icon.png"),
   email_ui: new Sprite("/game/email/email_ui.png"),
   email_icon: new Sprite("/game/email/email_icon.png"),
+  email_selection_cover: new Sprite("/game/email/email_selection_cover.png"),
   settings_icon: new Sprite("/game/email/settings_icon.png"),
   saves_icon: new Sprite("/game/email/saves_icon.png"),
   scroll_bar: new Sprite("/game/email/scroll_bar.png"),
