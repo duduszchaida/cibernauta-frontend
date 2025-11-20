@@ -1,4 +1,4 @@
-import { MALICIOUS, SAFE, SPAM, type EmailData } from "./Elements/Email";
+import { MALICIOUS, SAFE, SPAM, type EmailData } from "./EmailScene/Email";
 
 export const EmailList: Record<string, EmailData[]> = {
   testing: [

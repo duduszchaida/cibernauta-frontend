@@ -1,8 +1,8 @@
-import type { Line } from "./Elements/EmailContent";
 import fontMaps from "./FontMaps";
 import Position from "./Position";
 import type Sprite from "./Sprite";
 import measureTextWidth from "./MeasureTextWidth";
+import type { Line } from "./EmailScene/EmailContent";
 
 export default class CanvasObject {
   width: number = 800;
@@ -109,8 +109,8 @@ export default class CanvasObject {
     font: string,
     text: string,
     pos: Position,
-    direction = "left",
-    limitWidth = 999,
+    direction = "right",
+    limitWidth = Infinity,
     slicePosY = 0,
     sliceHeight = 0,
   ) {
@@ -119,32 +119,53 @@ export default class CanvasObject {
     let currentWidth = 0;
     let currentHeight = 0;
     let startX = 0;
+    const fontMap = fontMaps[font];
     chars.forEach((l) => {
-      if (fontMaps[font].letters[l] == undefined) {
+      if (fontMap.letters[l] == undefined) {
         console.warn(`character "${l}" missing`);
       }
-      totalWidth += fontMaps[font].letters[l].width + 1;
+      totalWidth += fontMap.letters[l].width + 1;
     });
     if (direction == "center") {
       startX = Math.floor(-totalWidth / 2);
     }
-    const fontMap = fontMaps[font];
-    for (let i = 0; i < chars.length; i++) {
-      const char = chars[i];
-      const charMap = fontMap.letters[char];
-      if (currentWidth + charMap.width > limitWidth || char == "\n") {
-        currentWidth = 0;
-        currentHeight += fontMap.cellHeight;
+    if (direction == "left") {
+      for (let i = chars.length - 1; i > -1; i--) {
+        const char = chars[i];
+        const charMap = fontMap.letters[char];
+        currentWidth += charMap.width;
+        // if (currentWidth + charMap.width > limitWidth || char == "\n") {
+        //   currentWidth = 0;
+        //   currentHeight += fontMap.cellHeight;
+        // }
+        this.writeCharacter(
+          fontSprite,
+          font,
+          char,
+          new Position(pos.x - currentWidth, pos.y + currentHeight),
+          slicePosY,
+          sliceHeight,
+        );
+        currentWidth += 1;
       }
-      this.writeCharacter(
-        fontSprite,
-        font,
-        char,
-        new Position(pos.x + startX + currentWidth, pos.y + currentHeight),
-        slicePosY,
-        sliceHeight,
-      );
-      currentWidth += charMap.width + 1;
+    } else {
+      for (let i = 0; i < chars.length; i++) {
+        const char = chars[i];
+        const charMap = fontMap.letters[char];
+        if (currentWidth + charMap.width > limitWidth || char == "\n") {
+          currentWidth = 0;
+          currentHeight += fontMap.cellHeight;
+        }
+        this.writeCharacter(
+          fontSprite,
+          font,
+          char,
+          new Position(pos.x + startX + currentWidth, pos.y + currentHeight),
+          slicePosY,
+          sliceHeight,
+        );
+        currentWidth += charMap.width + 1;
+      }
     }
   }
 

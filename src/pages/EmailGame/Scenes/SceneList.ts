@@ -1,5 +1,5 @@
+import { desktopScene } from "../DesktopScene/DesktopScene";
 import GameObject from "../Elements/GameObject";
-import { desktopScene } from "./DesktopScene";
 import Scene from "./Scene";
 import { DESKTOPSCENE, TESTING, TIMERTESTSCENE } from "./SceneReferences";
 import { TimerScene } from "./TimerScene";

@@ -2,6 +2,10 @@ import { exitButton } from "../Elements/ExitBtn";
 import GameObject from "../Elements/GameObject";
 import ScrollBar from "../Elements/ScrollBar";
 import Timer from "../Elements/Timer";
+
+import Position from "../Position";
+import { Utils } from "../Utils";
+import { EmailList } from "../EmailList";
 import Email, {
   ADDRESS,
   MALICIOUS,
@@ -10,20 +14,17 @@ import Email, {
   SAFE,
   SPAM,
   type AnomalyList,
-} from "../Elements/Email";
-import Position from "../Position";
-import Scene from "./Scene";
-import EmailComponent from "../Elements/EmailComponent";
-import Toolbar from "../Elements/Toolbar";
-import EmailTextComponent from "../Elements/EmailTextComponent";
-import { Utils } from "../Utils";
-import { EmailList } from "../EmailList";
+} from "./Email";
+import Scene from "../Scenes/Scene";
+import EmailComponent from "./EmailComponent";
+import EmailTextComponent from "./EmailTextComponent";
+import Toolbar from "./Toolbar";
 
 const emailBorder = new GameObject({
   spriteName: "email_border",
   width: 352,
   height: 256,
-  ignoreClick: true
+  ignoreClick: true,
 });
 
 const selectCover = new GameObject({
@@ -179,7 +180,12 @@ export default class EmailScene extends Scene {
     };
     this.gameObjects = [];
     this.generateEmail(email);
-    this.gameObjects = [...this.gameObjects, emailBorder, exitButton, this.timer];
+    this.gameObjects = [
+      ...this.gameObjects,
+      emailBorder,
+      exitButton,
+      this.timer,
+    ];
   }
 
   endEmails() {

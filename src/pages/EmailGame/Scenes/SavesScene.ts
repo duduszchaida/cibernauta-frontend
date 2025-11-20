@@ -1,6 +1,6 @@
 import GameObject from "../Elements/GameObject";
 import TextObject from "../Elements/TextObject";
-import type { SaveSlot, SaveState } from "../GameState";
+import type { SaveSlot } from "../GameState";
 import Position from "../Position";
 import Scene from "./Scene";
 
@@ -9,13 +9,13 @@ export const SELECTSAVE = "selectSave";
 function slotToTextObject(slot: SaveSlot, num: number): TextObject[] {
   let pos = new Position();
   switch (num) {
-    case 1:
+    case 0:
       pos = new Position(80, 146);
       break;
-    case 2:
+    case 1:
       pos = new Position(177, 146);
       break;
-    case 3:
+    case 2:
       pos = new Position(274, 146);
       break;
   }
@@ -63,20 +63,32 @@ export default class SaveScene extends Scene {
   textSlot1: any;
   textSlot2: any;
   textSlot3: any;
-  constructor(saveState: SaveState) {
+  constructor(saveSlots: SaveSlot[]) {
     super({
       backgroundSpriteName: "bg_save_screen",
       gameObjects: [],
     });
-    this.update(saveState);
+    this.update(saveSlots);
   }
 
-  update(saveState: SaveState) {
+  update(saveSlots: SaveSlot[]) {
     this.gameObjects = [];
     let slot1Btn = new GameObject({
       pos: new Position(48, 76),
-      spriteName: saveState.slot1.lastSaveTime
+      spriteName: saveSlots[0].lastSaveTime
         ? "save_avatar_blue"
+        : "save_avatar_empty",
+      width: 64,
+      height: 64,
+      clickFunction: () => {
+        return { type: SELECTSAVE, slot: 0 };
+      },
+    });
+
+    let slot2Btn = new GameObject({
+      pos: new Position(144, 76),
+      spriteName: saveSlots[1].lastSaveTime
+        ? "save_avatar_pink"
         : "save_avatar_empty",
       width: 64,
       height: 64,
@@ -84,11 +96,10 @@ export default class SaveScene extends Scene {
         return { type: SELECTSAVE, slot: 1 };
       },
     });
-
-    let slot2Btn = new GameObject({
-      pos: new Position(144, 76),
-      spriteName: saveState.slot2.lastSaveTime
-        ? "save_avatar_pink"
+    let slot3Btn = new GameObject({
+      pos: new Position(240, 76),
+      spriteName: saveSlots[2].lastSaveTime
+        ? "save_avatar_green"
         : "save_avatar_empty",
       width: 64,
       height: 64,
@@ -96,21 +107,10 @@ export default class SaveScene extends Scene {
         return { type: SELECTSAVE, slot: 2 };
       },
     });
-    let slot3Btn = new GameObject({
-      pos: new Position(240, 76),
-      spriteName: saveState.slot3.lastSaveTime
-        ? "save_avatar_green"
-        : "save_avatar_empty",
-      width: 64,
-      height: 64,
-      clickFunction: () => {
-        return { type: SELECTSAVE, slot: 3 };
-      },
-    });
 
-    let slot1Text = slotToTextObject(saveState.slot1, 1);
-    let slot2Text = slotToTextObject(saveState.slot2, 2);
-    let slot3Text = slotToTextObject(saveState.slot3, 3);
+    let slot1Text = slotToTextObject(saveSlots[0], 0);
+    let slot2Text = slotToTextObject(saveSlots[1], 1);
+    let slot3Text = slotToTextObject(saveSlots[2], 2);
 
     this.gameObjects = [
       ...this.gameObjects,

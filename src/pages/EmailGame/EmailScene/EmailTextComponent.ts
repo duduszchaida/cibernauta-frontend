@@ -1,11 +1,11 @@
 import type CanvasObject from "../CanvasObject";
+import TextObject from "../Elements/TextObject";
 import { findSprite } from "../FindSprite";
 import fontMaps from "../FontMaps";
 import Position from "../Position";
 import type Sprite from "../Sprite";
 import type { ADDRESS, CONTENT, NAME, PICTURE } from "./Email";
 import { INSPECT } from "./EmailComponent";
-import TextObject from "./TextObject";
 
 export default class EmailTextComponent extends TextObject {
   text: string;

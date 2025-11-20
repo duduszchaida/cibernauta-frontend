@@ -2,17 +2,23 @@ import type Cursor from "../Cursor";
 import type GameState from "../GameState";
 import { SCENECHANGE } from "../Elements/ExitBtn";
 import { SCROLLTO } from "../Elements/ScrollBar";
-import { INSPECTMODE } from "../Elements/Toolbar";
-import { DESKTOPSCENE, EMAILSCENE, SAVESCENE } from "../Scenes/SceneReferences";
+import {
+  DESKTOPSCENE,
+  EMAILSCENE,
+  LEVELSELECTION,
+  SAVESCENE,
+} from "../Scenes/SceneReferences";
 import { gameTimeTracker } from "../GameTimeTracker";
-import EmailComponent, { INSPECT } from "../Elements/EmailComponent";
 import Position from "../Position";
-import EmailScene, { JUDGEEMAIL } from "../Scenes/EmailScene";
 import keyboardState, { PRESSED } from "./KeyboardState";
 import mouseState from "./MouseState";
-import EmailTextComponent from "../Elements/EmailTextComponent";
-import EmailContent from "../Elements/EmailContent";
 import SaveScene, { SELECTSAVE } from "../Scenes/SavesScene";
+import { LevelSelectionScene } from "../LevelSelectionScene/LevelSelectionScene";
+import EmailScene, { JUDGEEMAIL } from "../EmailScene/EmailScene";
+import EmailComponent, { INSPECT } from "../EmailScene/EmailComponent";
+import EmailTextComponent from "../EmailScene/EmailTextComponent";
+import EmailContent from "../EmailScene/EmailContent";
+import { INSPECTMODE } from "../EmailScene/Toolbar";
 
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
@@ -64,15 +70,23 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
         const result = obj.click(mouseState.pos);
         switch (result?.type) {
           case SCENECHANGE:
-            if (result.sceneName == EMAILSCENE) {
-              gameState.sceneList[result.sceneName] = new EmailScene();
-            } else if (result.sceneName == SAVESCENE) {
-              gameState.sceneList[result.sceneName] = new SaveScene(
-                gameState.saveState,
-              );
-            } else {
-              cursor.state = "arrow";
-              gameState.inspecting = false;
+            switch (result.sceneName) {
+              case EMAILSCENE:
+                gameState.sceneList[result.sceneName] = new EmailScene();
+                break;
+              case SAVESCENE:
+                gameState.sceneList[result.sceneName] = new SaveScene(
+                  gameState.saveState,
+                );
+                break;
+              case LEVELSELECTION:
+                gameState.sceneList[result.sceneName] = new LevelSelectionScene(
+                  gameState.saveState[gameState.currentSaveSlot],
+                );
+                break;
+              default:
+                cursor.state = "arrow";
+                gameState.inspecting = false;
             }
             gameState.currentScene = gameState.sceneList[result.sceneName];
             break;
