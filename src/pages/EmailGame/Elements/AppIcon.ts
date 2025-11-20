@@ -15,7 +15,7 @@ export default class SceneChanger extends GameObject {
     width?: number;
     height?: number;
   }) {
-    super({ ...args, width: 32, height: 32 });
+    super({ ...args, width: args.width ?? 32, height: args.height ?? 32 });
     this.appName = args.appName ?? "";
     this.click =
       args.clickFunction ??
@@ -26,7 +26,7 @@ export default class SceneChanger extends GameObject {
 
   render(canvasObject: CanvasObject) {
     canvasObject.drawSprite(this.sprite, this.pos, this.width, this.height);
-    if (this.appName == ""){
+    if (this.appName == "") {
       return;
     }
     canvasObject.writeText(

@@ -3,7 +3,7 @@ import type GameState from "../GameState";
 import { SCENECHANGE } from "../Elements/ExitBtn";
 import { SCROLLTO } from "../Elements/ScrollBar";
 import { INSPECTMODE } from "../Elements/Toolbar";
-import { EMAILSCENE, SAVESCENE } from "../Scenes/SceneReferences";
+import { DESKTOPSCENE, EMAILSCENE, SAVESCENE } from "../Scenes/SceneReferences";
 import { gameTimeTracker } from "../GameTimeTracker";
 import EmailComponent, { INSPECT } from "../Elements/EmailComponent";
 import Position from "../Position";
@@ -12,7 +12,7 @@ import keyboardState, { PRESSED } from "./KeyboardState";
 import mouseState from "./MouseState";
 import EmailTextComponent from "../Elements/EmailTextComponent";
 import EmailContent from "../Elements/EmailContent";
-import SaveScene from "../Scenes/SavesScene";
+import SaveScene, { SELECTSAVE } from "../Scenes/SavesScene";
 
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
@@ -67,7 +67,9 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             if (result.sceneName == EMAILSCENE) {
               gameState.sceneList[result.sceneName] = new EmailScene();
             } else if (result.sceneName == SAVESCENE) {
-              gameState.sceneList[result.sceneName] = new SaveScene();
+              gameState.sceneList[result.sceneName] = new SaveScene(
+                gameState.saveState,
+              );
             } else {
               cursor.state = "arrow";
               gameState.inspecting = false;
@@ -93,6 +95,10 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             break;
           case INSPECTMODE:
             inspectModeSwitch(gameState);
+            break;
+          case SELECTSAVE:
+            gameState.currentSaveSlot = result.slot;
+            gameState.currentScene = gameState.sceneList[DESKTOPSCENE];
             break;
           case JUDGEEMAIL:
             if (

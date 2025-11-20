@@ -11,12 +11,14 @@ export default class TextObject extends GameObject {
   font: string;
   color: string;
   fontSprite: Sprite;
+  direction: string;
 
   constructor(args: {
     pos: Position;
     text: string;
     font: string;
     color: string;
+    direction?: string;
   }) {
     let width = measureTextWidth(args.text, args.font);
     super({
@@ -27,10 +29,17 @@ export default class TextObject extends GameObject {
     this.text = args.text;
     this.font = args.font;
     this.color = args.color;
+    this.direction = args.direction ?? "right";
     this.fontSprite = findSprite(this.font + "_" + this.color);
   }
 
   render(canvasObject: CanvasObject): void {
-    canvasObject.writeText(this.fontSprite, this.font, this.text, this.pos);
+    canvasObject.writeText(
+      this.fontSprite,
+      this.font,
+      this.text,
+      this.pos,
+      this.direction,
+    );
   }
 }
