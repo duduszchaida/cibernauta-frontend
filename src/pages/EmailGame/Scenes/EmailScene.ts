@@ -23,6 +23,7 @@ const emailBorder = new GameObject({
   spriteName: "email_border",
   width: 352,
   height: 256,
+  ignoreClick: true
 });
 
 const selectCover = new GameObject({
@@ -109,7 +110,7 @@ export default class EmailScene extends Scene {
   constructor(email?: Email, buttonNames?: string[]) {
     super({
       backgroundSpriteName: "bg_beige",
-      gameObjects: [emailBorder, exitButton],
+      gameObjects: [],
     });
     this.buttonNames = buttonNames ?? [MALICIOUS, SPAM];
     this.newEmail(email);
@@ -176,8 +177,9 @@ export default class EmailScene extends Scene {
       address: false,
       picture: false,
     };
-    this.gameObjects = [emailBorder, exitButton, this.timer];
+    this.gameObjects = [];
     this.generateEmail(email);
+    this.gameObjects = [...this.gameObjects, emailBorder, exitButton, this.timer];
   }
 
   endEmails() {

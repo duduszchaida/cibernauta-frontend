@@ -3,18 +3,20 @@ import GameObject from "./GameObject";
 import Position from "../Position";
 import { findSprite } from "../FindSprite";
 
-export default class AppIcon extends GameObject {
+export default class SceneChanger extends GameObject {
   appName: string;
   clickable: boolean = true;
 
   constructor(args: {
     pos: Position;
     spriteName: string;
-    appName: string;
+    appName?: string;
     clickFunction?: Function;
+    width?: number;
+    height?: number;
   }) {
     super({ ...args, width: 32, height: 32 });
-    this.appName = args.appName;
+    this.appName = args.appName ?? "";
     this.click =
       args.clickFunction ??
       (() => {
@@ -24,6 +26,9 @@ export default class AppIcon extends GameObject {
 
   render(canvasObject: CanvasObject) {
     canvasObject.drawSprite(this.sprite, this.pos, this.width, this.height);
+    if (this.appName == ""){
+      return;
+    }
     canvasObject.writeText(
       findSprite("minecraftia_bnw"),
       "minecraftia",

@@ -5,6 +5,7 @@ const sprites: Record<string, Sprite> = {
   bg_blue: new Sprite("/game/email/bg_blue.png"),
   bg_beige: new Sprite("/game/email/bg_beige.png"),
   bg_green: new Sprite("/game/email/bg_green.png"),
+  bg_save_screen: new Sprite("/game/email/bg_save_screen.png"),
   concepts_icon: new Sprite("/game/email/concepts_icon.png"),
   email_ui: new Sprite("/game/email/email_ui.png"),
   email_icon: new Sprite("/game/email/email_icon.png"),
@@ -46,6 +47,10 @@ const sprites: Record<string, Sprite> = {
   picture_selected: new Sprite("/game/email/picture_selected.png"),
   toolbar: new Sprite("/game/email/toolbar.png"),
   paragraph_selected: new Sprite("/game/email/paragraph_selected.png"),
+  save_avatar_empty: new Sprite("/game/email/save_avatar_empty.png"),
+  save_avatar_blue: new Sprite("/game/email/save_avatar_blue.png"),
+  save_avatar_green: new Sprite("/game/email/save_avatar_green.png"),
+  save_avatar_pink: new Sprite("/game/email/save_avatar_pink.png"),
 };
 
 const spriteArr = Object.values(sprites);
