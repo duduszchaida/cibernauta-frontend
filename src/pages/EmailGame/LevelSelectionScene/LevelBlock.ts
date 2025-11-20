@@ -5,9 +5,12 @@ import type { LevelProgress } from "../GameState";
 import Position from "../Position";
 import type { Level } from "./LevelSelectionScene";
 
-function levelScoreFormat(score: number): string {
+export function levelScoreFormat(
+  score: number,
+  formatThous: boolean = false,
+): string {
   let thousands = Math.floor(score / 1000).toString();
-  while (thousands.length < 3) {
+  while (thousands.length < 3 && !formatThous) {
     thousands = "0" + thousands;
   }
   let hundreds = (score % 1000).toString();

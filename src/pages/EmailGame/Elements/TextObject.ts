@@ -19,12 +19,14 @@ export default class TextObject extends GameObject {
     font: string;
     color: string;
     direction?: string;
+    ignoreClick?: boolean;
   }) {
     let width = measureTextWidth(args.text, args.font);
     super({
       pos: args.pos,
       height: fontMaps[args.font].cellHeight,
       width: width,
+      ignoreClick: args.ignoreClick,
     });
     this.text = args.text;
     this.font = args.font;

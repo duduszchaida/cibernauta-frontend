@@ -1,8 +1,10 @@
 import { appBorder } from "../Elements/AppBorder";
 import { exitButton } from "../Elements/ExitBtn";
+import TextObject from "../Elements/TextObject";
 import type { SaveSlot } from "../GameState";
+import Position from "../Position";
 import Scene from "../Scenes/Scene";
-import { LevelBlock } from "./LevelBlock";
+import { LevelBlock, levelScoreFormat } from "./LevelBlock";
 
 export const TESTLEVEL = "testLevel";
 export const TESTLEVEL2 = "testLevel2";
@@ -39,12 +41,34 @@ const Levels: Record<string, Level> = {
 };
 
 export class LevelSelectionScene extends Scene {
+  totalScore: number = 0;
+
   constructor(saveSlot: SaveSlot) {
     super({
       backgroundSpriteName: "bg_beige",
       gameObjects: [appBorder, exitButton],
     });
     this.generateLevelBlocks(saveSlot);
+    this.gameObjects.push(
+      new TextObject({
+        pos: new Position(270, 9),
+        color: "brown",
+        font: "minecraftia",
+        text: "Pontuação Total:",
+        direction: "center",
+        ignoreClick: true,
+      }),
+    );
+    this.gameObjects.push(
+      new TextObject({
+        pos: new Position(270, 21),
+        color: "brown",
+        font: "minecraftia",
+        text: levelScoreFormat(this.totalScore),
+        direction: "center",
+        ignoreClick: true,
+      }),
+    );
   }
 
   generateLevelBlocks(saveSlot: SaveSlot) {
@@ -56,6 +80,9 @@ export class LevelSelectionScene extends Scene {
           order: i,
         }),
       );
+      if (lp.highscore > Levels[lp.reference].goal) {
+        this.totalScore += lp.highscore;
+      }
     });
   }
 }
