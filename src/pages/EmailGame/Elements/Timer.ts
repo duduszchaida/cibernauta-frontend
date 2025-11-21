@@ -1,6 +1,6 @@
 import type CanvasObject from "../CanvasObject";
 import TextObject from "../Elements/TextObject";
-import type Position from "../Position";
+import Position from "../Position";
 import { gameTimeTracker } from "../GameTimeTracker";
 
 export default class Timer extends TextObject {
@@ -21,9 +21,17 @@ export default class Timer extends TextObject {
     goalSecs: number;
     loop?: boolean;
     goalFunc?: Function;
-    pos: Position;
+    pos?: Position;
+    invisible?: boolean;
   }) {
-    super({ color: "light_orange", font: "wcp", pos: args.pos, text: "" });
+    super({
+      color: "light_orange",
+      font: "wcp",
+      pos: args.pos ?? new Position(),
+      text: "",
+      invisible: args.invisible,
+      ignoreClick: args.invisible,
+    });
     this.goalSecs = args.goalSecs;
     this.loop = args.loop ?? false;
     this.goalFunc =
@@ -51,6 +59,9 @@ export default class Timer extends TextObject {
 
   check() {
     if (gameTimeTracker.currentTic - this.startTick >= this.goalTics) {
+      if (!this.finished) {
+        this.goalFunc();
+      }
       return true;
     }
     return false;
@@ -90,6 +101,9 @@ export default class Timer extends TextObject {
   }
 
   render(canvasObject: CanvasObject): void {
+    if (this.invisible) {
+      return;
+    }
     canvasObject.writeText(
       this.fontSprite,
       this.font,

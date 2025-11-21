@@ -20,6 +20,7 @@ export default class TextObject extends GameObject {
     color: string;
     direction?: string;
     ignoreClick?: boolean;
+    invisible?: boolean;
   }) {
     let width = measureTextWidth(args.text, args.font);
     super({
@@ -27,6 +28,7 @@ export default class TextObject extends GameObject {
       height: fontMaps[args.font].cellHeight,
       width: width,
       ignoreClick: args.ignoreClick,
+      invisible: args.invisible,
     });
     this.text = args.text;
     this.font = args.font;

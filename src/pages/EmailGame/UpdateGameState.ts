@@ -1,24 +1,25 @@
-import type Cursor from "../Cursor";
-import type GameState from "../GameState";
-import { SCENECHANGE } from "../Elements/ExitBtn";
-import { SCROLLTO } from "../Elements/ScrollBar";
+import type Cursor from "./Cursor";
+import { MANUALSAVE } from "./DesktopScene/DesktopScene";
+import { SCENECHANGE } from "./Elements/ExitBtn";
+import { SCROLLTO } from "./Elements/ScrollBar";
+import EmailComponent, { INSPECT } from "./EmailScene/EmailComponent";
+import EmailContent from "./EmailScene/EmailContent";
+import EmailScene, { JUDGEEMAIL } from "./EmailScene/EmailScene";
+import EmailTextComponent from "./EmailScene/EmailTextComponent";
+import { INSPECTMODE } from "./EmailScene/Toolbar";
+import type GameState from "./GameState";
+import { gameTimeTracker } from "./GameTimeTracker";
+import keyboardState, { PRESSED } from "./Input/KeyboardState";
+import mouseState from "./Input/MouseState";
+import { LevelSelectionScene } from "./LevelSelectionScene/LevelSelectionScene";
+import Position from "./Position";
+import SaveScene, { SELECTSAVE } from "./Scenes/SavesScene";
 import {
   DESKTOPSCENE,
   EMAILSCENE,
   LEVELSELECTION,
   SAVESCENE,
-} from "../Scenes/SceneReferences";
-import { gameTimeTracker } from "../GameTimeTracker";
-import Position from "../Position";
-import keyboardState, { PRESSED } from "./KeyboardState";
-import mouseState from "./MouseState";
-import SaveScene, { SELECTSAVE } from "../Scenes/SavesScene";
-import { LevelSelectionScene } from "../LevelSelectionScene/LevelSelectionScene";
-import EmailScene, { JUDGEEMAIL } from "../EmailScene/EmailScene";
-import EmailComponent, { INSPECT } from "../EmailScene/EmailComponent";
-import EmailTextComponent from "../EmailScene/EmailTextComponent";
-import EmailContent from "../EmailScene/EmailContent";
-import { INSPECTMODE } from "../EmailScene/Toolbar";
+} from "./Scenes/SceneReferences";
 
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
@@ -76,12 +77,13 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
                 break;
               case SAVESCENE:
                 gameState.sceneList[result.sceneName] = new SaveScene(
-                  gameState.saveState,
+                  gameState.saveSlots,
+                  gameState.currentSaveSlot,
                 );
                 break;
               case LEVELSELECTION:
                 gameState.sceneList[result.sceneName] = new LevelSelectionScene(
-                  gameState.saveState[gameState.currentSaveSlot],
+                  gameState.saveSlots[gameState.currentSaveSlot],
                 );
                 break;
               default:
@@ -110,8 +112,11 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
           case INSPECTMODE:
             inspectModeSwitch(gameState);
             break;
+          case MANUALSAVE:
+            gameState.saveGame(true);
+            break;
           case SELECTSAVE:
-            gameState.currentSaveSlot = result.slot;
+            gameState.selectSave(result.slot);
             gameState.currentScene = gameState.sceneList[DESKTOPSCENE];
             break;
           case JUDGEEMAIL:

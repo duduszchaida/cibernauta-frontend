@@ -1,43 +1,17 @@
 import { appBorder } from "../Elements/AppBorder";
 import { exitButton } from "../Elements/ExitBtn";
 import TextObject from "../Elements/TextObject";
+import type Email from "../EmailScene/Email";
 import type { SaveSlot } from "../GameState";
 import Position from "../Position";
 import Scene from "../Scenes/Scene";
 import { LevelBlock, levelScoreFormat } from "./LevelBlock";
-
-export const TESTLEVEL = "testLevel";
-export const TESTLEVEL2 = "testLevel2";
-export const TESTLEVEL3 = "testLevel3";
-export const TESTLEVEL4 = "testLevel4";
-export const TESTLEVEL5 = "testLevel5";
+import { LevelList } from "./LevelList";
 
 export type Level = {
   name: string;
   goal: number;
-};
-
-const Levels: Record<string, Level> = {
-  [TESTLEVEL]: {
-    name: "Testing level",
-    goal: 1000,
-  },
-  [TESTLEVEL2]: {
-    name: "Fase muito massa woow",
-    goal: 1000,
-  },
-  [TESTLEVEL3]: {
-    name: "Propagandas",
-    goal: 1000,
-  },
-  [TESTLEVEL4]: {
-    name: "Alguém pediu um código?",
-    goal: 500,
-  },
-  [TESTLEVEL5]: {
-    name: "Testing level",
-    goal: 1000,
-  },
+  emailReferences: Record<string, Email>;
 };
 
 export class LevelSelectionScene extends Scene {
@@ -51,7 +25,7 @@ export class LevelSelectionScene extends Scene {
     this.generateLevelBlocks(saveSlot);
     this.gameObjects.push(
       new TextObject({
-        pos: new Position(270, 9),
+        pos: new Position(270, 14),
         color: "brown",
         font: "minecraftia",
         text: "Pontuação Total:",
@@ -61,7 +35,7 @@ export class LevelSelectionScene extends Scene {
     );
     this.gameObjects.push(
       new TextObject({
-        pos: new Position(270, 21),
+        pos: new Position(270, 26),
         color: "brown",
         font: "minecraftia",
         text: levelScoreFormat(this.totalScore),
@@ -75,12 +49,12 @@ export class LevelSelectionScene extends Scene {
     saveSlot.levelProgress.forEach((lp, i) => {
       this.gameObjects.push(
         new LevelBlock({
-          level: Levels[lp.reference],
+          level: LevelList[lp.reference],
           levelProgress: lp,
           order: i,
         }),
       );
-      if (lp.highscore > Levels[lp.reference].goal) {
+      if (lp.highscore > LevelList[lp.reference].goal) {
         this.totalScore += lp.highscore;
       }
     });

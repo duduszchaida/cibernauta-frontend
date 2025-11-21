@@ -63,15 +63,15 @@ export default class SaveScene extends Scene {
   textSlot1: any;
   textSlot2: any;
   textSlot3: any;
-  constructor(saveSlots: SaveSlot[]) {
+  constructor(saveSlots: SaveSlot[], currentSave: number) {
     super({
       backgroundSpriteName: "bg_save_screen",
       gameObjects: [],
     });
-    this.update(saveSlots);
+    this.update(saveSlots, currentSave);
   }
 
-  update(saveSlots: SaveSlot[]) {
+  update(saveSlots: SaveSlot[], currentSave: number) {
     this.gameObjects = [];
     let slot1Btn = new GameObject({
       pos: new Position(48, 76),
@@ -108,6 +108,13 @@ export default class SaveScene extends Scene {
       },
     });
 
+    let selectedSaveText = new TextObject({
+      pos: new Position(39 + currentSave * 96, 60),
+      color: "bnw",
+      font: "minecraftia",
+      text: "Salvamento Atual",
+    });
+
     let slot1Text = slotToTextObject(saveSlots[0], 0);
     let slot2Text = slotToTextObject(saveSlots[1], 1);
     let slot3Text = slotToTextObject(saveSlots[2], 2);
@@ -120,6 +127,7 @@ export default class SaveScene extends Scene {
       slot1Btn,
       slot2Btn,
       slot3Btn,
+      selectedSaveText,
     ];
   }
 }

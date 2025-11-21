@@ -54,6 +54,8 @@ const sprites: Record<string, Sprite> = {
   level_block: new Sprite("/game/email/level_block.png"),
   marker_finished: new Sprite("/game/email/marker_finished.png"),
   marker_perfect: new Sprite("/game/email/marker_perfect.png"),
+  icon_save: new Sprite("/game/email/icon_save.png"),
+  popup: new Sprite("/game/email/popup.png"),
 };
 
 const spriteArr = Object.values(sprites);
