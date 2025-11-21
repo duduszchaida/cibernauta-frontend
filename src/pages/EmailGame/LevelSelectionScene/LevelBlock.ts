@@ -1,8 +1,10 @@
 import type CanvasObject from "../CanvasObject";
+import { SCENECHANGE } from "../Elements/ExitBtn";
 import GameObject from "../Elements/GameObject";
 import { findSprite } from "../FindSprite";
 import type { LevelProgress } from "../GameState";
 import Position from "../Position";
+import { EMAILSCENE } from "../Scenes/SceneReferences";
 import type { Level } from "./LevelSelectionScene";
 
 export function levelScoreFormat(
@@ -38,7 +40,11 @@ export class LevelBlock extends GameObject {
       width: 324,
       spriteName: "level_block",
       clickFunction: () => {
-        console.log("you clicked on level " + args.level.name);
+        return {
+          type: SCENECHANGE,
+          sceneName: EMAILSCENE,
+          emailListKey: args.level.reference,
+        };
       },
     });
     this.name = args.level.name;

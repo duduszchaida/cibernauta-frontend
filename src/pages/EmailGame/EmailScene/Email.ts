@@ -16,6 +16,7 @@ export type EmailData = {
   name: string;
   picture: string;
   class: typeof SAFE | typeof MALICIOUS | typeof SPAM;
+  key: string;
   anomalyContent?: boolean;
   anomalyAddress?: boolean;
   anomalyName?: boolean;

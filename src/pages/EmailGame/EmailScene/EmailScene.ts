@@ -5,7 +5,6 @@ import Timer from "../Elements/Timer";
 
 import Position from "../Position";
 import { Utils } from "../Utils";
-import { EmailList } from "../EmailList";
 import Email, {
   ADDRESS,
   MALICIOUS,
@@ -14,11 +13,13 @@ import Email, {
   SAFE,
   SPAM,
   type AnomalyList,
+  type EmailData,
 } from "./Email";
 import Scene from "../Scenes/Scene";
 import EmailComponent from "./EmailComponent";
 import EmailTextComponent from "./EmailTextComponent";
 import Toolbar from "./Toolbar";
+import { EmailList } from "./EmailList";
 
 const emailBorder = new GameObject({
   spriteName: "email_border",
@@ -75,9 +76,10 @@ export default class EmailScene extends Scene {
   email: Email | null = null;
   scrollBar: ScrollBar | null = null;
   toolBar: Toolbar | null = null;
-  timer = new Timer({ goalSecs: 300, pos: new Position(293, 4) });
+  timer: Timer | null = null;
   toolButtons: GameObject[] = [generateBtn(SAFE)];
   buttonNames: string[];
+  emailList: EmailData[];
   selectedAnomalies: AnomalyList = {
     name: false,
     content: false,
@@ -108,20 +110,34 @@ export default class EmailScene extends Scene {
     anomaly: false,
   });
 
-  constructor(email?: Email, buttonNames?: string[]) {
+  constructor(args: {
+    email?: Email;
+    buttonNames?: string[];
+    emailListKey: string;
+    tutorial?: boolean;
+  }) {
     super({
       backgroundSpriteName: "bg_beige",
       gameObjects: [],
     });
-    this.buttonNames = buttonNames ?? [MALICIOUS, SPAM];
-    this.newEmail(email);
+    if (!args.tutorial) {
+      this.timer = new Timer({ goalSecs: 300, pos: new Position(293, 4) });
+    }
+    this.emailList = [...EmailList[args.emailListKey]];
+    this.buttonNames = args.buttonNames ?? [MALICIOUS, SPAM];
+    this.nextEmail(args.email);
   }
 
   generateEmail(email?: Email) {
     if (!email) {
-      let randId = Utils.randomArrayId(EmailList.testing);
-      this.email = new Email(EmailList.testing[randId]);
-      this.timer.start();
+      if (this.emailList.length == 0) {
+        this.endEmails();
+        return;
+      }
+      let randId = Utils.randomArrayId(this.emailList);
+      this.email = new Email(this.emailList[randId]);
+      this.emailList.splice(randId, 1);
+      this.timer?.start();
     } else {
       this.email = email;
     }
@@ -170,7 +186,7 @@ export default class EmailScene extends Scene {
     });
   }
 
-  newEmail(email: Email | undefined = undefined) {
+  nextEmail(email: Email | undefined = undefined) {
     this.generateToolButtons(this.buttonNames);
     this.selectedAnomalies = {
       name: false,
@@ -180,16 +196,15 @@ export default class EmailScene extends Scene {
     };
     this.gameObjects = [];
     this.generateEmail(email);
-    this.gameObjects = [
-      ...this.gameObjects,
-      emailBorder,
-      exitButton,
-      this.timer,
-    ];
+    this.gameObjects = [...this.gameObjects, emailBorder, exitButton];
+    if (this.timer) {
+      this.gameObjects.push(this.timer);
+    }
   }
 
   endEmails() {
-    this.gameObjects = [emailBorder, exitButton, this.timer];
+    this.gameObjects = [emailBorder, exitButton];
+    console.log(this.gameObjects);
   }
 
   scrollEmail(scroll: number) {

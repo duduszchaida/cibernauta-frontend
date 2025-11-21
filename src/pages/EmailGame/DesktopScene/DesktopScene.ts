@@ -13,11 +13,11 @@ export const MANUALSAVE = "manualSave";
 export const desktopScene = new Scene({
   backgroundSpriteName: "bg_blue",
   gameObjects: [
-    new SceneChanger({
-      pos: new Position(80, 16),
-      spriteName: "concepts_icon",
-      appName: "Revisão",
-    }),
+    // new SceneChanger({
+    //   pos: new Position(80, 16),
+    //   spriteName: "concepts_icon",
+    //   appName: "Revisão",
+    // }),
     new SceneChanger({
       pos: new Position(16, 16),
       spriteName: "email_icon",

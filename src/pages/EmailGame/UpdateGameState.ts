@@ -8,7 +8,6 @@ import EmailScene, { JUDGEEMAIL } from "./EmailScene/EmailScene";
 import EmailTextComponent from "./EmailScene/EmailTextComponent";
 import { INSPECTMODE } from "./EmailScene/Toolbar";
 import type GameState from "./GameState";
-import { gameTimeTracker } from "./GameTimeTracker";
 import keyboardState, { PRESSED } from "./Input/KeyboardState";
 import mouseState from "./Input/MouseState";
 import { LevelSelectionScene } from "./LevelSelectionScene/LevelSelectionScene";
@@ -29,12 +28,13 @@ function inspectModeSwitch(gameState: GameState) {
 }
 
 export default function updateGameState(gameState: GameState, cursor: Cursor) {
-  if (
-    keyboardState["Escape"]?.keyState == PRESSED &&
-    !keyboardState["Escape"]?.read
-  ) {
-    gameTimeTracker.pause();
-  }
+  // if (
+  //   keyboardState["Escape"]?.keyState == PRESSED &&
+  //   !keyboardState["Escape"]?.read
+  // ) {
+  //   console.log("pause");
+  //   gameTimeTracker.pause();
+  // }
 
   cursor.state = "arrow";
   cursor.pos = mouseState.pos;
@@ -73,7 +73,9 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
           case SCENECHANGE:
             switch (result.sceneName) {
               case EMAILSCENE:
-                gameState.sceneList[result.sceneName] = new EmailScene();
+                gameState.sceneList[result.sceneName] = new EmailScene({
+                  emailListKey: result.emailListKey,
+                });
                 break;
               case SAVESCENE:
                 gameState.sceneList[result.sceneName] = new SaveScene(
@@ -125,7 +127,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
               gameState.currentScene instanceof EmailScene
             ) {
               gameState.currentScene.evaluateEmail(result.class);
-              gameState.currentScene.newEmail();
+              gameState.currentScene.nextEmail();
               gameState.inspecting = false;
             }
             break;

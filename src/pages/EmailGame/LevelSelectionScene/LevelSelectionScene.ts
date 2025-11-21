@@ -6,12 +6,13 @@ import type { SaveSlot } from "../GameState";
 import Position from "../Position";
 import Scene from "../Scenes/Scene";
 import { LevelBlock, levelScoreFormat } from "./LevelBlock";
-import { LevelList } from "./LevelList";
+import { LevelList, levelOrder } from "./LevelList";
 
 export type Level = {
   name: string;
   goal: number;
   emailReferences: Record<string, Email>;
+  reference: string;
 };
 
 export class LevelSelectionScene extends Scene {
@@ -58,5 +59,12 @@ export class LevelSelectionScene extends Scene {
         this.totalScore += lp.highscore;
       }
     });
+    this.gameObjects.push(
+      new LevelBlock({
+        level: levelOrder[saveSlot.levelProgress.length],
+        levelProgress: { reference: "", highscore: 0, perfect: false },
+        order: saveSlot.levelProgress.length,
+      }),
+    );
   }
 }
