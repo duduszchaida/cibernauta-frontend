@@ -25,13 +25,13 @@ export default class EmailContent extends GameObject {
   extraHeight = 0;
   selectedParagraph: number | null = null;
 
-  constructor(args: { text: string }) {
+  constructor(text: string) {
     super({
       pos: new Position(16, 64),
       width: 304,
       height: 152,
     });
-    this.text = args.text;
+    this.text = text;
     this.fontSprite = findSprite(this.font + "_black");
     this.generateParagraphs();
     if (this.textHeight + this.extraHeight > this.height - this.extraHeight) {

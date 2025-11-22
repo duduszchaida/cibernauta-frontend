@@ -3,7 +3,7 @@ import GameObject from "../Elements/GameObject";
 import { findSprite } from "../FindSprite";
 import Position from "../Position";
 import type Sprite from "../Sprite";
-import type { ADDRESS, CONTENT, PICTURE } from "./Email";
+import type { ADDRESS, CONTENT, PICTURE } from "./EmailManager";
 
 export const INSPECT = "inspect";
 

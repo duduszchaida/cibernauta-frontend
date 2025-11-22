@@ -1,16 +1,11 @@
 import GameObject from "../Elements/GameObject";
-import ScrollBar from "../Elements/ScrollBar";
 import Timer from "../Elements/Timer";
-import Position from "../Position";
 import { Utils } from "../Utils";
 import Scene from "../Scenes/Scene";
-import EmailComponent from "./EmailComponent";
-import EmailTextComponent from "./EmailTextComponent";
 import Toolbar from "./Toolbar";
-import { EmailList } from "./EmailList";
 import { LEVELSELECTION } from "../Scenes/SceneReferences";
 import { ExitButton } from "../Elements/ExitButton";
-import Email, {
+import EmailManager, {
   ADDRESS,
   MALICIOUS,
   NAME,
@@ -19,9 +14,12 @@ import Email, {
   SPAM,
   type AnomalyList,
   type EmailData,
-} from "./Email";
+} from "./EmailManager";
 import { PauseButton } from "../Elements/PauseBtn";
 import { PauseScreen } from "./PauseScreen";
+import type { Level } from "../LevelSelectionScene/Level";
+import { mailExample } from "./EmailList";
+import Position from "../Position";
 
 const emailBorder = new GameObject({
   spriteName: "email_border",
@@ -75,125 +73,56 @@ function btnFactory(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
 }
 
 export default class EmailScene extends Scene {
-  email: Email | null = null;
-  scrollBar: ScrollBar | null = null;
+  level: Level;
+  emailManager: EmailManager = new EmailManager(mailExample);
+  emailDataList: EmailData[] = [];
   toolBar: Toolbar | null = null;
-  timer: Timer | null = null;
-  toolButtons: GameObject[] = [btnFactory(SAFE)];
-  buttonNames: string[];
-  emailList: EmailData[];
+  timer: Timer;
+  toolButtons: GameObject[] = [];
   paused: boolean = false;
   pausedObjectList: GameObject[];
   unpausedObjectList: GameObject[];
   pauseButton = new PauseButton();
 
-  selectedAnomalies: AnomalyList = {
-    name: false,
-    content: false,
-    address: false,
-    picture: false,
-  };
-  [PICTURE]: EmailComponent = new EmailComponent({
-    pos: new Position(8, 8),
-    height: 32,
-    width: 32,
-    anomaly: true,
-    reference: PICTURE,
-  });
-  [ADDRESS] = new EmailTextComponent({
-    pos: new Position(4, 13),
-    font: "minecraftia",
-    color: "light_brown",
-    text: "<>",
-    reference: ADDRESS,
-    anomaly: false,
-  });
-  [NAME] = new EmailTextComponent({
-    pos: new Position(42, 10),
-    font: "wcp",
-    color: "brown",
-    text: "name",
-    reference: "address",
-    anomaly: false,
-  });
-
-  constructor(args: {
-    email?: Email;
-    buttonNames?: string[];
-    emailListKey: string;
-    tutorial?: boolean;
-  }) {
+  constructor(level: Level) {
     super({
       backgroundSpriteName: "bg_beige",
       gameObjects: [],
     });
+    this.level = level;
+    this.emailDataList = [...level.emailDataList];
+    this.timer = new Timer({ goalSecs: 300, pos: new Position(293, 4) });
     this.unpausedObjectList = [];
     this.pausedObjectList = [
       new PauseScreen(),
       emailBorder,
       new ExitButton(LEVELSELECTION),
       this.pauseButton,
+      this.timer,
     ];
-    if (!args.tutorial) {
-      this.timer = new Timer({ goalSecs: 300, pos: new Position(293, 4) });
-      this.pausedObjectList.push(this.timer);
-    }
-    this.emailList = [...EmailList[args.emailListKey]];
-    this.buttonNames = args.buttonNames ?? [MALICIOUS, SPAM];
-    this.nextEmail(args.email);
+    this.generateToolButtons();
+    this.nextEmail(true);
   }
 
-  generateEmail(email?: Email) {
-    if (!email) {
-      if (this.emailList.length == 0) {
-        this.endEmails();
-        return;
-      }
-      let randId = Utils.randomArrayId(this.emailList);
-      this.email = new Email(this.emailList[randId]);
-      this.emailList.splice(randId, 1);
-      this.timer?.start();
-    } else {
-      this.email = email;
+  generateEmail(emailData?: EmailData) {
+    if (!emailData) {
+      let randId = Utils.randomArrayId(this.emailDataList);
+      emailData = this.emailDataList[randId];
+      this.emailDataList.splice(randId, 1);
     }
-    const emailContent = this.email.emailContent;
-    this[PICTURE] = new EmailComponent({
-      pos: new Position(8, 8),
-      spriteName: this.email.picture,
-      height: 32,
-      width: 32,
-      anomaly: true,
-      reference: PICTURE,
-    });
-    this[NAME] = new EmailTextComponent({
-      pos: new Position(44, 10),
-      font: "wcp",
-      color: "brown",
-      text: "De: " + this.email.senderName,
-      reference: NAME,
-      anomaly: false,
-    });
-    this[ADDRESS] = new EmailTextComponent({
-      pos: new Position(44, 28),
-      font: "minecraftia",
-      color: "light_brown",
-      text: this.email.senderAddress,
-      reference: ADDRESS,
-      anomaly: false,
-    });
+    this.emailManager.newData(emailData);
 
-    this.scrollBar = new ScrollBar(
-      emailContent.textHeight,
-      emailContent.scrollShiftAmmount,
-    );
     this.toolBar = new Toolbar();
-    this.gameObjects.push(emailContent);
-    this.gameObjects.push(selectCover);
-    this.gameObjects.push(this[PICTURE]);
-    this.gameObjects.push(this[NAME]);
-    this.gameObjects.push(this[ADDRESS]);
-    if (this.email.emailContent.hasScroll) {
-      this.gameObjects.push(this.scrollBar);
+    this.gameObjects = [
+      ...this.gameObjects,
+      this.emailManager.emailContent,
+      selectCover,
+      this.emailManager[PICTURE],
+      this.emailManager[NAME],
+      this.emailManager[ADDRESS],
+    ];
+    if (this.emailManager.scrollBar) {
+      this.gameObjects.push(this.emailManager.scrollBar);
     }
     this.gameObjects.push(this.toolBar);
     this.toolButtons.forEach((b) => {
@@ -201,62 +130,28 @@ export default class EmailScene extends Scene {
     });
   }
 
-  nextEmail(email: Email | undefined = undefined) {
-    this.generateToolButtons(this.buttonNames);
-    this.selectedAnomalies = {
-      name: false,
-      content: false,
-      address: false,
-      picture: false,
-    };
+  nextEmail(first: boolean = false) {
+    if (this.emailDataList.length == 0 && !first) {
+      this.endEmails();
+      return;
+    }
     this.gameObjects = [];
-    this.generateEmail(email);
+    this.generateEmail(first ? this.level.starterEmail : undefined);
     this.gameObjects = [
       ...this.gameObjects,
       emailBorder,
       new ExitButton(LEVELSELECTION),
       this.pauseButton,
+      this.timer,
     ];
-    if (this.timer) {
-      this.gameObjects.push(this.timer);
+    if (!this.timer.started && !first) {
+      this.timer.start();
     }
   }
 
   endEmails() {
+    console.log("end of emails");
     this.gameObjects = [emailBorder, new ExitButton(LEVELSELECTION)];
-  }
-
-  scrollEmail(scroll: number) {
-    this.email?.emailContent.scroll(scroll);
-    this.scrollBar?.scroll(scroll);
-  }
-
-  scrollEmailTo(scroll: number) {
-    this.email?.emailContent.scrollTo(scroll);
-    this.scrollBar?.scrollTo(scroll);
-  }
-
-  selectAnomaly(reference: string) {
-    if (this[PICTURE].reference == reference) {
-      this[PICTURE].selected = !this[PICTURE].selected;
-    }
-    if (this[ADDRESS].reference == reference) {
-      this[ADDRESS].selected = !this[ADDRESS].selected;
-    }
-    if (this[NAME].reference == reference) {
-      this[NAME].selected = !this[NAME].selected;
-    }
-    this.selectedAnomalies[reference] = !this.selectedAnomalies[reference];
-  }
-
-  selectParagraph(paragraphId: number) {
-    if (this.email) {
-      if (this.email.emailContent.selectedParagraph != paragraphId) {
-        this.email.emailContent.selectedParagraph = paragraphId;
-      } else {
-        this.email.emailContent.selectedParagraph = null;
-      }
-    }
   }
 
   inspectModeSwitch() {
@@ -269,38 +164,41 @@ export default class EmailScene extends Scene {
   }
 
   compareAnomalies(): AnomalyList {
-    if (!this.email) {
+    if (!this.emailManager) {
       alert("No email");
       return {};
     }
     const result: AnomalyList = {}; // A list of anomalies and if they were correctly evaluated or not
     const seenAnomalies: string[] = [];
-    console.log(this.selectedAnomalies);
-    console.log(this.email.anomalies);
-    for (const a in this.selectedAnomalies) {
+    console.log(this.emailManager.selectedAnomalies);
+    console.log(this.emailManager.anomalies);
+    for (const a in this.emailManager.selectedAnomalies) {
       if (seenAnomalies.includes(a)) {
         continue;
       }
-      result[a] = this.selectedAnomalies[a] == this.email.anomalies[a];
+      result[a] =
+        this.emailManager.selectedAnomalies[a] ==
+        this.emailManager.anomalies[a];
       seenAnomalies.push(a);
     }
-    for (const a in this.email.anomalies) {
+    for (const a in this.emailManager.anomalies) {
       if (seenAnomalies.includes(a)) {
         continue;
       }
-      result[a] = this.selectedAnomalies[a] == this.email.anomalies[a];
+      result[a] =
+        this.emailManager.selectedAnomalies[a] ==
+        this.emailManager.anomalies[a];
       seenAnomalies.push(a);
     }
     return result;
   }
 
-  generateToolButtons(buttonNames: string[] | null) {
-    this.toolButtons = [btnFactory(SAFE)];
-    if (buttonNames == null) {
-      return;
-    }
-    buttonNames.forEach((n) => {
-      switch (n) {
+  generateToolButtons() {
+    this.level.buttons.forEach((btn) => {
+      switch (btn) {
+        case SAFE:
+          this.toolButtons.push(btnFactory(SAFE));
+          break;
         case MALICIOUS:
           this.toolButtons.push(btnFactory(MALICIOUS));
           break;
@@ -316,12 +214,12 @@ export default class EmailScene extends Scene {
   }
 
   evaluateEmail(classification: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
-    if (!this.email) {
+    if (!this.emailManager) {
       return;
     }
     let evaluation = this.compareAnomalies();
-    evaluation.content = this.email?.paragraphCheck();
-    evaluation.class = classification == this.email.class;
+    evaluation.content = this.emailManager.paragraphCheck();
+    evaluation.class = classification == this.emailManager.emailData.class;
     console.table(evaluation);
   }
 

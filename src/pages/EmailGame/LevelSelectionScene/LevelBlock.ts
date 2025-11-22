@@ -5,7 +5,7 @@ import { findSprite } from "../FindSprite";
 import type { LevelProgress } from "../GameState";
 import Position from "../Position";
 import { EMAILSCENE } from "../Scenes/SceneReferences";
-import type { Level } from "./LevelSelectionScene";
+import type { Level } from "./Level";
 
 export function levelScoreFormat(
   score: number,
@@ -43,7 +43,7 @@ export class LevelBlock extends GameObject {
         return {
           type: SCENECHANGE,
           sceneReference: EMAILSCENE,
-          emailListKey: args.level.reference,
+          level: args.level,
         };
       },
     });

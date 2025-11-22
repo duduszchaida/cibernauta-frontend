@@ -81,9 +81,9 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
           case SCENECHANGE:
             switch (result.sceneReference) {
               case EMAILSCENE:
-                gameState.sceneList[result.sceneReference] = new EmailScene({
-                  emailListKey: result.emailListKey,
-                });
+                gameState.sceneList[result.sceneReference] = new EmailScene(
+                  result.level,
+                );
                 break;
               case SAVESCENE:
                 gameState.sceneList[result.sceneReference] = new SaveScene(
@@ -101,6 +101,9 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
                 cursor.state = "arrow";
                 gameState.inspecting = false;
             }
+            if (gameState.inspecting) {
+              inspectModeSwitch(gameState);
+            }
             gameState.currentScene = gameState.sceneList[result.sceneReference];
             if (gameTimeTracker.paused) {
               gameTimeTracker.pause();
@@ -108,7 +111,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             break;
           case SCROLLTO:
             if (gameState.currentScene instanceof EmailScene) {
-              gameState.currentScene.scrollEmailTo(result.shift);
+              gameState.currentScene.emailManager.scrollEmailTo(result.shift);
             }
             break;
           case INSPECT:
@@ -117,9 +120,13 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
               gameState.currentScene instanceof EmailScene
             ) {
               if (typeof result.reference == "string") {
-                gameState.currentScene.selectAnomaly(result.reference);
+                gameState.currentScene.emailManager.selectAnomaly(
+                  result.reference,
+                );
               } else {
-                gameState.currentScene.selectParagraph(result.reference);
+                gameState.currentScene.emailManager.selectParagraph(
+                  result.reference,
+                );
               }
             }
             break;
@@ -158,7 +165,9 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
       if (gameState.currentScene instanceof EmailScene) {
         const result = obj.drag(mouseState.pos);
         if (result.type == SCROLLTO) {
-          gameState.currentScene.scrollEmailTo(Math.round(result.shift));
+          gameState.currentScene.emailManager.scrollEmailTo(
+            Math.round(result.shift),
+          );
         }
       }
     }
@@ -166,7 +175,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
 
   if (mouseState.scroll != 0) {
     if (gameState.currentScene instanceof EmailScene) {
-      gameState.currentScene.scrollEmail(mouseState.scroll);
+      gameState.currentScene.emailManager.scrollEmail(mouseState.scroll);
     }
   }
 

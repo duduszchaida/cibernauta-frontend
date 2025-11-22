@@ -4,7 +4,7 @@ import { findSprite } from "../FindSprite";
 import fontMaps from "../FontMaps";
 import Position from "../Position";
 import type Sprite from "../Sprite";
-import type { ADDRESS, CONTENT, NAME, PICTURE } from "./Email";
+import type { ADDRESS, CONTENT, NAME, PICTURE } from "./EmailManager";
 import { INSPECT } from "./EmailComponent";
 
 export default class EmailTextComponent extends TextObject {

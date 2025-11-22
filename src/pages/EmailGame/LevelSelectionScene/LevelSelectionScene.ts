@@ -1,20 +1,12 @@
 import { appBorder } from "../Elements/AppBorder";
 import { ExitButton } from "../Elements/ExitButton";
 import TextObject from "../Elements/TextObject";
-import type Email from "../EmailScene/Email";
 import type { SaveSlot } from "../GameState";
 import Position from "../Position";
 import Scene from "../Scenes/Scene";
 import { DESKTOPSCENE } from "../Scenes/SceneReferences";
 import { LevelBlock, levelScoreFormat } from "./LevelBlock";
 import { LevelList, levelOrder } from "./LevelList";
-
-export type Level = {
-  name: string;
-  goal: number;
-  emailReferences: Record<string, Email>;
-  reference: string;
-};
 
 export class LevelSelectionScene extends Scene {
   totalScore: number = 0;
