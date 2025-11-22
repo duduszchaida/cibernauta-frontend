@@ -1,10 +1,11 @@
 import { appBorder } from "../Elements/AppBorder";
-import { exitButton } from "../Elements/ExitBtn";
+import { ExitButton } from "../Elements/ExitButton";
 import TextObject from "../Elements/TextObject";
 import type Email from "../EmailScene/Email";
 import type { SaveSlot } from "../GameState";
 import Position from "../Position";
 import Scene from "../Scenes/Scene";
+import { DESKTOPSCENE } from "../Scenes/SceneReferences";
 import { LevelBlock, levelScoreFormat } from "./LevelBlock";
 import { LevelList, levelOrder } from "./LevelList";
 
@@ -21,7 +22,7 @@ export class LevelSelectionScene extends Scene {
   constructor(saveSlot: SaveSlot) {
     super({
       backgroundSpriteName: "bg_beige",
-      gameObjects: [appBorder, exitButton],
+      gameObjects: [appBorder, new ExitButton(DESKTOPSCENE)],
     });
     this.generateLevelBlocks(saveSlot);
     this.gameObjects.push(

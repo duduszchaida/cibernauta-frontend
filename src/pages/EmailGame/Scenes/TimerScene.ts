@@ -1,9 +1,10 @@
 import { appBorder } from "../Elements/AppBorder";
 import Clock from "../Elements/Clock";
-import { exitButton } from "../Elements/ExitBtn";
+import { ExitButton } from "../Elements/ExitButton";
 import Scene from "./Scene";
+import { DESKTOPSCENE } from "./SceneReferences";
 
 export const TimerScene = new Scene({
   backgroundSpriteName: "bg_green",
-  gameObjects: [appBorder, exitButton, new Clock()],
+  gameObjects: [appBorder, new ExitButton(DESKTOPSCENE), new Clock()],
 });

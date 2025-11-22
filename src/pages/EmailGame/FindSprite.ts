@@ -34,6 +34,8 @@ const sprites: Record<string, Sprite> = {
   app_border: new Sprite("/game/email/app_border.png"),
   email_border: new Sprite("/game/email/email_border.png"),
   exit_btn: new Sprite("/game/email/exit_btn.png"),
+  pause_off_btn: new Sprite("/game/email/pause_off_btn.png"),
+  pause_on_btn: new Sprite("/game/email/pause_on_btn.png"),
   btn_safe: new Sprite("/game/email/btn_safe.png"),
   btn_malicious: new Sprite("/game/email/btn_malicious.png"),
   btn_spam: new Sprite("/game/email/btn_spam.png"),
@@ -58,6 +60,7 @@ const sprites: Record<string, Sprite> = {
   marker_perfect: new Sprite("/game/email/marker_perfect.png"),
   icon_save: new Sprite("/game/email/icon_save.png"),
   popup: new Sprite("/game/email/popup.png"),
+  pause_screen: new Sprite("/game/email/pause_screen.png"),
 };
 
 const spriteArr = Object.values(sprites);

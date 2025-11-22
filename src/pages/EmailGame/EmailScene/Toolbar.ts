@@ -11,7 +11,7 @@ export default class Toolbar extends GameObject {
     super({
       pos: new Position(6, 218),
       height: 32,
-      width: 128,
+      width: 192,
       spriteName: "toolbar",
       hitbox: new Hitbox({ pos: new Position(7, 218), height: 32, width: 32 }),
     });

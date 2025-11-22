@@ -15,7 +15,7 @@ const gameScale = 3;
 const cursor = new Cursor();
 const popup = new Popup();
 const gameState = new GameState({
-  sceneName: sceneReferences.DESKTOPSCENE,
+  sceneReference: sceneReferences.DESKTOPSCENE,
   popup: popup,
 });
 

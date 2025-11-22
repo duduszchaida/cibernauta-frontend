@@ -25,7 +25,7 @@ export default class Timer extends TextObject {
     invisible?: boolean;
   }) {
     super({
-      color: "light_orange",
+      color: "red",
       font: "wcp",
       pos: args.pos ?? new Position(),
       text: "",

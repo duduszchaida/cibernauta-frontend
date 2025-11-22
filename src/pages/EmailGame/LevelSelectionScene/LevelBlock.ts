@@ -1,6 +1,6 @@
 import type CanvasObject from "../CanvasObject";
-import { SCENECHANGE } from "../Elements/ExitBtn";
 import GameObject from "../Elements/GameObject";
+import { SCENECHANGE } from "../Elements/SceneChanger";
 import { findSprite } from "../FindSprite";
 import type { LevelProgress } from "../GameState";
 import Position from "../Position";
@@ -42,7 +42,7 @@ export class LevelBlock extends GameObject {
       clickFunction: () => {
         return {
           type: SCENECHANGE,
-          sceneName: EMAILSCENE,
+          sceneReference: EMAILSCENE,
           emailListKey: args.level.reference,
         };
       },

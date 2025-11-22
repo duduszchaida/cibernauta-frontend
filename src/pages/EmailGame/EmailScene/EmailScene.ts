@@ -1,10 +1,15 @@
-import { exitButton } from "../Elements/ExitBtn";
 import GameObject from "../Elements/GameObject";
 import ScrollBar from "../Elements/ScrollBar";
 import Timer from "../Elements/Timer";
-
 import Position from "../Position";
 import { Utils } from "../Utils";
+import Scene from "../Scenes/Scene";
+import EmailComponent from "./EmailComponent";
+import EmailTextComponent from "./EmailTextComponent";
+import Toolbar from "./Toolbar";
+import { EmailList } from "./EmailList";
+import { LEVELSELECTION } from "../Scenes/SceneReferences";
+import { ExitButton } from "../Elements/ExitButton";
 import Email, {
   ADDRESS,
   MALICIOUS,
@@ -15,11 +20,8 @@ import Email, {
   type AnomalyList,
   type EmailData,
 } from "./Email";
-import Scene from "../Scenes/Scene";
-import EmailComponent from "./EmailComponent";
-import EmailTextComponent from "./EmailTextComponent";
-import Toolbar from "./Toolbar";
-import { EmailList } from "./EmailList";
+import { PauseButton } from "../Elements/PauseBtn";
+import { PauseScreen } from "./PauseScreen";
 
 const emailBorder = new GameObject({
   spriteName: "email_border",
@@ -37,7 +39,7 @@ const selectCover = new GameObject({
 
 export const JUDGEEMAIL = "judgeEmail";
 
-function generateBtn(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
+function btnFactory(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
   switch (btn) {
     case SAFE:
       return new GameObject({
@@ -77,9 +79,14 @@ export default class EmailScene extends Scene {
   scrollBar: ScrollBar | null = null;
   toolBar: Toolbar | null = null;
   timer: Timer | null = null;
-  toolButtons: GameObject[] = [generateBtn(SAFE)];
+  toolButtons: GameObject[] = [btnFactory(SAFE)];
   buttonNames: string[];
   emailList: EmailData[];
+  paused: boolean = false;
+  pausedObjectList: GameObject[];
+  unpausedObjectList: GameObject[];
+  pauseButton = new PauseButton();
+
   selectedAnomalies: AnomalyList = {
     name: false,
     content: false,
@@ -120,8 +127,16 @@ export default class EmailScene extends Scene {
       backgroundSpriteName: "bg_beige",
       gameObjects: [],
     });
+    this.unpausedObjectList = [];
+    this.pausedObjectList = [
+      new PauseScreen(),
+      emailBorder,
+      new ExitButton(LEVELSELECTION),
+      this.pauseButton,
+    ];
     if (!args.tutorial) {
       this.timer = new Timer({ goalSecs: 300, pos: new Position(293, 4) });
+      this.pausedObjectList.push(this.timer);
     }
     this.emailList = [...EmailList[args.emailListKey]];
     this.buttonNames = args.buttonNames ?? [MALICIOUS, SPAM];
@@ -196,15 +211,19 @@ export default class EmailScene extends Scene {
     };
     this.gameObjects = [];
     this.generateEmail(email);
-    this.gameObjects = [...this.gameObjects, emailBorder, exitButton];
+    this.gameObjects = [
+      ...this.gameObjects,
+      emailBorder,
+      new ExitButton(LEVELSELECTION),
+      this.pauseButton,
+    ];
     if (this.timer) {
       this.gameObjects.push(this.timer);
     }
   }
 
   endEmails() {
-    this.gameObjects = [emailBorder, exitButton];
-    console.log(this.gameObjects);
+    this.gameObjects = [emailBorder, new ExitButton(LEVELSELECTION)];
   }
 
   scrollEmail(scroll: number) {
@@ -276,17 +295,17 @@ export default class EmailScene extends Scene {
   }
 
   generateToolButtons(buttonNames: string[] | null) {
-    this.toolButtons = [generateBtn(SAFE)];
+    this.toolButtons = [btnFactory(SAFE)];
     if (buttonNames == null) {
       return;
     }
     buttonNames.forEach((n) => {
       switch (n) {
         case MALICIOUS:
-          this.toolButtons.push(generateBtn(MALICIOUS));
+          this.toolButtons.push(btnFactory(MALICIOUS));
           break;
         case SPAM:
-          this.toolButtons.push(generateBtn(SPAM));
+          this.toolButtons.push(btnFactory(SPAM));
           break;
       }
     });
@@ -304,5 +323,16 @@ export default class EmailScene extends Scene {
     evaluation.content = this.email?.paragraphCheck();
     evaluation.class = classification == this.email.class;
     console.table(evaluation);
+  }
+
+  pause() {
+    this.paused = !this.paused;
+    this.pauseButton.paused = !this.pauseButton.paused;
+    if (this.paused) {
+      this.unpausedObjectList = [...this.gameObjects];
+      this.gameObjects = [...this.pausedObjectList];
+    } else {
+      this.gameObjects = [...this.unpausedObjectList];
+    }
   }
 }

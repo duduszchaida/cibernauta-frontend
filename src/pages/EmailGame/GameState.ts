@@ -28,8 +28,8 @@ export default class GameState {
     { lastSaveTime: null, levelProgress: [] },
   ];
 
-  constructor(args: { sceneName: string; popup: Popup }) {
-    this.currentScene = this.sceneList[args.sceneName];
+  constructor(args: { sceneReference: string; popup: Popup }) {
+    this.currentScene = this.sceneList[args.sceneReference];
     this.popup = args.popup;
   }
 

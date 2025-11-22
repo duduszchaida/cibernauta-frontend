@@ -1,9 +1,9 @@
 import type CanvasObject from "../CanvasObject";
-import GameObject from "./GameObject";
 import Position from "../Position";
 import { findSprite } from "../FindSprite";
+import SceneChanger from "./SceneChanger";
 
-export default class SceneChanger extends GameObject {
+export default class AppIcon extends SceneChanger {
   appName: string;
   clickable: boolean = true;
 
@@ -14,14 +14,18 @@ export default class SceneChanger extends GameObject {
     clickFunction?: Function;
     width?: number;
     height?: number;
+    sceneReference?: string;
   }) {
-    super({ ...args, width: args.width ?? 32, height: args.height ?? 32 });
+    super({
+      ...args,
+      width: args.width ?? 32,
+      height: args.height ?? 32,
+      sceneReference: args.sceneReference,
+    });
     this.appName = args.appName ?? "";
-    this.click =
-      args.clickFunction ??
-      (() => {
-        console.log(this.appName);
-      });
+    if (args.clickFunction) {
+      this.click = args.clickFunction;
+    }
   }
 
   render(canvasObject: CanvasObject) {
