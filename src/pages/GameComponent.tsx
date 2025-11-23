@@ -1,9 +1,27 @@
+import EmailGameComponent from "./EmailGameComponent";
+
 interface GameComponentProps {
   gameUrl?: string;
+  gameType?: string;
+  gameId: number;
+  userId?: number;
+  onScoreUpdate?: (score: number) => void;
 }
 
-export default function GameComponent({ gameUrl }: GameComponentProps) {
+export default function GameComponent({ gameUrl, gameType, gameId, userId, onScoreUpdate }: GameComponentProps) {
   const gameScale = 2;
+
+
+  if (gameType === 'local') {
+    return (
+      <EmailGameComponent
+        gameId={gameId}
+        userId={userId}
+        onScoreUpdate={onScoreUpdate}
+      />
+    );
+  }
+
 
   if (!gameUrl) {
     return (

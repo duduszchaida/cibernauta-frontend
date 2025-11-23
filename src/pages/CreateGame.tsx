@@ -6,7 +6,9 @@ import { useAuth } from "../contexts/AuthContext";
 import { Switch } from "@/components/ui/switch";
 import GameSubmissionGuide from "@/components/GameSubmissionGuide";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Plus, X } from "lucide-react";
+import KeySelectorDialog from "@/components/KeySelectorDialog";
+import { Button } from "@/components/ui/button";
 
 export default function CreateGame() {
   const [isGuideOpen, setIsGuideOpen] = useState(true);
@@ -20,6 +22,8 @@ export default function CreateGame() {
   const [difficulty, setDifficulty] = useState("");
   const [enabled, setEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [controls, setControls] = useState<Array<{key_image: string, description: string}>>([]);
+  const [showKeyDialog, setShowKeyDialog] = useState(false);
 
   const handleSave = async () => {
     if (!title.trim()) {
@@ -51,7 +55,7 @@ export default function CreateGame() {
 
     setIsLoading(true);
     try {
-      
+
       if (user?.role === 'ADMIN') {
         await gamesService.create({
           game_title: title,
@@ -60,6 +64,7 @@ export default function CreateGame() {
           image_url: imageUrl.trim() || undefined,
           game_url: gameUrl.trim() || undefined,
           enabled,
+          controls: controls.length > 0 ? controls : undefined,
         });
 
         toast({
@@ -75,6 +80,7 @@ export default function CreateGame() {
           image_url: imageUrl.trim() || undefined,
           game_url: gameUrl.trim() || undefined,
           enabled,
+          controls: controls.length > 0 ? controls : undefined,
         });
 
         toast({
@@ -97,6 +103,14 @@ export default function CreateGame() {
 
   const handleCancel = () => {
     navigate("/games");
+  };
+
+  const handleAddControl = (keyImage: string, description: string) => {
+    setControls([...controls, { key_image: keyImage, description }]);
+  };
+
+  const handleRemoveControl = (index: number) => {
+    setControls(controls.filter((_, i) => i !== index));
   };
 
   return (
@@ -231,6 +245,76 @@ export default function CreateGame() {
               </p>
             </div>
           </div>
+
+          {/* Seção de Controles */}
+          <div>
+            <label className="block text-gray-300 text-base font-medium mb-3">
+              Controles do Jogo
+            </label>
+            <p className="text-gray-400 text-sm mb-4">
+              Adicione os controles que o jogador utilizará no jogo
+            </p>
+
+            {/* Grid de controles adicionados com botão de adicionar */}
+            <div className="flex flex-wrap gap-4">
+              {/* Lista de controles */}
+              {controls.map((control, index) => (
+                <div
+                  key={index}
+                  className="relative w-[180px] p-4 bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg group hover:border-blue-400 transition-colors"
+                >
+                  {/* Botão de remover */}
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleRemoveControl(index)}
+                    disabled={isLoading}
+                    className="absolute top-2 right-2 text-red-400 hover:text-red-300 hover:bg-red-900/20 w-6 h-6 p-0"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+
+                  {/* Conteúdo do card */}
+                  <div className="flex flex-col items-center gap-3 pt-4">
+                    <img
+                      src={`/keys/${control.key_image}.png`}
+                      alt={control.description}
+                      className="w-16 h-16"
+                      style={{ imageRendering: "pixelated" }}
+                    />
+                    <p className="text-white text-sm text-center break-words w-full">
+                      {control.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+
+              {/* Botão de adicionar controle */}
+              <button
+                type="button"
+                onClick={() => setShowKeyDialog(true)}
+                disabled={isLoading}
+                className="w-[180px] h-[150px] bg-[#0A274F]/30 border-2 border-dashed border-[#4C91FF] rounded-lg hover:bg-[#0A274F]/50 hover:border-blue-400 transition-colors flex items-center justify-center group disabled:opacity-50"
+              >
+                <Plus className="w-8 h-8 text-[#4C91FF] group-hover:text-blue-400 transition-colors" />
+              </button>
+            </div>
+
+            {/* Mensagem quando não há controles */}
+            {controls.length === 0 && (
+              <p className="text-gray-400 text-sm mt-2 ml-1">
+                Clique no botão + para adicionar controles
+              </p>
+            )}
+          </div>
+
+          {/* Dialog de seleção de teclas */}
+          <KeySelectorDialog
+            open={showKeyDialog}
+            onOpenChange={setShowKeyDialog}
+            onSave={handleAddControl}
+          />
 
           <div className="flex flex-col sm:flex-row gap-4 justify-end mt-10 pt-6 border-t border-gray-600">
             <button

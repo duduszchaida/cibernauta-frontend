@@ -2,9 +2,16 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import GameComponent from "./GameComponent";
-import { gamesService } from "../services/api";
+import { gamesService, savesService } from "../services/api";
 import { useAuth } from "../contexts/AuthContext";
 import { Mouse, ArrowUp, ArrowDown, ArrowLeft, ArrowRight } from "lucide-react";
+
+interface GameControl {
+  control_id: number;
+  key_image: string;
+  description: string;
+  order: number;
+}
 
 interface GameData {
   game_id: number;
@@ -13,7 +20,9 @@ interface GameData {
   difficulty: number;
   image_url?: string;
   game_url?: string;
+  game_type?: string;
   enabled?: boolean;
+  controls?: GameControl[];
 }
 
 export default function Game() {
@@ -25,6 +34,23 @@ export default function Game() {
   const [error, setError] = useState<string | null>(null);
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
+
+  const handleScoreUpdate = async (score: number) => {
+    setCurrentScore(score);
+
+    // Atualizar highscore se a pontuação atual for maior
+    if (score > highScore && gameId) {
+      try {
+        const response = await savesService.updateHighscore({
+          game_id: Number(gameId),
+          score: score,
+        });
+        setHighScore(response.score);
+      } catch (err) {
+        console.error("Erro ao atualizar highscore:", err);
+      }
+    }
+  };
 
   useEffect(() => {
     const loadGame = async () => {
@@ -44,6 +70,16 @@ export default function Game() {
         }
 
         setGameData(data);
+
+        // Se for jogo local, carregar highscore
+        if (data.game_type === 'local') {
+          try {
+            const highscoreData = await savesService.getHighscore(Number(gameId));
+            setHighScore(highscoreData.score || 0);
+          } catch (err) {
+            console.error("Erro ao carregar highscore:", err);
+          }
+        }
       } catch (err) {
         console.error("Erro ao carregar jogo:", err);
         setError("Não foi possível carregar o jogo");
@@ -99,41 +135,33 @@ export default function Game() {
             
             <div className="bg-[#374B7C] rounded-2xl p-5 h-fit">
               <h2 className="text-white text-lg font-semibold mb-5">Controles</h2>
-              
-              <div className="space-y-4">
-            
-                <div className="bg-[#2B3E68] rounded-xl p-3">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-[#4A5D8F] p-2 rounded-lg">
-                      <Mouse className="w-7 h-7 text-white" />
-                    </div>
-                    <span className="text-white text-base font-medium">Interação</span>
-                  </div>
-                </div>
 
-                <div className="bg-[#2B3E68] rounded-xl p-3">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-[#4A5D8F] p-2 rounded-lg">
-                      <div className="grid grid-cols-3 gap-1">
-                        <div className="w-5 h-5 bg-[#6B7BA8] rounded"></div>
-                        <div className="w-5 h-5 bg-[#8B9BBD] rounded flex items-center justify-center">
-                          <ArrowUp className="w-3 h-3 text-white" />
+              <div className="space-y-3">
+                {gameData.controls && gameData.controls.length > 0 ? (
+                  gameData.controls.map((control) => (
+                    <div key={control.control_id} className="bg-[#2B3E68] rounded-xl p-3">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-[#4A5D8F] p-2 rounded-lg">
+                          <img
+                            src={`/keys/${control.key_image}.png`}
+                            alt={control.description}
+                            className="w-7 h-7"
+                            style={{ imageRendering: "pixelated" }}
+                          />
                         </div>
-                        <div className="w-5 h-5 bg-[#6B7BA8] rounded"></div>
-                        <div className="w-5 h-5 bg-[#8B9BBD] rounded flex items-center justify-center">
-                          <ArrowLeft className="w-3 h-3 text-white" />
-                        </div>
-                        <div className="w-5 h-5 bg-[#8B9BBD] rounded flex items-center justify-center">
-                          <ArrowDown className="w-3 h-3 text-white" />
-                        </div>
-                        <div className="w-5 h-5 bg-[#8B9BBD] rounded flex items-center justify-center">
-                          <ArrowRight className="w-3 h-3 text-white" />
-                        </div>
+                        <span className="text-white text-base font-medium">
+                          {control.description}
+                        </span>
                       </div>
                     </div>
-                    <span className="text-white text-base font-medium">Movimento</span>
+                  ))
+                ) : (
+                  <div className="bg-[#2B3E68] rounded-xl p-4">
+                    <p className="text-gray-400 text-sm text-center">
+                      Sem controles definidos
+                    </p>
                   </div>
-                </div>
+                )}
               </div>
             </div>
 
@@ -161,7 +189,13 @@ export default function Game() {
 
 
               <div className="bg-[#1a2744] rounded-lg overflow-hidden border-4 border-[#2B3E68] flex items-center justify-center">
-                <GameComponent gameUrl={gameData.game_url} />
+                <GameComponent
+                  gameUrl={gameData.game_url}
+                  gameType={gameData.game_type}
+                  gameId={gameData.game_id}
+                  userId={user?.user_id}
+                  onScoreUpdate={gameData.game_type === 'local' ? handleScoreUpdate : undefined}
+                />
               </div>
 
              
@@ -175,40 +209,42 @@ export default function Game() {
               </div>
             </div>
 
-           
-            <div className="bg-[#374B7C] rounded-2xl p-5 h-fit">
-              <h2 className="text-white text-lg font-semibold mb-5">Sua Pontuação Recorde</h2>
-              
-              <div className="bg-[#2B3E68] rounded-xl p-6 text-center">
-                <div className="text-[#5B7FC7] text-7xl font-bold mb-2">
-                  {highScore}
-                </div>
-                <p className="text-gray-400 text-sm">pontos atuais</p>
-              </div>
 
-              <div className="mt-5 space-y-3">
-                <div className="bg-[#2B3E68] rounded-lg p-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm">Pontuação Atual</span>
-                    <span className="text-white font-semibold">{currentScore}</span>
+            {gameData.game_type === 'local' && (
+              <div className="bg-[#374B7C] rounded-2xl p-5 h-fit">
+                <h2 className="text-white text-lg font-semibold mb-5">Sua Pontuação Recorde</h2>
+
+                <div className="bg-[#2B3E68] rounded-xl p-6 text-center">
+                  <div className="text-[#5B7FC7] text-7xl font-bold mb-2">
+                    {highScore}
                   </div>
+                  <p className="text-gray-400 text-sm">pontos recorde</p>
                 </div>
-                <div className="bg-[#2B3E68] rounded-lg p-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm">Melhor Pontuação</span>
-                    <span className="text-yellow-400 font-semibold">{highScore}</span>
+
+                <div className="mt-5 space-y-3">
+                  <div className="bg-[#2B3E68] rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-300 text-sm">Pontuação Atual</span>
+                      <span className="text-white font-semibold">{currentScore}</span>
+                    </div>
                   </div>
-                </div>
-                <div className="bg-[#2B3E68] rounded-lg p-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm">Dificuldade</span>
-                    <span className="text-white font-semibold">
-                      {"⭐".repeat(gameData.difficulty)}
-                    </span>
+                  <div className="bg-[#2B3E68] rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-300 text-sm">Melhor Pontuação</span>
+                      <span className="text-yellow-400 font-semibold">{highScore}</span>
+                    </div>
+                  </div>
+                  <div className="bg-[#2B3E68] rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-300 text-sm">Dificuldade</span>
+                      <span className="text-white font-semibold">
+                        {"⭐".repeat(gameData.difficulty)}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
 
           </div>
         </div>
