@@ -1,9 +1,9 @@
 # Cibernauta - IFPR
 
-
 ## Tecnologias Utilizadas
 
 ### Backend
+
 - NestJS - Framework Node.js para APIs
 - TypeScript - Linguagem de programação
 - PostgreSQL - Banco de dados relacional
@@ -11,45 +11,49 @@
 - Firebase Admin SDK - Autenticação
 
 ### Frontend
+
 - React 18 - Biblioteca JavaScript
 - Vite - Build tool e dev server
 - TypeScript - Linguagem de programação
 - Tailwind CSS - Framework de estilização
 - Firebase - Autenticação
+
 ---
 
 ## Pré-requisitos
 
 Certifique-se de ter instalado:
 
-   Node.js (versão 18 ou superior)
-   PostgreSQL (versão 12 ou superior)
+Node.js (versão 18 ou superior)
+PostgreSQL (versão 12 ou superior)
 
 ---
 
 ## Instalação
 
-### Passo 1: Preparar o Ambiente
+Abra um terminal de comando e navegue até a pasta do projeto:
 
-Abra o terminal/prompt de comando e navegue até a pasta do projeto:
+### Passo 1: Configurar Back End
 
-cd C:\Users\eduar\Documents\IFPR\projeto
+Navegue até a pasta do projeto back-end e rode o comando:
 
-### Passo 2: Instalar Dependências do Backend
-
-cd cibernauta-backend
-npm install
+- npm install
 
 Este comando instalará todas as dependências necessárias do backend (NestJS, Prisma, Firebase, etc.).
 
-### Passo 3: Instalar Dependências do Frontend
+Substituir os dados do arquivo .env.example pelas informações fornecidas no arquivo [arquivoComOsDadosEnv] !!!!!Mudar nome aqui
+Este arquivo possúi informações vitais, então não estará disponível publicamente no repositório.
 
-Abra outra janela do terminal/promp, vá até a pasta do projeto e instale as dependências do frontend:
+### Passo 2: Configurar Front End
 
-cd cibernauta-frontend
-npm install
+Navegue até a pasta do projeto front-end e rode o comando:
+
+- npm install
 
 Este comando instalará todas as dependências do frontend (React, Vite, Tailwind CSS, etc.).
+
+Substituir os dados do arquivo .env.example pelas informações fornecidas no arquivo [arquivoComOsDadosEnv] !!!!!Mudar nome aqui
+Este arquivo possúi informações vitais, então não estará disponível publicamente no repositório.
 
 ---
 
@@ -57,7 +61,7 @@ Este comando instalará todas as dependências do frontend (React, Vite, Tailwin
 
 ### Passo 1: Iniciar o Backend
 
-No terminal na pasta cibernauta-backend:
+No terminal na pasta cibernauta-backend rode o comando:
 
 npm run start:dev
 
@@ -96,7 +100,7 @@ Ao acessar http://localhost:5173, você verá a página inicial do sistema.
 ### 3. Login
 
 1. Se já tiver uma conta, insira seu email e senha
-3. Clique em "Entrar"
+2. Clique em "Entrar"
 
 ### 4. Dashboard de Jogos
 
@@ -110,7 +114,6 @@ Após o login, você será redirecionado para o dashboard com:
 1. Na lista de jogos, clique no card de um jogo específico
 2. Você será redirecionado para a tela do jogo
 3. Seu progresso e pontuação serão salvos automaticamente
-
 
 ### 6. Área Administrativa
 
