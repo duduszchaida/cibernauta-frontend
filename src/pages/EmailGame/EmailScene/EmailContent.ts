@@ -20,7 +20,7 @@ export default class EmailContent extends GameObject {
   selectedSprite: Sprite = findSprite("paragraph_selected");
   textHeight = 0;
   scrollShift = 0;
-  scrollShiftAmmount: number;
+  scrollShiftAmmount = 2;
   hasScroll: boolean = false;
   extraHeight = 0;
   selectedParagraph: number | null = null;
@@ -38,7 +38,6 @@ export default class EmailContent extends GameObject {
       this.hasScroll = true;
     }
     this.scrollShift = 0;
-    this.scrollShiftAmmount = 6;
   }
 
   click = (cursorPos: Position) => {

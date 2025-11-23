@@ -175,7 +175,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
 
   if (mouseState.scroll != 0) {
     if (gameState.currentScene instanceof EmailScene) {
-      gameState.currentScene.emailManager.scrollEmail(mouseState.scroll);
+      gameState.currentScene.emailManager.scrollEmail(mouseState.scroll * 3);
     }
   }
 
