@@ -27,7 +27,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { pendingGamesService } from "@/services/pendingGamesService";
 
 interface PendingGame {
-  change_id: number;
+  request_id: number;
   game_id: number | null;
   change_type: "CREATE" | "UPDATE";
   status: "PENDING" | "APPROVED" | "REJECTED";
@@ -102,7 +102,7 @@ export default function MyPendingGames() {
     if (!selectedGame) return;
 
     try {
-      await pendingGamesService.update(selectedGame.change_id, editFormData);
+      await pendingGamesService.update(selectedGame.request_id, editFormData);
       toast({
         title: "Sucesso!",
         description: "Jogo atualizado com sucesso",
@@ -119,13 +119,13 @@ export default function MyPendingGames() {
     }
   };
 
-  const handleDelete = async (changeId: number, gameTitle: string) => {
+  const handleDelete = async (requestId: number, gameTitle: string) => {
     if (!confirm(`Tem certeza que deseja excluir "${gameTitle}"?`)) {
       return;
     }
 
     try {
-      await pendingGamesService.delete(changeId);
+      await pendingGamesService.delete(requestId);
       toast({
         title: "Sucesso!",
         description: "Jogo excluído com sucesso",
@@ -248,7 +248,7 @@ export default function MyPendingGames() {
                   <TableBody>
                     {pendingGames.map((game) => (
                       <TableRow
-                        key={game.change_id}
+                        key={game.request_id}
                         className="border-b border-[#2a5a7a] hover:bg-[#0A274F] transition-colors"
                       >
                         <TableCell>
@@ -335,7 +335,7 @@ export default function MyPendingGames() {
                   <TableBody>
                     {reviewedGames.map((game) => (
                       <TableRow
-                        key={game.change_id}
+                        key={game.request_id}
                         className="border-b border-[#2a5a7a] hover:bg-[#0A274F] transition-colors"
                       >
                         <TableCell>
