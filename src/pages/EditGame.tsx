@@ -254,9 +254,7 @@ export default function EditGame() {
                   </span>
                 </div>
               </div>
-              <p className="text-gray-400 text-sm mt-2">
-                Jogos desabilitados não aparecem na lista
-              </p>
+           
             </div>
           </div>
 
