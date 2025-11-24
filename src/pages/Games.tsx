@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import GameSubmissionGuide from "@/components/GameSubmissionGuide";
-import { gamesService, moderatorRequestsService } from "../services/api";
 import { useAuth } from "../contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, MoreVertical, Pencil, Trash2, Info, X } from "lucide-react";
@@ -17,6 +16,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { gamesService } from "@/services/gamesService";
+import { moderatorRequestsService } from "@/services/moderatorRequestsService";
 
 interface Game {
   game_id: number;
@@ -53,19 +54,17 @@ export default function Games() {
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, [openMenuId]);
 
   const loadMyRequest = async () => {
-    if (user?.role !== 'USER') return;
+    if (user?.role !== "USER") return;
 
     try {
       const data = await moderatorRequestsService.getMyRequest();
       setMyRequest(data);
-    } catch (error) {
-    
-    }
+    } catch (error) {}
   };
 
   const handleRequestModerator = async () => {
@@ -74,7 +73,8 @@ export default function Games() {
       await moderatorRequestsService.create({ reason: requestReason });
       toast({
         title: "Solicitação enviada!",
-        description: "Sua solicitação será analisada por um administrador em breve.",
+        description:
+          "Sua solicitação será analisada por um administrador em breve.",
       });
       setShowRequestDialog(false);
       setRequestReason("");
@@ -82,7 +82,9 @@ export default function Games() {
     } catch (error: any) {
       toast({
         title: "Erro",
-        description: error.response?.data?.message || "Não foi possível enviar a solicitação",
+        description:
+          error.response?.data?.message ||
+          "Não foi possível enviar a solicitação",
         variant: "destructive",
       });
     } finally {
@@ -158,9 +160,9 @@ export default function Games() {
               </p>
             </div>
 
-            {(user?.role === 'ADMIN' || user?.role === 'MODERATOR') && (
+            {(user?.role === "ADMIN" || user?.role === "MODERATOR") && (
               <div className="flex gap-2">
-                {user?.role === 'ADMIN' && (
+                {user?.role === "ADMIN" && (
                   <button
                     onClick={() => navigate("/pending-games")}
                     className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
@@ -168,14 +170,14 @@ export default function Games() {
                     Aprovar Jogos
                   </button>
                 )}
-                {user?.role === 'MODERATOR' && (
-                <button
-                  onClick={() => navigate("/my-pending-games")}
-                  className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
-                >
-                  Meus Jogos Pendentes
-                </button>
-                 )}
+                {user?.role === "MODERATOR" && (
+                  <button
+                    onClick={() => navigate("/my-pending-games")}
+                    className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+                  >
+                    Meus Jogos Pendentes
+                  </button>
+                )}
                 <button
                   onClick={() => navigate("/create-game")}
                   className="flex items-center gap-2 px-4 py-2 bg-[#2563EB] text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -187,8 +189,7 @@ export default function Games() {
             )}
           </div>
 
-         
-          {user?.role === 'USER' && showBanner && !myRequest && (
+          {user?.role === "USER" && showBanner && !myRequest && (
             <Alert className="mb-8 bg-blue-900/30 border-blue-700 relative">
               <button
                 onClick={() => setShowBanner(false)}
@@ -209,38 +210,40 @@ export default function Games() {
             </Alert>
           )}
 
-          
-          {user?.role === 'USER' && myRequest && myRequest.status === 'PENDING' && (
-            <Alert className="mb-8 bg-yellow-900/30 border-yellow-700">
-              <Info className="h-4 w-4 text-yellow-400" />
-              <AlertDescription className="text-gray-300 ml-2">
-                Sua solicitação para se tornar moderador está pendente. Aguarde a análise de um administrador.
-              </AlertDescription>
-            </Alert>
-          )}
+          {user?.role === "USER" &&
+            myRequest &&
+            myRequest.status === "PENDING" && (
+              <Alert className="mb-8 bg-yellow-900/30 border-yellow-700">
+                <Info className="h-4 w-4 text-yellow-400" />
+                <AlertDescription className="text-gray-300 ml-2">
+                  Sua solicitação para se tornar moderador está pendente.
+                  Aguarde a análise de um administrador.
+                </AlertDescription>
+              </Alert>
+            )}
 
-
-
-          {user?.role === 'USER' && myRequest && myRequest.status === 'REJECTED' && (
-            <Alert className="mb-8 bg-red-900/30 border-red-700 relative">
-              <button
-                onClick={() => setMyRequest(null)}
-                className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-              <Info className="h-4 w-4 text-red-400" />
-              <AlertDescription className="text-gray-300 ml-2">
-                Sua solicitação para se tornar moderador foi rejeitada.{" "}
+          {user?.role === "USER" &&
+            myRequest &&
+            myRequest.status === "REJECTED" && (
+              <Alert className="mb-8 bg-red-900/30 border-red-700 relative">
                 <button
-                  onClick={() => setShowRequestDialog(true)}
-                  className="text-red-400 hover:text-red-300 underline font-medium"
+                  onClick={() => setMyRequest(null)}
+                  className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors"
                 >
-                  Enviar nova solicitação
+                  <X className="w-4 h-4" />
                 </button>
-              </AlertDescription>
-            </Alert>
-          )}
+                <Info className="h-4 w-4 text-red-400" />
+                <AlertDescription className="text-gray-300 ml-2">
+                  Sua solicitação para se tornar moderador foi rejeitada.{" "}
+                  <button
+                    onClick={() => setShowRequestDialog(true)}
+                    className="text-red-400 hover:text-red-300 underline font-medium"
+                  >
+                    Enviar nova solicitação
+                  </button>
+                </AlertDescription>
+              </Alert>
+            )}
 
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
@@ -260,16 +263,18 @@ export default function Games() {
                   onClick={() => handleGameClick(game.game_id, game.enabled)}
                   className={`bg-[#111827] border border-[#1F2937] rounded-lg overflow-hidden transition-all duration-300 group relative ${
                     game.enabled === false
-                      ? 'opacity-50 grayscale cursor-not-allowed'
-                      : 'hover:border-gray-700 cursor-pointer'
+                      ? "opacity-50 grayscale cursor-not-allowed"
+                      : "hover:border-gray-700 cursor-pointer"
                   }`}
                 >
-                  {(user?.role === 'ADMIN' ) && (
+                  {user?.role === "ADMIN" && (
                     <div className="absolute top-4 right-4 z-10">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setOpenMenuId(openMenuId === game.game_id ? null : game.game_id);
+                          setOpenMenuId(
+                            openMenuId === game.game_id ? null : game.game_id,
+                          );
                         }}
                         className="bg-[#1F2937] hover:bg-[#374151] p-2 rounded-lg transition-colors"
                       >
@@ -310,8 +315,9 @@ export default function Games() {
                         alt={game.game_title}
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                          e.currentTarget.parentElement!.innerHTML = '<div class="text-6xl">🎮</div>';
+                          e.currentTarget.style.display = "none";
+                          e.currentTarget.parentElement!.innerHTML =
+                            '<div class="text-6xl">🎮</div>';
                         }}
                       />
                     ) : (
@@ -330,8 +336,12 @@ export default function Games() {
                     </h3>
 
                     <div className="flex items-center gap-2 mb-4">
-                      <span className="text-sm text-gray-400">Dificuldade:</span>
-                      <span className="text-sm">{getDifficultyStars(game.difficulty)}</span>
+                      <span className="text-sm text-gray-400">
+                        Dificuldade:
+                      </span>
+                      <span className="text-sm">
+                        {getDifficultyStars(game.difficulty)}
+                      </span>
                     </div>
 
                     <p className="text-gray-400 text-sm leading-5">
@@ -350,8 +360,9 @@ export default function Games() {
           <DialogHeader>
             <DialogTitle>Solicitar Permissão de Moderador</DialogTitle>
             <DialogDescription className="text-gray-400">
-              Preencha o formulário abaixo para solicitar permissão para criar e gerenciar jogos educativos.
-              Um administrador irá revisar sua solicitação.
+              Preencha o formulário abaixo para solicitar permissão para criar e
+              gerenciar jogos educativos. Um administrador irá revisar sua
+              solicitação.
             </DialogDescription>
           </DialogHeader>
 
@@ -360,7 +371,7 @@ export default function Games() {
 
             <div>
               <label className="text-sm font-medium text-gray-300 mb-2 block">
-                Por que você quer ser moderador? 
+                Por que você quer ser moderador?
               </label>
               <Textarea
                 value={requestReason}

@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import GameComponent from "./GameComponent";
-import { gamesService, savesService } from "../services/api";
 import { useAuth } from "../contexts/AuthContext";
+import { gamesService } from "@/services/gamesService";
+import { savesService } from "@/services/savesService";
 
 interface GameControl {
   control_id: number;

@@ -13,13 +13,39 @@ import { Label } from "@/components/ui/label";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const AVAILABLE_KEYS = [
-  "arrows", "click_l", "click_r",
-  "key_a", "key_b", "key_c", "key_d", "key_e", "key_f",
-  "key_g", "key_h", "key_i", "key_j", "key_k", "key_l",
-  "key_m", "key_n", "key_o", "key_p", "key_q", "key_r",
-  "key_s", "key_t", "key_u", "key_v", "key_w", "key_x",
-  "key_y", "key_z",
-  "mouse", "space", "scroll", "wasd"
+  "arrows",
+  "click_l",
+  "click_r",
+  "key_a",
+  "key_b",
+  "key_c",
+  "key_d",
+  "key_e",
+  "key_f",
+  "key_g",
+  "key_h",
+  "key_i",
+  "key_j",
+  "key_k",
+  "key_l",
+  "key_m",
+  "key_n",
+  "key_o",
+  "key_p",
+  "key_q",
+  "key_r",
+  "key_s",
+  "key_t",
+  "key_u",
+  "key_v",
+  "key_w",
+  "key_x",
+  "key_y",
+  "key_z",
+  "mouse",
+  "space",
+  "scroll",
+  "wasd",
 ];
 
 const KEYS_PER_PAGE = 9;
@@ -47,7 +73,6 @@ export default function KeySelectorDialog({
   const handleSave = () => {
     if (selectedKey && description.trim()) {
       onSave(selectedKey, description);
- 
       setSelectedKey(null);
       setDescription("");
       setCurrentPage(0);
@@ -78,10 +103,8 @@ export default function KeySelectorDialog({
         </DialogHeader>
 
         <div className="space-y-4">
-       
           <div className="space-y-3">
             <Label>Selecione o controle</Label>
-
 
             <div className="grid grid-cols-3 gap-3 p-4 bg-gray-50 rounded-lg min-h-[240px]">
               {currentKeys.map((key) => (
@@ -108,7 +131,6 @@ export default function KeySelectorDialog({
               ))}
             </div>
 
-            
             <div className="flex items-center justify-between">
               <Button
                 type="button"
@@ -138,7 +160,6 @@ export default function KeySelectorDialog({
             </div>
           </div>
 
-
           <div className="space-y-2">
             <Label htmlFor="description">Descrição do controle</Label>
             <Input
@@ -153,7 +174,6 @@ export default function KeySelectorDialog({
             </p>
           </div>
 
-     
           {selectedKey && (
             <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <p className="text-sm font-medium text-blue-900 mb-2">

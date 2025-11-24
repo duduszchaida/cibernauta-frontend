@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Pencil, Trash2, Eye, CheckCircle, XCircle, Clock } from "lucide-react";
-import { pendingGamesService } from "../services/api";
 import { useToast } from "@/hooks/use-toast";
 import {
   Table,
@@ -25,12 +24,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { pendingGamesService } from "@/services/pendingGamesService";
 
 interface PendingGame {
   change_id: number;
   game_id: number | null;
-  change_type: 'CREATE' | 'UPDATE';
-  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  change_type: "CREATE" | "UPDATE";
+  status: "PENDING" | "APPROVED" | "REJECTED";
   game_title: string;
   description: string;
   difficulty: number;
@@ -50,11 +50,11 @@ export default function MyPendingGames() {
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [editFormData, setEditFormData] = useState({
-    game_title: '',
-    description: '',
+    game_title: "",
+    description: "",
     difficulty: 1,
-    image_url: '',
-    game_url: '',
+    image_url: "",
+    game_url: "",
     enabled: true,
   });
 
@@ -89,8 +89,8 @@ export default function MyPendingGames() {
       game_title: game.game_title,
       description: game.description,
       difficulty: game.difficulty,
-      image_url: game.image_url || '',
-      game_url: game.game_url || '',
+      image_url: game.image_url || "",
+      game_url: game.game_url || "",
       enabled: game.enabled,
     });
     setIsEditDialogOpen(true);
@@ -112,7 +112,8 @@ export default function MyPendingGames() {
     } catch (error: any) {
       toast({
         title: "Erro ao atualizar",
-        description: error.response?.data?.message || "Tente novamente mais tarde",
+        description:
+          error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
     }
@@ -133,7 +134,8 @@ export default function MyPendingGames() {
     } catch (error: any) {
       toast({
         title: "Erro ao excluir",
-        description: error.response?.data?.message || "Tente novamente mais tarde",
+        description:
+          error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
     }
@@ -145,27 +147,39 @@ export default function MyPendingGames() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'PENDING':
-        return <Badge className="bg-yellow-600 hover:bg-yellow-700"><Clock className="w-3 h-3 mr-1" /> Pendente</Badge>;
-      case 'APPROVED':
-        return <Badge className="bg-green-600 hover:bg-green-700"><CheckCircle className="w-3 h-3 mr-1" /> Aprovado</Badge>;
-      case 'REJECTED':
-        return <Badge className="bg-red-600 hover:bg-red-700"><XCircle className="w-3 h-3 mr-1" /> Rejeitado</Badge>;
+      case "PENDING":
+        return (
+          <Badge className="bg-yellow-600 hover:bg-yellow-700">
+            <Clock className="w-3 h-3 mr-1" /> Pendente
+          </Badge>
+        );
+      case "APPROVED":
+        return (
+          <Badge className="bg-green-600 hover:bg-green-700">
+            <CheckCircle className="w-3 h-3 mr-1" /> Aprovado
+          </Badge>
+        );
+      case "REJECTED":
+        return (
+          <Badge className="bg-red-600 hover:bg-red-700">
+            <XCircle className="w-3 h-3 mr-1" /> Rejeitado
+          </Badge>
+        );
       default:
         return <Badge>{status}</Badge>;
     }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
+    return new Date(dateString).toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
     });
   };
 
-  const pendingGames = allGames.filter(g => g.status === 'PENDING');
-  const reviewedGames = allGames.filter(g => g.status !== 'PENDING');
+  const pendingGames = allGames.filter((g) => g.status === "PENDING");
+  const reviewedGames = allGames.filter((g) => g.status !== "PENDING");
 
   if (isLoading) {
     return (
@@ -180,9 +194,7 @@ export default function MyPendingGames() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-white text-4xl font-bold mb-2">
-              Meus Jogos
-            </h1>
+            <h1 className="text-white text-4xl font-bold mb-2">Meus Jogos</h1>
             <p className="text-gray-400">
               Gerencie seus jogos cadastrados e veja o status das aprovações
             </p>
@@ -197,10 +209,16 @@ export default function MyPendingGames() {
 
         <Tabs defaultValue="pending" className="w-full">
           <TabsList className="bg-[#1a3a52] border-[#4C91FF]">
-            <TabsTrigger value="pending" className="data-[state=active]:bg-[#2563EB]">
+            <TabsTrigger
+              value="pending"
+              className="data-[state=active]:bg-[#2563EB]"
+            >
               Pendentes ({pendingGames.length})
             </TabsTrigger>
-            <TabsTrigger value="reviewed" className="data-[state=active]:bg-[#2563EB]">
+            <TabsTrigger
+              value="reviewed"
+              className="data-[state=active]:bg-[#2563EB]"
+            >
               Revisados ({reviewedGames.length})
             </TabsTrigger>
           </TabsList>
@@ -209,7 +227,9 @@ export default function MyPendingGames() {
             {pendingGames.length === 0 ? (
               <div className="bg-[#1a3a52] rounded-lg border border-[#4C91FF] p-12 text-center">
                 <Clock className="w-16 h-16 text-gray-500 mx-auto mb-4" />
-                <p className="text-gray-400 text-lg">Você não tem jogos pendentes de aprovação</p>
+                <p className="text-gray-400 text-lg">
+                  Você não tem jogos pendentes de aprovação
+                </p>
               </div>
             ) : (
               <div className="bg-[#1a3a52] rounded-lg border border-[#4C91FF] overflow-hidden">
@@ -218,7 +238,9 @@ export default function MyPendingGames() {
                     <TableRow className="border-b border-[#4C91FF] hover:bg-[#0A274F]">
                       <TableHead className="text-gray-300">Tipo</TableHead>
                       <TableHead className="text-gray-300">Título</TableHead>
-                      <TableHead className="text-gray-300">Dificuldade</TableHead>
+                      <TableHead className="text-gray-300">
+                        Dificuldade
+                      </TableHead>
                       <TableHead className="text-gray-300">Data</TableHead>
                       <TableHead className="text-gray-300">Ações</TableHead>
                     </TableRow>
@@ -230,8 +252,14 @@ export default function MyPendingGames() {
                         className="border-b border-[#2a5a7a] hover:bg-[#0A274F] transition-colors"
                       >
                         <TableCell>
-                          <Badge className={game.change_type === 'CREATE' ? 'bg-green-600' : 'bg-yellow-600'}>
-                            {game.change_type === 'CREATE' ? 'Criar' : 'Editar'}
+                          <Badge
+                            className={
+                              game.change_type === "CREATE"
+                                ? "bg-green-600"
+                                : "bg-yellow-600"
+                            }
+                          >
+                            {game.change_type === "CREATE" ? "Criar" : "Editar"}
                           </Badge>
                         </TableCell>
                         <TableCell className="text-gray-300 font-medium">
@@ -262,7 +290,9 @@ export default function MyPendingGames() {
                             </button>
 
                             <button
-                              onClick={() => handleDelete(game.change_id, game.game_title)}
+                              onClick={() =>
+                                handleDelete(game.change_id, game.game_title)
+                              }
                               className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-red-400 hover:text-white hover:bg-red-900 p-2 transition-colors"
                               title="Excluir"
                             >
@@ -281,7 +311,9 @@ export default function MyPendingGames() {
           <TabsContent value="reviewed" className="mt-6">
             {reviewedGames.length === 0 ? (
               <div className="bg-[#1a3a52] rounded-lg border border-[#4C91FF] p-12 text-center">
-                <p className="text-gray-400 text-lg">Nenhum jogo revisado ainda</p>
+                <p className="text-gray-400 text-lg">
+                  Nenhum jogo revisado ainda
+                </p>
               </div>
             ) : (
               <div className="bg-[#1a3a52] rounded-lg border border-[#4C91FF] overflow-hidden">
@@ -290,9 +322,13 @@ export default function MyPendingGames() {
                     <TableRow className="border-b border-[#4C91FF] hover:bg-[#0A274F]">
                       <TableHead className="text-gray-300">Tipo</TableHead>
                       <TableHead className="text-gray-300">Título</TableHead>
-                      <TableHead className="text-gray-300">Dificuldade</TableHead>
+                      <TableHead className="text-gray-300">
+                        Dificuldade
+                      </TableHead>
                       <TableHead className="text-gray-300">Status</TableHead>
-                      <TableHead className="text-gray-300">Data de Revisão</TableHead>
+                      <TableHead className="text-gray-300">
+                        Data de Revisão
+                      </TableHead>
                       <TableHead className="text-gray-300">Ações</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -303,8 +339,14 @@ export default function MyPendingGames() {
                         className="border-b border-[#2a5a7a] hover:bg-[#0A274F] transition-colors"
                       >
                         <TableCell>
-                          <Badge className={game.change_type === 'CREATE' ? 'bg-green-600' : 'bg-yellow-600'}>
-                            {game.change_type === 'CREATE' ? 'Criar' : 'Editar'}
+                          <Badge
+                            className={
+                              game.change_type === "CREATE"
+                                ? "bg-green-600"
+                                : "bg-yellow-600"
+                            }
+                          >
+                            {game.change_type === "CREATE" ? "Criar" : "Editar"}
                           </Badge>
                         </TableCell>
                         <TableCell className="text-gray-300 font-medium">
@@ -313,11 +355,11 @@ export default function MyPendingGames() {
                         <TableCell className="text-gray-400">
                           {getDifficultyStars(game.difficulty)}
                         </TableCell>
-                        <TableCell>
-                          {getStatusBadge(game.status)}
-                        </TableCell>
+                        <TableCell>{getStatusBadge(game.status)}</TableCell>
                         <TableCell className="text-gray-400">
-                          {game.reviewed_at ? formatDate(game.reviewed_at) : 'N/A'}
+                          {game.reviewed_at
+                            ? formatDate(game.reviewed_at)
+                            : "N/A"}
                         </TableCell>
                         <TableCell>
                           <button
@@ -341,39 +383,59 @@ export default function MyPendingGames() {
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
         <DialogContent className="bg-[#1a3a52] border border-[#4C91FF] text-gray-300 max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="text-white">Detalhes do Jogo Pendente</DialogTitle>
+            <DialogTitle className="text-white">
+              Detalhes do Jogo Pendente
+            </DialogTitle>
             <DialogDescription className="text-gray-400">
-              {selectedGame?.change_type === 'CREATE' ? 'Novo jogo aguardando aprovação' : 'Edição aguardando aprovação'}
+              {selectedGame?.change_type === "CREATE"
+                ? "Novo jogo aguardando aprovação"
+                : "Edição aguardando aprovação"}
             </DialogDescription>
           </DialogHeader>
 
           {selectedGame && (
             <div className="space-y-4">
               <div>
-                <label className="block text-gray-400 text-sm mb-1">Título</label>
-                <p className="text-white text-lg font-semibold">{selectedGame.game_title}</p>
+                <label className="block text-gray-400 text-sm mb-1">
+                  Título
+                </label>
+                <p className="text-white text-lg font-semibold">
+                  {selectedGame.game_title}
+                </p>
               </div>
 
               <div>
-                <label className="block text-gray-400 text-sm mb-1">Descrição</label>
+                <label className="block text-gray-400 text-sm mb-1">
+                  Descrição
+                </label>
                 <p className="text-gray-300">{selectedGame.description}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-400 text-sm mb-1">Dificuldade</label>
-                  <p className="text-white">{getDifficultyStars(selectedGame.difficulty)}</p>
+                  <label className="block text-gray-400 text-sm mb-1">
+                    Dificuldade
+                  </label>
+                  <p className="text-white">
+                    {getDifficultyStars(selectedGame.difficulty)}
+                  </p>
                 </div>
 
                 <div>
-                  <label className="block text-gray-400 text-sm mb-1">Status</label>
-                  <p className="text-white">{selectedGame.enabled ? 'Habilitado' : 'Desabilitado'}</p>
+                  <label className="block text-gray-400 text-sm mb-1">
+                    Status
+                  </label>
+                  <p className="text-white">
+                    {selectedGame.enabled ? "Habilitado" : "Desabilitado"}
+                  </p>
                 </div>
               </div>
 
               {selectedGame.image_url && (
                 <div>
-                  <label className="block text-gray-400 text-sm mb-1">URL da Imagem</label>
+                  <label className="block text-gray-400 text-sm mb-1">
+                    URL da Imagem
+                  </label>
                   <a
                     href={selectedGame.image_url}
                     target="_blank"
@@ -387,7 +449,9 @@ export default function MyPendingGames() {
 
               {selectedGame.game_url && (
                 <div>
-                  <label className="block text-gray-400 text-sm mb-1">URL do Jogo</label>
+                  <label className="block text-gray-400 text-sm mb-1">
+                    URL do Jogo
+                  </label>
                   <a
                     href={selectedGame.game_url}
                     target="_blank"
@@ -412,11 +476,13 @@ export default function MyPendingGames() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      
+
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="bg-[#1a3a52] border border-[#4C91FF] text-gray-300 max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="text-white">Editar Jogo Pendente</DialogTitle>
+            <DialogTitle className="text-white">
+              Editar Jogo Pendente
+            </DialogTitle>
             <DialogDescription className="text-gray-400">
               Faça as alterações necessárias no jogo antes da aprovação
             </DialogDescription>
@@ -425,11 +491,18 @@ export default function MyPendingGames() {
           <form onSubmit={handleEditSubmit}>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="game_title" className="text-gray-300">Título do Jogo</Label>
+                <Label htmlFor="game_title" className="text-gray-300">
+                  Título do Jogo
+                </Label>
                 <Input
                   id="game_title"
                   value={editFormData.game_title}
-                  onChange={(e) => setEditFormData({ ...editFormData, game_title: e.target.value })}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      game_title: e.target.value,
+                    })
+                  }
                   required
                   maxLength={50}
                   className="bg-[#0A274F] border-[#4C91FF] text-white"
@@ -437,11 +510,18 @@ export default function MyPendingGames() {
               </div>
 
               <div>
-                <Label htmlFor="description" className="text-gray-300">Descrição</Label>
+                <Label htmlFor="description" className="text-gray-300">
+                  Descrição
+                </Label>
                 <Textarea
                   id="description"
                   value={editFormData.description}
-                  onChange={(e) => setEditFormData({ ...editFormData, description: e.target.value })}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      description: e.target.value,
+                    })
+                  }
                   required
                   rows={4}
                   className="bg-[#0A274F] border-[#4C91FF] text-white"
@@ -458,30 +538,49 @@ export default function MyPendingGames() {
                   min="1"
                   max="3"
                   value={editFormData.difficulty}
-                  onChange={(e) => setEditFormData({ ...editFormData, difficulty: parseInt(e.target.value) })}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      difficulty: parseInt(e.target.value),
+                    })
+                  }
                   required
                   className="bg-[#0A274F] border-[#4C91FF] text-white"
                 />
               </div>
 
               <div>
-                <Label htmlFor="image_url" className="text-gray-300">URL da Imagem (opcional)</Label>
+                <Label htmlFor="image_url" className="text-gray-300">
+                  URL da Imagem (opcional)
+                </Label>
                 <Input
                   id="image_url"
                   type="url"
                   value={editFormData.image_url}
-                  onChange={(e) => setEditFormData({ ...editFormData, image_url: e.target.value })}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      image_url: e.target.value,
+                    })
+                  }
                   className="bg-[#0A274F] border-[#4C91FF] text-white"
                 />
               </div>
 
               <div>
-                <Label htmlFor="game_url" className="text-gray-300">URL do Jogo (opcional)</Label>
+                <Label htmlFor="game_url" className="text-gray-300">
+                  URL do Jogo (opcional)
+                </Label>
                 <Input
                   id="game_url"
                   type="url"
                   value={editFormData.game_url}
-                  onChange={(e) => setEditFormData({ ...editFormData, game_url: e.target.value })}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      game_url: e.target.value,
+                    })
+                  }
                   className="bg-[#0A274F] border-[#4C91FF] text-white"
                 />
               </div>
@@ -491,10 +590,17 @@ export default function MyPendingGames() {
                   id="enabled"
                   type="checkbox"
                   checked={editFormData.enabled}
-                  onChange={(e) => setEditFormData({ ...editFormData, enabled: e.target.checked })}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      enabled: e.target.checked,
+                    })
+                  }
                   className="w-4 h-4"
                 />
-                <Label htmlFor="enabled" className="text-gray-300">Jogo Habilitado</Label>
+                <Label htmlFor="enabled" className="text-gray-300">
+                  Jogo Habilitado
+                </Label>
               </div>
             </div>
 

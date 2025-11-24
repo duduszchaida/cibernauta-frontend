@@ -1,7 +1,17 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { signInWithCustomToken, signOut, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../config/firebase';
-import { authService } from '../services/api';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from "react";
+import {
+  signInWithCustomToken,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { auth } from "../config/firebase";
+import { authService } from "@/services/authService";
 
 interface User {
   user_id: number;
@@ -9,14 +19,19 @@ interface User {
   full_name: string;
   user_email: string;
   admin: boolean;
-  role: 'USER' | 'MODERATOR' | 'ADMIN';
+  role: "USER" | "MODERATOR" | "ADMIN";
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (identifier: string, password: string) => Promise<void>;
-  register: (username: string, fullName: string, email: string, password: string) => Promise<void>;
+  register: (
+    username: string,
+    fullName: string,
+    email: string,
+    password: string,
+  ) => Promise<void>;
   logout: () => Promise<void>;
   requestPasswordReset: (email: string) => Promise<void>;
   refreshUserProfile: () => Promise<void>;
@@ -33,20 +48,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (firebaseUser) {
         try {
           const token = await firebaseUser.getIdToken();
-          localStorage.setItem('firebase_token', token);
+          localStorage.setItem("firebase_token", token);
 
           const userData = await authService.getProfile();
           setUser(userData);
-          localStorage.setItem('user', JSON.stringify(userData));
+          localStorage.setItem("user", JSON.stringify(userData));
         } catch (error) {
-          console.error('Error fetching user profile:', error);
+          console.error("Error fetching user profile:", error);
           setUser(null);
-          localStorage.removeItem('user');
+          localStorage.removeItem("user");
         }
       } else {
         setUser(null);
-        localStorage.removeItem('user');
-        localStorage.removeItem('firebase_token');
+        localStorage.removeItem("user");
+        localStorage.removeItem("firebase_token");
       }
       setLoading(false);
     });
@@ -54,7 +69,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  const register = async (username: string, fullName: string, email: string, password: string) => {
+  const register = async (
+    username: string,
+    fullName: string,
+    email: string,
+    password: string,
+  ) => {
     try {
       const response = await authService.register({
         username,
@@ -65,14 +85,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       return response;
     } catch (error: any) {
-      console.error('Registration error:', error);
-      throw new Error(error.response?.data?.message || 'Erro ao criar conta');
+      console.error("Registration error:", error);
+      throw new Error(error.response?.data?.message || "Erro ao criar conta");
     }
   };
 
   const login = async (identifier: string, password: string) => {
     try {
-
       const response = await authService.login({
         identifier,
         password,
@@ -81,10 +100,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await signInWithCustomToken(auth, response.customToken);
 
       setUser(response.user);
-      localStorage.setItem('user', JSON.stringify(response.user));
+      localStorage.setItem("user", JSON.stringify(response.user));
     } catch (error: any) {
-      console.error('Login error:', error);
-      throw new Error(error.response?.data?.message || 'Erro ao fazer login');
+      console.error("Login error:", error);
+      throw new Error(error.response?.data?.message || "Erro ao fazer login");
     }
   };
 
@@ -92,10 +111,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await signOut(auth);
       setUser(null);
-      localStorage.removeItem('user');
-      localStorage.removeItem('firebase_token');
+      localStorage.removeItem("user");
+      localStorage.removeItem("firebase_token");
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     }
   };
 
@@ -103,8 +122,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await authService.requestPasswordReset(email);
     } catch (error: any) {
-      console.error('Password reset request error:', error);
-      throw new Error(error.response?.data?.message || 'Erro ao solicitar redefinição de senha');
+      console.error("Password reset request error:", error);
+      throw new Error(
+        error.response?.data?.message ||
+          "Erro ao solicitar redefinição de senha",
+      );
     }
   };
 
@@ -112,14 +134,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const userData = await authService.getProfile();
       setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem("user", JSON.stringify(userData));
     } catch (error) {
-      console.error('Error refreshing user profile:', error);
+      console.error("Error refreshing user profile:", error);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, requestPasswordReset, refreshUserProfile }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        register,
+        logout,
+        requestPasswordReset,
+        refreshUserProfile,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -128,7 +160,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }

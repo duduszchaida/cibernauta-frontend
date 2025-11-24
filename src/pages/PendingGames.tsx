@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Check, X, Eye } from "lucide-react";
-import { pendingGamesService } from "../services/api";
 import { useToast } from "@/hooks/use-toast";
 import {
   Table,
@@ -21,11 +20,12 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { pendingGamesService } from "@/services/pendingGamesService";
 
 interface PendingGame {
   change_id: number;
   game_id: number | null;
-  change_type: 'CREATE' | 'UPDATE';
+  change_type: "CREATE" | "UPDATE";
   game_title: string;
   description: string;
   difficulty: number;
@@ -70,7 +70,7 @@ export default function PendingGames() {
 
   const handleApprove = async (changeId: number) => {
     try {
-      await pendingGamesService.approve(changeId, 'APPROVED');
+      await pendingGamesService.approve(changeId, "APPROVED");
       toast({
         title: "Sucesso!",
         description: "Jogo aprovado com sucesso",
@@ -79,7 +79,8 @@ export default function PendingGames() {
     } catch (error: any) {
       toast({
         title: "Erro ao aprovar",
-        description: error.response?.data?.message || "Tente novamente mais tarde",
+        description:
+          error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
     }
@@ -87,7 +88,7 @@ export default function PendingGames() {
 
   const handleReject = async (changeId: number) => {
     try {
-      await pendingGamesService.approve(changeId, 'REJECTED');
+      await pendingGamesService.approve(changeId, "REJECTED");
       toast({
         title: "Rejeitado",
         description: "Alteração rejeitada",
@@ -96,7 +97,8 @@ export default function PendingGames() {
     } catch (error: any) {
       toast({
         title: "Erro ao rejeitar",
-        description: error.response?.data?.message || "Tente novamente mais tarde",
+        description:
+          error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
     }
@@ -141,7 +143,9 @@ export default function PendingGames() {
 
         {pendingGames.length === 0 ? (
           <div className="bg-[#1a3a52] rounded-lg border border-[#4C91FF] p-12 text-center">
-            <p className="text-gray-400 text-lg">Nenhum jogo pendente de aprovação</p>
+            <p className="text-gray-400 text-lg">
+              Nenhum jogo pendente de aprovação
+            </p>
           </div>
         ) : (
           <div className="bg-[#1a3a52] rounded-lg border border-[#4C91FF] overflow-hidden">
@@ -150,7 +154,9 @@ export default function PendingGames() {
                 <TableRow className="border-b border-[#4C91FF] hover:bg-[#0A274F]">
                   <TableHead className="text-gray-300">Tipo</TableHead>
                   <TableHead className="text-gray-300">Título</TableHead>
-                  <TableHead className="text-gray-300">Solicitado por</TableHead>
+                  <TableHead className="text-gray-300">
+                    Solicitado por
+                  </TableHead>
                   <TableHead className="text-gray-300">Dificuldade</TableHead>
                   <TableHead className="text-gray-300">Data</TableHead>
                   <TableHead className="text-gray-300">Ações</TableHead>
@@ -163,15 +169,21 @@ export default function PendingGames() {
                     className="border-b border-[#2a5a7a] hover:bg-[#0A274F] transition-colors"
                   >
                     <TableCell>
-                      <Badge className={game.change_type === 'CREATE' ? 'bg-green-600' : 'bg-yellow-600'}>
-                        {game.change_type === 'CREATE' ? 'Criar' : 'Editar'}
+                      <Badge
+                        className={
+                          game.change_type === "CREATE"
+                            ? "bg-green-600"
+                            : "bg-yellow-600"
+                        }
+                      >
+                        {game.change_type === "CREATE" ? "Criar" : "Editar"}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-gray-300 font-medium">
                       {game.game_title}
                     </TableCell>
                     <TableCell className="text-gray-400">
-                      {game.createdBy?.username || 'Desconhecido'}
+                      {game.createdBy?.username || "Desconhecido"}
                     </TableCell>
                     <TableCell className="text-gray-400">
                       {getDifficultyStars(game.difficulty)}
@@ -222,44 +234,68 @@ export default function PendingGames() {
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
         <DialogContent className="bg-[#1a3a52] border border-[#4C91FF] text-gray-300 max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="text-white">Detalhes da Alteração</DialogTitle>
+            <DialogTitle className="text-white">
+              Detalhes da Alteração
+            </DialogTitle>
             <DialogDescription className="text-gray-400">
-              {selectedGame?.change_type === 'CREATE' ? 'Novo jogo proposto' : 'Edição de jogo existente'}
+              {selectedGame?.change_type === "CREATE"
+                ? "Novo jogo proposto"
+                : "Edição de jogo existente"}
             </DialogDescription>
           </DialogHeader>
 
           {selectedGame && (
             <div className="space-y-4">
               <div>
-                <label className="block text-gray-400 text-sm mb-1">Título</label>
-                <p className="text-white text-lg font-semibold">{selectedGame.game_title}</p>
+                <label className="block text-gray-400 text-sm mb-1">
+                  Título
+                </label>
+                <p className="text-white text-lg font-semibold">
+                  {selectedGame.game_title}
+                </p>
               </div>
 
               <div>
-                <label className="block text-gray-400 text-sm mb-1">Solicitado por</label>
-                <p className="text-white">{selectedGame.createdBy?.username || 'Desconhecido'}</p>
+                <label className="block text-gray-400 text-sm mb-1">
+                  Solicitado por
+                </label>
+                <p className="text-white">
+                  {selectedGame.createdBy?.username || "Desconhecido"}
+                </p>
               </div>
 
               <div>
-                <label className="block text-gray-400 text-sm mb-1">Descrição</label>
+                <label className="block text-gray-400 text-sm mb-1">
+                  Descrição
+                </label>
                 <p className="text-gray-300">{selectedGame.description}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-400 text-sm mb-1">Dificuldade</label>
-                  <p className="text-white">{getDifficultyStars(selectedGame.difficulty)}</p>
+                  <label className="block text-gray-400 text-sm mb-1">
+                    Dificuldade
+                  </label>
+                  <p className="text-white">
+                    {getDifficultyStars(selectedGame.difficulty)}
+                  </p>
                 </div>
 
                 <div>
-                  <label className="block text-gray-400 text-sm mb-1">Status</label>
-                  <p className="text-white">{selectedGame.enabled ? 'Habilitado' : 'Desabilitado'}</p>
+                  <label className="block text-gray-400 text-sm mb-1">
+                    Status
+                  </label>
+                  <p className="text-white">
+                    {selectedGame.enabled ? "Habilitado" : "Desabilitado"}
+                  </p>
                 </div>
               </div>
 
               {selectedGame.image_url && (
                 <div>
-                  <label className="block text-gray-400 text-sm mb-1">URL da Imagem</label>
+                  <label className="block text-gray-400 text-sm mb-1">
+                    URL da Imagem
+                  </label>
                   <a
                     href={selectedGame.image_url}
                     target="_blank"
@@ -273,7 +309,9 @@ export default function PendingGames() {
 
               {selectedGame.game_url && (
                 <div>
-                  <label className="block text-gray-400 text-sm mb-1">URL do Jogo</label>
+                  <label className="block text-gray-400 text-sm mb-1">
+                    URL do Jogo
+                  </label>
                   <a
                     href={selectedGame.game_url}
                     target="_blank"

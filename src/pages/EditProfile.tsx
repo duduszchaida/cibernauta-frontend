@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, Mail, Lock, Trash2, Loader2 } from "lucide-react";
-import { usersService, authService } from "../services/api";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "../contexts/AuthContext";
 import {
@@ -13,6 +12,8 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { usersService } from "@/services/usersService";
+import { authService } from "@/services/authService";
 
 export default function EditProfile() {
   const navigate = useNavigate();
@@ -77,7 +78,8 @@ export default function EditProfile() {
     } catch (error: any) {
       toast({
         title: "Erro ao atualizar perfil",
-        description: error.response?.data?.message || "Tente novamente mais tarde",
+        description:
+          error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
     } finally {
@@ -134,7 +136,8 @@ export default function EditProfile() {
     } catch (error: any) {
       toast({
         title: "Erro ao alterar senha",
-        description: error.response?.data?.message || "Tente novamente mais tarde",
+        description:
+          error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
     } finally {
@@ -156,7 +159,8 @@ export default function EditProfile() {
     } catch (error: any) {
       toast({
         title: "Erro ao deletar conta",
-        description: error.response?.data?.message || "Tente novamente mais tarde",
+        description:
+          error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
       setIsLoading(false);
@@ -258,7 +262,6 @@ export default function EditProfile() {
           </div>
         </div>
 
-
         <div className="bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg p-8 mt-6">
           <h2 className="text-white text-xl font-semibold mb-6">Segurança</h2>
 
@@ -281,7 +284,6 @@ export default function EditProfile() {
           </div>
         </div>
       </div>
-
 
       <Dialog
         open={showPasswordDialog}
@@ -306,7 +308,9 @@ export default function EditProfile() {
 
           <div className="space-y-4">
             <div>
-              <label className="block text-gray-300 text-sm mb-1">Senha Atual</label>
+              <label className="block text-gray-300 text-sm mb-1">
+                Senha Atual
+              </label>
               <input
                 type="password"
                 value={currentPassword}
@@ -317,7 +321,9 @@ export default function EditProfile() {
             </div>
 
             <div>
-              <label className="block text-gray-300 text-sm mb-1">Nova Senha</label>
+              <label className="block text-gray-300 text-sm mb-1">
+                Nova Senha
+              </label>
               <input
                 type="password"
                 value={newPassword}
@@ -328,7 +334,9 @@ export default function EditProfile() {
             </div>
 
             <div>
-              <label className="block text-gray-300 text-sm mb-1">Confirmar Nova Senha</label>
+              <label className="block text-gray-300 text-sm mb-1">
+                Confirmar Nova Senha
+              </label>
               <input
                 type="password"
                 value={confirmPassword}
@@ -383,7 +391,8 @@ export default function EditProfile() {
           <DialogHeader>
             <DialogTitle className="text-white">Deletar Conta</DialogTitle>
             <DialogDescription className="text-gray-400">
-              Esta ação é irreversível. Sua conta e todos os dados associados serão permanentemente removidos. Tem certeza que deseja continuar?
+              Esta ação é irreversível. Sua conta e todos os dados associados
+              serão permanentemente removidos. Tem certeza que deseja continuar?
             </DialogDescription>
           </DialogHeader>
 

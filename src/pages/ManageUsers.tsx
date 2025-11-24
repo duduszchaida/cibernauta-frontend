@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Trash2, Edit2, Shield, ShieldOff } from "lucide-react";
-import { usersService } from "../services/api";
+import { Trash2, Edit2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "../contexts/AuthContext";
 import {
@@ -22,6 +21,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { usersService } from "@/services/usersService";
 
 interface User {
   user_id: number;
@@ -29,7 +29,7 @@ interface User {
   full_name: string;
   user_email: string;
   admin: boolean;
-  role: 'USER' | 'MODERATOR' | 'ADMIN';
+  role: "USER" | "MODERATOR" | "ADMIN";
   created_at: string;
 }
 
@@ -97,7 +97,6 @@ export default function ManageUsers() {
       setIsEditDialogOpen(false);
       setEditingUser(null);
 
-    
       if (editingUser.user_id === user?.user_id) {
         await refreshUserProfile();
       }
@@ -106,7 +105,8 @@ export default function ManageUsers() {
     } catch (error: any) {
       toast({
         title: "Erro ao atualizar usuário",
-        description: error.response?.data?.message || "Tente novamente mais tarde",
+        description:
+          error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
     }
@@ -122,19 +122,20 @@ export default function ManageUsers() {
 
     try {
       await usersService.delete(userToDelete);
-      
+
       toast({
         title: "Sucesso!",
         description: "Usuário excluído com sucesso",
       });
-      
+
       setIsDeleteConfirmOpen(false);
       setUserToDelete(null);
       loadUsers();
     } catch (error: any) {
       toast({
         title: "Erro ao excluir usuário",
-        description: error.response?.data?.message || "Tente novamente mais tarde",
+        description:
+          error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
     }
@@ -142,23 +143,23 @@ export default function ManageUsers() {
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
-      case 'ADMIN':
-        return 'bg-blue-600';
-      case 'MODERATOR':
-        return 'bg-purple-600';
+      case "ADMIN":
+        return "bg-blue-600";
+      case "MODERATOR":
+        return "bg-purple-600";
       default:
-        return 'bg-gray-600';
+        return "bg-gray-600";
     }
   };
 
   const getRoleLabel = (role: string) => {
     switch (role) {
-      case 'ADMIN':
-        return 'Admin';
-      case 'MODERATOR':
-        return 'Moderador';
+      case "ADMIN":
+        return "Admin";
+      case "MODERATOR":
+        return "Moderador";
       default:
-        return 'Usuário';
+        return "Usuário";
     }
   };
 
@@ -211,10 +212,16 @@ export default function ManageUsers() {
                   <TableCell className="text-gray-300 font-medium">
                     {user.username}
                   </TableCell>
-                  <TableCell className="text-gray-400">{user.full_name}</TableCell>
-                  <TableCell className="text-gray-400">{user.user_email}</TableCell>
+                  <TableCell className="text-gray-400">
+                    {user.full_name}
+                  </TableCell>
+                  <TableCell className="text-gray-400">
+                    {user.user_email}
+                  </TableCell>
                   <TableCell>
-                    <Badge className={`${getRoleBadgeColor(user.role)} text-white`}>
+                    <Badge
+                      className={`${getRoleBadgeColor(user.role)} text-white`}
+                    >
                       {getRoleLabel(user.role)}
                     </Badge>
                   </TableCell>
@@ -258,7 +265,6 @@ export default function ManageUsers() {
         </div>
       </div>
 
-     
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="bg-[#1a3a52] border border-[#4C91FF] text-gray-300">
           <DialogHeader>
@@ -324,10 +330,14 @@ export default function ManageUsers() {
                 <div className="flex gap-2">
                   <button
                     onClick={() =>
-                      setEditingUser({ ...editingUser, role: 'USER', admin: false })
+                      setEditingUser({
+                        ...editingUser,
+                        role: "USER",
+                        admin: false,
+                      })
                     }
                     className={`flex-1 h-[40px] rounded-lg font-medium transition-colors ${
-                      editingUser.role === 'USER'
+                      editingUser.role === "USER"
                         ? "bg-gray-600 text-white"
                         : "bg-[#0A274F] text-gray-400 border border-[#4C91FF]"
                     }`}
@@ -336,10 +346,14 @@ export default function ManageUsers() {
                   </button>
                   <button
                     onClick={() =>
-                      setEditingUser({ ...editingUser, role: 'MODERATOR', admin: false })
+                      setEditingUser({
+                        ...editingUser,
+                        role: "MODERATOR",
+                        admin: false,
+                      })
                     }
                     className={`flex-1 h-[40px] rounded-lg font-medium transition-colors ${
-                      editingUser.role === 'MODERATOR'
+                      editingUser.role === "MODERATOR"
                         ? "bg-purple-600 text-white"
                         : "bg-[#0A274F] text-gray-400 border border-[#4C91FF]"
                     }`}
@@ -348,10 +362,14 @@ export default function ManageUsers() {
                   </button>
                   <button
                     onClick={() =>
-                      setEditingUser({ ...editingUser, role: 'ADMIN', admin: true })
+                      setEditingUser({
+                        ...editingUser,
+                        role: "ADMIN",
+                        admin: true,
+                      })
                     }
                     className={`flex-1 h-[40px] rounded-lg font-medium transition-colors ${
-                      editingUser.role === 'ADMIN'
+                      editingUser.role === "ADMIN"
                         ? "bg-blue-600 text-white"
                         : "bg-[#0A274F] text-gray-400 border border-[#4C91FF]"
                     }`}
