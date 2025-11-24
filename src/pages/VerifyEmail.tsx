@@ -10,7 +10,7 @@ export default function VerifyEmail() {
   const location = useLocation();
   const { toast } = useToast();
 
-  const email = location.state?.email || '';
+  const email = location.state?.email || "";
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -24,7 +24,8 @@ export default function VerifyEmail() {
     if (!email) {
       toast({
         title: "Erro",
-        description: "Email não fornecido. Por favor, faça o cadastro novamente.",
+        description:
+          "Email não fornecido. Por favor, faça o cadastro novamente.",
         variant: "destructive",
       });
       return;
@@ -37,11 +38,12 @@ export default function VerifyEmail() {
         title: "Email enviado!",
         description: "Verifique sua caixa de entrada e spam",
       });
-      setCooldown(60); 
+      setCooldown(60);
     } catch (error: any) {
       toast({
         title: "Erro ao enviar email",
-        description: error.response?.data?.message || "Tente novamente mais tarde",
+        description:
+          error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
     } finally {
@@ -56,7 +58,7 @@ export default function VerifyEmail() {
           <img
             src="/logo-cibernauta.png"
             alt="Cibernauta"
-            className="w-[114px] h-[114px] mb-4"
+            className="w-[128px] h-[128px] mb-4"
           />
 
           <div className="bg-blue-500 rounded-full p-4 mb-4">
@@ -82,7 +84,9 @@ export default function VerifyEmail() {
               <CheckCircle className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
               <div>
                 <p className="text-white text-sm font-medium">Passo 1</p>
-                <p className="text-gray-400 text-xs">Abra sua caixa de entrada de email</p>
+                <p className="text-gray-400 text-xs">
+                  Abra sua caixa de entrada de email
+                </p>
               </div>
             </div>
 
@@ -90,7 +94,9 @@ export default function VerifyEmail() {
               <CheckCircle className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
               <div>
                 <p className="text-white text-sm font-medium">Passo 2</p>
-                <p className="text-gray-400 text-xs">Procure pelo email do Cibernauta IFPR</p>
+                <p className="text-gray-400 text-xs">
+                  Procure pelo email do Cibernauta IFPR
+                </p>
               </div>
             </div>
 
@@ -98,7 +104,9 @@ export default function VerifyEmail() {
               <CheckCircle className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
               <div>
                 <p className="text-white text-sm font-medium">Passo 3</p>
-                <p className="text-gray-400 text-xs">Clique no link de verificação</p>
+                <p className="text-gray-400 text-xs">
+                  Clique no link de verificação
+                </p>
               </div>
             </div>
           </div>
@@ -107,7 +115,8 @@ export default function VerifyEmail() {
             <div className="flex items-start gap-2">
               <AlertCircle className="w-4 h-4 text-yellow-400 mt-0.5 flex-shrink-0" />
               <p className="text-gray-400 text-xs">
-                Não encontrou o email? Verifique sua caixa de spam ou clique no botão abaixo para reenviar
+                Não encontrou o email? Verifique sua caixa de spam ou clique no
+                botão abaixo para reenviar
               </p>
             </div>
           </div>
@@ -121,9 +130,8 @@ export default function VerifyEmail() {
           {isResending
             ? "Enviando..."
             : cooldown > 0
-            ? `Aguarde ${cooldown}s para reenviar`
-            : "Reenviar Email de Verificação"
-          }
+              ? `Aguarde ${cooldown}s para reenviar`
+              : "Reenviar Email de Verificação"}
         </button>
 
         <p className="text-center text-gray-400 text-sm">

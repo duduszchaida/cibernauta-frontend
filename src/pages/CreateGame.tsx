@@ -5,8 +5,14 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "../contexts/AuthContext";
 import { Switch } from "@/components/ui/switch";
 import GameSubmissionGuide from "@/components/GameSubmissionGuide";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { ChevronDown, Plus, X } from "lucide-react";
+import KeySelectorDialog from "@/components/KeySelectorDialog";
+import { Button } from "@/components/ui/button";
 
 export default function CreateGame() {
   const [isGuideOpen, setIsGuideOpen] = useState(true);
@@ -20,6 +26,10 @@ export default function CreateGame() {
   const [difficulty, setDifficulty] = useState("");
   const [enabled, setEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [controls, setControls] = useState<
+    Array<{ key_image: string; description: string }>
+  >([]);
+  const [showKeyDialog, setShowKeyDialog] = useState(false);
 
   const handleSave = async () => {
     if (!title.trim()) {
@@ -39,8 +49,21 @@ export default function CreateGame() {
       });
       return;
     }
+     if (!gameUrl.trim()) {
+      toast({
+        title: "Erro",
+        description: "Por favor, insira uma url para o jogo",
+        variant: "destructive",
+      });
+      return;
+    }
 
-    if (!difficulty || isNaN(Number(difficulty)) || Number(difficulty) < 1 || Number(difficulty) > 3) {
+    if (
+      !difficulty ||
+      isNaN(Number(difficulty)) ||
+      Number(difficulty) < 1 ||
+      Number(difficulty) > 3
+    ) {
       toast({
         title: "Erro",
         description: "Por favor, insira um nível de dificuldade válido (1 a 3)",
@@ -51,8 +74,7 @@ export default function CreateGame() {
 
     setIsLoading(true);
     try {
-      
-      if (user?.role === 'ADMIN') {
+      if (user?.role === "ADMIN") {
         await gamesService.create({
           game_title: title,
           description,
@@ -60,6 +82,7 @@ export default function CreateGame() {
           image_url: imageUrl.trim() || undefined,
           game_url: gameUrl.trim() || undefined,
           enabled,
+          controls: controls.length > 0 ? controls : undefined,
         });
 
         toast({
@@ -68,13 +91,14 @@ export default function CreateGame() {
         });
       } else {
         await pendingGamesService.create({
-          change_type: 'CREATE',
+          change_type: "CREATE",
           game_title: title,
           description,
           difficulty: Number(difficulty),
           image_url: imageUrl.trim() || undefined,
           game_url: gameUrl.trim() || undefined,
           enabled,
+          controls: controls.length > 0 ? controls : undefined,
         });
 
         toast({
@@ -87,7 +111,8 @@ export default function CreateGame() {
     } catch (error: any) {
       toast({
         title: "Erro ao cadastrar jogo",
-        description: error.response?.data?.message || "Tente novamente mais tarde",
+        description:
+          error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
     } finally {
@@ -99,14 +124,24 @@ export default function CreateGame() {
     navigate("/games");
   };
 
+  const handleAddControl = (keyImage: string, description: string) => {
+    setControls([...controls, { key_image: keyImage, description }]);
+  };
+
+  const handleRemoveControl = (index: number) => {
+    setControls(controls.filter((_, i) => i !== index));
+  };
+
   return (
     <div className="min-h-screen bg-[#274584] px-4 py-12 sm:px-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-white text-3xl font-normal mb-6">
-          Cadastrar jogo
-        </h1>
+        <h1 className="text-white text-3xl font-normal mb-6">Cadastrar jogo</h1>
 
-        <Collapsible open={isGuideOpen} onOpenChange={setIsGuideOpen} className="mb-8">
+        <Collapsible
+          open={isGuideOpen}
+          onOpenChange={setIsGuideOpen}
+          className="mb-8"
+        >
           <CollapsibleTrigger className="w-full">
             <div className="bg-[#0A274F] border-2 border-blue-600 rounded-lg p-4 hover:bg-[#0d2f5e] transition-colors cursor-pointer">
               <div className="flex items-center justify-between">
@@ -118,7 +153,7 @@ export default function CreateGame() {
                 </div>
                 <ChevronDown
                   className={`w-5 h-5 text-blue-400 transition-transform ${
-                    isGuideOpen ? 'transform rotate-180' : ''
+                    isGuideOpen ? "transform rotate-180" : ""
                   }`}
                 />
               </div>
@@ -174,7 +209,6 @@ export default function CreateGame() {
             />
           </div>
 
-        
           <div>
             <label className="block text-gray-300 text-base font-medium mb-2">
               Descrição
@@ -226,11 +260,76 @@ export default function CreateGame() {
                   </span>
                 </div>
               </div>
-              <p className="text-gray-400 text-sm mt-2">
-                Jogos desabilitados não aparecem na lista
-              </p>
+            
             </div>
           </div>
+
+        
+          <div>
+            <label className="block text-gray-300 text-base font-medium mb-3">
+              Controles do Jogo
+            </label>
+            <p className="text-gray-400 text-sm mb-4">
+              Adicione os controles que o jogador utilizará no jogo
+            </p>
+
+    
+            <div className="flex flex-wrap gap-4">
+            
+              {controls.map((control, index) => (
+                <div
+                  key={index}
+                  className="relative w-[180px] p-4 bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg group hover:border-blue-400 transition-colors"
+                >
+                  
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleRemoveControl(index)}
+                    disabled={isLoading}
+                    className="absolute top-2 right-2 text-red-400 hover:text-red-300 hover:bg-red-900/20 w-6 h-6 p-0"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+
+                  <div className="flex flex-col items-center gap-3 pt-4">
+                    <img
+                      src={`/keys/${control.key_image}.png`}
+                      alt={control.description}
+                      className="w-16 h-16"
+                      style={{ imageRendering: "pixelated" }}
+                    />
+                    <p className="text-white text-sm text-center break-words w-full">
+                      {control.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={() => setShowKeyDialog(true)}
+                disabled={isLoading}
+                className="w-[180px] h-[150px] bg-[#0A274F]/30 border-2 border-dashed border-[#4C91FF] rounded-lg hover:bg-[#0A274F]/50 hover:border-blue-400 transition-colors flex items-center justify-center group disabled:opacity-50"
+              >
+                <Plus className="w-8 h-8 text-[#4C91FF] group-hover:text-blue-400 transition-colors" />
+              </button>
+            </div>
+
+            {controls.length === 0 && (
+              <p className="text-gray-400 text-sm mt-2 ml-1">
+                Clique no botão + para adicionar controles
+              </p>
+            )}
+          </div>
+
+         
+          <KeySelectorDialog
+            open={showKeyDialog}
+            onOpenChange={setShowKeyDialog}
+            onSave={handleAddControl}
+          />
 
           <div className="flex flex-col sm:flex-row gap-4 justify-end mt-10 pt-6 border-t border-gray-600">
             <button

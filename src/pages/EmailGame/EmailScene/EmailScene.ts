@@ -1,0 +1,236 @@
+import GameObject from "../Elements/GameObject";
+import Timer from "../Elements/Timer";
+import { Utils } from "../Utils";
+import Scene from "../Scenes/Scene";
+import Toolbar from "./Toolbar";
+import { LEVELSELECTION } from "../Scenes/SceneReferences";
+import { ExitButton } from "../Elements/ExitButton";
+import EmailManager, {
+  ADDRESS,
+  MALICIOUS,
+  NAME,
+  PICTURE,
+  SAFE,
+  SPAM,
+  type AnomalyList,
+  type EmailData,
+} from "./EmailManager";
+import { PauseButton } from "../Elements/PauseBtn";
+import { PauseScreen } from "./PauseScreen";
+import type { Level } from "../LevelSelectionScene/Level";
+import { mailExample } from "./EmailList";
+import Position from "../Position";
+
+const emailBorder = new GameObject({
+  spriteName: "email_border",
+  width: 352,
+  height: 256,
+  ignoreClick: true,
+});
+
+const selectCover = new GameObject({
+  height: 256,
+  width: 352,
+  spriteName: "email_selection_cover",
+  ignoreClick: true,
+});
+
+export const JUDGEEMAIL = "judgeEmail";
+
+function btnFactory(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
+  switch (btn) {
+    case SAFE:
+      return new GameObject({
+        height: 24,
+        width: 24,
+        invisible: true,
+        spriteName: "btn_safe",
+        clickFunction: () => {
+          return { type: JUDGEEMAIL, class: SAFE };
+        },
+      });
+    case MALICIOUS:
+      return new GameObject({
+        height: 24,
+        width: 24,
+        invisible: true,
+        spriteName: "btn_malicious",
+        clickFunction: () => {
+          return { type: JUDGEEMAIL, class: MALICIOUS };
+        },
+      });
+    case SPAM:
+      return new GameObject({
+        height: 24,
+        width: 24,
+        invisible: true,
+        spriteName: "btn_spam",
+        clickFunction: () => {
+          return { type: JUDGEEMAIL, class: SPAM };
+        },
+      });
+  }
+}
+
+export default class EmailScene extends Scene {
+  level: Level;
+  emailManager: EmailManager = new EmailManager(mailExample);
+  emailDataList: EmailData[] = [];
+  toolBar: Toolbar | null = null;
+  timer: Timer;
+  toolButtons: GameObject[] = [];
+  paused: boolean = false;
+  pausedObjectList: GameObject[];
+  unpausedObjectList: GameObject[];
+  pauseButton = new PauseButton();
+
+  constructor(level: Level) {
+    super({
+      backgroundSpriteName: "bg_beige",
+      gameObjects: [],
+    });
+    this.level = level;
+    this.emailDataList = [...level.emailDataList];
+    this.timer = new Timer({ goalSecs: 300, pos: new Position(293, 4) });
+    this.unpausedObjectList = [];
+    this.pausedObjectList = [
+      new PauseScreen(),
+      emailBorder,
+      new ExitButton(LEVELSELECTION),
+      this.pauseButton,
+      this.timer,
+    ];
+    this.generateToolButtons();
+    this.nextEmail(true);
+  }
+
+  generateEmail(emailData?: EmailData) {
+    if (!emailData) {
+      let randId = Utils.randomArrayId(this.emailDataList);
+      emailData = this.emailDataList[randId];
+      this.emailDataList.splice(randId, 1);
+    }
+    this.emailManager.newData(emailData);
+
+    this.toolBar = new Toolbar();
+    this.gameObjects = [
+      ...this.gameObjects,
+      this.emailManager.emailContent,
+      selectCover,
+      this.emailManager[PICTURE],
+      this.emailManager[NAME],
+      this.emailManager[ADDRESS],
+    ];
+    if (this.emailManager.scrollBar) {
+      this.gameObjects.push(this.emailManager.scrollBar);
+    }
+    this.gameObjects.push(this.toolBar);
+    this.toolButtons.forEach((b) => {
+      this.gameObjects.push(b);
+    });
+  }
+
+  nextEmail(first: boolean = false) {
+    if (this.emailDataList.length == 0 && !first) {
+      this.endEmails();
+      return;
+    }
+    this.gameObjects = [];
+    this.generateEmail(first ? this.level.starterEmail : undefined);
+    this.gameObjects = [
+      ...this.gameObjects,
+      emailBorder,
+      new ExitButton(LEVELSELECTION),
+      this.pauseButton,
+      this.timer,
+    ];
+    if (!this.timer.started && !first) {
+      this.timer.start();
+    }
+  }
+
+  endEmails() {
+    console.log("end of emails");
+    this.gameObjects = [emailBorder, new ExitButton(LEVELSELECTION)];
+  }
+
+  inspectModeSwitch() {
+    if (this.toolBar) {
+      this.toolBar.open = !this.toolBar.open;
+      this.toolButtons.forEach((b) => {
+        b.invisible = !this.toolBar?.open;
+      });
+    }
+  }
+
+  compareAnomalies(): AnomalyList {
+    if (!this.emailManager) {
+      alert("No email");
+      return {};
+    }
+    const result: AnomalyList = {}; // A list of anomalies and if they were correctly evaluated or not
+    const seenAnomalies: string[] = [];
+    console.log(this.emailManager.selectedAnomalies);
+    console.log(this.emailManager.anomalies);
+    for (const a in this.emailManager.selectedAnomalies) {
+      if (seenAnomalies.includes(a)) {
+        continue;
+      }
+      result[a] =
+        this.emailManager.selectedAnomalies[a] ==
+        this.emailManager.anomalies[a];
+      seenAnomalies.push(a);
+    }
+    for (const a in this.emailManager.anomalies) {
+      if (seenAnomalies.includes(a)) {
+        continue;
+      }
+      result[a] =
+        this.emailManager.selectedAnomalies[a] ==
+        this.emailManager.anomalies[a];
+      seenAnomalies.push(a);
+    }
+    return result;
+  }
+
+  generateToolButtons() {
+    this.level.buttons.forEach((btn) => {
+      switch (btn) {
+        case SAFE:
+          this.toolButtons.push(btnFactory(SAFE));
+          break;
+        case MALICIOUS:
+          this.toolButtons.push(btnFactory(MALICIOUS));
+          break;
+        case SPAM:
+          this.toolButtons.push(btnFactory(SPAM));
+          break;
+      }
+    });
+    this.toolButtons.forEach((b, i) => {
+      b.pos.y = 222;
+      b.pos.x = 42 + 32 * i;
+    });
+  }
+
+  evaluateEmail(classification: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
+    if (!this.emailManager) {
+      return;
+    }
+    let evaluation = this.compareAnomalies();
+    evaluation.content = this.emailManager.paragraphCheck();
+    evaluation.class = classification == this.emailManager.emailData.class;
+    console.table(evaluation);
+  }
+
+  pause() {
+    this.paused = !this.paused;
+    this.pauseButton.paused = !this.pauseButton.paused;
+    if (this.paused) {
+      this.unpausedObjectList = [...this.gameObjects];
+      this.gameObjects = [...this.pausedObjectList];
+    } else {
+      this.gameObjects = [...this.unpausedObjectList];
+    }
+  }
+}

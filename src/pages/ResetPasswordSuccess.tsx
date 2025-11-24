@@ -9,7 +9,7 @@ export default function ResetPasswordSuccess() {
           <img
             src="/logo-cibernauta.png"
             alt="Cibernauta"
-            className="w-[114px] h-[114px] mb-4"
+            className="w-[128px] h-[128px] mb-4"
           />
           <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
           <h1 className="text-white text-3xl font-normal mb-2">

@@ -1,8 +1,8 @@
 import type CanvasObject from "../CanvasObject";
 import { findSprite } from "../FindSprite";
-import Hitbox from "./Hitbox";
+import Hitbox from "../Hitbox";
 import Position from "../Position";
-import type Sprite from "./Sprite";
+import type Sprite from "../Sprite";
 
 export default class GameObject {
   pos: Position;
@@ -10,17 +10,24 @@ export default class GameObject {
   height: number;
   width: number;
   hitbox: Hitbox;
-  click: boolean | Function = false;
+  click: Function | null;
+  drag: Function | null;
+  invisible: boolean;
+  ignoreClick: boolean;
 
   constructor(args: {
-    pos: Position;
-    spriteName: string;
+    pos?: Position;
+    spriteName?: string;
     width: number;
     height: number;
     hitbox?: Hitbox;
+    clickFunction?: Function;
+    dragFunction?: Function;
+    invisible?: boolean;
+    ignoreClick?: boolean;
   }) {
-    this.pos = args.pos;
-    this.sprite = findSprite(args.spriteName);
+    this.pos = args.pos ?? new Position();
+    this.sprite = findSprite(args.spriteName ?? "cam");
     this.width = args.width;
     this.height = args.height;
     this.hitbox =
@@ -30,12 +37,16 @@ export default class GameObject {
         width: this.width,
         height: this.height,
       });
+    this.click = args.clickFunction ?? null;
+    this.drag = args.dragFunction ?? null;
+    this.invisible = args.invisible ?? false;
+    this.ignoreClick = args.ignoreClick ?? false;
   }
+
   render(canvasObject: CanvasObject) {
-    canvasObject.drawSprite(
-      this.sprite,
-      this.pos,
-      new Position(this.width, this.height),
-    );
+    if (this.invisible) {
+      return;
+    }
+    canvasObject.drawSprite(this.sprite, this.pos, this.width, this.height);
   }
 }

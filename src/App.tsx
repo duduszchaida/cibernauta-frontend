@@ -80,7 +80,7 @@ function ModeratorRoute({ children }: { children: React.ReactNode }) {
     return <Navigate to="/" replace />;
   }
 
-  if (user.role !== 'MODERATOR' && user.role !== 'ADMIN') {
+  if (user.role !== "MODERATOR" && user.role !== "ADMIN") {
     return <Navigate to="/games" replace />;
   }
 

@@ -20,7 +20,13 @@ export default function Signup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!loginUsername || !fullName || !email || !password || !confirmPassword) {
+    if (
+      !loginUsername ||
+      !fullName ||
+      !email ||
+      !password ||
+      !confirmPassword
+    ) {
       toast({
         title: "Erro",
         description: "Por favor, preencha todos os campos",
@@ -46,7 +52,14 @@ export default function Signup() {
       });
       return;
     }
-
+    if (loginUsername.length < 4) {
+      toast({
+        title: "Erro",
+        description: "O usuário de login deve ter no minimo 4 caracteres",
+        variant: "destructive",
+      });
+      return;
+    }
     if (password !== confirmPassword) {
       toast({
         title: "Erro",
@@ -64,7 +77,7 @@ export default function Signup() {
       });
       return;
     }
-
+    
     setIsLoading(true);
     try {
       await register(loginUsername, fullName, email, password);
@@ -91,7 +104,7 @@ export default function Signup() {
           <img
             src="/logo-cibernauta.png"
             alt="Cibernauta"
-            className="w-[114px] h-[114px] mb-4"
+            className="w-[128px] h-[128px] mb-4"
           />
           <h1 className="text-white text-3xl font-normal mb-2">Criar Conta</h1>
           <p className="text-gray-400 text-sm">

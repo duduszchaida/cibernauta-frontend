@@ -1,9 +1,31 @@
+import EmailGameComponent from "./EmailGameComponent";
+
 interface GameComponentProps {
   gameUrl?: string;
+  gameType?: string;
+  gameId: number;
+  userId?: number;
+  onScoreUpdate?: (score: number) => void;
 }
 
-export default function GameComponent({ gameUrl }: GameComponentProps) {
+export default function GameComponent({
+  gameUrl,
+  gameType,
+  gameId,
+  userId,
+  onScoreUpdate,
+}: GameComponentProps) {
   const gameScale = 2;
+
+  if (gameType === "local") {
+    return (
+      <EmailGameComponent
+        gameId={gameId}
+        userId={userId}
+        onScoreUpdate={onScoreUpdate}
+      />
+    );
+  }
 
   if (!gameUrl) {
     return (
@@ -11,10 +33,10 @@ export default function GameComponent({ gameUrl }: GameComponentProps) {
         style={{
           width: 352 * gameScale,
           height: 256 * gameScale,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#9CA3AF'
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "#9CA3AF",
         }}
       >
         URL do jogo não configurada
@@ -28,7 +50,7 @@ export default function GameComponent({ gameUrl }: GameComponentProps) {
       height={256 * gameScale}
       src={gameUrl}
       title="Game"
-      style={{ border: 'none' }}
+      style={{ border: "none" }}
       allowFullScreen
     ></iframe>
   );

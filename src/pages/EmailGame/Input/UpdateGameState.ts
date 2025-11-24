@@ -16,7 +16,9 @@ export default function updateGameStae(gameState: GameState, cursor: Cursor) {
 		if (x.click instanceof Function && x.hitbox.positionInside(cursor.pos)) {
 			cursor.state = "pointer";
 			if (mouseState.click) {
-				const result = x.click();
+				// Passa o gameState para a função de click
+				// Isso permite que os objetos adicionem pontos quando clicados
+				const result = x.click(gameState);
 				if (result?.type == SCENECHANGE) {
 					gameState.currentScene = gameState.sceneList[result.sceneName];
 				}

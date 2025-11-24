@@ -33,16 +33,21 @@ export default function Index() {
     const mode = searchParams.get("mode");
     const oobCode = searchParams.get("oobCode");
 
+    if (mode === "resetPassword" && oobCode) {
+      navigate(`/reset-password?oobCode=${oobCode}`, { replace: true });
+      return;
+    }
+
     if (mode === "verifyEmail" && oobCode) {
       setIsVerifying(true);
       applyActionCode(auth, oobCode)
         .then(() => {
-         
+
           toast({
             title: "Email verificado!",
             description: "Sua conta foi ativada com sucesso. Agora você pode fazer login.",
           });
-    
+
           navigate("/", { replace: true });
         })
         .catch((error) => {

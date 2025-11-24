@@ -33,6 +33,11 @@ interface PendingGame {
   game_url?: string;
   enabled: boolean;
   created_at: string;
+  createdBy?: {
+    user_id: number;
+    username: string;
+    email: string;
+  };
 }
 
 export default function PendingGames() {
@@ -145,6 +150,7 @@ export default function PendingGames() {
                 <TableRow className="border-b border-[#4C91FF] hover:bg-[#0A274F]">
                   <TableHead className="text-gray-300">Tipo</TableHead>
                   <TableHead className="text-gray-300">Título</TableHead>
+                  <TableHead className="text-gray-300">Solicitado por</TableHead>
                   <TableHead className="text-gray-300">Dificuldade</TableHead>
                   <TableHead className="text-gray-300">Data</TableHead>
                   <TableHead className="text-gray-300">Ações</TableHead>
@@ -163,6 +169,9 @@ export default function PendingGames() {
                     </TableCell>
                     <TableCell className="text-gray-300 font-medium">
                       {game.game_title}
+                    </TableCell>
+                    <TableCell className="text-gray-400">
+                      {game.createdBy?.username || 'Desconhecido'}
                     </TableCell>
                     <TableCell className="text-gray-400">
                       {getDifficultyStars(game.difficulty)}
@@ -224,6 +233,11 @@ export default function PendingGames() {
               <div>
                 <label className="block text-gray-400 text-sm mb-1">Título</label>
                 <p className="text-white text-lg font-semibold">{selectedGame.game_title}</p>
+              </div>
+
+              <div>
+                <label className="block text-gray-400 text-sm mb-1">Solicitado por</label>
+                <p className="text-white">{selectedGame.createdBy?.username || 'Desconhecido'}</p>
               </div>
 
               <div>

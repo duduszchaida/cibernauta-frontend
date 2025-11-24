@@ -1,40 +1,23 @@
-import AppIcon, { SCENECHANGE } from "../Elements/AppIcon";
-import Position from "../Position";
+import { desktopScene } from "../DesktopScene/DesktopScene";
+import GameObject from "../Elements/GameObject";
 import Scene from "./Scene";
+import { DESKTOPSCENE, TESTING, TIMERTESTSCENE } from "./SceneReferences";
+import { TimerScene } from "./TimerScene";
 
 const sceneList: Record<string, Scene> = {
-	desktop: new Scene({
-		backgroundSpriteName: "blue_bg",
-		gameObjects: [
-			new AppIcon({
-				pos: new Position(16, 16),
-				spriteName: "concepts_icon",
-				appName: "Conceitos",
-			}),
-			new AppIcon({
-				pos: new Position(80, 16),
-				spriteName: "email_icon",
-				appName: "Treinamento",
-				clickFunction: () => {
-					return { type: SCENECHANGE, sceneName: "email" };
-				},
-			}),
-			new AppIcon({
-				pos: new Position(16, 80),
-				spriteName: "settings_icon",
-				appName: "Ajustes",
-			}),
-			new AppIcon({
-				pos: new Position(80, 80),
-				spriteName: "saves_icon",
-				appName: "Salvamentos",
-			}),
-		],
-	}),
-	email: new Scene({
-		backgroundSpriteName: "beige_bg",
-		gameObjects: [],
-	}),
+  [DESKTOPSCENE]: desktopScene,
+  [TIMERTESTSCENE]: TimerScene,
+  [TESTING]: new Scene({
+    backgroundSpriteName: "bg_blue",
+    gameObjects: [
+      new GameObject({
+        height: 256,
+        width: 352,
+        spriteName: "email_selection_cover",
+        ignoreClick: true,
+      }),
+    ],
+  }),
 };
 
 export default sceneList;

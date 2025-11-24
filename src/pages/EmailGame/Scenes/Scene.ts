@@ -1,6 +1,6 @@
 import { findSprite } from "../FindSprite";
 import type GameObject from "../Elements/GameObject";
-import type Sprite from "../Elements/Sprite";
+import type Sprite from "../Sprite";
 
 export default class Scene {
   backgroundSprite: Sprite;

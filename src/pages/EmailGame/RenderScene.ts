@@ -1,21 +1,20 @@
 import type CanvasObject from "./CanvasObject";
 import type Cursor from "./Cursor";
+import type { Popup } from "./Elements/Popup";
 import Position from "./Position";
 import type Scene from "./Scenes/Scene";
 
 export default function renderScene(
-	gameScene: Scene,
-	canvas: CanvasObject,
-	cursor: Cursor
+  gameScene: Scene,
+  canvas: CanvasObject,
+  cursor: Cursor,
+  popup: Popup,
 ) {
-	canvas.clear();
-	canvas.drawSprite(
-		gameScene.backgroundSprite,
-		new Position(),
-		new Position(352, 256)
-	);
-	gameScene.gameObjects.forEach((x) => {
-		x.render(canvas);
-	});
-	cursor.render(canvas);
+  canvas.clear();
+  canvas.drawSprite(gameScene.backgroundSprite, new Position(), 352, 256);
+  gameScene.gameObjects.forEach((x) => {
+    x.render(canvas);
+  });
+  popup.render(canvas);
+  cursor.render(canvas);
 }
