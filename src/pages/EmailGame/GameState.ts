@@ -10,21 +10,21 @@ export type LevelProgress = {
 
 export type SaveSlot = {
   lastSaveTime: Date | null;
-  levelProgress: LevelProgress[];
+  levelProgressRecord: Record<string, LevelProgress>;
 };
 
 export default class GameState {
   currentScene: Scene;
   inspecting: boolean = false;
   popup: Popup;
-  currentSaveSlot = 0;
+  currentSaveSlotId = 0;
   saveSlots: SaveSlot[] = [
     {
       lastSaveTime: null,
-      levelProgress: [],
+      levelProgressRecord: {},
     },
-    { lastSaveTime: null, levelProgress: [] },
-    { lastSaveTime: null, levelProgress: [] },
+    { lastSaveTime: null, levelProgressRecord: {} },
+    { lastSaveTime: null, levelProgressRecord: {} },
   ];
 
   constructor(args: { sceneReference: string; popup: Popup }) {
@@ -32,47 +32,27 @@ export default class GameState {
     this.popup = args.popup;
   }
 
+  get currentSaveSlot() {
+    return this.saveSlots[this.currentSaveSlotId];
+  }
+
+  get currentSaveSlotTotalScore() {
+    let result = 0;
+    for (const key in this.currentSaveSlot.levelProgressRecord) {
+      const lp = this.currentSaveSlot.levelProgressRecord[key];
+      result += lp.highscore;
+    }
+    return result;
+  }
+
   selectSave(index: number) {
-    this.currentSaveSlot = index;
+    this.currentSaveSlotId = index;
   }
 
   saveGame(manual: boolean = false) {
-    this.saveSlots[this.currentSaveSlot].lastSaveTime = new Date();
+    this.saveSlots[this.currentSaveSlotId].lastSaveTime = new Date();
     if (manual) {
       this.popup.newPopup("Progresso do jogo salvo.", 2.5);
     }
   }
 }
-
-// import {
-//   TESTLEVEL,
-//   TESTLEVEL2,
-//   TESTLEVEL3,
-//   TESTLEVEL4,
-//   TESTLEVEL5,
-// } from "./LevelSelectionScene/LevelList";
-// {
-//   highscore: 5000,
-//   reference: TESTLEVEL,
-//   perfect: true,
-// },
-// {
-//   highscore: 10000,
-//   reference: TESTLEVEL2,
-//   perfect: false,
-// },
-// {
-//   highscore: 12350,
-//   reference: TESTLEVEL3,
-//   perfect: true,
-// },
-// {
-//   highscore: 5,
-//   reference: TESTLEVEL4,
-//   perfect: false,
-// },
-// {
-//   highscore: 0,
-//   reference: TESTLEVEL5,
-//   perfect: false,
-// },

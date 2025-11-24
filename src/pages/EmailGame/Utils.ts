@@ -6,4 +6,30 @@ export const Utils = {
   randomArrayId(arr: any[]): number {
     return this.randomInt(0, arr.length);
   },
+
+  numberFormat(score: number, housesLeft: number = 0): string {
+    let negative = false;
+    if (score < 0) {
+      negative = true;
+      score = score * -1;
+    }
+    if (housesLeft == 0) {
+      housesLeft = score.toString().length;
+    }
+    let thousands = Math.floor(score / 1000).toString();
+    if (housesLeft - 3 > 0) {
+      while (thousands.length < housesLeft - 3) {
+        thousands = "0" + thousands;
+      }
+      thousands += ".";
+    } else {
+      thousands = "";
+    }
+    housesLeft -= Math.max(0, housesLeft - 3);
+    let hundreds = (score % 1000).toString();
+    while (hundreds.length < housesLeft) {
+      hundreds = "0" + hundreds;
+    }
+    return (negative ? "-" : "") + thousands + hundreds;
+  },
 };

@@ -4,23 +4,9 @@ import { SCENECHANGE } from "../../Elements/SceneChanger";
 import { findSprite } from "../../FindSprite";
 import type { LevelProgress } from "../../GameState";
 import Position from "../../Position";
+import { Utils } from "../../Utils";
 import { EMAILSCENE } from "../SceneReferences";
 import type { Level } from "./Level";
-
-export function levelScoreFormat(
-  score: number,
-  formatThous: boolean = false,
-): string {
-  let thousands = Math.floor(score / 1000).toString();
-  while (thousands.length < 3 && !formatThous) {
-    thousands = "0" + thousands;
-  }
-  let hundreds = (score % 1000).toString();
-  while (hundreds.length < 3) {
-    hundreds = "0" + hundreds;
-  }
-  return thousands + "." + hundreds;
-}
 
 export class LevelBlock extends GameObject {
   name: string;
@@ -68,7 +54,7 @@ export class LevelBlock extends GameObject {
       canvasObject.writeText(
         this.fontSprite,
         "minecraftia",
-        "Objetivo: " + levelScoreFormat(this.goal),
+        "Objetivo: " + Utils.numberFormat(this.goal, 6),
         this.pos.add(308, 5),
         "left",
       );
@@ -77,7 +63,7 @@ export class LevelBlock extends GameObject {
     canvasObject.writeText(
       this.fontSprite,
       "minecraftia",
-      "Pontuação: " + levelScoreFormat(this.highscore),
+      "Pontuação: " + Utils.numberFormat(this.highscore, 6),
       this.pos.add(308, 5),
       "left",
     );

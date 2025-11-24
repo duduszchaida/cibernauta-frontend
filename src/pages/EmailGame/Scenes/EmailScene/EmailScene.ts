@@ -92,6 +92,7 @@ export default class EmailScene extends Scene {
   unpausedObjectList: GameObject[];
   pauseButton = new PauseButton();
   evaluations: { evaluation: Evaluation; emailData: EmailData }[] = [];
+  timeEnded: boolean = false;
 
   constructor(level: Level) {
     super({
@@ -100,7 +101,13 @@ export default class EmailScene extends Scene {
     });
     this.level = level;
     this.emailDataList = [...level.emailDataList];
-    this.timer = new Timer({ goalSecs: 300, pos: new Position(293, 4) });
+    this.timer = new Timer({
+      goalSecs: 300,
+      pos: new Position(293, 4),
+      goalFunc: () => {
+        this.timeEnded = true;
+      },
+    });
     this.unpausedObjectList = [];
     this.pausedObjectList = [
       new PauseScreen(),
@@ -140,10 +147,6 @@ export default class EmailScene extends Scene {
   }
 
   nextEmail(first: boolean = false) {
-    if (this.emailDataList.length == 0 && !first) {
-      this.endEmails();
-      return;
-    }
     this.gameObjects = [];
     this.generateEmail(first ? this.level.starterEmail : undefined);
     this.gameObjects = [
@@ -156,11 +159,6 @@ export default class EmailScene extends Scene {
     if (!this.timer.started && !first) {
       this.timer.start();
     }
-  }
-
-  endEmails() {
-    console.log("end of emails");
-    this.gameObjects = [emailBorder, new ExitButton(LEVELSELECTION)];
   }
 
   inspectModeSwitch() {
@@ -197,7 +195,6 @@ export default class EmailScene extends Scene {
       evaluation: this.emailManager.evaluate(classification),
       emailData: this.emailManager.emailData,
     });
-    console.table(this.evaluations);
   }
 
   pause() {

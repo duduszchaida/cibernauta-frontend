@@ -1,22 +1,23 @@
 import { appBorder } from "../../Elements/AppBorder";
 import { ExitButton } from "../../Elements/ExitButton";
 import TextObject from "../../Elements/TextObject";
-import type { SaveSlot } from "../../GameState";
+import type GameState from "../../GameState";
 import Position from "../../Position";
+import { Utils } from "../../Utils";
 import Scene from "../Scene";
 import { DESKTOPSCENE } from "../SceneReferences";
-import { LevelBlock, levelScoreFormat } from "./LevelBlock";
+import { LevelBlock } from "./LevelBlock";
 import { LevelList, levelOrder } from "./LevelList";
 
 export class LevelSelectionScene extends Scene {
-  totalScore: number = 0;
-
-  constructor(saveSlot: SaveSlot) {
+  gameState: GameState;
+  constructor(gameState: GameState) {
     super({
       backgroundSpriteName: "bg_beige",
       gameObjects: [appBorder, new ExitButton(DESKTOPSCENE)],
     });
-    this.generateLevelBlocks(saveSlot);
+    this.gameState = gameState;
+    this.generateLevelBlocks();
     this.gameObjects.push(
       new TextObject({
         pos: new Position(270, 14),
@@ -32,15 +33,21 @@ export class LevelSelectionScene extends Scene {
         pos: new Position(270, 26),
         color: "brown",
         font: "minecraftia",
-        text: levelScoreFormat(this.totalScore),
+        text: Utils.numberFormat(this.gameState.currentSaveSlotTotalScore, 6),
         direction: "center",
         ignoreClick: true,
       }),
     );
   }
 
-  generateLevelBlocks(saveSlot: SaveSlot) {
-    saveSlot.levelProgress.forEach((lp, i) => {
+  generateLevelBlocks() {
+    let i = 0;
+    for (const key in this.gameState.currentSaveSlot.levelProgressRecord) {
+      const lp = this.gameState.currentSaveSlot.levelProgressRecord[key];
+      console.log(lp);
+      if (LevelList[lp.reference] == null) {
+        return;
+      }
       this.gameObjects.push(
         new LevelBlock({
           level: LevelList[lp.reference],
@@ -48,15 +55,18 @@ export class LevelSelectionScene extends Scene {
           order: i,
         }),
       );
-      if (lp.highscore > LevelList[lp.reference].goal) {
-        this.totalScore += lp.highscore;
-      }
-    });
+      i++;
+    }
     this.gameObjects.push(
       new LevelBlock({
-        level: levelOrder[saveSlot.levelProgress.length],
+        level:
+          levelOrder[
+            Object.keys(this.gameState.currentSaveSlot.levelProgressRecord)
+              .length
+          ],
         levelProgress: { reference: "", highscore: 0, perfect: false },
-        order: saveSlot.levelProgress.length,
+        order: Object.keys(this.gameState.currentSaveSlot.levelProgressRecord)
+          .length,
       }),
     );
   }

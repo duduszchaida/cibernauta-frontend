@@ -13,18 +13,20 @@ export const TESTLEVEL5 = "testLevel5";
 export const LevelList: Record<string, Level> = {
   [CONTROLSLEVEL]: {
     name: "Aprendendo os Controles",
-    goal: 50,
+    goal: 200,
     emailDataList: [],
     reference: CONTROLSLEVEL,
     buttons: [SAFE, MALICIOUS],
     starterEmail: EmailList.mailSafeControls,
   },
-  // [TUTORIALLEVEL]: {
-  //   name: "Primeiro contato",
-  //   goal: 500,
-  //   emailDataList: [],
-  //   reference: TUTORIALLEVEL,
-  // },
+  [TUTORIALLEVEL]: {
+    name: "Primeiro contato",
+    goal: 1000,
+    emailDataList: [],
+    reference: TUTORIALLEVEL,
+    buttons: [SAFE, MALICIOUS],
+    starterEmail: EmailList.mailSafeControls,
+  },
   // [TESTLEVEL]: {
   //   name: "Testing level",
   //   goal: 1000,

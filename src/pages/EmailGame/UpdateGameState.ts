@@ -21,7 +21,9 @@ import {
   EMAILSCENE,
   LEVELSELECTION,
   SAVESCENE,
+  SCORESCENE,
 } from "./Scenes/SceneReferences";
+import { ScoreScene } from "./Scenes/ScoreScene";
 
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
@@ -44,14 +46,14 @@ function createScene(result: any, gameState: GameState): Scene {
     case DESKTOPSCENE:
       return new DesktopScene();
     case SAVESCENE:
-      return new SaveScene(gameState.saveSlots, gameState.currentSaveSlot);
+      return new SaveScene(gameState.saveSlots, gameState.currentSaveSlotId);
     case LEVELSELECTION:
-      return new LevelSelectionScene(
-        gameState.saveSlots[gameState.currentSaveSlot],
-      );
+      return new LevelSelectionScene(gameState);
+    case SCORESCENE:
+      return new ScoreScene(result.evaluations, result.level, gameState);
     default:
       alert("no sceneReference");
-      return new SaveScene(gameState.saveSlots, gameState.currentSaveSlot);
+      return new SaveScene(gameState.saveSlots, gameState.currentSaveSlotId);
   }
 }
 
@@ -149,8 +151,19 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
               gameState.currentScene instanceof EmailScene
             ) {
               gameState.currentScene.evaluateEmail(result.class);
-              gameState.currentScene.nextEmail();
               gameState.inspecting = false;
+              if (gameState.currentScene.emailDataList.length == 0) {
+                gameState.currentScene = createScene(
+                  {
+                    sceneReference: SCORESCENE,
+                    evaluations: gameState.currentScene.evaluations,
+                    level: gameState.currentScene.level,
+                  },
+                  gameState,
+                );
+              } else {
+                gameState.currentScene.nextEmail();
+              }
             }
             break;
         }
@@ -185,14 +198,6 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
     gameState.currentScene instanceof EmailScene
   ) {
     inspectModeSwitch(gameState);
-  }
-
-  if (
-    keyboardState["p"]?.keyState == PRESSED &&
-    !keyboardState["p"]?.read &&
-    gameState.currentScene instanceof EmailScene
-  ) {
-    gameState.currentScene.endEmails();
   }
 
   mouseState.click = false;
