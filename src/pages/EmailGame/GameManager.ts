@@ -10,28 +10,11 @@ import { Popup } from "./Elements/Popup";
 
 let canvasObject: CanvasObject;
 
-let saveSlotsString = localStorage.getItem("mail_save");
-let newGame = true;
-let saveSlots = [
-  {
-    lastSaveTime: null,
-    levelProgressRecord: {},
-  },
-  { lastSaveTime: null, levelProgressRecord: {} },
-  { lastSaveTime: null, levelProgressRecord: {} },
-];
-if (saveSlotsString) {
-  saveSlots = JSON.parse(saveSlotsString);
-  newGame = false;
-}
-
 const gameScale = 2;
 const cursor = new Cursor();
 const popup = new Popup();
 const gameState = new GameState({
-  newGame: newGame,
   popup: popup,
-  saveSlots: saveSlots,
 });
 
 function renderFrameLoop() {

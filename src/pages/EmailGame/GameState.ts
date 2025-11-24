@@ -1,3 +1,4 @@
+import { savesService } from "@/services/savesService";
 import type { Popup } from "./Elements/Popup";
 import Scene from "./Scenes/Scene";
 import { DESKTOPSCENE, SAVESCENE } from "./Scenes/SceneReferences";
@@ -14,6 +15,27 @@ export type Save = {
   levelProgressRecord: Record<string, LevelProgress>;
 };
 
+let savesData: any = null;
+try {
+  savesData = (await savesService.getSave()).save_data;
+} catch {
+  console.warn("couldn't get save");
+}
+console.log(savesData);
+let newGame = true;
+let saves: Save[] = [
+  {
+    lastSaveTime: null,
+    levelProgressRecord: {},
+  },
+  { lastSaveTime: null, levelProgressRecord: {} },
+  { lastSaveTime: null, levelProgressRecord: {} },
+];
+if (savesData != null) {
+  saves = JSON.parse(savesData);
+  newGame = false;
+}
+
 export default class GameState {
   currentScene: Scene;
   inspecting: boolean = false;
@@ -22,11 +44,11 @@ export default class GameState {
   currentSave: Save;
   saveSlots: Save[];
 
-  constructor(args: { newGame: boolean; popup: Popup; saveSlots: any }) {
-    this.currentScene = new StartScene(args.newGame ? DESKTOPSCENE : SAVESCENE);
+  constructor(args: { popup: Popup }) {
+    this.currentScene = new StartScene(newGame ? DESKTOPSCENE : SAVESCENE);
     this.popup = args.popup;
-    this.saveSlots = args.saveSlots as Save[];
-    if (args.newGame) {
+    this.saveSlots = saves;
+    if (newGame) {
       this.currentSaveSlotId = 0;
     } else {
       this.currentSaveSlotId = null;
@@ -65,6 +87,9 @@ export default class GameState {
     if (manual) {
       this.popup.newPopup("Progresso do jogo salvo.", 2.5);
     }
-    localStorage.setItem("mail_save", JSON.stringify(this.saveSlots));
+    savesService.saveGame({
+      game_id: 1,
+      save_data: JSON.stringify(this.saveSlots),
+    });
   }
 }

@@ -1,16 +1,12 @@
 import { api } from "./api";
 
 export const savesService = {
-  getSave: async (saveSlot: number = 1) => {
-    const response = await api.get(`/saves?save_slot=${saveSlot}`);
+  getSave: async () => {
+    const response = await api.get(`/saves?save_slot=1`);
     return response.data;
   },
 
-  saveGame: async (data: {
-    game_id: number;
-    save_slot: number;
-    save_data?: string;
-  }) => {
+  saveGame: async (data: { game_id: number; save_data?: string }) => {
     const response = await api.post("/saves", data);
     return response.data;
   },
