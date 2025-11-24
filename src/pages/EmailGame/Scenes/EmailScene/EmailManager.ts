@@ -1,5 +1,5 @@
-import ScrollBar from "../Elements/ScrollBar";
-import Position from "../Position";
+import ScrollBar from "../../Elements/ScrollBar";
+import Position from "../../Position";
 import EmailComponent from "./EmailComponent";
 import EmailContent from "./EmailContent";
 import EmailTextComponent from "./EmailTextComponent";

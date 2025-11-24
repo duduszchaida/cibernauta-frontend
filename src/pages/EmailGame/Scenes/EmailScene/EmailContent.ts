@@ -1,10 +1,10 @@
-import type CanvasObject from "../CanvasObject";
-import GameObject from "../Elements/GameObject";
-import { findSprite } from "../FindSprite";
-import fontMaps from "../FontMaps";
-import measureTextWidth from "../MeasureTextWidth";
-import Position from "../Position";
-import type Sprite from "../Sprite";
+import type CanvasObject from "../../CanvasObject";
+import GameObject from "../../Elements/GameObject";
+import { findSprite } from "../../FindSprite";
+import fontMaps from "../../FontMaps";
+import measureTextWidth from "../../MeasureTextWidth";
+import Position from "../../Position";
+import type Sprite from "../../Sprite";
 import { INSPECT } from "./EmailComponent";
 
 export type Line = {

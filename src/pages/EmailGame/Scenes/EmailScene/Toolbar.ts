@@ -1,7 +1,7 @@
-import type CanvasObject from "../CanvasObject";
-import GameObject from "../Elements/GameObject";
-import Hitbox from "../Hitbox";
-import Position from "../Position";
+import type CanvasObject from "../../CanvasObject";
+import GameObject from "../../Elements/GameObject";
+import Hitbox from "../../Hitbox";
+import Position from "../../Position";
 
 export const INSPECTMODE = "inspectmode";
 

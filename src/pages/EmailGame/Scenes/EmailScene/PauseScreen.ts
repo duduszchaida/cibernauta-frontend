@@ -1,4 +1,4 @@
-import GameObject from "../Elements/GameObject";
+import GameObject from "../../Elements/GameObject";
 
 export class PauseScreen extends GameObject {
   constructor() {

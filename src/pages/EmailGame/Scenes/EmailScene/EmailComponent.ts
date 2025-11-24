@@ -1,8 +1,8 @@
-import type CanvasObject from "../CanvasObject";
-import GameObject from "../Elements/GameObject";
-import { findSprite } from "../FindSprite";
-import Position from "../Position";
-import type Sprite from "../Sprite";
+import type CanvasObject from "../../CanvasObject";
+import GameObject from "../../Elements/GameObject";
+import { findSprite } from "../../FindSprite";
+import type Position from "../../Position";
+import type Sprite from "../../Sprite";
 import type { ADDRESS, CONTENT, PICTURE } from "./EmailManager";
 
 export const INSPECT = "inspect";

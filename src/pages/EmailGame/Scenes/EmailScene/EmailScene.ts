@@ -1,10 +1,3 @@
-import GameObject from "../Elements/GameObject";
-import Timer from "../Elements/Timer";
-import { Utils } from "../Utils";
-import Scene from "../Scenes/Scene";
-import Toolbar from "./Toolbar";
-import { LEVELSELECTION } from "../Scenes/SceneReferences";
-import { ExitButton } from "../Elements/ExitButton";
 import EmailManager, {
   ADDRESS,
   MALICIOUS,
@@ -15,11 +8,18 @@ import EmailManager, {
   type AnomalyList,
   type EmailData,
 } from "./EmailManager";
-import { PauseButton } from "../Elements/PauseBtn";
 import { PauseScreen } from "./PauseScreen";
 import type { Level } from "../LevelSelectionScene/Level";
 import { mailExample } from "./EmailList";
-import Position from "../Position";
+import GameObject from "../../Elements/GameObject";
+import Scene from "../Scene";
+import Toolbar from "./Toolbar";
+import Timer from "../../Elements/Timer";
+import { PauseButton } from "../../Elements/PauseBtn";
+import Position from "../../Position";
+import { LEVELSELECTION } from "../SceneReferences";
+import { ExitButton } from "../../Elements/ExitButton";
+import { Utils } from "../../Utils";
 
 const emailBorder = new GameObject({
   spriteName: "email_border",
@@ -36,6 +36,8 @@ const selectCover = new GameObject({
 });
 
 export const JUDGEEMAIL = "judgeEmail";
+
+export type Evaluation = {};
 
 function btnFactory(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
   switch (btn) {

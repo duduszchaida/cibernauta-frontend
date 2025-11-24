@@ -2,7 +2,7 @@ import fontMaps from "./FontMaps";
 import Position from "./Position";
 import type Sprite from "./Sprite";
 import measureTextWidth from "./MeasureTextWidth";
-import type { Line } from "./EmailScene/EmailContent";
+import type { Line } from "./Scenes/EmailScene/EmailContent";
 
 export default class CanvasObject {
   width: number = 800;
