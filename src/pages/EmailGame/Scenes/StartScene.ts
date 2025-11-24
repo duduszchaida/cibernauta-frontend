@@ -1,10 +1,9 @@
 import SceneChanger from "../Elements/SceneChanger";
 import Position from "../Position";
 import Scene from "./Scene";
-import { DESKTOPSCENE } from "./SceneReferences";
 
 export class StartScene extends Scene {
-  constructor() {
+  constructor(sceneReference: string) {
     super({
       backgroundSpriteName: "bg_start",
       gameObjects: [
@@ -13,7 +12,7 @@ export class StartScene extends Scene {
           height: 48,
           width: 96,
           spriteName: "start_btn",
-          sceneReference: DESKTOPSCENE,
+          sceneReference: sceneReference,
         }),
       ],
     });

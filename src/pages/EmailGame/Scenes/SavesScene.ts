@@ -1,12 +1,13 @@
 import GameObject from "../Elements/GameObject";
 import TextObject from "../Elements/TextObject";
-import type { SaveSlot } from "../GameState";
+import type { Save } from "../GameState";
 import Position from "../Position";
 import Scene from "./Scene";
 
 export const SELECTSAVE = "selectSave";
 
-function slotToTextObject(slot: SaveSlot, num: number): TextObject[] {
+function saveTextObjects(save: Save, num: number): TextObject[] {
+  console.log(save);
   let pos = new Position();
   switch (num) {
     case 0:
@@ -19,7 +20,7 @@ function slotToTextObject(slot: SaveSlot, num: number): TextObject[] {
       pos = new Position(274, 146);
       break;
   }
-  if (!slot.lastSaveTime) {
+  if (!save.lastSaveTime) {
     return [
       new TextObject({
         pos: pos,
@@ -30,12 +31,15 @@ function slotToTextObject(slot: SaveSlot, num: number): TextObject[] {
       }),
     ];
   }
+  if (typeof save.lastSaveTime == "string") {
+    save.lastSaveTime = new Date(save.lastSaveTime);
+  }
   let dateText =
-    slot.lastSaveTime.getDate() +
+    save.lastSaveTime.getDate() +
     "/" +
-    (slot.lastSaveTime.getMonth() + 1) +
+    (save.lastSaveTime.getMonth() + 1) +
     "/" +
-    slot.lastSaveTime.getFullYear();
+    save.lastSaveTime.getFullYear();
   let date = new TextObject({
     pos: pos,
     color: "bnw",
@@ -44,10 +48,10 @@ function slotToTextObject(slot: SaveSlot, num: number): TextObject[] {
     direction: "center",
   });
   let timeText =
-    slot.lastSaveTime.getHours() +
+    save.lastSaveTime.getHours() +
     ":" +
-    (slot.lastSaveTime.getMinutes() < 10 ? "0" : "") +
-    slot.lastSaveTime.getMinutes();
+    (save.lastSaveTime.getMinutes() < 10 ? "0" : "") +
+    save.lastSaveTime.getMinutes();
   let time = new TextObject({
     pos: pos.add(0, 12),
     color: "bnw",
@@ -63,7 +67,7 @@ export default class SaveScene extends Scene {
   textSlot1: any;
   textSlot2: any;
   textSlot3: any;
-  constructor(saveSlots: SaveSlot[], currentSave: number) {
+  constructor(saveSlots: Save[], currentSave: number | null) {
     super({
       backgroundSpriteName: "bg_save_screen",
       gameObjects: [],
@@ -71,7 +75,7 @@ export default class SaveScene extends Scene {
     this.update(saveSlots, currentSave);
   }
 
-  update(saveSlots: SaveSlot[], currentSave: number) {
+  update(saveSlots: Save[], currentSave: number | null) {
     this.gameObjects = [];
     let slot1Btn = new GameObject({
       pos: new Position(48, 76),
@@ -108,16 +112,9 @@ export default class SaveScene extends Scene {
       },
     });
 
-    let selectedSaveText = new TextObject({
-      pos: new Position(39 + currentSave * 96, 60),
-      color: "bnw",
-      font: "minecraftia",
-      text: "Salvamento Atual",
-    });
-
-    let slot1Text = slotToTextObject(saveSlots[0], 0);
-    let slot2Text = slotToTextObject(saveSlots[1], 1);
-    let slot3Text = slotToTextObject(saveSlots[2], 2);
+    let slot1Text = saveTextObjects(saveSlots[0], 0);
+    let slot2Text = saveTextObjects(saveSlots[1], 1);
+    let slot3Text = saveTextObjects(saveSlots[2], 2);
 
     this.gameObjects = [
       ...this.gameObjects,
@@ -127,7 +124,16 @@ export default class SaveScene extends Scene {
       slot1Btn,
       slot2Btn,
       slot3Btn,
-      selectedSaveText,
     ];
+
+    if (currentSave) {
+      let selectedSaveText = new TextObject({
+        pos: new Position(39 + currentSave * 96, 60),
+        color: "bnw",
+        font: "minecraftia",
+        text: "Salvamento Atual",
+      });
+      this.gameObjects.push(selectedSaveText);
+    }
   }
 }

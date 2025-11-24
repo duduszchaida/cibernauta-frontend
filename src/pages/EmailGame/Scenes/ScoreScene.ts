@@ -84,7 +84,7 @@ export class ScoreScene extends Scene {
       font: "wcp",
       direction: "left",
       text:
-        "Classificações Inorretas: " +
+        "Classificações Incorretas: " +
         Utils.numberFormat(this.classWrong, 2) +
         " = -" +
         Utils.numberFormat(Math.abs(this.classWrong * classWrongPoints), 6) +
@@ -96,7 +96,7 @@ export class ScoreScene extends Scene {
       font: "wcp",
       direction: "left",
       text:
-        "Elemetnos Corretos: " +
+        "Elementos Corretos: " +
         Utils.numberFormat(this.elementRight, 2) +
         " = +" +
         Utils.numberFormat(this.elementRight * elementRightPoints, 6) +
@@ -108,7 +108,7 @@ export class ScoreScene extends Scene {
       font: "wcp",
       direction: "left",
       text:
-        "Elemetnos Inorretos: " +
+        "Elementos Incorretos: " +
         Utils.numberFormat(this.elementWrong, 2) +
         " = -" +
         Utils.numberFormat(
@@ -147,20 +147,18 @@ export class ScoreScene extends Scene {
     if (this.totalScore >= this.level.goal) {
       let levelHs = 0;
       if (
-        this.gameState.currentSaveSlot.levelProgressRecord[this.level.reference]
+        this.gameState.currentSave.levelProgressRecord[this.level.reference]
           ?.highscore > this.level.goal
       ) {
         levelHs =
-          this.gameState.currentSaveSlot.levelProgressRecord[
-            this.level.reference
-          ].highscore;
+          this.gameState.currentSave.levelProgressRecord[this.level.reference]
+            .highscore;
       }
-      this.gameState.currentSaveSlot.levelProgressRecord[this.level.reference] =
-        {
-          reference: this.level.reference,
-          highscore: Math.max(this.totalScore, levelHs),
-          perfect: this.classWrong + this.elementWrong == 0,
-        };
+      this.gameState.currentSave.levelProgressRecord[this.level.reference] = {
+        reference: this.level.reference,
+        highscore: Math.max(this.totalScore, levelHs),
+        perfect: this.classWrong + this.elementWrong == 0,
+      };
       if (this.totalScore > levelHs) {
         console.log("New highscore!!");
         // Send new highscore to back

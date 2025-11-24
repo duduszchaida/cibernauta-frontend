@@ -17,46 +17,18 @@ export const LevelList: Record<string, Level> = {
     emailDataList: [],
     reference: CONTROLSLEVEL,
     buttons: [SAFE, MALICIOUS],
-    starterEmail: EmailList.mailSafeControls,
+    starterEmail: EmailList.mailTutorialControls,
+    canInspect: false,
   },
   [TUTORIALLEVEL]: {
     name: "Primeiro contato",
     goal: 1000,
-    emailDataList: [],
+    emailDataList: [EmailList.mailMal1],
     reference: TUTORIALLEVEL,
     buttons: [SAFE, MALICIOUS],
-    starterEmail: EmailList.mailSafeTutorial,
+    starterEmail: EmailList.mailTutorialClass,
+    canInspect: false,
   },
-  // [TESTLEVEL]: {
-  //   name: "Testing level",
-  //   goal: 1000,
-  //   emailDataList: [],
-  //   reference: TESTLEVEL,
-  // },
-  // [TESTLEVEL2]: {
-  //   name: "Fase muito massa woow",
-  //   goal: 1000,
-  //   emailDataList: [],
-  //   reference: TESTLEVEL2,
-  // },
-  // [TESTLEVEL3]: {
-  //   name: "Propagandas",
-  //   goal: 1000,
-  //   emailDataList: [],
-  //   reference: TESTLEVEL3,
-  // },
-  // [TESTLEVEL4]: {
-  //   name: "Alguém pediu um código?",
-  //   goal: 500,
-  //   emailDataList: [],
-  //   reference: TESTLEVEL4,
-  // },
-  // [TESTLEVEL5]: {
-  //   name: "Testing level",
-  //   goal: 1000,
-  //   emailDataList: [],
-  //   reference: TESTLEVEL5,
-  // },
 };
 
 export const levelOrder: Level[] = [

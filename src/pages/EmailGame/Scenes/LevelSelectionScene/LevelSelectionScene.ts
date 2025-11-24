@@ -42,8 +42,8 @@ export class LevelSelectionScene extends Scene {
 
   generateLevelBlocks() {
     let i = 0;
-    for (const key in this.gameState.currentSaveSlot.levelProgressRecord) {
-      const lp = this.gameState.currentSaveSlot.levelProgressRecord[key];
+    for (const key in this.gameState.currentSave.levelProgressRecord) {
+      const lp = this.gameState.currentSave.levelProgressRecord[key];
       if (LevelList[lp.reference] == null) {
         return;
       }
@@ -60,11 +60,10 @@ export class LevelSelectionScene extends Scene {
       new LevelBlock({
         level:
           levelOrder[
-            Object.keys(this.gameState.currentSaveSlot.levelProgressRecord)
-              .length
+            Object.keys(this.gameState.currentSave.levelProgressRecord).length
           ],
         levelProgress: { reference: "", highscore: 0, perfect: false },
-        order: Object.keys(this.gameState.currentSaveSlot.levelProgressRecord)
+        order: Object.keys(this.gameState.currentSave.levelProgressRecord)
           .length,
       }),
     );

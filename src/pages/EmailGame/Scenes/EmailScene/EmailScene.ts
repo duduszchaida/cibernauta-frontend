@@ -84,7 +84,7 @@ export default class EmailScene extends Scene {
   level: Level;
   emailManager: EmailManager = new EmailManager(mailExample);
   emailDataList: EmailData[] = [];
-  toolBar: Toolbar | null = null;
+  toolBar!: Toolbar;
   timer: Timer;
   toolButtons: GameObject[] = [];
   paused: boolean = false;
@@ -116,6 +116,7 @@ export default class EmailScene extends Scene {
       this.pauseButton,
       this.timer,
     ];
+    this.toolBar = new Toolbar();
     this.generateToolButtons();
     this.nextEmail(true);
   }
@@ -128,7 +129,7 @@ export default class EmailScene extends Scene {
     }
     this.emailManager.newData(emailData);
 
-    this.toolBar = new Toolbar();
+    this.switchToolBar();
     this.gameObjects = [
       ...this.gameObjects,
       this.emailManager.emailContent,
@@ -161,13 +162,12 @@ export default class EmailScene extends Scene {
     }
   }
 
-  inspectModeSwitch() {
-    if (this.toolBar) {
-      this.toolBar.open = !this.toolBar.open;
-      this.toolButtons.forEach((b) => {
-        b.invisible = !this.toolBar?.open;
-      });
-    }
+  switchToolBar() {
+    console.log("switch bar");
+    this.toolBar.open = !this.toolBar.open;
+    this.toolButtons.forEach((b) => {
+      b.invisible = !this.toolBar?.open;
+    });
   }
 
   generateToolButtons() {

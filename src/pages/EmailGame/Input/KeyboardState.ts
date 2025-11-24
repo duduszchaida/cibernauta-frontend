@@ -10,6 +10,9 @@ const keyboardState: Record<
 export function bindKeyboardEvents() {
   window.addEventListener("keydown", (e) => {
     // console.log(e.key)
+    if (e.code === "Space" || e.key === " ") {
+      e.preventDefault();
+    }
     if (keyboardState[e.key] == null) {
       keyboardState[e.key] = { keyState: UNPRESSED, read: false };
     }

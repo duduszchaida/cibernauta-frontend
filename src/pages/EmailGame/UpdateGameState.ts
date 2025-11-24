@@ -27,8 +27,10 @@ import { ScoreScene } from "./Scenes/ScoreScene";
 
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
-    gameState.inspecting = !gameState.inspecting;
-    gameState.currentScene.inspectModeSwitch();
+    if (gameState.currentScene.level.canInspect) {
+      gameState.inspecting = !gameState.inspecting;
+    }
+    gameState.currentScene.switchToolBar();
   }
 }
 
@@ -146,10 +148,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             );
             break;
           case JUDGEEMAIL:
-            if (
-              gameState.inspecting &&
-              gameState.currentScene instanceof EmailScene
-            ) {
+            if (gameState.currentScene instanceof EmailScene) {
               gameState.currentScene.evaluateEmail(result.class);
               gameState.inspecting = false;
               if (gameState.currentScene.emailDataList.length == 0) {
