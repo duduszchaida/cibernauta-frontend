@@ -2,6 +2,7 @@ import ScrollBar from "../../Elements/ScrollBar";
 import Position from "../../Position";
 import EmailComponent from "./EmailComponent";
 import EmailContent from "./EmailContent";
+import type { Evaluation } from "./EmailScene";
 import EmailTextComponent from "./EmailTextComponent";
 
 // Email anomaly references
@@ -12,7 +13,7 @@ export const PICTURE = "picture";
 export const SAFE = "safe";
 export const MALICIOUS = "malicious";
 export const SPAM = "spam";
-export type AnomalyList = Record<string, boolean | null>;
+export type AnomalyList = Record<string, boolean | undefined>;
 
 export type EmailData = {
   text: string;
@@ -35,10 +36,10 @@ export default class EmailManager {
   anomalyParagraphs!: number[];
   scrollBar: ScrollBar | null = null;
   selectedAnomalies: AnomalyList = {
-    name: null,
-    content: null,
-    address: null,
-    picture: null,
+    name: undefined,
+    content: undefined,
+    address: undefined,
+    picture: undefined,
   };
   [PICTURE]!: EmailComponent;
   [ADDRESS]!: EmailTextComponent;
@@ -80,10 +81,10 @@ export default class EmailManager {
       this.emailContent.scrollShiftAmmount,
     );
     this.anomalies = {
-      name: data.anomalyName ?? false,
-      content: data.anomalyContent ?? false,
-      address: data.anomalyAddress ?? false,
-      picture: data.anomalyPicture ?? false,
+      name: data.anomalyName,
+      content: data.anomalyContent,
+      address: data.anomalyAddress,
+      picture: data.anomalyPicture,
     };
     this.anomalyParagraphs = data.anomalyParagraphs ?? [];
   }
@@ -94,9 +95,12 @@ export default class EmailManager {
         this.anomalyParagraphs.includes(this.emailContent.selectedParagraph)
       ) {
         return true;
+      } else {
+        return false;
       }
-    } else if (this.anomalyParagraphs.length == 0) {
-      return true;
+    }
+    if (this.anomalyParagraphs.length == 0) {
+      return null;
     }
     return false;
   }
@@ -130,5 +134,34 @@ export default class EmailManager {
   scrollEmailTo(scroll: number) {
     this.emailContent.scrollTo(scroll);
     this.scrollBar?.scrollTo(scroll);
+  }
+
+  evaluate(classification: string): Evaluation {
+    const result: Evaluation = {
+      [ADDRESS]: null,
+      [PICTURE]: null,
+      [NAME]: null,
+      [CONTENT]: null,
+      class: false,
+    };
+
+    const keys: (keyof Evaluation)[] = [ADDRESS, PICTURE, NAME];
+
+    keys.forEach((k) => {
+      if (this.anomalies[k]) {
+        if (this.selectedAnomalies[k]) {
+          result[k] = true;
+        }
+      } else {
+        if (this.selectedAnomalies[k]) {
+          result[k] = false;
+        } else {
+          result[k] = null;
+        }
+      }
+    });
+    result.content = this.paragraphCheck();
+    result.class = classification == this.emailData.class;
+    return result;
   }
 }

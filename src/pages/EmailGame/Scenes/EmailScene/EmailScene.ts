@@ -1,11 +1,11 @@
 import EmailManager, {
   ADDRESS,
+  CONTENT,
   MALICIOUS,
   NAME,
   PICTURE,
   SAFE,
   SPAM,
-  type AnomalyList,
   type EmailData,
 } from "./EmailManager";
 import { PauseScreen } from "./PauseScreen";
@@ -37,7 +37,13 @@ const selectCover = new GameObject({
 
 export const JUDGEEMAIL = "judgeEmail";
 
-export type Evaluation = {};
+export type Evaluation = {
+  [PICTURE]: boolean | null;
+  [ADDRESS]: boolean | null;
+  [NAME]: boolean | null;
+  [CONTENT]: boolean | null;
+  class: boolean | null;
+};
 
 function btnFactory(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
   switch (btn) {
@@ -85,6 +91,7 @@ export default class EmailScene extends Scene {
   pausedObjectList: GameObject[];
   unpausedObjectList: GameObject[];
   pauseButton = new PauseButton();
+  evaluations: { evaluation: Evaluation; emailData: EmailData }[] = [];
 
   constructor(level: Level) {
     super({
@@ -165,34 +172,6 @@ export default class EmailScene extends Scene {
     }
   }
 
-  compareAnomalies(): AnomalyList {
-    if (!this.emailManager) {
-      alert("No email");
-      return {};
-    }
-    const result: AnomalyList = {}; // A list of anomalies and if they were correctly evaluated or not
-    const seenAnomalies: string[] = [];
-    for (const a in this.emailManager.selectedAnomalies) {
-      if (seenAnomalies.includes(a)) {
-        continue;
-      }
-      result[a] =
-        this.emailManager.selectedAnomalies[a] ==
-        this.emailManager.anomalies[a];
-      seenAnomalies.push(a);
-    }
-    for (const a in this.emailManager.anomalies) {
-      if (seenAnomalies.includes(a)) {
-        continue;
-      }
-      result[a] =
-        this.emailManager.selectedAnomalies[a] ==
-        this.emailManager.anomalies[a];
-      seenAnomalies.push(a);
-    }
-    return result;
-  }
-
   generateToolButtons() {
     this.level.buttons.forEach((btn) => {
       switch (btn) {
@@ -214,13 +193,11 @@ export default class EmailScene extends Scene {
   }
 
   evaluateEmail(classification: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
-    if (!this.emailManager) {
-      return;
-    }
-    let evaluation = this.compareAnomalies();
-    evaluation.content = this.emailManager.paragraphCheck();
-    evaluation.class = classification == this.emailManager.emailData.class;
-    console.table(evaluation);
+    this.evaluations.push({
+      evaluation: this.emailManager.evaluate(classification),
+      emailData: this.emailManager.emailData,
+    });
+    console.table(this.evaluations);
   }
 
   pause() {

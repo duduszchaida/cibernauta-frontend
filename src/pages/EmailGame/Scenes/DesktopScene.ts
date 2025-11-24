@@ -1,7 +1,7 @@
-import AppIcon from "../../Elements/AppIcon";
-import Position from "../../Position";
-import Scene from "../Scene";
-import { LEVELSELECTION, SAVESCENE, TIMERTESTSCENE } from "../SceneReferences";
+import AppIcon from "../Elements/AppIcon";
+import Position from "../Position";
+import Scene from "./Scene";
+import { LEVELSELECTION, SAVESCENE, TIMERTESTSCENE } from "./SceneReferences";
 
 export const MANUALSAVE = "manualSave";
 export class DesktopScene extends Scene {

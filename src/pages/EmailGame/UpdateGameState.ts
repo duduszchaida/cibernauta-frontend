@@ -7,7 +7,7 @@ import { gameTimeTracker } from "./GameTimeTracker";
 import keyboardState, { PRESSED } from "./Input/KeyboardState";
 import mouseState from "./Input/MouseState";
 import Position from "./Position";
-import { DesktopScene, MANUALSAVE } from "./Scenes/DesktopScene/DesktopScene";
+import { DesktopScene, MANUALSAVE } from "./Scenes/DesktopScene";
 import EmailComponent, { INSPECT } from "./Scenes/EmailScene/EmailComponent";
 import EmailContent from "./Scenes/EmailScene/EmailContent";
 import EmailScene, { JUDGEEMAIL } from "./Scenes/EmailScene/EmailScene";
