@@ -35,7 +35,7 @@ PostgreSQL (versão 12 ou superior)
 
 Abra o terminal/prompt de comando e navegue até a pasta do projeto:
 
-cd C:\Users\eduar\Documents\IFPR\projeto
+exemplo: cd C:\Users\eduar\Documents\IFPR\projeto (mudará o caminho pelo o local na sua maquina)
 
 ### Passo 2: Instalar Dependências do Backend
 

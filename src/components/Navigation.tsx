@@ -19,11 +19,12 @@ import {
 
 interface NavigationProps {
   full_name?: string;
+  username?: string;
   showGamesLink?: boolean;
 }
 
 export default function Navigation({
-  full_name,
+  username,
   showGamesLink = false,
 }: NavigationProps) {
   const navigate = useNavigate();
@@ -60,12 +61,12 @@ export default function Navigation({
         )}
       </div>
 
-      {full_name && (
+      {username && (
         <div className="flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#2B71A3] text-gray-300 hover:bg-[#1f5a85] transition-colors focus:outline-none">
               <User className="w-4 h-4" />
-              <span className="text-base">{full_name}</span>
+              <span className="text-base">{username}</span>
               <ChevronDown className="w-4 h-4" />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="bg-[#0A274F] border border-[#4C91FF] text-white">

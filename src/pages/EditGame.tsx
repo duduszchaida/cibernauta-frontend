@@ -92,7 +92,7 @@ export default function EditGame() {
           image_url: imageUrl.trim() || undefined,
           game_url: gameUrl.trim() || undefined,
           enabled,
-          controls: controls.length > 0 ? controls : undefined,
+          controls: controls,
         });
 
         toast({
@@ -109,7 +109,7 @@ export default function EditGame() {
           image_url: imageUrl.trim() || undefined,
           game_url: gameUrl.trim() || undefined,
           enabled,
-          controls: controls.length > 0 ? controls : undefined,
+          controls: controls,
         });
 
         toast({
@@ -254,13 +254,10 @@ export default function EditGame() {
                   </span>
                 </div>
               </div>
-              <p className="text-gray-400 text-sm mt-2">
-                Jogos desabilitados não aparecem na lista
-              </p>
+           
             </div>
           </div>
 
-          {/* Seção de Controles */}
           <div>
             <label className="block text-gray-300 text-base font-medium mb-3">
               Controles do Jogo
@@ -269,15 +266,14 @@ export default function EditGame() {
               Adicione os controles que o jogador utilizará no jogo
             </p>
 
-            {/* Grid de controles adicionados com botão de adicionar */}
             <div className="flex flex-wrap gap-4">
-              {/* Lista de controles */}
+
               {controls.map((control, index) => (
                 <div
                   key={index}
                   className="relative w-[180px] p-4 bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg group hover:border-blue-400 transition-colors"
                 >
-                  {/* Botão de remover */}
+                  
                   <Button
                     type="button"
                     variant="ghost"
@@ -288,8 +284,7 @@ export default function EditGame() {
                   >
                     <X className="w-4 h-4" />
                   </Button>
-
-                  {/* Conteúdo do card */}
+  
                   <div className="flex flex-col items-center gap-3 pt-4">
                     <img
                       src={`/keys/${control.key_image}.png`}
@@ -304,7 +299,6 @@ export default function EditGame() {
                 </div>
               ))}
 
-              {/* Botão de adicionar controle */}
               <button
                 type="button"
                 onClick={() => setShowKeyDialog(true)}
@@ -315,7 +309,6 @@ export default function EditGame() {
               </button>
             </div>
 
-            {/* Mensagem quando não há controles */}
             {controls.length === 0 && (
               <p className="text-gray-400 text-sm mt-2 ml-1">
                 Clique no botão + para adicionar controles
@@ -323,7 +316,6 @@ export default function EditGame() {
             )}
           </div>
 
-          {/* Dialog de seleção de teclas */}
           <KeySelectorDialog
             open={showKeyDialog}
             onOpenChange={setShowKeyDialog}

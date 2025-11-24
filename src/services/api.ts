@@ -200,6 +200,11 @@ export const pendingGamesService = {
     const response = await api.get("/games/pending/my");
     return response.data;
   },
+  
+  getMyAll: async () => {
+    const response = await api.get('/games/all/my');
+    return response.data;
+  },
 
   create: async (data: any) => {
     const response = await api.post("/games/pending", data);

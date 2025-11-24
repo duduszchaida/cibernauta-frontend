@@ -44,7 +44,7 @@ export default function GameSubmissionGuide({ variant = 'full', className = '' }
           </p>
         </div>
 
-        {/* Campos Obrigatórios */}
+      
         <div>
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle className="w-4 h-4 text-green-400" />
@@ -52,14 +52,11 @@ export default function GameSubmissionGuide({ variant = 'full', className = '' }
           </div>
           <ul className="list-disc list-inside space-y-1 text-sm">
             <li><span className="text-white">Título do jogo</span> - Nome que aparecerá na listagem</li>
-            <li><span className="text-white">URL da capa</span> - Caminho da imagem de capa para a listagem</li>
             <li><span className="text-white">Nível de dificuldade</span> - Um número de 1 a 3 (⭐ Fácil, ⭐⭐ Médio, ⭐⭐⭐ Difícil)</li>
             <li><span className="text-white">Descrição</span> - Explique o objetivo e mecânicas do jogo</li>
             <li><span className="text-white">URL do jogo</span> - Link onde o jogo está hospedado</li>
           </ul>
         </div>
-
-        {/* Lista de Controles */}
         <div>
           <div className="flex items-center gap-2 mb-2">
             <List className="w-4 h-4 text-green-400" />
@@ -78,8 +75,6 @@ export default function GameSubmissionGuide({ variant = 'full', className = '' }
             </li>
           </ul>
         </div>
-
-        {/* Processo de Avaliação */}
         <div className="bg-yellow-900/20 border border-yellow-700/50 rounded p-3 mt-4">
           <div className="flex items-start gap-2">
             <AlertCircle className="w-4 h-4 text-yellow-400 mt-0.5 flex-shrink-0" />

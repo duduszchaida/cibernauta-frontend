@@ -20,8 +20,7 @@ export default function Index() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [showEmailVerificationDialog, setShowEmailVerificationDialog] =
-    useState(false);
+  const [showEmailVerificationDialog, setShowEmailVerificationDialog] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [searchParams] = useSearchParams();
@@ -29,32 +28,36 @@ export default function Index() {
   const { login } = useAuth();
   const { toast } = useToast();
 
+
   useEffect(() => {
     const mode = searchParams.get("mode");
     const oobCode = searchParams.get("oobCode");
+
+    if (mode === "resetPassword" && oobCode) {
+      navigate(`/reset-password?oobCode=${oobCode}`, { replace: true });
+      return;
+    }
 
     if (mode === "verifyEmail" && oobCode) {
       setIsVerifying(true);
       applyActionCode(auth, oobCode)
         .then(() => {
+
           toast({
             title: "Email verificado!",
-            description:
-              "Sua conta foi ativada com sucesso. Agora você pode fazer login.",
+            description: "Sua conta foi ativada com sucesso. Agora você pode fazer login.",
           });
 
           navigate("/", { replace: true });
         })
         .catch((error) => {
           console.error("Erro ao verificar email:", error);
-          let errorMessage =
-            "Erro ao verificar email. O link pode estar expirado.";
+          let errorMessage = "Erro ao verificar email. O link pode estar expirado.";
 
           if (error.code === "auth/invalid-action-code") {
             errorMessage = "O link de verificação é inválido ou já foi usado.";
           } else if (error.code === "auth/expired-action-code") {
-            errorMessage =
-              "O link de verificação expirou. Por favor, solicite um novo.";
+            errorMessage = "O link de verificação expirou. Por favor, solicite um novo.";
           }
 
           toast({
@@ -93,10 +96,8 @@ export default function Index() {
     } catch (error: any) {
       const errorMessage = error.message || "Verifique suas credenciais";
 
-      if (
-        errorMessage.includes("Email não verificado") ||
-        errorMessage.includes("não verificado")
-      ) {
+      
+      if (errorMessage.includes("Email não verificado") || errorMessage.includes("não verificado")) {
         setUserEmail(identifier.includes("@") ? identifier : "");
         setShowEmailVerificationDialog(true);
       } else {
@@ -136,9 +137,9 @@ export default function Index() {
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-12">
           <img
-            src="logo-cibernauta.png"
+            src="https://api.builder.io/api/v1/image/assets/TEMP/f90f1003dbb52e5b956aed22fffbc71ded713f9f?width=228"
             alt="Cibernauta"
-            className="w-[128px] h-[128px] mb-4"
+            className="w-[114px] h-[114px] mb-4"
           />
           <h1 className="text-white text-3xl font-normal mb-2">Entrar</h1>
           <p className="text-gray-400 text-sm">
@@ -148,9 +149,7 @@ export default function Index() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-gray-300 text-sm mb-1">
-              Email ou usuário
-            </label>
+            <label className="block text-gray-300 text-sm mb-1">Email ou usuário</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-[17px] h-[13px] text-gray-400" />
               <input
@@ -212,10 +211,7 @@ export default function Index() {
         </p>
       </div>
 
-      <AlertDialog
-        open={showEmailVerificationDialog}
-        onOpenChange={setShowEmailVerificationDialog}
-      >
+      <AlertDialog open={showEmailVerificationDialog} onOpenChange={setShowEmailVerificationDialog}>
         <AlertDialogContent className="bg-[#0A274F] border-[#4C91FF]">
           <AlertDialogHeader>
             <div className="flex items-center gap-3 mb-2">
@@ -227,11 +223,12 @@ export default function Index() {
               </AlertDialogTitle>
             </div>
             <AlertDialogDescription className="text-gray-300 text-base">
-              Você precisa verificar seu email antes de fazer login. Verifique
-              sua caixa de entrada e clique no link de verificação que enviamos.
+              Você precisa verificar seu email antes de fazer login. Verifique sua caixa de entrada e clique no link de verificação que enviamos.
             </AlertDialogDescription>
             {userEmail && (
-              <p className="text-blue-400 text-sm mt-2">Email: {userEmail}</p>
+              <p className="text-blue-400 text-sm mt-2">
+                Email: {userEmail}
+              </p>
             )}
           </AlertDialogHeader>
           <AlertDialogFooter className="flex-col sm:flex-row gap-2">

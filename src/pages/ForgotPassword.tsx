@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, ArrowLeft } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
@@ -10,6 +10,7 @@ export default function ForgotPassword() {
   const [emailSent, setEmailSent] = useState(false);
   const { requestPasswordReset } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,11 +43,24 @@ export default function ForgotPassword() {
         description: "Verifique sua caixa de entrada para redefinir sua senha",
       });
     } catch (error: any) {
-      toast({
-        title: "Erro ao enviar email",
-        description: error.message || "Tente novamente mais tarde",
-        variant: "destructive",
-      });
+      const errorMessage = error.message || "Tente novamente mais tarde";
+
+      if (errorMessage.includes("verificar seu email")) {
+        toast({
+          title: "Email não verificado",
+          description: "Você precisa verificar seu email antes de redefinir a senha. Redirecionando...",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          navigate("/verify-email", { state: { email } });
+        }, 2000);
+      } else {
+        toast({
+          title: "Erro ao enviar email",
+          description: errorMessage,
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -57,9 +71,9 @@ export default function ForgotPassword() {
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-12">
           <img
-            src="logo-cibernauta.png"
+            src="/logo-cibernauta.png"
             alt="Cibernauta"
-            className="w-[128px] h-[128px] mb-4"
+            className="w-[114px] h-[114px] mb-4"
           />
           <h1 className="text-white text-3xl font-normal mb-2">
             Esqueci minha senha

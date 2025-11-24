@@ -19,7 +19,7 @@ const AVAILABLE_KEYS = [
   "key_m", "key_n", "key_o", "key_p", "key_q", "key_r",
   "key_s", "key_t", "key_u", "key_v", "key_w", "key_x",
   "key_y", "key_z",
-  "mouse", "mouse_movement", "scroll", "wasd"
+  "mouse", "space", "scroll", "wasd"
 ];
 
 const KEYS_PER_PAGE = 9;
@@ -69,7 +69,7 @@ export default function KeySelectorDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Adicionar Controle do Jogo</DialogTitle>
           <DialogDescription>
