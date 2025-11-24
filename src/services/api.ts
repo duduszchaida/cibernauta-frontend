@@ -264,35 +264,25 @@ export const moderatorRequestsService = {
 };
 
 export const savesService = {
-  getSave: async (saveSlot: number = 1) => {
-    const response = await api.get(`/saves?save_slot=${saveSlot}`);
+  getSave: async () => {
+    const response = await api.get('/saves');
     return response.data;
   },
 
   saveGame: async (data: {
-    game_id: number;
-    save_slot: number;
     save_data?: string;
   }) => {
     const response = await api.post("/saves", data);
     return response.data;
   },
 
-  getHighscore: async (gameId: number, saveSlot: number = 1) => {
-    const response = await api.get(
-      `/saves/highscore/${gameId}?save_slot=${saveSlot}`,
-    );
+  getHighscore: async (gameId: number) => {
+    const response = await api.get(`/saves/highscore/${gameId}`);
     return response.data;
   },
 
-  updateHighscore: async (
-    data: { game_id: number; score: number },
-    saveSlot: number = 1,
-  ) => {
-    const response = await api.post(
-      `/saves/highscore?save_slot=${saveSlot}`,
-      data,
-    );
+  updateHighscore: async (data: { game_id: number; score: number }) => {
+    const response = await api.post('/saves/highscore', data);
     return response.data;
   },
 
