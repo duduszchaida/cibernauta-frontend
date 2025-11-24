@@ -172,8 +172,6 @@ export default class EmailScene extends Scene {
     }
     const result: AnomalyList = {}; // A list of anomalies and if they were correctly evaluated or not
     const seenAnomalies: string[] = [];
-    console.log(this.emailManager.selectedAnomalies);
-    console.log(this.emailManager.anomalies);
     for (const a in this.emailManager.selectedAnomalies) {
       if (seenAnomalies.includes(a)) {
         continue;

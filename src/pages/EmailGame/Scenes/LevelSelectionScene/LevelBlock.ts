@@ -1,10 +1,10 @@
-import type CanvasObject from "../CanvasObject";
-import GameObject from "../Elements/GameObject";
-import { SCENECHANGE } from "../Elements/SceneChanger";
-import { findSprite } from "../FindSprite";
-import type { LevelProgress } from "../GameState";
-import Position from "../Position";
-import { EMAILSCENE } from "../Scenes/SceneReferences";
+import type CanvasObject from "../../CanvasObject";
+import GameObject from "../../Elements/GameObject";
+import { SCENECHANGE } from "../../Elements/SceneChanger";
+import { findSprite } from "../../FindSprite";
+import type { LevelProgress } from "../../GameState";
+import Position from "../../Position";
+import { EMAILSCENE } from "../SceneReferences";
 import type { Level } from "./Level";
 
 export function levelScoreFormat(

@@ -1,6 +1,6 @@
 import type { Popup } from "./Elements/Popup";
 import Scene from "./Scenes/Scene";
-import sceneList from "./Scenes/SceneList";
+import { StartScene } from "./Scenes/StartScene";
 
 export type LevelProgress = {
   reference: string;
@@ -14,7 +14,6 @@ export type SaveSlot = {
 };
 
 export default class GameState {
-  sceneList = sceneList;
   currentScene: Scene;
   inspecting: boolean = false;
   popup: Popup;
@@ -29,7 +28,7 @@ export default class GameState {
   ];
 
   constructor(args: { sceneReference: string; popup: Popup }) {
-    this.currentScene = this.sceneList[args.sceneReference];
+    this.currentScene = new StartScene();
     this.popup = args.popup;
   }
 

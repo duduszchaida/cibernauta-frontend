@@ -1,20 +1,21 @@
 import type Cursor from "./Cursor";
-import { MANUALSAVE } from "./DesktopScene/DesktopScene";
 import { PAUSEGAME } from "./Elements/PauseBtn";
 import { SCENECHANGE } from "./Elements/SceneChanger";
 import { SCROLLTO } from "./Elements/ScrollBar";
-import EmailComponent, { INSPECT } from "./EmailScene/EmailComponent";
-import EmailContent from "./EmailScene/EmailContent";
-import EmailScene, { JUDGEEMAIL } from "./EmailScene/EmailScene";
-import EmailTextComponent from "./EmailScene/EmailTextComponent";
-import { INSPECTMODE } from "./EmailScene/Toolbar";
 import type GameState from "./GameState";
 import { gameTimeTracker } from "./GameTimeTracker";
 import keyboardState, { PRESSED } from "./Input/KeyboardState";
 import mouseState from "./Input/MouseState";
-import { LevelSelectionScene } from "./LevelSelectionScene/LevelSelectionScene";
 import Position from "./Position";
+import { DesktopScene, MANUALSAVE } from "./Scenes/DesktopScene/DesktopScene";
+import EmailComponent, { INSPECT } from "./Scenes/EmailScene/EmailComponent";
+import EmailContent from "./Scenes/EmailScene/EmailContent";
+import EmailScene, { JUDGEEMAIL } from "./Scenes/EmailScene/EmailScene";
+import EmailTextComponent from "./Scenes/EmailScene/EmailTextComponent";
+import { INSPECTMODE } from "./Scenes/EmailScene/Toolbar";
+import { LevelSelectionScene } from "./Scenes/LevelSelectionScene/LevelSelectionScene";
 import SaveScene, { SELECTSAVE } from "./Scenes/SavesScene";
+import type Scene from "./Scenes/Scene";
 import {
   DESKTOPSCENE,
   EMAILSCENE,
@@ -34,6 +35,24 @@ function pauseTraining(gameState: GameState) {
     gameState.currentScene.pause();
   }
   gameTimeTracker.pause();
+}
+
+function createScene(result: any, gameState: GameState): Scene {
+  switch (result.sceneReference) {
+    case EMAILSCENE:
+      return new EmailScene(result.level);
+    case DESKTOPSCENE:
+      return new DesktopScene();
+    case SAVESCENE:
+      return new SaveScene(gameState.saveSlots, gameState.currentSaveSlot);
+    case LEVELSELECTION:
+      return new LevelSelectionScene(
+        gameState.saveSlots[gameState.currentSaveSlot],
+      );
+    default:
+      alert("no sceneReference");
+      return new SaveScene(gameState.saveSlots, gameState.currentSaveSlot);
+  }
 }
 
 export default function updateGameState(gameState: GameState, cursor: Cursor) {
@@ -79,32 +98,10 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
         const result = obj.click(mouseState.pos);
         switch (result?.type) {
           case SCENECHANGE:
-            switch (result.sceneReference) {
-              case EMAILSCENE:
-                gameState.sceneList[result.sceneReference] = new EmailScene(
-                  result.level,
-                );
-                break;
-              case SAVESCENE:
-                gameState.sceneList[result.sceneReference] = new SaveScene(
-                  gameState.saveSlots,
-                  gameState.currentSaveSlot,
-                );
-                break;
-              case LEVELSELECTION:
-                gameState.sceneList[result.sceneReference] =
-                  new LevelSelectionScene(
-                    gameState.saveSlots[gameState.currentSaveSlot],
-                  );
-                break;
-              default:
-                cursor.state = "arrow";
-                gameState.inspecting = false;
-            }
+            gameState.currentScene = createScene(result, gameState);
             if (gameState.inspecting) {
               inspectModeSwitch(gameState);
             }
-            gameState.currentScene = gameState.sceneList[result.sceneReference];
             if (gameTimeTracker.paused) {
               gameTimeTracker.pause();
             }
@@ -141,7 +138,10 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             break;
           case SELECTSAVE:
             gameState.selectSave(result.slot);
-            gameState.currentScene = gameState.sceneList[DESKTOPSCENE];
+            gameState.currentScene = createScene(
+              { sceneReference: DESKTOPSCENE },
+              gameState,
+            );
             break;
           case JUDGEEMAIL:
             if (

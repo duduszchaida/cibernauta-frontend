@@ -12,7 +12,7 @@ export const PICTURE = "picture";
 export const SAFE = "safe";
 export const MALICIOUS = "malicious";
 export const SPAM = "spam";
-export type AnomalyList = Record<string, boolean>;
+export type AnomalyList = Record<string, boolean | null>;
 
 export type EmailData = {
   text: string;
@@ -35,10 +35,10 @@ export default class EmailManager {
   anomalyParagraphs!: number[];
   scrollBar: ScrollBar | null = null;
   selectedAnomalies: AnomalyList = {
-    name: false,
-    content: false,
-    address: false,
-    picture: false,
+    name: null,
+    content: null,
+    address: null,
+    picture: null,
   };
   [PICTURE]!: EmailComponent;
   [ADDRESS]!: EmailTextComponent;

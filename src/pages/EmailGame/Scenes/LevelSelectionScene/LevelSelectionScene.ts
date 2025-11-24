@@ -1,10 +1,10 @@
-import { appBorder } from "../Elements/AppBorder";
-import { ExitButton } from "../Elements/ExitButton";
-import TextObject from "../Elements/TextObject";
-import type { SaveSlot } from "../GameState";
-import Position from "../Position";
-import Scene from "../Scenes/Scene";
-import { DESKTOPSCENE } from "../Scenes/SceneReferences";
+import { appBorder } from "../../Elements/AppBorder";
+import { ExitButton } from "../../Elements/ExitButton";
+import TextObject from "../../Elements/TextObject";
+import type { SaveSlot } from "../../GameState";
+import Position from "../../Position";
+import Scene from "../Scene";
+import { DESKTOPSCENE } from "../SceneReferences";
 import { LevelBlock, levelScoreFormat } from "./LevelBlock";
 import { LevelList, levelOrder } from "./LevelList";
 
