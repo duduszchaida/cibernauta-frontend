@@ -57,9 +57,9 @@ export default function ForgotPassword() {
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-12">
           <img
-            src="/logo-cibernauta.png"
+            src="logo-cibernauta.png"
             alt="Cibernauta"
-            className="w-[114px] h-[114px] mb-4"
+            className="w-[128px] h-[128px] mb-4"
           />
           <h1 className="text-white text-3xl font-normal mb-2">
             Esqueci minha senha

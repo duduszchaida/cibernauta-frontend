@@ -42,9 +42,9 @@ export default function Navigation({
           className="flex items-center gap-3 hover:opacity-80 transition-opacity"
         >
           <img
-            src="logo-cibernauta.png"
+            src="/logo-cibernauta-sm.png"
             alt="Cibernauta"
-            className="w-[58px] h-[58px]"
+            className="w-[64px] h-[64px]"
             style={{ imageRendering: "pixelated" }}
           />
           <span className="text-white text-xl font-bold">Cibernauta</span>
