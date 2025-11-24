@@ -1,9 +1,9 @@
 # Cibernauta - IFPR
 
-
 ## Tecnologias Utilizadas
 
 ### Backend
+
 - NestJS - Framework Node.js para APIs
 - TypeScript - Linguagem de programação
 - PostgreSQL - Banco de dados relacional
@@ -11,19 +11,21 @@
 - Firebase Admin SDK - Autenticação
 
 ### Frontend
+
 - React 18 - Biblioteca JavaScript
 - Vite - Build tool e dev server
 - TypeScript - Linguagem de programação
 - Tailwind CSS - Framework de estilização
 - Firebase - Autenticação
+
 ---
 
 ## Pré-requisitos
 
 Certifique-se de ter instalado:
 
-   Node.js (versão 18 ou superior)
-   PostgreSQL (versão 12 ou superior)
+Node.js (versão 18 ou superior)
+PostgreSQL (versão 12 ou superior)
 
 ---
 
@@ -96,7 +98,7 @@ Ao acessar http://localhost:5173, você verá a página inicial do sistema.
 ### 3. Login
 
 1. Se já tiver uma conta, insira seu email e senha
-3. Clique em "Entrar"
+2. Clique em "Entrar"
 
 ### 4. Dashboard de Jogos
 
@@ -109,8 +111,6 @@ Após o login, você será redirecionado para o dashboard com:
 
 1. Na lista de jogos, clique no card de um jogo específico
 2. Você será redirecionado para a tela do jogo
-3. Seu progresso e pontuação serão salvos automaticamente
-
 
 ### 6. Área Administrativa
 
