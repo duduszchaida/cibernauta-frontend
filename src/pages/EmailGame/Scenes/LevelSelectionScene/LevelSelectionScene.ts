@@ -44,7 +44,6 @@ export class LevelSelectionScene extends Scene {
     let i = 0;
     for (const key in this.gameState.currentSaveSlot.levelProgressRecord) {
       const lp = this.gameState.currentSaveSlot.levelProgressRecord[key];
-      console.log(lp);
       if (LevelList[lp.reference] == null) {
         return;
       }

@@ -38,6 +38,8 @@ export const mailsafeSubscription: EmailData = {
   key: crypto.randomUUID(),
 };
 
+// Progressão
+
 export const mailSafeControls: EmailData = {
   text: `Olá! E bem vindo ao treinamento de identificação de emails da equipe CIBERNAUTA.\n\nDaqui em diante, você irá aprender como identificar emails seguros, maliciosos e spam em todas as suas formas.\n\nMas antes de começar, vamos dar uma olhada nos controles que temos aqui.\n\nNa parte lateral da direita, mais ou menos por aqui -->\nTemos a barra de scroll, se clicar nela ou arrasta-la pode mover o conteúdo do email para cima e para baixo.\n\nNão ache estranho se ela às vezes não estiver presente, ela só aparece quando um email é comprido o suficiente para precisar dela.\n\nAlém dela também temos seu painel de botões, para abrir ele basta clicar no botão com a seta no canto esquerdo.\n\nNo painel você tem acesso a o que é preciso para classificar um email.\nPor enquanto só temos os botões de SEGURO (verde e redondo) e MALICIOSO (quadrado vermelho).\n\nPara prosseguir classifique esse email como SEGURO e vamos seguir em frente.`,
   address: "teamcibernauta@mail.com",
@@ -48,7 +50,7 @@ export const mailSafeControls: EmailData = {
 };
 
 export const mailSafeTutorial: EmailData = {
-  text: `asd`,
+  text: `Agora que tem uma noção básica dos controles, vamos à o que interessa, emails.`,
   address: "teamcibernauta@mail.com",
   class: SAFE,
   name: "Equipe Cibernauta",

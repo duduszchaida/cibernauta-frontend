@@ -161,6 +161,10 @@ export class ScoreScene extends Scene {
           highscore: Math.max(this.totalScore, levelHs),
           perfect: this.classWrong + this.elementWrong == 0,
         };
+      if (this.totalScore > levelHs) {
+        console.log("New highscore!!");
+        // Send new highscore to back
+      }
     }
   }
 }

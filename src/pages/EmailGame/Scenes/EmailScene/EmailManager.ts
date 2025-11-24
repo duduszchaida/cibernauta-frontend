@@ -76,10 +76,14 @@ export default class EmailManager {
       reference: ADDRESS,
       anomaly: false,
     });
-    this.scrollBar = new ScrollBar(
-      this.emailContent.textHeight,
-      this.emailContent.scrollShiftAmmount,
-    );
+    if (this.emailContent.hasScroll) {
+      this.scrollBar = new ScrollBar(
+        this.emailContent.textHeight,
+        this.emailContent.scrollShiftAmmount,
+      );
+    } else {
+      this.scrollBar = null;
+    }
     this.anomalies = {
       name: data.anomalyName,
       content: data.anomalyContent,

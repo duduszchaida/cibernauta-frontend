@@ -34,6 +34,13 @@ export default class EmailContent extends GameObject {
     this.text = text;
     this.fontSprite = findSprite(this.font + "_black");
     this.generateParagraphs();
+    console.log(
+      this.textHeight,
+      this.extraHeight,
+      ">",
+      this.height,
+      this.extraHeight,
+    );
     if (this.textHeight + this.extraHeight > this.height - this.extraHeight) {
       this.hasScroll = true;
     }
@@ -67,7 +74,7 @@ export default class EmailContent extends GameObject {
     let paragraphs = this.text.split("\n\n");
     let cellHeight = fontMaps[this.font].cellHeight;
     this.textHeight = 0;
-
+    console.log(this.textHeight);
     paragraphs.forEach((p, i) => {
       this.paragraphs[i] = [];
       let letters = p.split("");
@@ -107,6 +114,7 @@ export default class EmailContent extends GameObject {
       }
       this.textHeight += 2 * cellHeight;
     });
+    console.log(this.textHeight);
   }
 
   scroll(mult = 1) {

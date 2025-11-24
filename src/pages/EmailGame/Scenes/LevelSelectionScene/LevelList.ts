@@ -25,7 +25,7 @@ export const LevelList: Record<string, Level> = {
     emailDataList: [],
     reference: TUTORIALLEVEL,
     buttons: [SAFE, MALICIOUS],
-    starterEmail: EmailList.mailSafeControls,
+    starterEmail: EmailList.mailSafeTutorial,
   },
   // [TESTLEVEL]: {
   //   name: "Testing level",
