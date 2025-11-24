@@ -23,7 +23,12 @@ export const LevelList: Record<string, Level> = {
   [TUTORIALLEVEL]: {
     name: "Primeiro contato",
     goal: 1000,
-    emailDataList: [EmailList.mailMal1],
+    emailDataList: [
+      EmailList.mailMal1,
+      EmailList.mailMal2,
+      EmailList.mailMal3,
+      EmailList.mailSafe1,
+    ],
     reference: TUTORIALLEVEL,
     buttons: [SAFE, MALICIOUS],
     starterEmail: EmailList.mailTutorialClass,

@@ -54,8 +54,8 @@ export default class GameState {
   }
 
   saveGame(manual: boolean = false) {
-    if (!this.currentSaveSlotId) {
-      alert("error in save slot id, id is null while trying to save");
+    if (this.currentSaveSlotId == null) {
+      alert("error in save slot id, id is null/undefined while trying to save");
       return;
     }
     this.currentSave.lastSaveTime = new Date();

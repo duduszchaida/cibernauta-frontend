@@ -7,7 +7,6 @@ import Scene from "./Scene";
 export const SELECTSAVE = "selectSave";
 
 function saveTextObjects(save: Save, num: number): TextObject[] {
-  console.log(save);
   let pos = new Position();
   switch (num) {
     case 0:
@@ -75,7 +74,7 @@ export default class SaveScene extends Scene {
     this.update(saveSlots, currentSave);
   }
 
-  update(saveSlots: Save[], currentSave: number | null) {
+  update(saveSlots: Save[], currentSaveId: number | null) {
     this.gameObjects = [];
     let slot1Btn = new GameObject({
       pos: new Position(48, 76),
@@ -126,9 +125,9 @@ export default class SaveScene extends Scene {
       slot3Btn,
     ];
 
-    if (currentSave) {
+    if (currentSaveId != null) {
       let selectedSaveText = new TextObject({
-        pos: new Position(39 + currentSave * 96, 60),
+        pos: new Position(39 + currentSaveId * 96, 60),
         color: "bnw",
         font: "minecraftia",
         text: "Salvamento Atual",

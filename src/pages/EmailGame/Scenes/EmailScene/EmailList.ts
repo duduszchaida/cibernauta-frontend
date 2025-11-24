@@ -1,4 +1,3 @@
-import { Utils } from "../../Utils";
 import { MALICIOUS, SAFE, SPAM, type EmailData } from "./EmailManager";
 
 export const mailspamDesconto90: EmailData = {
@@ -51,7 +50,7 @@ export const mailGrandma: EmailData = {
 // Controls Level
 
 export const mailTutorialControls: EmailData = {
-  text: `Olá! E bem vindo ao treinamento de identificação de emails da equipe CIBERNAUTA.\n\nDaqui em diante, você irá aprender como identificar emails seguros, maliciosos e spam em todas as suas formas.\n\nMas antes de começar, vamos dar uma olhada nos controles que temos aqui.\n\nNa parte lateral da direita, mais ou menos por aqui -->\nTemos a barra de scroll, se clicar nela ou arrasta-la pode mover o conteúdo do email para cima e para baixo.\n\nNão ache estranho se ela às vezes não estiver presente, ela só aparece quando um email é comprido o suficiente para precisar dela.\n\nAlém dela também temos seu painel de botões, para abrir ele basta clicar no botão com a seta no canto esquerdo.\n\nNo painel você tem acesso a o que é preciso para classificar um email.\nPor enquanto só temos os botões de SEGURO (verde e redondo) e MALICIOSO (quadrado vermelho).\n\nPara prosseguir classifique esse email como SEGURO e vamos seguir em frente.`,
+  text: `Olá! E bem vind@ ao treinamento de identificação de emails da equipe Cibernauta.\n\nDaqui em diante, você irá aprender como identificar emails seguros, maliciosos e spam em todas as suas formas.\n\nMas antes de começar, vamos dar uma olhada nos controles que temos aqui.\n\nNa parte lateral da direita, mais ou menos por aqui -->\nTemos a barra de scroll, se clicar nela ou arrasta-la pode mover o conteúdo do email para cima e para baixo.\n\nNão ache estranho se ela às vezes não estiver presente, ela só aparece quando um email é comprido o suficiente para precisar dela.\n\nAlém dela também temos seu painel de botões, para abrir ele basta clicar no botão com a seta no canto esquerdo.\n\nNo painel você tem acesso a o que é preciso para classificar um email.\nPor enquanto só temos os botões de SEGURO (verde e redondo) e MALICIOSO (quadrado vermelho).\n\nPara prosseguir classifique esse email como SEGURO e vamos seguir em frente.`,
   address: "teamcibernauta@mail.com",
   class: SAFE,
   name: "Equipe Cibernauta",
@@ -62,7 +61,7 @@ export const mailTutorialControls: EmailData = {
 // Classification
 
 export const mailTutorialClass: EmailData = {
-  text: `Agora que tem uma noção básica dos controles, vamos à o que interessa, emails.\n\nNesse próximo treino vamos ver uma série de emails e é o seu trabalho identificar se eles são SEGUROs ou MALICIOSOs.\n\nMas como fazer isso? Existem várias maneiras, mas por enquanto só para aquecer, vamos começar com algo básico.\n\nEmails de pessoas e empresas desconhecidas ou até suspeitas podem ser maliciosos. Se vir um email de alguém que for desconhecido ou suspeito, marque como MALICIOSO, se não, pode marcar como SEGURO.\n\nUma última coisa, no canto de cima, junto com o botão de pause tem o cronômetro, esse é o tempo que você terá para classificar quantos emails conseguir.\n\nQuando o cronómetro chegar a 0 (ou não houver mais emails), você irá para o placar de pontos, onde pode ver quantos erros e acertos cometeu, e sua pontuação final.\n\nEle só começa a contar quando esse email for classificado e seguirá para o próximo, então assim que estiver pronto, marque esse como SEGURO e boa sorte!`,
+  text: `Agora que tem uma noção básica dos controles, vamos à o que interessa, emails.\n\nNesse próximo treino vamos ver uma série de emails e é o seu trabalho identificar se eles são SEGUROs ou MALICIOSOs.\n\nMas como fazer isso? Existem várias maneiras, mas por enquanto só para aquecer, vamos começar com algo básico.\n\nEmails de pessoas e empresas desconhecidas ou até suspeitas podem ser maliciosos. Se vir um email de alguém que for desconhecido ou suspeito, marque como MALICIOSO, se não, pode marcar como SEGURO.\n\nUma última coisa, no canto de cima, junto com o botão de pause, tem o cronômetro, esse é o tempo que você terá para classificar quantos emails conseguir.\n\nQuando o cronómetro chegar a 0 (ou não houver mais emails), você irá para o placar de pontos, onde pode ver quantos erros e acertos cometeu, e sua pontuação final.\n\nEle só começa a contar quando esse email for classificado e seguirá para o próximo, então assim que estiver pronto, marque esse como SEGURO e boa sorte!`,
   address: "teamcibernauta@mail.com",
   class: SAFE,
   name: "Equipe Cibernauta",
@@ -73,8 +72,35 @@ export const mailTutorialClass: EmailData = {
 export const mailMal1: EmailData = {
   text: `Prezado cliente, Sua conta bancária foi SUSPENSA por atividade irregular.\n\nPara evitar o CANCELAMENTO IMEDIATO, acesse o link abaixo e confirme seus dados:\n\nhttp://banco-verificacao-segura123.com/urgente\nSe não confirmar em 1 HORA, sua conta será apagada para sempre.\n\nAtenciosamente, Equipe do Banco.`,
   address: "hackers@mail.com",
-  class: SAFE,
+  class: MALICIOUS,
   name: "Banco do mal",
-  picture: "picture_hacker_" + Utils.randomInt(0, 2),
+  picture: "picture_hacker_2",
+  key: crypto.randomUUID(),
+};
+
+export const mailMal2: EmailData = {
+  text: `Olá,\n\nSeu computador está DESATUALIZADO e em risco crítico.\n\nNos envie seu endereço de email e sua senha antes que seja tarde demais.`,
+  address: "hackers@mail.com",
+  class: MALICIOUS,
+  name: "Não é Virus",
+  picture: "picture_hacker_0",
+  key: crypto.randomUUID(),
+};
+
+export const mailMal3: EmailData = {
+  text: `Caro usuário,\n\nSeu PACOTE não pôde ser entregue porque está faltando pagamento de TAXA.\n\nPara liberar a entrega, pague agora mesmo:\n\nhttp://correios-entrega-rapidahoje.net/liberar\n\nSe você não pagar nas próximas 24h, o pacote será DEVOLVIDO definitivamente.\n\nServiço de Entregas`,
+  address: "hackers@mail.com",
+  class: MALICIOUS,
+  name: "Hacker Entregas",
+  picture: "picture_hacker_1",
+  key: crypto.randomUUID(),
+};
+
+export const mailSafe1: EmailData = {
+  text: `Tudo certo por enquanto?\n\nNão se esqueça que se precisar de um momento para respirar, pode apertar o botão de pause lá encima no canto, onde você pode ver também alguns controles adicionais.\n\nContamos com você!\n\nEquipe Cibernauta`,
+  address: "teamcibernauta@mail.com",
+  class: SAFE,
+  name: "Equipe Cibernauta",
+  picture: "picture_cibernauta",
   key: crypto.randomUUID(),
 };

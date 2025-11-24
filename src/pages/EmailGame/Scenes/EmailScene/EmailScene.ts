@@ -163,7 +163,6 @@ export default class EmailScene extends Scene {
   }
 
   switchToolBar() {
-    console.log("switch bar");
     this.toolBar.open = !this.toolBar.open;
     this.toolButtons.forEach((b) => {
       b.invisible = !this.toolBar?.open;
