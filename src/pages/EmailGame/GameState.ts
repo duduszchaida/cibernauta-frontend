@@ -19,6 +19,7 @@ export default class GameState {
   inspecting: boolean = false;
   popup: Popup;
   currentSaveSlot = 0;
+  score: number = 0;
   saveSlots: SaveSlot[] = [
     {
       lastSaveTime: null,

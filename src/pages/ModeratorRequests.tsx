@@ -139,7 +139,7 @@ export default function ModeratorRequests() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#2B71A3]">
-        <Navigation full_name={user?.full_name} />
+        <Navigation username={user?.username} />
         <div className="mt-[180px] mx-auto px-4 sm:px-6 lg:px-[184px]">
           <div className="bg-[#274584] rounded-t-[25px] min-h-[861px] pt-[103px] px-4 sm:px-8 lg:px-[143px] flex items-center justify-center">
             <div className="text-white text-xl">Carregando solicitações...</div>
@@ -151,7 +151,7 @@ export default function ModeratorRequests() {
 
   return (
     <div className="min-h-screen bg-[#2B71A3]">
-      <Navigation full_name={user?.full_name} />
+      <Navigation username={user?.username} />
 
       <div className="mt-[180px] mx-auto px-4 sm:px-6 lg:px-[184px]">
         <div className="bg-[#274584] rounded-t-[25px] min-h-[861px] pt-[103px] px-4 sm:px-8 lg:px-[143px]">
@@ -290,8 +290,7 @@ export default function ModeratorRequests() {
           </Tabs>
         </div>
       </div>
-
-      {/* Dialog de Confirmação */}
+      
       <Dialog open={isReviewDialogOpen} onOpenChange={setIsReviewDialogOpen}>
         <DialogContent className="bg-[#1F2937] border-gray-700 text-white">
           <DialogHeader>

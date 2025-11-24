@@ -49,6 +49,14 @@ export default function CreateGame() {
       });
       return;
     }
+     if (!gameUrl.trim()) {
+      toast({
+        title: "Erro",
+        description: "Por favor, insira uma url para o jogo",
+        variant: "destructive",
+      });
+      return;
+    }
 
     if (
       !difficulty ||
@@ -252,13 +260,11 @@ export default function CreateGame() {
                   </span>
                 </div>
               </div>
-              <p className="text-gray-400 text-sm mt-2">
-                Jogos desabilitados não aparecem na lista
-              </p>
+            
             </div>
           </div>
 
-          {/* Seção de Controles */}
+        
           <div>
             <label className="block text-gray-300 text-base font-medium mb-3">
               Controles do Jogo
@@ -267,15 +273,15 @@ export default function CreateGame() {
               Adicione os controles que o jogador utilizará no jogo
             </p>
 
-            {/* Grid de controles adicionados com botão de adicionar */}
+    
             <div className="flex flex-wrap gap-4">
-              {/* Lista de controles */}
+            
               {controls.map((control, index) => (
                 <div
                   key={index}
                   className="relative w-[180px] p-4 bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg group hover:border-blue-400 transition-colors"
                 >
-                  {/* Botão de remover */}
+                  
                   <Button
                     type="button"
                     variant="ghost"
@@ -287,7 +293,6 @@ export default function CreateGame() {
                     <X className="w-4 h-4" />
                   </Button>
 
-                  {/* Conteúdo do card */}
                   <div className="flex flex-col items-center gap-3 pt-4">
                     <img
                       src={`/keys/${control.key_image}.png`}
@@ -302,7 +307,6 @@ export default function CreateGame() {
                 </div>
               ))}
 
-              {/* Botão de adicionar controle */}
               <button
                 type="button"
                 onClick={() => setShowKeyDialog(true)}
@@ -313,7 +317,6 @@ export default function CreateGame() {
               </button>
             </div>
 
-            {/* Mensagem quando não há controles */}
             {controls.length === 0 && (
               <p className="text-gray-400 text-sm mt-2 ml-1">
                 Clique no botão + para adicionar controles
@@ -321,7 +324,7 @@ export default function CreateGame() {
             )}
           </div>
 
-          {/* Dialog de seleção de teclas */}
+         
           <KeySelectorDialog
             open={showKeyDialog}
             onOpenChange={setShowKeyDialog}

@@ -38,4 +38,5 @@ export function startGame(canvasElement: HTMLCanvasElement) {
   bindMouseEvents(canvasObject.element, gameScale);
   bindKeyboardEvents();
   renderFrameLoop();
+  return gameState;
 }

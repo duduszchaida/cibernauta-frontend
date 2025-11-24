@@ -25,6 +25,19 @@ interface GameData {
   controls?: GameControl[];
 }
 
+interface LeaderboardEntry {
+  highscore_id: number;
+  score: number;
+  created_at: string;
+  save: {
+    user: {
+      username: string;
+      full_name: string;
+      role?: string;
+    };
+  };
+}
+
 export default function Game() {
   const { gameId } = useParams<{ gameId: string }>();
   const navigate = useNavigate();
@@ -34,11 +47,12 @@ export default function Game() {
   const [error, setError] = useState<string | null>(null);
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   const handleScoreUpdate = async (score: number) => {
     setCurrentScore(score);
 
-    // Atualizar highscore se a pontuação atual for maior
+
     if (score > highScore && gameId) {
       try {
         const response = await savesService.updateHighscore({
@@ -46,6 +60,13 @@ export default function Game() {
           score: score,
         });
         setHighScore(response.score);
+
+        
+        const leaderboardData = await savesService.getLeaderboard(
+          Number(gameId),
+          10,
+        );
+        setLeaderboard(leaderboardData);
       } catch (err) {
         console.error("Erro ao atualizar highscore:", err);
       }
@@ -75,13 +96,19 @@ export default function Game() {
 
         setGameData(data);
 
-        // Se for jogo local, carregar highscore
+
         if (data.game_type === "local") {
           try {
             const highscoreData = await savesService.getHighscore(
               Number(gameId),
             );
             setHighScore(highscoreData.score || 0);
+
+            const leaderboardData = await savesService.getLeaderboard(
+              Number(gameId),
+              10,
+            );
+            setLeaderboard(leaderboardData);
           } catch (err) {
             console.error("Erro ao carregar highscore:", err);
           }
@@ -134,19 +161,28 @@ export default function Game() {
 
   return (
     <div className="min-h-screen bg-[#2B71A3]">
-      <Navigation full_name={user?.full_name} showGamesLink={true} />
+      <Navigation username={user?.username} showGamesLink={true} />
 
       <div className="pt-6 pb-12 px-6">
         <div className="max-w-full mx-auto">
-          <div className="grid grid-cols-1 xl:grid-cols-[240px,1fr,280px] gap-4 max-w-[1920px] mx-auto">
-            <div className="bg-[#374B7C] rounded-2xl p-5 h-fit">
-              <h2 className="text-white text-lg font-semibold mb-5">
-                Controles
-              </h2>
+          <div className={`grid grid-cols-1 gap-4 max-w-[1920px] mx-auto ${
+            gameData.game_type === "local" && gameData.controls && gameData.controls.length > 0
+              ? "xl:grid-cols-[240px,1fr,280px]"
+              : gameData.game_type === "local"
+              ? "xl:grid-cols-[1fr,280px]"
+              : gameData.controls && gameData.controls.length > 0
+              ? "xl:grid-cols-[240px,1fr]"
+              : ""
+          }`}>
 
-              <div className="space-y-3">
-                {gameData.controls && gameData.controls.length > 0 ? (
-                  gameData.controls.map((control) => (
+            {gameData.controls && gameData.controls.length > 0 && (
+              <div className="bg-[#374B7C] rounded-2xl p-5 h-fit order-1 xl:order-1">
+                <h2 className="text-white text-lg font-semibold mb-5">
+                  Controles
+                </h2>
+
+                <div className="space-y-3">
+                  {gameData.controls.map((control) => (
                     <div
                       key={control.control_id}
                       className="bg-[#2B3E68] rounded-xl p-3"
@@ -165,22 +201,17 @@ export default function Game() {
                         </span>
                       </div>
                     </div>
-                  ))
-                ) : (
-                  <div className="bg-[#2B3E68] rounded-xl p-4">
-                    <p className="text-gray-400 text-sm text-center">
-                      Sem controles definidos
-                    </p>
-                  </div>
-                )}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
-            <div className="bg-[#374B7C] rounded-2xl p-5">
+            
+            <div className="bg-[#374B7C] rounded-2xl p-5 order-2 xl:order-2">
               {gameData.enabled === false &&
                 (user?.role === "ADMIN" || user?.role === "MODERATOR") && (
                   <div className="mb-4 bg-red-900/30 border-2 border-red-500 rounded-lg p-3 flex items-center gap-2">
-                    <span className="text-red-400 text-2xl">🔒</span>
+                   
                     <div>
                       <div className="text-red-400 font-semibold text-sm">
                         JOGO DESABILITADO
@@ -201,7 +232,7 @@ export default function Game() {
                   <p className="text-gray-300 text-sm">Nível: Iniciante</p>
                 </div>
                 <div className="flex items-center gap-2 text-yellow-400">
-                  <span className="text-sm">⭐ 0 pontos</span>
+                  <span className="text-sm"> 0 pontos</span>
                 </div>
               </div>
 
@@ -220,47 +251,104 @@ export default function Game() {
               </div>
             </div>
 
+          
             {gameData.game_type === "local" && (
-              <div className="bg-[#374B7C] rounded-2xl p-5 h-fit">
-                <h2 className="text-white text-lg font-semibold mb-5">
-                  Sua Pontuação Recorde
-                </h2>
+              <div className="space-y-4 order-3 xl:order-3">
+      
+                <div className="bg-[#374B7C] rounded-2xl p-5">
+                  <h2 className="text-white text-lg font-semibold mb-5">
+                    Sua Pontuação Recorde
+                  </h2>
 
-                <div className="bg-[#2B3E68] rounded-xl p-6 text-center">
-                  <div className="text-[#5B7FC7] text-7xl font-bold mb-2">
-                    {highScore}
+                  <div className="bg-[#2B3E68] rounded-xl p-6 text-center">
+                    <div className="text-[#5B7FC7] text-7xl font-bold mb-2">
+                      {highScore}
+                    </div>
+                    <p className="text-gray-400 text-sm">pontos recorde</p>
                   </div>
-                  <p className="text-gray-400 text-sm">pontos recorde</p>
+
+                  <div className="mt-5 space-y-3">
+                    <div className="bg-[#2B3E68] rounded-lg p-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-300 text-sm">
+                          Pontuação Atual
+                        </span>
+                        <span className="text-white font-semibold">
+                          {currentScore}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="bg-[#2B3E68] rounded-lg p-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-300 text-sm">
+                          Melhor Pontuação
+                        </span>
+                        <span className="text-yellow-400 font-semibold">
+                          {highScore}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="bg-[#2B3E68] rounded-lg p-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-300 text-sm">Dificuldade</span>
+                        <span className="text-white font-semibold">
+                          {"⭐".repeat(gameData.difficulty)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="mt-5 space-y-3">
-                  <div className="bg-[#2B3E68] rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-300 text-sm">
-                        Pontuação Atual
-                      </span>
-                      <span className="text-white font-semibold">
-                        {currentScore}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="bg-[#2B3E68] rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-300 text-sm">
-                        Melhor Pontuação
-                      </span>
-                      <span className="text-yellow-400 font-semibold">
-                        {highScore}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="bg-[#2B3E68] rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-300 text-sm">Dificuldade</span>
-                      <span className="text-white font-semibold">
-                        {"⭐".repeat(gameData.difficulty)}
-                      </span>
-                    </div>
+                
+                <div className="bg-[#374B7C] rounded-2xl p-5">
+                  <h2 className="text-white text-lg font-semibold mb-5 flex items-center gap-2">
+                    
+                    Ranking
+                  </h2>
+
+                  <div className="space-y-2">
+                    {leaderboard.length > 0 ? (
+                      leaderboard.map((entry, index) => (
+                        <div
+                          key={entry.highscore_id}
+                          className={`bg-[#2B3E68] rounded-lg p-3 ${
+                            entry.save.user.username === user?.username
+                              ? "border-2 border-yellow-400"
+                              : ""
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div
+                                className={`flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm ${
+                                  index === 0
+                                    ? "bg-yellow-500 text-white"
+                                    : index === 1
+                                    ? "bg-gray-400 text-white"
+                                    : index === 2
+                                    ? "bg-amber-600 text-white"
+                                    : "bg-[#4A5D8F] text-gray-300"
+                                }`}
+                              >
+                                {index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : index + 1}
+                              </div>
+                              <div className="text-white text-sm font-medium">
+                                {entry.save.user.username}
+                              </div>
+                            </div>
+                            <div className="text-yellow-400 font-bold text-lg">
+                              {entry.score}
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="bg-[#2B3E68] rounded-lg p-6 text-center">
+                        <p className="text-gray-400 text-sm">
+                          Nenhuma pontuação registrada ainda
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

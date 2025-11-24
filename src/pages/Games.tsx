@@ -144,7 +144,7 @@ export default function Games() {
 
   return (
     <div className="min-h-screen bg-[#2B71A3]">
-      <Navigation full_name={user?.full_name} showGamesLink={false} />
+      <Navigation username={user?.username} showGamesLink={false} />
 
       <div className="mt-[180px] mx-auto px-4 sm:px-6 lg:px-[184px]">
         <div className="bg-[#274584] rounded-t-[25px] min-h-[861px] pt-[103px] px-4 sm:px-8 lg:px-[143px]">
@@ -219,17 +219,8 @@ export default function Games() {
             </Alert>
           )}
 
-          
-          {user?.role === 'USER' && myRequest && myRequest.status === 'APPROVED' && (
-            <Alert className="mb-8 bg-green-900/30 border-green-700">
-              <Info className="h-4 w-4 text-green-400" />
-              <AlertDescription className="text-gray-300 ml-2">
-                Sua solicitação foi aprovada! Você agora é um moderador. Atualize a página para ver as novas funcionalidades.
-              </AlertDescription>
-            </Alert>
-          )}
 
-        
+
           {user?.role === 'USER' && myRequest && myRequest.status === 'REJECTED' && (
             <Alert className="mb-8 bg-red-900/30 border-red-700 relative">
               <button
@@ -354,7 +345,6 @@ export default function Games() {
         </div>
       </div>
 
-      {/* Modal de solicitação de moderador */}
       <Dialog open={showRequestDialog} onOpenChange={setShowRequestDialog}>
         <DialogContent className="bg-[#1F2937] border-gray-700 text-white max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>

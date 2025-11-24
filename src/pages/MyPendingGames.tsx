@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Pencil, Trash2, Eye } from "lucide-react";
+import { Pencil, Trash2, Eye, CheckCircle, XCircle, Clock } from "lucide-react";
 import { pendingGamesService } from "../services/api";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -24,11 +24,13 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface PendingGame {
   change_id: number;
   game_id: number | null;
   change_type: 'CREATE' | 'UPDATE';
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
   game_title: string;
   description: string;
   difficulty: number;
@@ -36,12 +38,13 @@ interface PendingGame {
   game_url?: string;
   enabled: boolean;
   created_at: string;
+  reviewed_at?: string;
 }
 
 export default function MyPendingGames() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [pendingGames, setPendingGames] = useState<PendingGame[]>([]);
+  const [allGames, setAllGames] = useState<PendingGame[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedGame, setSelectedGame] = useState<PendingGame | null>(null);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
@@ -56,18 +59,18 @@ export default function MyPendingGames() {
   });
 
   useEffect(() => {
-    loadPendingGames();
+    loadGames();
   }, []);
 
-  const loadPendingGames = async () => {
+  const loadGames = async () => {
     try {
       setIsLoading(true);
-      const data = await pendingGamesService.getMyPending();
-      setPendingGames(data);
+      const data = await pendingGamesService.getMyAll();
+      setAllGames(data);
     } catch (error: any) {
       toast({
         title: "Erro",
-        description: "Não foi possível carregar seus jogos pendentes",
+        description: "Não foi possível carregar seus jogos",
         variant: "destructive",
       });
     } finally {
@@ -105,7 +108,7 @@ export default function MyPendingGames() {
         description: "Jogo atualizado com sucesso",
       });
       setIsEditDialogOpen(false);
-      loadPendingGames();
+      loadGames();
     } catch (error: any) {
       toast({
         title: "Erro ao atualizar",
@@ -126,7 +129,7 @@ export default function MyPendingGames() {
         title: "Sucesso!",
         description: "Jogo excluído com sucesso",
       });
-      loadPendingGames();
+      loadGames();
     } catch (error: any) {
       toast({
         title: "Erro ao excluir",
@@ -140,10 +143,34 @@ export default function MyPendingGames() {
     return "⭐".repeat(difficulty);
   };
 
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'PENDING':
+        return <Badge className="bg-yellow-600 hover:bg-yellow-700"><Clock className="w-3 h-3 mr-1" /> Pendente</Badge>;
+      case 'APPROVED':
+        return <Badge className="bg-green-600 hover:bg-green-700"><CheckCircle className="w-3 h-3 mr-1" /> Aprovado</Badge>;
+      case 'REJECTED':
+        return <Badge className="bg-red-600 hover:bg-red-700"><XCircle className="w-3 h-3 mr-1" /> Rejeitado</Badge>;
+      default:
+        return <Badge>{status}</Badge>;
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+  };
+
+  const pendingGames = allGames.filter(g => g.status === 'PENDING');
+  const reviewedGames = allGames.filter(g => g.status !== 'PENDING');
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#274584] flex items-center justify-center">
-        <p className="text-white text-xl">Carregando seus jogos pendentes...</p>
+        <p className="text-white text-xl">Carregando seus jogos...</p>
       </div>
     );
   }
@@ -154,10 +181,10 @@ export default function MyPendingGames() {
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-white text-4xl font-bold mb-2">
-              Meus Jogos Pendentes
+              Meus Jogos
             </h1>
             <p className="text-gray-400">
-              Gerencie os jogos que você cadastrou e estão aguardando aprovação
+              Gerencie seus jogos cadastrados e veja o status das aprovações
             </p>
           </div>
           <button
@@ -168,80 +195,147 @@ export default function MyPendingGames() {
           </button>
         </div>
 
-        {pendingGames.length === 0 ? (
-          <div className="bg-[#1a3a52] rounded-lg border border-[#4C91FF] p-12 text-center">
-            <p className="text-gray-400 text-lg">Você não tem jogos pendentes de aprovação</p>
-          </div>
-        ) : (
-          <div className="bg-[#1a3a52] rounded-lg border border-[#4C91FF] overflow-hidden">
-            <Table>
-              <TableHeader className="bg-[#0A274F]">
-                <TableRow className="border-b border-[#4C91FF] hover:bg-[#0A274F]">
-                  <TableHead className="text-gray-300">Tipo</TableHead>
-                  <TableHead className="text-gray-300">Título</TableHead>
-                  <TableHead className="text-gray-300">Dificuldade</TableHead>
-                  <TableHead className="text-gray-300">Data</TableHead>
-                  <TableHead className="text-gray-300">Ações</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {pendingGames.map((game) => (
-                  <TableRow
-                    key={game.change_id}
-                    className="border-b border-[#2a5a7a] hover:bg-[#0A274F] transition-colors"
-                  >
-                    <TableCell>
-                      <Badge className={game.change_type === 'CREATE' ? 'bg-green-600' : 'bg-yellow-600'}>
-                        {game.change_type === 'CREATE' ? 'Criar' : 'Editar'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-gray-300 font-medium">
-                      {game.game_title}
-                    </TableCell>
-                    <TableCell className="text-gray-400">
-                      {getDifficultyStars(game.difficulty)}
-                    </TableCell>
-                    <TableCell className="text-gray-400">
-                      {new Date(game.created_at).toLocaleDateString("pt-BR")}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => handleView(game)}
-                          className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-[#2563EB] p-2 transition-colors"
-                          title="Visualizar detalhes"
-                        >
-                          <Eye className="w-4 h-4" />
-                        </button>
+        <Tabs defaultValue="pending" className="w-full">
+          <TabsList className="bg-[#1a3a52] border-[#4C91FF]">
+            <TabsTrigger value="pending" className="data-[state=active]:bg-[#2563EB]">
+              Pendentes ({pendingGames.length})
+            </TabsTrigger>
+            <TabsTrigger value="reviewed" className="data-[state=active]:bg-[#2563EB]">
+              Revisados ({reviewedGames.length})
+            </TabsTrigger>
+          </TabsList>
 
-                        <button
-                          onClick={() => handleEditClick(game)}
-                          className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-blue-400 hover:text-white hover:bg-blue-900 p-2 transition-colors"
-                          title="Editar"
-                        >
-                          <Pencil className="w-4 h-4" />
-                        </button>
+          <TabsContent value="pending" className="mt-6">
+            {pendingGames.length === 0 ? (
+              <div className="bg-[#1a3a52] rounded-lg border border-[#4C91FF] p-12 text-center">
+                <Clock className="w-16 h-16 text-gray-500 mx-auto mb-4" />
+                <p className="text-gray-400 text-lg">Você não tem jogos pendentes de aprovação</p>
+              </div>
+            ) : (
+              <div className="bg-[#1a3a52] rounded-lg border border-[#4C91FF] overflow-hidden">
+                <Table>
+                  <TableHeader className="bg-[#0A274F]">
+                    <TableRow className="border-b border-[#4C91FF] hover:bg-[#0A274F]">
+                      <TableHead className="text-gray-300">Tipo</TableHead>
+                      <TableHead className="text-gray-300">Título</TableHead>
+                      <TableHead className="text-gray-300">Dificuldade</TableHead>
+                      <TableHead className="text-gray-300">Data</TableHead>
+                      <TableHead className="text-gray-300">Ações</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {pendingGames.map((game) => (
+                      <TableRow
+                        key={game.change_id}
+                        className="border-b border-[#2a5a7a] hover:bg-[#0A274F] transition-colors"
+                      >
+                        <TableCell>
+                          <Badge className={game.change_type === 'CREATE' ? 'bg-green-600' : 'bg-yellow-600'}>
+                            {game.change_type === 'CREATE' ? 'Criar' : 'Editar'}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-gray-300 font-medium">
+                          {game.game_title}
+                        </TableCell>
+                        <TableCell className="text-gray-400">
+                          {getDifficultyStars(game.difficulty)}
+                        </TableCell>
+                        <TableCell className="text-gray-400">
+                          {formatDate(game.created_at)}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => handleView(game)}
+                              className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-[#2563EB] p-2 transition-colors"
+                              title="Visualizar detalhes"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </button>
 
-                        <button
-                          onClick={() => handleDelete(game.change_id, game.game_title)}
-                          className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-red-400 hover:text-white hover:bg-red-900 p-2 transition-colors"
-                          title="Excluir"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        )}
+                            <button
+                              onClick={() => handleEditClick(game)}
+                              className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-blue-400 hover:text-white hover:bg-blue-900 p-2 transition-colors"
+                              title="Editar"
+                            >
+                              <Pencil className="w-4 h-4" />
+                            </button>
 
-        <div className="mt-4 text-gray-400 text-sm">
-          Total de jogos pendentes:{" "}
-          <span className="font-bold text-white">{pendingGames.length}</span>
-        </div>
+                            <button
+                              onClick={() => handleDelete(game.change_id, game.game_title)}
+                              className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-red-400 hover:text-white hover:bg-red-900 p-2 transition-colors"
+                              title="Excluir"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="reviewed" className="mt-6">
+            {reviewedGames.length === 0 ? (
+              <div className="bg-[#1a3a52] rounded-lg border border-[#4C91FF] p-12 text-center">
+                <p className="text-gray-400 text-lg">Nenhum jogo revisado ainda</p>
+              </div>
+            ) : (
+              <div className="bg-[#1a3a52] rounded-lg border border-[#4C91FF] overflow-hidden">
+                <Table>
+                  <TableHeader className="bg-[#0A274F]">
+                    <TableRow className="border-b border-[#4C91FF] hover:bg-[#0A274F]">
+                      <TableHead className="text-gray-300">Tipo</TableHead>
+                      <TableHead className="text-gray-300">Título</TableHead>
+                      <TableHead className="text-gray-300">Dificuldade</TableHead>
+                      <TableHead className="text-gray-300">Status</TableHead>
+                      <TableHead className="text-gray-300">Data de Revisão</TableHead>
+                      <TableHead className="text-gray-300">Ações</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {reviewedGames.map((game) => (
+                      <TableRow
+                        key={game.change_id}
+                        className="border-b border-[#2a5a7a] hover:bg-[#0A274F] transition-colors"
+                      >
+                        <TableCell>
+                          <Badge className={game.change_type === 'CREATE' ? 'bg-green-600' : 'bg-yellow-600'}>
+                            {game.change_type === 'CREATE' ? 'Criar' : 'Editar'}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-gray-300 font-medium">
+                          {game.game_title}
+                        </TableCell>
+                        <TableCell className="text-gray-400">
+                          {getDifficultyStars(game.difficulty)}
+                        </TableCell>
+                        <TableCell>
+                          {getStatusBadge(game.status)}
+                        </TableCell>
+                        <TableCell className="text-gray-400">
+                          {game.reviewed_at ? formatDate(game.reviewed_at) : 'N/A'}
+                        </TableCell>
+                        <TableCell>
+                          <button
+                            onClick={() => handleView(game)}
+                            className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-[#2563EB] p-2 transition-colors"
+                            title="Visualizar detalhes"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </TabsContent>
+        </Tabs>
       </div>
 
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>

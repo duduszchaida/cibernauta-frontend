@@ -52,7 +52,14 @@ export default function Signup() {
       });
       return;
     }
-
+    if (loginUsername.length < 4) {
+      toast({
+        title: "Erro",
+        description: "O usuário de login deve ter no minimo 4 caracteres",
+        variant: "destructive",
+      });
+      return;
+    }
     if (password !== confirmPassword) {
       toast({
         title: "Erro",
@@ -70,7 +77,7 @@ export default function Signup() {
       });
       return;
     }
-
+    
     setIsLoading(true);
     try {
       await register(loginUsername, fullName, email, password);

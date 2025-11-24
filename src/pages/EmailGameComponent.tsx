@@ -25,7 +25,7 @@ export default function EmailGameComponent({
     if (canvasRef.current && !gameStarted.current) {
       gameStarted.current = true;
 
-      // Inicia o jogo e armazena o gameState
+   
       const gameState = startGame(canvasRef.current);
       gameStateRef.current = gameState;
 
@@ -40,7 +40,7 @@ export default function EmailGameComponent({
             console.log("Pontuação atualizada:", currentScore);
           }
         }
-      }, 500); // Verifica a cada 500ms
+      }, 500); // Verifica a cada 500ms que é 2 vezes por segundo
 
       return () => {
         clearInterval(scoreInterval);

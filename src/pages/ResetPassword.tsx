@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { Lock, Eye, ArrowLeft } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -25,12 +27,9 @@ export default function ResetPassword() {
       }
 
       try {
-        const response = await fetch(
-          `http://localhost:3001/auth/verify-reset-token?oobCode=${oobCode}`,
-          {
-            method: "GET",
-          },
-        );
+        const response = await fetch(`${API_URL}/auth/verify-reset-token?oobCode=${oobCode}`, {
+          method: "GET",
+        });
 
         if (!response.ok) {
           setError("Código inválido ou expirado");
@@ -66,19 +65,16 @@ export default function ResetPassword() {
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        "http://localhost:3001/auth/reset-password",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            token: oobCode,
-            password,
-          }),
+      const response = await fetch(`${API_URL}/auth/reset-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          token: oobCode,
+          password,
+        }),
+      });
 
       const data = await response.json();
 
@@ -112,15 +108,12 @@ export default function ResetPassword() {
             <img
               src="/logo-cibernauta.png"
               alt="Cibernauta"
-              className="w-[128px] h-[128px] mb-4"
+              className="w-[114px] h-[114px] mb-4"
             />
             <div className="p-4 bg-red-900 bg-opacity-50 border border-red-500 rounded-lg text-red-300 text-sm text-center">
               {error || "Token inválido ou expirado"}
             </div>
-            <Link
-              to="/"
-              className="flex items-center text-blue-400 hover:underline mt-6"
-            >
+            <Link to="/" className="flex items-center text-blue-400 hover:underline mt-6">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Voltar ao login
             </Link>
@@ -137,7 +130,7 @@ export default function ResetPassword() {
           <img
             src="/logo-cibernauta.png"
             alt="Cibernauta"
-            className="w-[128px] h-[128px] mb-4"
+            className="w-[114px] h-[114px] mb-4"
           />
           <h1 className="text-white text-3xl font-normal mb-2">
             Redefinir Senha
@@ -212,10 +205,7 @@ export default function ResetPassword() {
         </form>
 
         <div className="mt-6 flex items-center justify-center">
-          <Link
-            to="/"
-            className="flex items-center text-blue-400 hover:underline"
-          >
+          <Link to="/" className="flex items-center text-blue-400 hover:underline">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Voltar ao login
           </Link>
