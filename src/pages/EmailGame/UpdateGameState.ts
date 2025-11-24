@@ -14,12 +14,10 @@ import keyboardState, { PRESSED } from "./Input/KeyboardState";
 import mouseState from "./Input/MouseState";
 import { LevelSelectionScene } from "./LevelSelectionScene/LevelSelectionScene";
 import Position from "./Position";
-import SaveScene, { SELECTSAVE } from "./Scenes/SavesScene";
 import {
   DESKTOPSCENE,
   EMAILSCENE,
   LEVELSELECTION,
-  SAVESCENE,
 } from "./Scenes/SceneReferences";
 
 function inspectModeSwitch(gameState: GameState) {
@@ -85,17 +83,12 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
                   result.level,
                 );
                 break;
-              case SAVESCENE:
-                gameState.sceneList[result.sceneReference] = new SaveScene(
-                  gameState.saveSlots,
-                  gameState.currentSaveSlot,
-                );
-                break;
               case LEVELSELECTION:
                 gameState.sceneList[result.sceneReference] =
-                  new LevelSelectionScene(
-                    gameState.saveSlots[gameState.currentSaveSlot],
-                  );
+                  new LevelSelectionScene({
+                    lastSaveTime: gameState.lastSaveTime,
+                    levelProgress: gameState.levelProgress,
+                  });
                 break;
               default:
                 cursor.state = "arrow";
@@ -138,10 +131,6 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             break;
           case MANUALSAVE:
             gameState.saveGame(true);
-            break;
-          case SELECTSAVE:
-            gameState.selectSave(result.slot);
-            gameState.currentScene = gameState.sceneList[DESKTOPSCENE];
             break;
           case JUDGEEMAIL:
             if (

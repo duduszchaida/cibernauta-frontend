@@ -23,7 +23,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 interface PendingGame {
-  change_id: number;
+  request_id: number;
   game_id: number | null;
   change_type: 'CREATE' | 'UPDATE';
   game_title: string;
@@ -68,9 +68,9 @@ export default function PendingGames() {
     }
   };
 
-  const handleApprove = async (changeId: number) => {
+  const handleApprove = async (requestId: number) => {
     try {
-      await pendingGamesService.approve(changeId, 'APPROVED');
+      await pendingGamesService.approve(requestId, 'APPROVED');
       toast({
         title: "Sucesso!",
         description: "Jogo aprovado com sucesso",
@@ -85,9 +85,9 @@ export default function PendingGames() {
     }
   };
 
-  const handleReject = async (changeId: number) => {
+  const handleReject = async (requestId: number) => {
     try {
-      await pendingGamesService.approve(changeId, 'REJECTED');
+      await pendingGamesService.approve(requestId, 'REJECTED');
       toast({
         title: "Rejeitado",
         description: "Alteração rejeitada",
@@ -159,7 +159,7 @@ export default function PendingGames() {
               <TableBody>
                 {pendingGames.map((game) => (
                   <TableRow
-                    key={game.change_id}
+                    key={game.request_id}
                     className="border-b border-[#2a5a7a] hover:bg-[#0A274F] transition-colors"
                   >
                     <TableCell>
@@ -190,7 +190,7 @@ export default function PendingGames() {
                         </button>
 
                         <button
-                          onClick={() => handleApprove(game.change_id)}
+                          onClick={() => handleApprove(game.request_id)}
                           className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-green-400 hover:text-white hover:bg-green-900 p-2 transition-colors"
                           title="Aprovar"
                         >
@@ -198,7 +198,7 @@ export default function PendingGames() {
                         </button>
 
                         <button
-                          onClick={() => handleReject(game.change_id)}
+                          onClick={() => handleReject(game.request_id)}
                           className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-red-400 hover:text-white hover:bg-red-900 p-2 transition-colors"
                           title="Rejeitar"
                         >
@@ -299,7 +299,7 @@ export default function PendingGames() {
               <>
                 <Button
                   onClick={() => {
-                    handleReject(selectedGame.change_id);
+                    handleReject(selectedGame.request_id);
                     setIsViewDialogOpen(false);
                   }}
                   className="bg-red-600 text-white hover:bg-red-700"
@@ -308,7 +308,7 @@ export default function PendingGames() {
                 </Button>
                 <Button
                   onClick={() => {
-                    handleApprove(selectedGame.change_id);
+                    handleApprove(selectedGame.request_id);
                     setIsViewDialogOpen(false);
                   }}
                   className="bg-green-600 text-white hover:bg-green-700"
