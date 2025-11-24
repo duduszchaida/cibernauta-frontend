@@ -5,7 +5,11 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "../contexts/AuthContext";
 import { Switch } from "@/components/ui/switch";
 import GameSubmissionGuide from "@/components/GameSubmissionGuide";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { ChevronDown, Plus, X } from "lucide-react";
 import KeySelectorDialog from "@/components/KeySelectorDialog";
 import { Button } from "@/components/ui/button";
@@ -22,7 +26,9 @@ export default function CreateGame() {
   const [difficulty, setDifficulty] = useState("");
   const [enabled, setEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [controls, setControls] = useState<Array<{key_image: string, description: string}>>([]);
+  const [controls, setControls] = useState<
+    Array<{ key_image: string; description: string }>
+  >([]);
   const [showKeyDialog, setShowKeyDialog] = useState(false);
 
   const handleSave = async () => {
@@ -44,7 +50,12 @@ export default function CreateGame() {
       return;
     }
 
-    if (!difficulty || isNaN(Number(difficulty)) || Number(difficulty) < 1 || Number(difficulty) > 3) {
+    if (
+      !difficulty ||
+      isNaN(Number(difficulty)) ||
+      Number(difficulty) < 1 ||
+      Number(difficulty) > 3
+    ) {
       toast({
         title: "Erro",
         description: "Por favor, insira um nível de dificuldade válido (1 a 3)",
@@ -55,8 +66,7 @@ export default function CreateGame() {
 
     setIsLoading(true);
     try {
-
-      if (user?.role === 'ADMIN') {
+      if (user?.role === "ADMIN") {
         await gamesService.create({
           game_title: title,
           description,
@@ -73,7 +83,7 @@ export default function CreateGame() {
         });
       } else {
         await pendingGamesService.create({
-          change_type: 'CREATE',
+          change_type: "CREATE",
           game_title: title,
           description,
           difficulty: Number(difficulty),
@@ -93,7 +103,8 @@ export default function CreateGame() {
     } catch (error: any) {
       toast({
         title: "Erro ao cadastrar jogo",
-        description: error.response?.data?.message || "Tente novamente mais tarde",
+        description:
+          error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
     } finally {
@@ -116,11 +127,13 @@ export default function CreateGame() {
   return (
     <div className="min-h-screen bg-[#274584] px-4 py-12 sm:px-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-white text-3xl font-normal mb-6">
-          Cadastrar jogo
-        </h1>
+        <h1 className="text-white text-3xl font-normal mb-6">Cadastrar jogo</h1>
 
-        <Collapsible open={isGuideOpen} onOpenChange={setIsGuideOpen} className="mb-8">
+        <Collapsible
+          open={isGuideOpen}
+          onOpenChange={setIsGuideOpen}
+          className="mb-8"
+        >
           <CollapsibleTrigger className="w-full">
             <div className="bg-[#0A274F] border-2 border-blue-600 rounded-lg p-4 hover:bg-[#0d2f5e] transition-colors cursor-pointer">
               <div className="flex items-center justify-between">
@@ -132,7 +145,7 @@ export default function CreateGame() {
                 </div>
                 <ChevronDown
                   className={`w-5 h-5 text-blue-400 transition-transform ${
-                    isGuideOpen ? 'transform rotate-180' : ''
+                    isGuideOpen ? "transform rotate-180" : ""
                   }`}
                 />
               </div>
@@ -188,7 +201,6 @@ export default function CreateGame() {
             />
           </div>
 
-        
           <div>
             <label className="block text-gray-300 text-base font-medium mb-2">
               Descrição

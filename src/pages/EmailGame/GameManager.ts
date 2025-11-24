@@ -11,7 +11,7 @@ import { Popup } from "./Elements/Popup";
 
 let canvasObject: CanvasObject;
 
-const gameScale = 3;
+const gameScale = 2;
 const cursor = new Cursor();
 const popup = new Popup();
 const gameState = new GameState({

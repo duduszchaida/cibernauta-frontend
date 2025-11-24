@@ -136,7 +136,7 @@ export default function Game() {
     <div className="min-h-screen bg-[#2B71A3]">
       <Navigation full_name={user?.full_name} showGamesLink={true} />
 
-      <div className="pt-32 pb-12 px-6">
+      <div className="pt-6 pb-12 px-6">
         <div className="max-w-full mx-auto">
           <div className="grid grid-cols-1 xl:grid-cols-[240px,1fr,280px] gap-4 max-w-[1920px] mx-auto">
             <div className="bg-[#374B7C] rounded-2xl p-5 h-fit">
@@ -217,15 +217,6 @@ export default function Game() {
                       : undefined
                   }
                 />
-              </div>
-
-              <div className="mt-4 flex justify-center">
-                <button
-                  onClick={() => navigate("/games")}
-                  className="px-6 py-2 bg-[#2563EB] text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-                >
-                  Voltar para Jogos
-                </button>
               </div>
             </div>
 

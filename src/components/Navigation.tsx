@@ -1,5 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
-import { LogOut, Gamepad2, User, Settings, Users, ChevronDown, UserCheck } from "lucide-react";
+import {
+  LogOut,
+  Gamepad2,
+  User,
+  Settings,
+  Users,
+  ChevronDown,
+  UserCheck,
+} from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import {
   DropdownMenu,
@@ -14,7 +22,10 @@ interface NavigationProps {
   showGamesLink?: boolean;
 }
 
-export default function Navigation({ full_name, showGamesLink = false }: NavigationProps) {
+export default function Navigation({
+  full_name,
+  showGamesLink = false,
+}: NavigationProps) {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
@@ -26,11 +37,15 @@ export default function Navigation({ full_name, showGamesLink = false }: Navigat
   return (
     <nav className="w-full h-[73px] border-b border-gray-800 bg-[#274584] flex items-center justify-between px-8">
       <div className="flex items-center gap-3">
-        <Link to="/games" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <Link
+          to="/games"
+          className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+        >
           <img
-            src="https://api.builder.io/api/v1/image/assets/TEMP/489086856670080d0a47f111f00ed5055c0230ef?width=116"
+            src="logo-cibernauta.png"
             alt="Cibernauta"
             className="w-[58px] h-[58px]"
+            style={{ imageRendering: "pixelated" }}
           />
           <span className="text-white text-xl font-bold">Cibernauta</span>
         </Link>
@@ -61,7 +76,7 @@ export default function Navigation({ full_name, showGamesLink = false }: Navigat
                 <Settings className="w-4 h-4 mr-2" />
                 Editar Perfil
               </DropdownMenuItem>
-              {user?.role === 'ADMIN' && (
+              {user?.role === "ADMIN" && (
                 <>
                   <DropdownMenuItem
                     onClick={() => navigate("/manage-users")}

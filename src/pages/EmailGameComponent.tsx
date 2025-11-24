@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { startGame } from "./EmailGame/GameManager";
 import type GameState from "./EmailGame/GameState";
 
@@ -8,8 +8,14 @@ interface EmailGameComponentProps {
   userId?: number;
 }
 
-
-export default function EmailGameComponent({ onScoreUpdate, gameId, userId }: EmailGameComponentProps) {
+export default function EmailGameComponent({
+  onScoreUpdate,
+}: EmailGameComponentProps) {
+  const canvasStyle: CSSProperties = {
+    cursor: "none",
+    imageRendering: "pixelated",
+    border: "none",
+  };
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameStarted = useRef(false);
   const gameStateRef = useRef<GameState | null>(null);
@@ -23,21 +29,18 @@ export default function EmailGameComponent({ onScoreUpdate, gameId, userId }: Em
       const gameState = startGame(canvasRef.current);
       gameStateRef.current = gameState;
 
-
       const scoreInterval = setInterval(() => {
         if (gameStateRef.current && onScoreUpdate) {
           const currentScore = gameStateRef.current.score;
-
 
           if (currentScore !== lastScoreRef.current) {
             lastScoreRef.current = currentScore;
             onScoreUpdate(currentScore);
 
-            console.log('Pontuação atualizada:', currentScore);
+            console.log("Pontuação atualizada:", currentScore);
           }
         }
-      }, 500); // Verifica a cada 500ms 
-
+      }, 500); // Verifica a cada 500ms
 
       return () => {
         clearInterval(scoreInterval);
@@ -50,21 +53,15 @@ export default function EmailGameComponent({ onScoreUpdate, gameId, userId }: Em
   return (
     <div
       style={{
-        width: 426 * gameScale ,
-        height: 286 * gameScale ,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#000',
+        width: 426 * gameScale,
+        height: 286 * gameScale,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#000",
       }}
     >
-      <canvas
-        ref={canvasRef}
-        style={{
-          imageRendering: 'pixelated',
-          border: 'none',
-        }}
-      />
+      <canvas ref={canvasRef} style={canvasStyle} />
     </div>
   );
 }
