@@ -19,7 +19,7 @@ const AVAILABLE_KEYS = [
   "key_m", "key_n", "key_o", "key_p", "key_q", "key_r",
   "key_s", "key_t", "key_u", "key_v", "key_w", "key_x",
   "key_y", "key_z",
-  "mouse", "scroll", "wasd"
+  "mouse", "space", "scroll", "wasd"
 ];
 
 const KEYS_PER_PAGE = 9;
