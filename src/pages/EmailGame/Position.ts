@@ -1,4 +1,5 @@
 export default class Position {
+<<<<<<< HEAD
   x: number = 0;
   y: number = 0;
 
@@ -22,4 +23,17 @@ export default class Position {
   subtract(x: number, y: number) {
     return new Position(this.x - x, this.y - y);
   }
+=======
+	x: number = 0;
+	y: number = 0;
+
+	constructor(x?: number, y?: number) {
+		this.x = x ?? 0;
+		this.y = y ?? 0;
+	}
+
+	add(pos: Position) {
+		return new Position(this.x + pos.x, this.y + pos.y);
+	}
+>>>>>>> teste
 }

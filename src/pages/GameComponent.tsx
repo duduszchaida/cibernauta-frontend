@@ -1,28 +1,57 @@
-import { useEffect, useRef } from "react";
-import { startGame } from "./EmailGame/GameManager";
+import EmailGameComponent from "./EmailGameComponent";
 
-type GameProperties = {
-  width: number;
-  height: number;
-};
+interface GameComponentProps {
+  gameUrl?: string;
+  gameType?: string;
+  gameId: number;
+  userId?: number;
+  onScoreUpdate?: (score: number) => void;
+}
 
-export default function GameComponent(prop: GameProperties) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const canvasStyle = { cursor: "none" };
+export default function GameComponent({
+  gameUrl,
+  gameType,
+  gameId,
+  userId,
+  onScoreUpdate,
+}: GameComponentProps) {
+  const gameScale = 2;
 
-  useEffect(() => {
-    const canvasDom = canvasRef.current;
-    if (canvasDom) {
-      console.log("initializing");
-      startGame(canvasDom);
-    }
-  }, [canvasRef]);
+  if (gameType === "local") {
+    return (
+      <EmailGameComponent
+        gameId={gameId}
+        userId={userId}
+        onScoreUpdate={onScoreUpdate}
+      />
+    );
+  }
+
+  if (!gameUrl) {
+    return (
+      <div
+        style={{
+          width: 352 * gameScale,
+          height: 256 * gameScale,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "#9CA3AF",
+        }}
+      >
+        URL do jogo não configurada
+      </div>
+    );
+  }
+
   return (
-    <canvas
-      ref={canvasRef}
-      width={prop.width}
-      height={prop.height}
-      style={canvasStyle}
-    ></canvas>
+    <iframe
+      width={352 * gameScale}
+      height={256 * gameScale}
+      src={gameUrl}
+      title="Game"
+      style={{ border: "none" }}
+      allowFullScreen
+    ></iframe>
   );
 }
