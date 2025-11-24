@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { gamesService, pendingGamesService } from "../services/api";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "../contexts/AuthContext";
 import { Switch } from "@/components/ui/switch";
@@ -13,6 +12,8 @@ import {
 import { ChevronDown, Plus, X } from "lucide-react";
 import KeySelectorDialog from "@/components/KeySelectorDialog";
 import { Button } from "@/components/ui/button";
+import { gamesService } from "@/services/gamesService";
+import { pendingGamesService } from "@/services/pendingGamesService";
 
 export default function CreateGame() {
   const [isGuideOpen, setIsGuideOpen] = useState(true);
@@ -49,7 +50,7 @@ export default function CreateGame() {
       });
       return;
     }
-     if (!gameUrl.trim()) {
+    if (!gameUrl.trim()) {
       toast({
         title: "Erro",
         description: "Por favor, insira uma url para o jogo",
@@ -260,11 +261,9 @@ export default function CreateGame() {
                   </span>
                 </div>
               </div>
-            
             </div>
           </div>
 
-        
           <div>
             <label className="block text-gray-300 text-base font-medium mb-3">
               Controles do Jogo
@@ -273,15 +272,12 @@ export default function CreateGame() {
               Adicione os controles que o jogador utilizará no jogo
             </p>
 
-    
             <div className="flex flex-wrap gap-4">
-            
               {controls.map((control, index) => (
                 <div
                   key={index}
                   className="relative w-[180px] p-4 bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg group hover:border-blue-400 transition-colors"
                 >
-                  
                   <Button
                     type="button"
                     variant="ghost"
@@ -324,7 +320,6 @@ export default function CreateGame() {
             )}
           </div>
 
-         
           <KeySelectorDialog
             open={showKeyDialog}
             onOpenChange={setShowKeyDialog}

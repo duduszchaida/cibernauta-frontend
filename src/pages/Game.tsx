@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import GameComponent from "./GameComponent";
-import { gamesService, savesService } from "../services/api";
 import { useAuth } from "../contexts/AuthContext";
-import { Mouse, ArrowUp, ArrowDown, ArrowLeft, ArrowRight } from "lucide-react";
+import { gamesService } from "@/services/gamesService";
+import { savesService } from "@/services/savesService";
 
 interface GameControl {
   control_id: number;
@@ -52,7 +52,6 @@ export default function Game() {
   const handleScoreUpdate = async (score: number) => {
     setCurrentScore(score);
 
-
     if (score > highScore && gameId) {
       try {
         const response = await savesService.updateHighscore({
@@ -61,7 +60,6 @@ export default function Game() {
         });
         setHighScore(response.score);
 
-        
         const leaderboardData = await savesService.getLeaderboard(
           Number(gameId),
           10,
@@ -95,7 +93,6 @@ export default function Game() {
         }
 
         setGameData(data);
-
 
         if (data.game_type === "local") {
           try {
@@ -165,16 +162,19 @@ export default function Game() {
 
       <div className="pt-6 pb-12 px-6">
         <div className="max-w-full mx-auto">
-          <div className={`grid grid-cols-1 gap-4 max-w-[1920px] mx-auto ${
-            gameData.game_type === "local" && gameData.controls && gameData.controls.length > 0
-              ? "xl:grid-cols-[240px,1fr,280px]"
-              : gameData.game_type === "local"
-              ? "xl:grid-cols-[1fr,280px]"
-              : gameData.controls && gameData.controls.length > 0
-              ? "xl:grid-cols-[240px,1fr]"
-              : ""
-          }`}>
-
+          <div
+            className={`grid grid-cols-1 gap-4 max-w-[1920px] mx-auto ${
+              gameData.game_type === "local" &&
+              gameData.controls &&
+              gameData.controls.length > 0
+                ? "xl:grid-cols-[240px,1fr,280px]"
+                : gameData.game_type === "local"
+                  ? "xl:grid-cols-[1fr,280px]"
+                  : gameData.controls && gameData.controls.length > 0
+                    ? "xl:grid-cols-[240px,1fr]"
+                    : ""
+            }`}
+          >
             {gameData.controls && gameData.controls.length > 0 && (
               <div className="bg-[#374B7C] rounded-2xl p-5 h-fit order-1 xl:order-1">
                 <h2 className="text-white text-lg font-semibold mb-5">
@@ -192,8 +192,11 @@ export default function Game() {
                           <img
                             src={`/keys/${control.key_image}.png`}
                             alt={control.description}
-                            className="w-7 h-7"
-                            style={{ imageRendering: "pixelated" }}
+                            style={{
+                              imageRendering: "pixelated",
+                              width: 32,
+                              height: 32,
+                            }}
                           />
                         </div>
                         <span className="text-white text-base font-medium">
@@ -206,12 +209,10 @@ export default function Game() {
               </div>
             )}
 
-            
             <div className="bg-[#374B7C] rounded-2xl p-5 order-2 xl:order-2">
               {gameData.enabled === false &&
                 (user?.role === "ADMIN" || user?.role === "MODERATOR") && (
                   <div className="mb-4 bg-red-900/30 border-2 border-red-500 rounded-lg p-3 flex items-center gap-2">
-                   
                     <div>
                       <div className="text-red-400 font-semibold text-sm">
                         JOGO DESABILITADO
@@ -251,10 +252,8 @@ export default function Game() {
               </div>
             </div>
 
-          
             {gameData.game_type === "local" && (
               <div className="space-y-4 order-3 xl:order-3">
-      
                 <div className="bg-[#374B7C] rounded-2xl p-5">
                   <h2 className="text-white text-lg font-semibold mb-5">
                     Sua Pontuação Recorde
@@ -290,7 +289,9 @@ export default function Game() {
                     </div>
                     <div className="bg-[#2B3E68] rounded-lg p-3">
                       <div className="flex justify-between items-center">
-                        <span className="text-gray-300 text-sm">Dificuldade</span>
+                        <span className="text-gray-300 text-sm">
+                          Dificuldade
+                        </span>
                         <span className="text-white font-semibold">
                           {"⭐".repeat(gameData.difficulty)}
                         </span>
@@ -299,10 +300,8 @@ export default function Game() {
                   </div>
                 </div>
 
-                
                 <div className="bg-[#374B7C] rounded-2xl p-5">
                   <h2 className="text-white text-lg font-semibold mb-5 flex items-center gap-2">
-                    
                     Ranking
                   </h2>
 
@@ -324,13 +323,19 @@ export default function Game() {
                                   index === 0
                                     ? "bg-yellow-500 text-white"
                                     : index === 1
-                                    ? "bg-gray-400 text-white"
-                                    : index === 2
-                                    ? "bg-amber-600 text-white"
-                                    : "bg-[#4A5D8F] text-gray-300"
+                                      ? "bg-gray-400 text-white"
+                                      : index === 2
+                                        ? "bg-amber-600 text-white"
+                                        : "bg-[#4A5D8F] text-gray-300"
                                 }`}
                               >
-                                {index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : index + 1}
+                                {index === 0
+                                  ? "🥇"
+                                  : index === 1
+                                    ? "🥈"
+                                    : index === 2
+                                      ? "🥉"
+                                      : index + 1}
                               </div>
                               <div className="text-white text-sm font-medium">
                                 {entry.save.user.username}
