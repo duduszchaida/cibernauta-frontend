@@ -124,7 +124,6 @@ export default class SaveScene extends Scene {
       slot2Btn,
       slot3Btn,
     ];
-    console.log(currentSaveId);
     if (currentSaveId != null) {
       let selectedSaveText = new TextObject({
         pos: new Position(39 + currentSaveId * 96, 60),

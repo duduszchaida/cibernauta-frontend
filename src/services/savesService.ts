@@ -1,8 +1,8 @@
 import { api } from "./api";
 
 export const savesService = {
-  getSave: async () => {
-    const response = await api.get(`/saves?save_slot=1`);
+  getSave: async (id: number) => {
+    const response = await api.get(`/saves/${id}`);
     return response.data;
   },
 

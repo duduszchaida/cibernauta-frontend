@@ -13,23 +13,20 @@ export type LevelProgress = {
 export type Save = {
   lastSaveTime: Date | string | null;
   levelProgressRecord: Record<string, LevelProgress>;
+  lastTotalScore: number;
 };
 
 let savesData: any = null;
 try {
-  savesData = (await savesService.getSave()).save_data;
+  savesData = (await savesService.getSave(1)).save_data;
 } catch {
   console.warn("couldn't get save");
 }
-console.log(savesData);
 let newGame = true;
 let saves: Save[] = [
-  {
-    lastSaveTime: null,
-    levelProgressRecord: {},
-  },
-  { lastSaveTime: null, levelProgressRecord: {} },
-  { lastSaveTime: null, levelProgressRecord: {} },
+  { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
+  { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
+  { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
 ];
 if (savesData != null) {
   saves = JSON.parse(savesData);
@@ -56,6 +53,7 @@ export default class GameState {
     this.currentSave = {
       lastSaveTime: null,
       levelProgressRecord: {},
+      lastTotalScore: 0,
     };
   }
 
@@ -66,6 +64,17 @@ export default class GameState {
       result += lp.highscore;
     }
     return result;
+  }
+
+  updateHighscore() {
+    console.log(this.currentSave.lastTotalScore);
+    if (this.currentSaveSlotTotalScore > this.currentSave.lastTotalScore) {
+      this.currentSave.lastTotalScore = this.currentSaveSlotTotalScore;
+      savesService.updateHighscore({
+        game_id: 1,
+        score: this.currentSaveSlotTotalScore,
+      });
+    }
   }
 
   selectSave(index: number) {
@@ -89,7 +98,7 @@ export default class GameState {
     }
     savesService.saveGame({
       game_id: 1,
-      save_data: JSON.stringify(this.saveSlots),
+      save_data: JSON.stringify([this.saveSlots]),
     });
   }
 }

@@ -19,32 +19,13 @@ export default function EmailGameComponent({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameStarted = useRef(false);
   const gameStateRef = useRef<GameState | null>(null);
-  const lastScoreRef = useRef<number>(0);
 
   useEffect(() => {
     if (canvasRef.current && !gameStarted.current) {
       gameStarted.current = true;
 
-   
       const gameState = startGame(canvasRef.current);
       gameStateRef.current = gameState;
-
-      const scoreInterval = setInterval(() => {
-        if (gameStateRef.current && onScoreUpdate) {
-          const currentScore = gameStateRef.current.score;
-
-          if (currentScore !== lastScoreRef.current) {
-            lastScoreRef.current = currentScore;
-            onScoreUpdate(currentScore);
-
-            console.log("Pontuação atualizada:", currentScore);
-          }
-        }
-      }, 500); // Verifica a cada 500ms que é 2 vezes por segundo
-
-      return () => {
-        clearInterval(scoreInterval);
-      };
     }
   }, [onScoreUpdate]);
 
