@@ -58,6 +58,7 @@ export default class Timer extends TextObject {
       if (!this.finished) {
         this.goalFunc();
       }
+      this.finished = true;
       return true;
     }
     return false;
@@ -97,6 +98,7 @@ export default class Timer extends TextObject {
   }
 
   render(canvasObject: CanvasObject): void {
+    this.check();
     if (this.invisible) {
       return;
     }

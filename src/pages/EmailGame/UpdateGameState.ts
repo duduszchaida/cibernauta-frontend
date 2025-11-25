@@ -8,7 +8,9 @@ import keyboardState, { PRESSED } from "./Input/KeyboardState";
 import mouseState from "./Input/MouseState";
 import Position from "./Position";
 import { DesktopScene, MANUALSAVE } from "./Scenes/DesktopScene";
-import EmailComponent, { INSPECT } from "./Scenes/EmailScene/EmailComponent";
+import EmailComponent, {
+  INSPECT as SELECTANOMALY,
+} from "./Scenes/EmailScene/EmailComponent";
 import EmailContent from "./Scenes/EmailScene/EmailContent";
 import EmailScene, { JUDGEEMAIL } from "./Scenes/EmailScene/EmailScene";
 import EmailTextComponent from "./Scenes/EmailScene/EmailTextComponent";
@@ -116,7 +118,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
               gameState.currentScene.emailManager.scrollEmailTo(result.shift);
             }
             break;
-          case INSPECT:
+          case SELECTANOMALY:
             if (
               gameState.inspecting &&
               gameState.currentScene instanceof EmailScene
@@ -159,7 +161,10 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             if (gameState.currentScene instanceof EmailScene) {
               gameState.currentScene.evaluateEmail(result.class);
               gameState.inspecting = false;
-              if (gameState.currentScene.emailDataList.length == 0) {
+              if (
+                gameState.currentScene.emailDataList.length == 0 ||
+                gameState.currentScene.timeEnded
+              ) {
                 gameState.currentScene = createScene(
                   {
                     sceneReference: SCORESCENE,

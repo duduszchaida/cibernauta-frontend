@@ -114,6 +114,17 @@ export const mailSafe2: EmailData = {
   key: crypto.randomUUID(),
 };
 
+// MALICIOUS
+
+export const mailMal4: EmailData = {
+  text: `Olá Jogador,\n\nDetectamos uma atividade suspeita na sua conta Rubloks e, por segurança, precisamos que você verifique sua identidade imediatamente. Caso contrário, sua conta poderá ser removida permanentemente e todo seu inventário de bloquinhos premium será perdido.\n\nClique no link abaixo para continuar sua verificação:\n\nhttps://rubloks-secure-login.freegift.claim-now.co\n\nApós confirmar seus dados, você receberá 500 Rubux grátis como forma de agradecimento pela sua cooperação.\n\nObrigado por escolher Rubloks,\nA Equipe Oficial de Segurança Rubloks`,
+  address: "rubloks@oficial.com",
+  class: MALICIOUS,
+  name: "Rubloks Oficial",
+  picture: "picture_rubloks",
+  key: crypto.randomUUID(),
+};
+
 // SPAM
 
 export const mailSpam1: EmailData = {
@@ -131,5 +142,14 @@ export const mailSpam2: EmailData = {
   class: SPAM,
   name: "PineappleBook",
   picture: "picture_pbook",
+  key: crypto.randomUUID(),
+};
+
+export const mailSpam3: EmailData = {
+  text: `Curta CatMusic Premium por 2 meses de graça!\n\nOuça suas playlists com o plano Premium por 2 meses sem pagar nada e aproveite.\n\nApós o periodo de teste, será cobrado o valor de R$ 1,99/mês.\n\nAssine já!`,
+  address: "marketing@catmusic.com",
+  class: SPAM,
+  name: "CatMusic",
+  picture: "picture_catmusic",
   key: crypto.randomUUID(),
 };
