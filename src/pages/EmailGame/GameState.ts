@@ -26,34 +26,36 @@ export type Save = {
   lastTotalScore: number;
 };
 
-let savesData: any = null;
-try {
-  savesData = (await savesService.getSave(1)).save_data;
-} catch {
-  console.warn("couldn't get save");
-}
-let newGame = true;
-let saves: Save[] = [
-  { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
-  { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
-  { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
-];
-if (savesData != null) {
-  saves = JSON.parse(savesData);
-  newGame = false;
-}
-
 export default class GameState {
-  currentScene: Scene;
   inspecting: boolean = false;
   popup: Popup;
   currentSaveSlotId: number | null = null;
-  currentSave: Save;
-  saveSlots: Save[];
+  currentScene!: Scene;
+  currentSave!: Save;
+  saveSlots!: Save[];
 
   constructor(args: { popup: Popup }) {
-    this.currentScene = new StartScene(newGame ? DESKTOPSCENE : SAVESCENE);
     this.popup = args.popup;
+  }
+
+  async init() {
+    let savesData: any = null;
+    try {
+      savesData = (await savesService.getSave(1)).save_data;
+    } catch {
+      console.warn("couldn't get save");
+    }
+    let newGame = true;
+    let saves: Save[] = [
+      { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
+      { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
+      { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
+    ];
+    if (savesData != null) {
+      saves = JSON.parse(savesData);
+      newGame = false;
+    }
+    this.currentScene = new StartScene(newGame ? DESKTOPSCENE : SAVESCENE);
     this.saveSlots = saves;
     if (newGame) {
       this.currentSaveSlotId = 0;

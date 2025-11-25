@@ -23,7 +23,8 @@ function renderFrameLoop() {
   requestAnimationFrame(renderFrameLoop);
 }
 
-export function startGame(canvasElement: HTMLCanvasElement) {
+export async function startGame(canvasElement: HTMLCanvasElement) {
+  await gameState.init();
   canvasObject = new CanvasObject({
     height: 256 * gameScale,
     width: 352 * gameScale,
@@ -36,5 +37,4 @@ export function startGame(canvasElement: HTMLCanvasElement) {
   bindMouseEvents(canvasObject.element, gameScale);
   bindKeyboardEvents();
   renderFrameLoop();
-  return gameState;
 }
