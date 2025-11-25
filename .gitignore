@@ -28,4 +28,4 @@ dist-ssr
 *.json
 cibernauta-ifpr-firebase-adminsdk-fbsvc-4e66c81d0b.json
 
-thing.md
+.env*
