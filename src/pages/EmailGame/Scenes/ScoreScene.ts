@@ -1,6 +1,8 @@
 import { appBorder } from "../Elements/AppBorder";
 import { ExitButton } from "../Elements/ExitButton";
+import GameObject from "../Elements/GameObject";
 import TextObject from "../Elements/TextObject";
+import Timer from "../Elements/Timer";
 import type GameState from "../GameState";
 import Position from "../Position";
 import { Utils } from "../Utils";
@@ -29,6 +31,9 @@ export class ScoreScene extends Scene {
   elementRight: number = 0;
   elementWrong: number = 0;
   totalScore: number = 0;
+  timer: Timer;
+  scoreObjects: GameObject[] = [];
+  scoreObjectId: number = 0;
 
   constructor(
     evaluations: { evaluation: Evaluation; emailData: EmailData }[],
@@ -40,6 +45,19 @@ export class ScoreScene extends Scene {
     this.gameState = gameState;
     this.level = level;
     this.calcPoints();
+    this.timer = new Timer({
+      goalSecs: 0.75,
+      goalFunc: () => {
+        if (this.scoreObjects[this.scoreObjectId]) {
+          this.scoreObjects[this.scoreObjectId].invisible = false;
+        }
+        this.scoreObjectId++;
+      },
+      interval: true,
+      loop: true,
+      loopMax: 6,
+    });
+    this.timer.start();
   }
 
   calcPoints() {
@@ -68,9 +86,10 @@ export class ScoreScene extends Scene {
 
     const classRightText = new TextObject({
       pos: new Position(336, 54 + 28 * 0),
-      color: "brown",
+      color: this.classRight > 0 ? "lime" : "brown",
       font: "wcp",
       direction: "left",
+      invisible: true,
       text:
         "Classificações Corretas: " +
         Utils.numberFormat(this.classRight, 2) +
@@ -80,9 +99,10 @@ export class ScoreScene extends Scene {
     });
     const classWrongText = new TextObject({
       pos: new Position(336, 54 + 28 * 1),
-      color: "brown",
+      color: this.classWrong > 0 ? "red" : "brown",
       font: "wcp",
       direction: "left",
+      invisible: true,
       text:
         "Classificações Incorretas: " +
         Utils.numberFormat(this.classWrong, 2) +
@@ -92,9 +112,10 @@ export class ScoreScene extends Scene {
     });
     const elementRightText = new TextObject({
       pos: new Position(336, 54 + 28 * 2),
-      color: "brown",
+      color: this.elementRight > 0 ? "lime" : "brown",
       font: "wcp",
       direction: "left",
+      invisible: true,
       text:
         "Elementos Corretos: " +
         Utils.numberFormat(this.elementRight, 2) +
@@ -104,9 +125,10 @@ export class ScoreScene extends Scene {
     });
     const elementWrongText = new TextObject({
       pos: new Position(336, 54 + 28 * 3),
-      color: "brown",
+      color: this.elementWrong > 0 ? "red" : "brown",
       font: "wcp",
       direction: "left",
+      invisible: true,
       text:
         "Elementos Incorretos: " +
         Utils.numberFormat(this.elementWrong, 2) +
@@ -117,11 +139,15 @@ export class ScoreScene extends Scene {
         ) +
         " pts",
     });
+
+    let success = this.totalScore >= this.level.goal;
+
     const scoreText = new TextObject({
       pos: new Position(336, 54 + 28 * 4),
-      color: "brown",
+      color: success ? "lime" : "red",
       font: "wcp",
       direction: "left",
+      invisible: true,
       text:
         "Pontuação total: " + Utils.numberFormat(this.totalScore, 6) + " pts",
     });
@@ -133,6 +159,23 @@ export class ScoreScene extends Scene {
       text: "Objetivo: " + Utils.numberFormat(this.level.goal, 6) + " pts",
     });
 
+    const goalResult = new GameObject({
+      pos: new Position(244 + (success ? 15 : 0), 214),
+      spriteName: success ? "objective_met" : "objective_failed",
+      invisible: true,
+      width: success ? 78 : 93,
+      height: 32,
+    });
+
+    this.scoreObjects = [
+      classRightText,
+      classWrongText,
+      elementRightText,
+      elementWrongText,
+      scoreText,
+      goalResult,
+    ];
+
     this.gameObjects = [
       classRightText,
       classWrongText,
@@ -140,6 +183,7 @@ export class ScoreScene extends Scene {
       elementWrongText,
       scoreText,
       goalText,
+      goalResult,
       appBorder,
       new ExitButton(LEVELSELECTION),
     ];

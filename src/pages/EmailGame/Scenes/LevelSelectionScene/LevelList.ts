@@ -37,6 +37,7 @@ export const LevelList: Record<string, Level> = {
     name: "Fase com todos os emails",
     goal: 10000,
     emailDataList: [...EmailList.nonTutorials],
+    starterEmail: EmailList.mailTutorialTest,
     reference: TUTORIALLEVEL,
     buttons: [SAFE, MALICIOUS, SPAM],
     canInspect: false,

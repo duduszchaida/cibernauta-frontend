@@ -5,6 +5,10 @@ import { gameTimeTracker } from "../GameTimeTracker";
 
 export default class Timer extends TextObject {
   loop: boolean;
+  loopCount: number = 1;
+  loopMax: number;
+  hasSetInterval: boolean;
+  interval: any = null;
   goalSecs: number;
   goalTics: number;
   goalFunc: Function;
@@ -20,9 +24,11 @@ export default class Timer extends TextObject {
   constructor(args: {
     goalSecs: number;
     loop?: boolean;
+    loopMax?: number;
     goalFunc?: Function;
     pos?: Position;
     invisible?: boolean;
+    interval?: boolean;
   }) {
     super({
       color: "red",
@@ -34,6 +40,8 @@ export default class Timer extends TextObject {
     });
     this.goalSecs = args.goalSecs;
     this.loop = args.loop ?? false;
+    this.loopMax = args.loopMax ?? Infinity;
+    this.hasSetInterval = args.interval ?? false;
     this.goalFunc = args.goalFunc ?? (() => {});
     this.goalTics = this.goalSecs * gameTimeTracker.ticsPerSecond;
   }
@@ -42,6 +50,11 @@ export default class Timer extends TextObject {
     this.startTick = gameTimeTracker.currentTic;
     this.started = true;
     this.finished = false;
+    if (this.hasSetInterval) {
+      this.interval = setInterval(() => {
+        this.check();
+      }, 10);
+    }
   }
 
   pause() {
@@ -54,14 +67,29 @@ export default class Timer extends TextObject {
   }
 
   check() {
-    if (gameTimeTracker.currentTic - this.startTick >= this.goalTics) {
-      if (!this.finished) {
-        this.goalFunc();
+    if (this.loopCount > this.loopMax) {
+      if (this.interval) {
+        clearInterval(this.interval);
       }
-      this.finished = true;
-      return true;
+      return;
     }
-    return false;
+    if (gameTimeTracker.currentTic - this.startTick >= this.goalTics) {
+      if (this.loop) {
+        if (this.loopCount <= this.loopMax) {
+          this.goalFunc();
+          this.startTick = gameTimeTracker.currentTic;
+          this.loopCount++;
+        }
+      } else {
+        if (!this.finished) {
+          this.goalFunc();
+          if (this.interval) {
+            clearInterval(this.interval);
+          }
+        }
+        this.finished = true;
+      }
+    }
   }
 
   elapsedTics(): number {

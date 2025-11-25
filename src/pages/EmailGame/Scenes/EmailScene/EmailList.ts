@@ -107,6 +107,15 @@ export const mailSafe2: EmailData = {
 
 // General
 
+export const mailTutorialTest: EmailData = {
+  text: `Esta é uma fase para teste.\n\n:D`,
+  address: "teamcibernauta@mail.com",
+  class: SAFE,
+  name: "Equipe Cibernauta",
+  picture: "picture_cibernauta",
+  key: crypto.randomUUID(),
+};
+
 // MALICIOUS
 
 export const mailMal4: EmailData = {

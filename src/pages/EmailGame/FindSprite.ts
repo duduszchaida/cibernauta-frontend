@@ -36,6 +36,10 @@ const sprites: Record<string, Sprite> = {
   ),
   minecraftia_selected: new Sprite("/game/email/minecraftia_selected.png"),
   minecraftia_white: new Sprite("/game/email/minecraftia_white.png"),
+
+  objective_met: new Sprite("/game/email/objective_met.png"),
+  objective_failed: new Sprite("/game/email/objective_failed.png"),
+
   paragraph_selected: new Sprite("/game/email/paragraph_selected.png"),
   pause_off_btn: new Sprite("/game/email/pause_off_btn.png"),
   pause_on_btn: new Sprite("/game/email/pause_on_btn.png"),
@@ -73,6 +77,7 @@ const sprites: Record<string, Sprite> = {
   wcp_black: new Sprite("/game/email/wcp_black.png"),
   wcp_brown: new Sprite("/game/email/wcp_brown.png"),
   wcp_light_orange: new Sprite("/game/email/wcp_light_orange.png"),
+  wcp_lime: new Sprite("/game/email/wcp_lime.png"),
   wcp_red: new Sprite("/game/email/wcp_red.png"),
   wcp_selected: new Sprite("/game/email/wcp_selected.png"),
 };

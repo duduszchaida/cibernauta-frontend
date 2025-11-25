@@ -38,6 +38,9 @@ export default class TextObject extends GameObject {
   }
 
   render(canvasObject: CanvasObject): void {
+    if (this.invisible) {
+      return;
+    }
     canvasObject.writeText(
       this.fontSprite,
       this.font,
