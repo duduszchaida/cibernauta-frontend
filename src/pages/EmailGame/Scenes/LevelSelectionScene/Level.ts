@@ -8,4 +8,5 @@ export type Level = {
   starterEmail?: EmailData;
   buttons: string[];
   canInspect: boolean;
+  secondsTimer: number;
 };

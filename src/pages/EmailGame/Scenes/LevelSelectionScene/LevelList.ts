@@ -26,6 +26,7 @@ export const LevelList: Record<string, Level> = {
     buttons: [SAFE, MALICIOUS],
     starterEmail: EmailList.mailTutorialControls,
     canInspect: false,
+    secondsTimer: 0,
   },
   [TUTORIALLEVEL]: {
     name: "Primeiro contato",
@@ -41,6 +42,7 @@ export const LevelList: Record<string, Level> = {
     buttons: [SAFE, MALICIOUS],
     starterEmail: EmailList.mailTutorialClass,
     canInspect: false,
+    secondsTimer: 180,
   },
   [TESTLEVEL]: {
     name: "Fase com todos os emails",
@@ -49,6 +51,7 @@ export const LevelList: Record<string, Level> = {
     reference: TUTORIALLEVEL,
     buttons: [SAFE, MALICIOUS, SPAM],
     canInspect: false,
+    secondsTimer: 300,
   },
 };
 

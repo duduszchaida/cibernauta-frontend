@@ -102,7 +102,7 @@ export default class EmailScene extends Scene {
     this.level = level;
     this.emailDataList = [...level.emailDataList];
     this.timer = new Timer({
-      goalSecs: 10,
+      goalSecs: level.secondsTimer,
       pos: new Position(293, 4),
       goalFunc: () => {
         console.log("aaaaaaaaa");
