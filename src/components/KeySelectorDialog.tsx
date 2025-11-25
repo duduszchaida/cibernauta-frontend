@@ -13,9 +13,13 @@ import { Label } from "@/components/ui/label";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const AVAILABLE_KEYS = [
-  "arrows",
   "click_l",
   "click_r",
+  "scroll",
+  "mouse",
+  "space",
+  "arrows",
+  "wasd",
   "key_a",
   "key_b",
   "key_c",
@@ -42,10 +46,6 @@ const AVAILABLE_KEYS = [
   "key_x",
   "key_y",
   "key_z",
-  "mouse",
-  "space",
-  "scroll",
-  "wasd",
 ];
 
 const KEYS_PER_PAGE = 9;

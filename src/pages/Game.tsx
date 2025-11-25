@@ -45,13 +45,10 @@ export default function Game() {
   const [gameData, setGameData] = useState<GameData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   const handleScoreUpdate = async (score: number) => {
-    setCurrentScore(score);
-
     if (score > highScore && gameId) {
       try {
         const response = await savesService.updateHighscore({
@@ -224,15 +221,9 @@ export default function Game() {
                 )}
 
               <div className="flex items-center justify-between mb-3">
-                <div>
-                  <h1 className="text-white text-xl font-semibold">
-                    {gameData.game_title}
-                  </h1>
-                  <p className="text-gray-300 text-sm">Nível: Iniciante</p>
-                </div>
-                <div className="flex items-center gap-2 text-yellow-400">
-                  <span className="text-sm"> 0 pontos</span>
-                </div>
+                <h1 className="text-white text-xl font-semibold">
+                  {gameData.game_title}
+                </h1>
               </div>
 
               <div className="bg-[#1a2744] rounded-lg overflow-hidden border-4 border-[#2B3E68] flex items-center justify-center">
@@ -260,40 +251,6 @@ export default function Game() {
                   <div className="bg-[#2B3E68] rounded-xl p-6 text-center">
                     <div className="text-[#5B7FC7] text-7xl font-bold mb-2">
                       {highScore}
-                    </div>
-                    <p className="text-gray-400 text-sm">pontos recorde</p>
-                  </div>
-
-                  <div className="mt-5 space-y-3">
-                    <div className="bg-[#2B3E68] rounded-lg p-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-300 text-sm">
-                          Pontuação Atual
-                        </span>
-                        <span className="text-white font-semibold">
-                          {currentScore}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="bg-[#2B3E68] rounded-lg p-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-300 text-sm">
-                          Melhor Pontuação
-                        </span>
-                        <span className="text-yellow-400 font-semibold">
-                          {highScore}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="bg-[#2B3E68] rounded-lg p-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-300 text-sm">
-                          Dificuldade
-                        </span>
-                        <span className="text-white font-semibold">
-                          {"⭐".repeat(gameData.difficulty)}
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </div>
