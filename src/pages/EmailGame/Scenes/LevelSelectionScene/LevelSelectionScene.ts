@@ -47,7 +47,6 @@ export class LevelSelectionScene extends Scene {
       if (LevelList[lp.reference] == null) {
         return;
       }
-      console.log(LevelList[lp.reference]);
       this.gameObjects.push(
         new LevelBlock({
           level: LevelList[lp.reference],
@@ -57,15 +56,18 @@ export class LevelSelectionScene extends Scene {
       );
       i++;
     }
+    const currentProgressKeys = Object.keys(
+      this.gameState.currentSave.levelProgressRecord,
+    );
+
+    if (levelOrder.length <= currentProgressKeys.length) {
+      return;
+    }
     this.gameObjects.push(
       new LevelBlock({
-        level:
-          levelOrder[
-            Object.keys(this.gameState.currentSave.levelProgressRecord).length
-          ],
+        level: levelOrder[currentProgressKeys.length],
         levelProgress: { reference: "", highscore: 0, perfect: false },
-        order: Object.keys(this.gameState.currentSave.levelProgressRecord)
-          .length,
+        order: currentProgressKeys.length,
       }),
     );
   }

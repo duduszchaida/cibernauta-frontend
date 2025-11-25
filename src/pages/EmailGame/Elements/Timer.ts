@@ -34,11 +34,7 @@ export default class Timer extends TextObject {
     });
     this.goalSecs = args.goalSecs;
     this.loop = args.loop ?? false;
-    this.goalFunc =
-      args.goalFunc ??
-      (() => {
-        console.log("it's done!");
-      });
+    this.goalFunc = args.goalFunc ?? (() => {});
     this.goalTics = this.goalSecs * gameTimeTracker.ticsPerSecond;
   }
 

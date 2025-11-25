@@ -5,7 +5,7 @@ export type Level = {
   goal: number;
   reference: string;
   emailDataList: EmailData[];
-  starterEmail: EmailData;
+  starterEmail?: EmailData;
   buttons: string[];
   canInspect: boolean;
 };

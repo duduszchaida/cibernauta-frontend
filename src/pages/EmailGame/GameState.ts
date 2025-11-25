@@ -77,7 +77,6 @@ export default class GameState {
   }
 
   updateHighscore() {
-    console.log(this.currentSave.lastTotalScore);
     if (this.currentSaveSlotTotalScore > this.currentSave.lastTotalScore) {
       this.currentSave.lastTotalScore = this.currentSaveSlotTotalScore;
       savesService.updateHighscore({
@@ -100,24 +99,30 @@ export default class GameState {
       levelProgressRecord: {},
       lastTotalScore: 0,
     };
-    this.saveGame();
+    savesService.saveGame({
+      game_id: 1,
+      save_data: JSON.stringify(this.saveSlots),
+    });
     if (this.currentSaveSlotId == index) {
       this.currentSave = {
         lastSaveTime: null,
         levelProgressRecord: {},
         lastTotalScore: 0,
       };
+      this.currentSaveSlotId = null;
     }
   }
 
-  saveGame(manual: boolean = false) {
-    this.currentSave.lastSaveTime = new Date();
-    if (this.currentSaveSlotId != null) {
-      this.saveSlots[this.currentSaveSlotId] = JSON.parse(
-        JSON.stringify(this.currentSave),
-      );
+  saveGame(showPopup: boolean = false) {
+    if (this.currentSaveSlotId == null) {
+      alert("trying to save game on null slot id");
+      return;
     }
-    if (manual) {
+    this.currentSave.lastSaveTime = new Date();
+    this.saveSlots[this.currentSaveSlotId] = JSON.parse(
+      JSON.stringify(this.currentSave),
+    );
+    if (showPopup) {
       this.popup.newPopup("Progresso do jogo salvo.", 2.5);
     }
     savesService.saveGame({

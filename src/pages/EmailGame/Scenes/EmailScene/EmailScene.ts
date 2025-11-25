@@ -10,7 +10,6 @@ import EmailManager, {
 } from "./EmailManager";
 import { PauseScreen } from "./PauseScreen";
 import type { Level } from "../LevelSelectionScene/Level";
-import { mailExample } from "./EmailList";
 import GameObject from "../../Elements/GameObject";
 import Scene from "../Scene";
 import Toolbar from "./Toolbar";
@@ -20,6 +19,7 @@ import Position from "../../Position";
 import { LEVELSELECTION } from "../SceneReferences";
 import { ExitButton } from "../../Elements/ExitButton";
 import { Utils } from "../../Utils";
+import { mailTutorialControls } from "./EmailList";
 
 const emailBorder = new GameObject({
   spriteName: "email_border",
@@ -82,7 +82,7 @@ function btnFactory(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
 
 export default class EmailScene extends Scene {
   level: Level;
-  emailManager: EmailManager = new EmailManager(mailExample);
+  emailManager: EmailManager = new EmailManager(mailTutorialControls);
   emailDataList: EmailData[] = [];
   toolBar!: Toolbar;
   timer: Timer;

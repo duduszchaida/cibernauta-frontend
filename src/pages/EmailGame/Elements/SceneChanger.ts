@@ -22,7 +22,7 @@ export default class SceneChanger extends GameObject {
       if (args.sceneReference) {
         return { type: SCENECHANGE, sceneReference: this.sceneReference };
       }
-      console.log("no reference");
+      console.warn("no reference");
     };
   }
 

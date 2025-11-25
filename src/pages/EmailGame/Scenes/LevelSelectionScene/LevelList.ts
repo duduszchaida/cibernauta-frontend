@@ -1,14 +1,21 @@
 import * as EmailList from "../EmailScene/EmailList";
-import { MALICIOUS, SAFE } from "../EmailScene/EmailManager";
+import {
+  MALICIOUS,
+  SAFE,
+  SPAM,
+  type EmailData,
+} from "../EmailScene/EmailManager";
 import type { Level } from "./Level";
 
 export const CONTROLSLEVEL = "controlsLevel";
 export const TUTORIALLEVEL = "tutorialLevel";
 export const TESTLEVEL = "testLevel";
-export const TESTLEVEL2 = "testLevel2";
-export const TESTLEVEL3 = "testLevel3";
-export const TESTLEVEL4 = "testLevel4";
-export const TESTLEVEL5 = "testLevel5";
+
+const allMail: EmailData[] = [];
+
+(Object.keys(EmailList) as Array<keyof typeof EmailList>).forEach((k) => {
+  allMail.push(EmailList[k]);
+});
 
 export const LevelList: Record<string, Level> = {
   [CONTROLSLEVEL]: {
@@ -35,9 +42,18 @@ export const LevelList: Record<string, Level> = {
     starterEmail: EmailList.mailTutorialClass,
     canInspect: false,
   },
+  [TESTLEVEL]: {
+    name: "Fase com todos os emails",
+    goal: 10000,
+    emailDataList: [...allMail],
+    reference: TUTORIALLEVEL,
+    buttons: [SAFE, MALICIOUS, SPAM],
+    canInspect: false,
+  },
 };
 
 export const levelOrder: Level[] = [
   LevelList[CONTROLSLEVEL],
   LevelList[TUTORIALLEVEL],
+  LevelList[TESTLEVEL],
 ];
