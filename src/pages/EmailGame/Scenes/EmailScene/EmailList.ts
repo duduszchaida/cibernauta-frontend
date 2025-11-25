@@ -104,3 +104,12 @@ export const mailSafe1: EmailData = {
   picture: "picture_cibernauta",
   key: crypto.randomUUID(),
 };
+
+export const mailSafe2: EmailData = {
+  text: `Alerta de segurança \n\n Detectamos um novo login na sua Conta. Se foi você que fez isso, nenhuma ação é necessária. Se não foi, ajudaremos a proteger sua conta. \n\nVerificar atividade.`,
+  address: "emails@mail.com",
+  class: SAFE,
+  name: "Sistema de Emails",
+  picture: "picture_default_1",
+  key: crypto.randomUUID(),
+};

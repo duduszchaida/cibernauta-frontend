@@ -28,6 +28,7 @@ export const LevelList: Record<string, Level> = {
       EmailList.mailMal2,
       EmailList.mailMal3,
       EmailList.mailSafe1,
+      EmailList.mailSafe2,
     ],
     reference: TUTORIALLEVEL,
     buttons: [SAFE, MALICIOUS],
