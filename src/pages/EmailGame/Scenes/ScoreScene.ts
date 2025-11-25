@@ -6,12 +6,8 @@ import Timer from "../Elements/Timer";
 import type GameState from "../GameState";
 import Position from "../Position";
 import { Utils } from "../Utils";
-import {
-  ADDRESS,
-  NAME,
-  PICTURE,
-  type EmailData,
-} from "./EmailScene/EmailManager";
+import type { EmailData } from "./EmailScene/EmailData";
+import { ADDRESS, NAME, PICTURE } from "./EmailScene/EmailElement";
 import type { Evaluation } from "./EmailScene/EmailScene";
 import type { Level } from "./LevelSelectionScene/Level";
 import Scene from "./Scene";

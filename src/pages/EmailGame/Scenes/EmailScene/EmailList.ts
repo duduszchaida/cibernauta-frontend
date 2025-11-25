@@ -1,4 +1,4 @@
-import { MALICIOUS, SAFE, SPAM, type EmailData } from "./EmailManager";
+import { MALICIOUS, SAFE, SPAM, type EmailData } from "./EmailData";
 
 export const mailspamDesconto90: EmailData = {
   text: `PARABÉNS!!!\n\nVocê foi selecionado para RECEBER um cupom de até 90% de DESCONTO em nossos produtos incríveis!\nMas é SÓ HOJE! Clique e aproveite:\n\nhttp://superofertaspromocao.biz/premio\n\nNão perca tempo! Essa é sua chance de mudar de vida!\nEquipe Promoções Imperdíveis`,
@@ -102,6 +102,17 @@ export const mailSafe2: EmailData = {
   class: SAFE,
   name: "Sistema de Emails",
   picture: "picture_default_1",
+  key: crypto.randomUUID(),
+};
+
+// Inspect
+
+export const mailTutorialElements: EmailData = {
+  text: `Agora que passamos por esse aquecimento vamos ver a parte mais crucial do treinamento. Elementos.`,
+  address: "teamcibernauta@mail.com",
+  class: SAFE,
+  name: "Equipe Cibernauta",
+  picture: "picture_cibernauta",
   key: crypto.randomUUID(),
 };
 

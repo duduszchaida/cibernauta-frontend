@@ -1,11 +1,11 @@
-import type { ADDRESS, CONTENT, NAME, PICTURE } from "./EmailManager";
-import { INSPECT } from "./EmailComponent";
+import { INSPECT } from "./EmailElement";
 import TextObject from "../../Elements/TextObject";
 import type Sprite from "../../Sprite";
 import Position from "../../Position";
 import { findSprite } from "../../FindSprite";
 import type CanvasObject from "../../CanvasObject";
 import fontMaps from "../../FontMaps";
+import { ADDRESS, NAME, PICTURE, CONTENT } from "./EmailElement";
 
 export default class EmailTextComponent extends TextObject {
   text: string;

@@ -5,7 +5,7 @@ import fontMaps from "../../FontMaps";
 import measureTextWidth from "../../MeasureTextWidth";
 import Position from "../../Position";
 import type Sprite from "../../Sprite";
-import { INSPECT } from "./EmailComponent";
+import { INSPECT } from "./EmailElement";
 
 export type Line = {
   words: string[];

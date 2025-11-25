@@ -3,12 +3,16 @@ import GameObject from "../../Elements/GameObject";
 import { findSprite } from "../../FindSprite";
 import type Position from "../../Position";
 import type Sprite from "../../Sprite";
-import type { ADDRESS, CONTENT, PICTURE } from "./EmailManager";
+
+export const CONTENT = "content";
+export const ADDRESS = "address";
+export const NAME = "name";
+export const PICTURE = "picture";
 
 export const INSPECT = "inspect";
 
-export default class EmailComponent extends GameObject {
-  reference: typeof ADDRESS | typeof CONTENT | typeof PICTURE;
+export default class EmailElement extends GameObject {
+  reference: typeof ADDRESS | typeof CONTENT | typeof PICTURE | typeof NAME;
   anomaly: boolean;
   selected: boolean = false;
   selectedSprite: Sprite;

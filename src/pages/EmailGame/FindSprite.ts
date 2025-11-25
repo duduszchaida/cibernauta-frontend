@@ -2,32 +2,43 @@ import Sprite from "./Sprite";
 
 const sprites: Record<string, Sprite> = {
   app_border: new Sprite("/game/email/app_border.png"),
+
   bg_beige: new Sprite("/game/email/bg_beige.png"),
   bg_blue: new Sprite("/game/email/bg_blue.png"),
   bg_green: new Sprite("/game/email/bg_green.png"),
   bg_save_screen: new Sprite("/game/email/bg_save_screen.png"),
   bg_score: new Sprite("/game/email/bg_score.png"),
   bg_start: new Sprite("/game/email/bg_start.png"),
+
   btn_malicious: new Sprite("/game/email/btn_malicious.png"),
   btn_safe: new Sprite("/game/email/btn_safe.png"),
   btn_spam: new Sprite("/game/email/btn_spam.png"),
+  btn_notepad: new Sprite("/game/email/btn_notepad.png"),
   btn_trash: new Sprite("/game/email/btn_trash.png"),
+
   cam: new Sprite("/game/email/cam.png"),
-  concepts_icon: new Sprite("/game/email/concepts_icon.png"),
+
   cursor_arrow: new Sprite("/game/email/cursor_arrow.png"),
   cursor_drag: new Sprite("/game/email/cursor_drag.png"),
   cursor_inspect: new Sprite("/game/email/cursor_inspect.png"),
   cursor_pointer: new Sprite("/game/email/cursor_pointer.png"),
 
   email_border: new Sprite("/game/email/email_border.png"),
-  email_icon: new Sprite("/game/email/email_icon.png"),
   email_selection_cover: new Sprite("/game/email/email_selection_cover.png"),
   email_ui: new Sprite("/game/email/email_ui.png"),
   exit_btn: new Sprite("/game/email/exit_btn.png"),
+
+  icon_concepts: new Sprite("/game/email/icon_concepts.png"),
+  icon_email: new Sprite("/game/email/icon_email.png"),
   icon_save: new Sprite("/game/email/icon_save.png"),
+  icon_saves: new Sprite("/game/email/icon_saves.png"),
+  icon_settings: new Sprite("/game/email/icon_settings.png"),
+
   level_block: new Sprite("/game/email/level_block.png"),
+
   marker_finished: new Sprite("/game/email/marker_finished.png"),
   marker_perfect: new Sprite("/game/email/marker_perfect.png"),
+
   minecraftia_black: new Sprite("/game/email/minecraftia_black.png"),
   minecraftia_bnw: new Sprite("/game/email/minecraftia_bnw.png"),
   minecraftia_brown: new Sprite("/game/email/minecraftia_brown.png"),
@@ -64,16 +75,17 @@ const sprites: Record<string, Sprite> = {
   picture_selected: new Sprite("/game/email/picture_selected.png"),
 
   popup: new Sprite("/game/email/popup.png"),
+
   save_avatar_blue: new Sprite("/game/email/save_avatar_blue.png"),
   save_avatar_empty: new Sprite("/game/email/save_avatar_empty.png"),
   save_avatar_green: new Sprite("/game/email/save_avatar_green.png"),
   save_avatar_pink: new Sprite("/game/email/save_avatar_pink.png"),
-  saves_icon: new Sprite("/game/email/saves_icon.png"),
+
   scroll_bar: new Sprite("/game/email/scroll_bar.png"),
   scroll_slot: new Sprite("/game/email/scroll_slot.png"),
-  settings_icon: new Sprite("/game/email/settings_icon.png"),
   start_btn: new Sprite("/game/email/start_btn.png"),
   toolbar: new Sprite("/game/email/toolbar.png"),
+
   wcp_black: new Sprite("/game/email/wcp_black.png"),
   wcp_brown: new Sprite("/game/email/wcp_brown.png"),
   wcp_light_orange: new Sprite("/game/email/wcp_light_orange.png"),

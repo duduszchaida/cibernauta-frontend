@@ -1,13 +1,3 @@
-import EmailManager, {
-  ADDRESS,
-  CONTENT,
-  MALICIOUS,
-  NAME,
-  PICTURE,
-  SAFE,
-  SPAM,
-  type EmailData,
-} from "./EmailManager";
 import { PauseScreen } from "./PauseScreen";
 import type { Level } from "../LevelSelectionScene/Level";
 import GameObject from "../../Elements/GameObject";
@@ -20,6 +10,9 @@ import { LEVELSELECTION } from "../SceneReferences";
 import { ExitButton } from "../../Elements/ExitButton";
 import { Utils } from "../../Utils";
 import { mailTutorialControls } from "./EmailList";
+import { MALICIOUS, SAFE, SPAM, type EmailData } from "./EmailData";
+import { ADDRESS, NAME, PICTURE, CONTENT } from "./EmailElement";
+import EmailManager from "./EmailManager";
 
 const emailBorder = new GameObject({
   spriteName: "email_border",
@@ -36,6 +29,8 @@ const selectCover = new GameObject({
 });
 
 export const JUDGEEMAIL = "judgeEmail";
+export const OPENNOTEPAD = "openNotepad";
+const NOTEPAD = "notepad";
 
 export type Evaluation = {
   [PICTURE]: boolean | null;
@@ -45,7 +40,9 @@ export type Evaluation = {
   class: boolean | null;
 };
 
-function btnFactory(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
+function makeButton(
+  btn: typeof SAFE | typeof MALICIOUS | typeof SPAM | typeof NOTEPAD,
+) {
   switch (btn) {
     case SAFE:
       return new GameObject({
@@ -75,6 +72,16 @@ function btnFactory(btn: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
         spriteName: "btn_spam",
         clickFunction: () => {
           return { type: JUDGEEMAIL, class: SPAM };
+        },
+      });
+    case NOTEPAD:
+      return new GameObject({
+        height: 24,
+        width: 24,
+        invisible: true,
+        spriteName: "btn_notepad",
+        clickFunction: () => {
+          return { type: OPENNOTEPAD };
         },
       });
   }
@@ -174,13 +181,13 @@ export default class EmailScene extends Scene {
     this.level.buttons.forEach((btn) => {
       switch (btn) {
         case SAFE:
-          this.toolButtons.push(btnFactory(SAFE));
+          this.toolButtons.push(makeButton(SAFE));
           break;
         case MALICIOUS:
-          this.toolButtons.push(btnFactory(MALICIOUS));
+          this.toolButtons.push(makeButton(MALICIOUS));
           break;
         case SPAM:
-          this.toolButtons.push(btnFactory(SPAM));
+          this.toolButtons.push(makeButton(SPAM));
           break;
       }
     });

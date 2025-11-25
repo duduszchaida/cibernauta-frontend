@@ -8,9 +8,9 @@ import keyboardState, { PRESSED } from "./Input/KeyboardState";
 import mouseState from "./Input/MouseState";
 import Position from "./Position";
 import { DesktopScene, MANUALSAVE } from "./Scenes/DesktopScene";
-import EmailComponent, {
+import EmailElement, {
   INSPECT as SELECTANOMALY,
-} from "./Scenes/EmailScene/EmailComponent";
+} from "./Scenes/EmailScene/EmailElement";
 import EmailContent from "./Scenes/EmailScene/EmailContent";
 import EmailScene, { JUDGEEMAIL } from "./Scenes/EmailScene/EmailScene";
 import EmailTextComponent from "./Scenes/EmailScene/EmailTextComponent";
@@ -91,7 +91,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
     firstContact = true;
     if (obj.click instanceof Function) {
       if (
-        obj instanceof EmailComponent ||
+        obj instanceof EmailElement ||
         obj instanceof EmailTextComponent ||
         obj instanceof EmailContent
       ) {

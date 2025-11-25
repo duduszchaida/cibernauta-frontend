@@ -11,7 +11,7 @@ export class DesktopScene extends Scene {
       gameObjects: [
         new AppIcon({
           pos: new Position(16, 16),
-          spriteName: "email_icon",
+          spriteName: "icon_email",
           appName: "Treinamento",
           sceneReference: LEVELSELECTION,
         }),
@@ -25,7 +25,7 @@ export class DesktopScene extends Scene {
         }),
         new AppIcon({
           pos: new Position(16, 144),
-          spriteName: "saves_icon",
+          spriteName: "icon_saves",
           appName: "Salvamentos",
           sceneReference: SAVESCENE,
         }),

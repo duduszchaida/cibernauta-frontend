@@ -1,34 +1,13 @@
 import ScrollBar from "../../Elements/ScrollBar";
 import Position from "../../Position";
-import EmailComponent from "./EmailComponent";
+import EmailElement from "./EmailElement";
 import EmailContent from "./EmailContent";
+import { type EmailData } from "./EmailData";
+import { ADDRESS, CONTENT, NAME, PICTURE } from "./EmailElement";
 import type { Evaluation } from "./EmailScene";
 import EmailTextComponent from "./EmailTextComponent";
 
-// Email anomaly references
-export const CONTENT = "content";
-export const ADDRESS = "address";
-export const NAME = "name";
-export const PICTURE = "picture";
-export const SAFE = "safe";
-export const MALICIOUS = "malicious";
-export const SPAM = "spam";
 export type AnomalyList = Record<string, boolean | undefined>;
-
-export type EmailData = {
-  text: string;
-  address: string;
-  name: string;
-  picture: string;
-  class: typeof SAFE | typeof MALICIOUS | typeof SPAM;
-  key: string;
-  anomalyContent?: boolean;
-  anomalyAddress?: boolean;
-  anomalyName?: boolean;
-  anomalyPicture?: boolean;
-  anomalyParagraphs?: number[];
-};
-
 export default class EmailManager {
   emailData!: EmailData;
   emailContent!: EmailContent;
@@ -41,7 +20,7 @@ export default class EmailManager {
     address: undefined,
     picture: undefined,
   };
-  [PICTURE]!: EmailComponent;
+  [PICTURE]!: EmailElement;
   [ADDRESS]!: EmailTextComponent;
   [NAME]!: EmailTextComponent;
 
@@ -52,7 +31,7 @@ export default class EmailManager {
   newData(data: EmailData) {
     this.emailData = data;
     this.emailContent = new EmailContent(this.emailData.text);
-    this[PICTURE] = new EmailComponent({
+    this[PICTURE] = new EmailElement({
       pos: new Position(8, 8),
       height: 32,
       width: 32,
