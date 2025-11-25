@@ -11,6 +11,7 @@ const sprites: Record<string, Sprite> = {
   btn_malicious: new Sprite("/game/email/btn_malicious.png"),
   btn_safe: new Sprite("/game/email/btn_safe.png"),
   btn_spam: new Sprite("/game/email/btn_spam.png"),
+  btn_trash: new Sprite("/game/email/btn_trash.png"),
   cam: new Sprite("/game/email/cam.png"),
   concepts_icon: new Sprite("/game/email/concepts_icon.png"),
   cursor_arrow: new Sprite("/game/email/cursor_arrow.png"),

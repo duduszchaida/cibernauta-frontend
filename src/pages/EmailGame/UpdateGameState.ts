@@ -14,7 +14,7 @@ import EmailScene, { JUDGEEMAIL } from "./Scenes/EmailScene/EmailScene";
 import EmailTextComponent from "./Scenes/EmailScene/EmailTextComponent";
 import { INSPECTMODE } from "./Scenes/EmailScene/Toolbar";
 import { LevelSelectionScene } from "./Scenes/LevelSelectionScene/LevelSelectionScene";
-import SaveScene, { SELECTSAVE } from "./Scenes/SavesScene";
+import SaveScene, { DELETESAVE, SELECTSAVE } from "./Scenes/SavesScene";
 import type Scene from "./Scenes/Scene";
 import {
   DESKTOPSCENE,
@@ -144,6 +144,13 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             gameState.selectSave(result.slot);
             gameState.currentScene = createScene(
               { sceneReference: DESKTOPSCENE },
+              gameState,
+            );
+            break;
+          case DELETESAVE:
+            gameState.deleteSave(result.slot);
+            gameState.currentScene = createScene(
+              { sceneReference: SAVESCENE },
               gameState,
             );
             break;

@@ -4,6 +4,16 @@ import Scene from "./Scenes/Scene";
 import { DESKTOPSCENE, SAVESCENE } from "./Scenes/SceneReferences";
 import { StartScene } from "./Scenes/StartScene";
 
+// RESET SAVES
+// savesService.saveGame({
+//   game_id: 1,
+//   save_data: JSON.stringify([
+//     { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
+//     { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
+//     { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
+//   ]),
+// });
+
 export type LevelProgress = {
   reference: string;
   highscore: number;
@@ -84,21 +94,35 @@ export default class GameState {
     );
   }
 
-  saveGame(manual: boolean = false) {
-    if (this.currentSaveSlotId == null) {
-      alert("error in save slot id, id is null/undefined while trying to save");
-      return;
+  deleteSave(index: number) {
+    this.saveSlots[index] = {
+      lastSaveTime: null,
+      levelProgressRecord: {},
+      lastTotalScore: 0,
+    };
+    this.saveGame();
+    if (this.currentSaveSlotId == index) {
+      this.currentSave = {
+        lastSaveTime: null,
+        levelProgressRecord: {},
+        lastTotalScore: 0,
+      };
     }
+  }
+
+  saveGame(manual: boolean = false) {
     this.currentSave.lastSaveTime = new Date();
-    this.saveSlots[this.currentSaveSlotId] = JSON.parse(
-      JSON.stringify(this.currentSave),
-    );
+    if (this.currentSaveSlotId != null) {
+      this.saveSlots[this.currentSaveSlotId] = JSON.parse(
+        JSON.stringify(this.currentSave),
+      );
+    }
     if (manual) {
       this.popup.newPopup("Progresso do jogo salvo.", 2.5);
     }
     savesService.saveGame({
       game_id: 1,
-      save_data: JSON.stringify([this.saveSlots]),
+      save_data: JSON.stringify(this.saveSlots),
     });
   }
 }

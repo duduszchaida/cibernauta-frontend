@@ -33,6 +33,7 @@ export class LevelBlock extends GameObject {
         };
       },
     });
+    console.log(args);
     this.name = args.level.name;
     this.goal = args.level.goal;
     this.highscore = args.levelProgress.highscore;

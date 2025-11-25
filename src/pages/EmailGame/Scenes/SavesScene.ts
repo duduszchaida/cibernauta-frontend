@@ -5,6 +5,7 @@ import Position from "../Position";
 import Scene from "./Scene";
 
 export const SELECTSAVE = "selectSave";
+export const DELETESAVE = "deleteSave";
 
 function saveTextObjects(save: Save, num: number): TextObject[] {
   let pos = new Position();
@@ -63,9 +64,6 @@ function saveTextObjects(save: Save, num: number): TextObject[] {
 }
 
 export default class SaveScene extends Scene {
-  textSlot1: any;
-  textSlot2: any;
-  textSlot3: any;
   constructor(saveSlots: Save[], currentSave: number | null) {
     super({
       backgroundSpriteName: "bg_save_screen",
@@ -124,6 +122,21 @@ export default class SaveScene extends Scene {
       slot2Btn,
       slot3Btn,
     ];
+    [0, 1, 2].forEach((i) => {
+      if (saveSlots[i].lastSaveTime) {
+        this.gameObjects.push(
+          new GameObject({
+            pos: new Position(71 + i * 96, 172),
+            spriteName: "btn_trash",
+            height: 20,
+            width: 20,
+            clickFunction: () => {
+              return { type: DELETESAVE, slot: i };
+            },
+          }),
+        );
+      }
+    });
     if (currentSaveId != null) {
       let selectedSaveText = new TextObject({
         pos: new Position(39 + currentSaveId * 96, 60),

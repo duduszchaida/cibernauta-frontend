@@ -47,6 +47,7 @@ export class LevelSelectionScene extends Scene {
       if (LevelList[lp.reference] == null) {
         return;
       }
+      console.log(LevelList[lp.reference]);
       this.gameObjects.push(
         new LevelBlock({
           level: LevelList[lp.reference],
