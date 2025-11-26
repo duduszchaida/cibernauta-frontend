@@ -9,7 +9,8 @@ export default function ResetPasswordSuccess() {
           <img
             src="/logo-cibernauta.png"
             alt="Cibernauta"
-            className="w-[128px] h-[128px] mb-4"
+            className="w-[256px] h-[256px] mb-4"
+            style={{ imageRendering: "pixelated" }}
           />
           <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
           <h1 className="text-white text-3xl font-normal mb-2">

@@ -77,7 +77,7 @@ export default function Signup() {
       });
       return;
     }
-    
+
     setIsLoading(true);
     try {
       await register(loginUsername, fullName, email, password);
@@ -104,7 +104,8 @@ export default function Signup() {
           <img
             src="/logo-cibernauta.png"
             alt="Cibernauta"
-            className="w-[128px] h-[128px] mb-4"
+            className="w-[256px] h-[256px] mb-4"
+            style={{ imageRendering: "pixelated" }}
           />
           <h1 className="text-white text-3xl font-normal mb-2">Criar Conta</h1>
           <p className="text-gray-400 text-sm">

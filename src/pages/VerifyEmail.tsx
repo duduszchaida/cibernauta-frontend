@@ -58,7 +58,8 @@ export default function VerifyEmail() {
           <img
             src="/logo-cibernauta.png"
             alt="Cibernauta"
-            className="w-[128px] h-[128px] mb-4"
+            className="w-[256px] h-[256px] mb-4"
+            style={{ imageRendering: "pixelated" }}
           />
 
           <div className="bg-blue-500 rounded-full p-4 mb-4">

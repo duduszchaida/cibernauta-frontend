@@ -48,7 +48,8 @@ export default function ForgotPassword() {
       if (errorMessage.includes("verificar seu email")) {
         toast({
           title: "Email não verificado",
-          description: "Você precisa verificar seu email antes de redefinir a senha. Redirecionando...",
+          description:
+            "Você precisa verificar seu email antes de redefinir a senha. Redirecionando...",
           variant: "destructive",
         });
         setTimeout(() => {
@@ -73,7 +74,8 @@ export default function ForgotPassword() {
           <img
             src="/logo-cibernauta.png"
             alt="Cibernauta"
-            className="w-[114px] h-[114px] mb-4"
+            className="w-[256px] h-[256px] mb-4"
+            style={{ imageRendering: "pixelated" }}
           />
           <h1 className="text-white text-3xl font-normal mb-2">
             Esqueci minha senha
