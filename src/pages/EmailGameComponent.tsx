@@ -30,8 +30,8 @@ export default function EmailGameComponent({
   return (
     <div
       style={{
-        width: 426 * gameScale,
-        height: 286 * gameScale,
+        width: 352 * gameScale,
+        height: 256 * gameScale,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
