@@ -2,6 +2,7 @@ import SceneChanger from "../Elements/SceneChanger";
 import Position from "../Position";
 import Scene from "./Scene";
 
+// Cena inicial
 export class StartScene extends Scene {
   constructor(sceneReference: string) {
     super({

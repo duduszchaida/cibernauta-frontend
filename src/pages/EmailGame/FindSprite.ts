@@ -1,4 +1,4 @@
-import Sprite from "./Sprite";
+import Sprite from "./Elements/Sprite";
 
 const sprites: Record<string, Sprite> = {
   app_border: new Sprite("/game/email/app_border.png"),

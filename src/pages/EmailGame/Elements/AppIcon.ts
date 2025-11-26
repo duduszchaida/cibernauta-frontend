@@ -3,9 +3,9 @@ import Position from "../Position";
 import { findSprite } from "../FindSprite";
 import SceneChanger from "./SceneChanger";
 
+// Ícones utilizados na DesktopScene, se diferencia de SceneChanger por renderizar o texto de appName abaixo do Sprite
 export default class AppIcon extends SceneChanger {
-  appName: string;
-  clickable: boolean = true;
+  appName: string; // Texto que será escrito embaixo do ícone
 
   constructor(args: {
     pos: Position;
@@ -16,23 +16,14 @@ export default class AppIcon extends SceneChanger {
     height?: number;
     sceneReference?: string;
   }) {
-    super({
-      ...args,
-      width: args.width ?? 32,
-      height: args.height ?? 32,
-      sceneReference: args.sceneReference,
-    });
+    super(args);
     this.appName = args.appName ?? "";
-    if (args.clickFunction) {
-      this.click = args.clickFunction;
-    }
   }
 
   render(canvasObject: CanvasObject) {
+    // Desenha o Sprite do ícone
     canvasObject.drawSprite(this.sprite, this.pos, this.width, this.height);
-    if (this.appName == "") {
-      return;
-    }
+    // Escreve o texto abaixo do ícone
     canvasObject.writeText(
       findSprite("minecraftia_bnw"),
       "minecraftia",

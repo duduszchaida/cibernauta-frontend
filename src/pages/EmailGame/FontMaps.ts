@@ -6,14 +6,14 @@ type CharMap = {
 
 type FontMap = {
   cellWidth: number;
-  cellHeight: number;
+  charHeight: number;
   letters: Record<string | number, CharMap>;
 };
 
 const fontMaps: Record<string, FontMap> = {
   minecraftia: {
     cellWidth: 6,
-    cellHeight: 12,
+    charHeight: 12,
     letters: {
       A: { x: 0, y: 0, width: 5 },
       B: { x: 1, y: 0, width: 5 },
@@ -131,7 +131,7 @@ const fontMaps: Record<string, FontMap> = {
   },
   wcp: {
     cellWidth: 9,
-    cellHeight: 16,
+    charHeight: 16,
     letters: {
       A: { x: 0, y: 0, width: 6 },
       B: { x: 1, y: 0, width: 7 },

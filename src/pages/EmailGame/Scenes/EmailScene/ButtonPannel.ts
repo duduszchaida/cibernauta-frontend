@@ -5,7 +5,7 @@ import Position from "../../Position";
 
 export const INSPECTMODE = "inspectmode";
 
-export default class Toolbar extends GameObject {
+export default class ButtonPannel extends GameObject {
   open: boolean = false;
   constructor() {
     super({
@@ -15,7 +15,7 @@ export default class Toolbar extends GameObject {
       spriteName: "toolbar",
       hitbox: new Hitbox({ pos: new Position(7, 218), height: 32, width: 32 }),
     });
-    this.click = () => {
+    this.clickFunction = () => {
       return { type: INSPECTMODE };
     };
   }

@@ -1,32 +1,30 @@
 import fontMaps from "./FontMaps";
 import Position from "./Position";
-import type Sprite from "./Sprite";
+import type Sprite from "./Elements/Sprite";
 import measureTextWidth from "./MeasureTextWidth";
 import type { Line } from "./Scenes/EmailScene/EmailContent";
 
+// Objeto para renderizar Sprites em um elmento HTML canvas
 export default class CanvasObject {
-  width: number = 800;
-  height: number = 200;
-  id: string;
-  scale: number;
-  backgroundColor: string;
-  element: HTMLCanvasElement;
-  ctx: CanvasRenderingContext2D;
+  width: number; // Largura do elemento canvas HTML
+  height: number; // Altura do elemento canvas HTML
+  scale: number; // Escala em pixels para renderizar os Sprites
+  backgroundColor: string; // Cor de fundo
+  element: HTMLCanvasElement; // Elemento HTML canvas
+  ctx: CanvasRenderingContext2D; // Contexto 2d do elemento de canvas
 
   constructor(args: {
     width: number;
     height: number;
-    id: string;
     scale: number;
     backgroundColor: string;
     canvasElement: HTMLCanvasElement;
   }) {
-    this.width = args.width; // Largura do objeto em px
-    this.height = args.height; // Altura do objeto em px
-    this.id = args.id; // Id do componente do canvas
-    this.scale = args.scale; // Valor para multiplicar a escala das imagens
-    this.backgroundColor = args.backgroundColor; // Valor para pintar o fundo
-    this.element = args.canvasElement; //
+    this.width = args.width;
+    this.height = args.height;
+    this.scale = args.scale;
+    this.backgroundColor = args.backgroundColor;
+    this.element = args.canvasElement;
 
     this.element.style.imageRendering = "pixelated";
     this.element.width = this.width;
@@ -35,6 +33,9 @@ export default class CanvasObject {
     this.ctx.imageSmoothingEnabled = false;
   }
 
+  /**
+   * Limpa a tela do canvas
+   */
   clear() {
     this.ctx.clearRect(0, 0, this.width, this.height);
     this.ctx.fillStyle = this.backgroundColor;
@@ -42,12 +43,16 @@ export default class CanvasObject {
   }
 
   /**
-   *
-   * @param sprite Sprite object to be drawn
-   * @param pos Position where the sprite object will be drawn
-   * @param length
-   * @param slicePos
-   * @param sliceLength
+   * Renderiza um dado sprite em sua posição e com suas dimensões
+   * Se dado dados de recorte será renderizado apenas uma seção recortada do sprite
+   * Caso contrário a seção recortada é equivalente ao sprite todo
+   * @param sprite Sprite que será renderizado
+   * @param pos Posição no jogo onde será renderizado
+   * @param width Largura que será renderizado o sprite
+   * @param height Altura que será renderizado o sprite
+   * @param slicePos Posição no sprite onde será recortado
+   * @param sliceWidth Largura do recorte no sprite
+   * @param sliceHeight Altura do recorte no sprite
    */
   drawSprite(
     sprite: Sprite,
@@ -78,6 +83,17 @@ export default class CanvasObject {
     );
   }
 
+  /**
+   * Renderiza um caractere em sua posição a partir do sprite de sua fonte e dados da fonte no fontMaps
+   * Se dado dados de recorte será renderizado apenas uma seção do caractere (usado para renderizar textos cortados em altura)
+   * Caso contrário a seção recortada é equivalente ao caractere todo
+   * @param fontSprite Sprite da fonte a ser renderizado
+   * @param font fonte do sprite
+   * @param char caractere a ser renderizado
+   * @param pos posição no jogo onde será renderizado
+   * @param slicePosY posição vertical do recorte
+   * @param sliceHeight altura do recorte
+   */
   writeCharacter(
     fontSprite: Sprite,
     font: string,
@@ -86,15 +102,15 @@ export default class CanvasObject {
     slicePosY: number = 0,
     sliceHeight: number = 0,
   ) {
-    const fontMap = fontMaps[font];
-    const charMap = fontMap.letters[char];
+    const fontMap = fontMaps[font]; // Mapa da fonte escolhida
+    const charMap = fontMap.letters[char]; // Mapa do caractere escolihdo
     if (sliceHeight == 0) {
-      sliceHeight = fontMaps[font].cellHeight;
+      sliceHeight = fontMaps[font].charHeight;
     }
     this.ctx.drawImage(
       fontSprite.img,
       charMap.x * fontMap.cellWidth,
-      charMap.y * fontMap.cellHeight + slicePosY,
+      charMap.y * fontMap.charHeight + slicePosY,
       charMap.width,
       sliceHeight,
       pos.x * this.scale,
@@ -104,6 +120,17 @@ export default class CanvasObject {
     );
   }
 
+  /**
+   * Para cada caractere de um texto, renderiza o caractere com as informações de posição direção e recorte.
+   * @param fontSprite Sprite da fonte utilizada
+   * @param font Font utilizada
+   * @param text Texto a ser renderizado
+   * @param pos Posição do jogo onde será renderizado
+   * @param direction Indica se o texto será renderizado "centralizado", "à esquerda" ou "à dreita" da posição oferecida
+   * @param limitWidth Limite de largura para quebra linha
+   * @param slicePosY posição vertical do recorte
+   * @param sliceHeight altura do recorte
+   * */
   writeText(
     fontSprite: Sprite,
     font: string,
@@ -134,10 +161,6 @@ export default class CanvasObject {
         const char = chars[i];
         const charMap = fontMap.letters[char];
         currentWidth += charMap.width;
-        // if (currentWidth + charMap.width > limitWidth || char == "\n") {
-        //   currentWidth = 0;
-        //   currentHeight += fontMap.cellHeight;
-        // }
         this.writeCharacter(
           fontSprite,
           font,
@@ -154,7 +177,7 @@ export default class CanvasObject {
         const charMap = fontMap.letters[char];
         if (currentWidth + charMap.width > limitWidth || char == "\n") {
           currentWidth = 0;
-          currentHeight += fontMap.cellHeight;
+          currentHeight += fontMap.charHeight;
         }
         this.writeCharacter(
           fontSprite,
@@ -169,6 +192,15 @@ export default class CanvasObject {
     }
   }
 
+  /**
+   * Renderiza cada palavra de uma dada linha
+   * @param line Linha a ser renderizada
+   * @param pos Posição do jogo onde será renderizado
+   * @param fontSprite Sprite da fonte utilizada
+   * @param font Font utilizada
+   * @param sliceY posição vertical do recorte
+   * @param sliceHeight altura do recorte
+   */
   writeLine(
     line: Line,
     pos: Position,
@@ -185,7 +217,7 @@ export default class CanvasObject {
         x,
         pos.add(currentX, 0),
         "right",
-        999,
+        Infinity,
         sliceY,
         sliceHeight,
       );
@@ -193,6 +225,19 @@ export default class CanvasObject {
     });
   }
 
+  /**
+   * Renderiza um dado parágrafo na sua posição no jogo com deslocamento de scroll, e renderiza a borda de seleção se estiver selecionado
+   * @param paragraph Parágrafo a ser renderizado
+   * @param pos Posição do jogo onde será renderizado
+   * @param fontSprite Sprite da fonte utilizada
+   * @param font Fonte utilizada
+   * @param scrollShift Deslocamento em pixels do scroll a partir da altura do texto
+   * @param paragraphHeight Altura do parágrafo no texto
+   * @param charHeight Altura do caracter da fonte
+   * @param maxRenderHeight Altura máxima a ser renderizada
+   * @param selected Indica se o parágrafo está selecionado
+   * @param selectedSprite Sprite de seleção do parágrafo
+   */
   writeParagraph(
     paragraph: Line[],
     pos: Position,
@@ -200,7 +245,7 @@ export default class CanvasObject {
     font: string,
     scrollShift: number,
     paragraphHeight: number,
-    cellHeight: number,
+    charHeight: number,
     maxRenderHeight: number,
     selected: boolean,
     selectedSprite: Sprite,
@@ -210,15 +255,15 @@ export default class CanvasObject {
       let sliceY = 0;
       let sliceHeight = 0;
       if (
-        scrollShift < paragraphHeight + currentY + cellHeight &&
+        scrollShift < paragraphHeight + currentY + charHeight &&
         scrollShift + maxRenderHeight > paragraphHeight + currentY
       ) {
         if (scrollShift > paragraphHeight + currentY) {
           sliceY = scrollShift - (paragraphHeight + currentY);
-          sliceHeight = cellHeight - sliceY;
+          sliceHeight = charHeight - sliceY;
         } else if (
           scrollShift + maxRenderHeight <
-          paragraphHeight + currentY + cellHeight
+          paragraphHeight + currentY + charHeight
         ) {
           sliceHeight =
             scrollShift + maxRenderHeight - (paragraphHeight + currentY);
@@ -232,7 +277,7 @@ export default class CanvasObject {
           sliceHeight,
         );
       }
-      currentY += fontMaps[font].cellHeight;
+      currentY += fontMaps[font].charHeight;
     });
     if (selected) {
       this.drawSprite(
@@ -311,6 +356,17 @@ export default class CanvasObject {
     }
   }
 
+  /**
+   * Renderiza todos os parágrafos de um dado conteúdo de email
+   * @param paragraphs Lista de parágrafos a serem renderizados
+   * @param font Fonte utilizada
+   * @param fontSprite Sprite da fonte utilizada
+   * @param pos Posição do jogo onde será renderizado
+   * @param scrollShift Deslocamento em pixels do scroll a partir da altura do texto
+   * @param maxRenderHeight Altura máxima a ser renderizada
+   * @param selectedParagraph Índice do parágrafo selecionado
+   * @param selectedSprite Sprite de seleção do parágrafo
+   */
   renderEmailContent(
     paragraphs: Line[][],
     font: string,
@@ -331,12 +387,12 @@ export default class CanvasObject {
         font,
         scrollShift,
         currentParagraphHeight,
-        fontMap.cellHeight,
+        fontMap.charHeight,
         maxRenderHeight,
         i == selectedParagraph,
         selectedSprite,
       );
-      currentParagraphHeight += (p.length + 1) * fontMap.cellHeight;
+      currentParagraphHeight += (p.length + 1) * fontMap.charHeight;
     });
   }
 }

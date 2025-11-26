@@ -1,10 +1,7 @@
 import Position from "../Position";
 import SceneChanger from "./SceneChanger";
-export const SCENECHANGE = "sceneChange";
 
-export const EXITBTN = "exitBtn";
-export const PAUSEBTN = "pauseBtn";
-
+// Classe de objeto genêrico de botão de sair de um aplicativo
 export class ExitButton extends SceneChanger {
   constructor(reference: string) {
     super({

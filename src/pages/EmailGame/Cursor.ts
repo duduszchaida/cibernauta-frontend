@@ -1,7 +1,7 @@
 import type CanvasObject from "./CanvasObject";
 import { findSprite } from "./FindSprite";
 import Position from "./Position";
-import type Sprite from "./Sprite";
+import type Sprite from "./Elements/Sprite";
 
 export default class Cursor {
   pos: Position = new Position(-32, -32);

@@ -2,18 +2,19 @@ import type CanvasObject from "../CanvasObject";
 import Position from "../Position";
 import GameObject from "./GameObject";
 
-const scrollSlot = new GameObject({
-  width: 12,
-  height: 192,
-  spriteName: "scroll_slot",
-  pos: new Position(330, 56),
-});
+// TO-DO: comentar
 
 export const SCROLLTO = "scrollto";
 export default class ScrollBar extends GameObject {
   length: number;
   barLength: number;
   shift = 0;
+  scrollSlot = new GameObject({
+    width: 12,
+    height: 192,
+    spriteName: "scroll_slot",
+    pos: new Position(330, 56),
+  });
   constructor(contentTextHeight: number, scrollAmmount: number) {
     let textHeight = contentTextHeight - 156;
     let length = Math.ceil(textHeight / scrollAmmount);
@@ -48,7 +49,7 @@ export default class ScrollBar extends GameObject {
   }
 
   render(canvasObject: CanvasObject): void {
-    scrollSlot.render(canvasObject);
+    this.scrollSlot.render(canvasObject);
     canvasObject.drawSprite(
       this.sprite,
       this.pos.addPos(new Position(2, this.shift)),

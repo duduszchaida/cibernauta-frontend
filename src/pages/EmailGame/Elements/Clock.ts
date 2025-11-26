@@ -4,6 +4,8 @@ import { gameTimeTracker } from "../GameTimeTracker";
 import TextObject from "./TextObject";
 import Timer from "./Timer";
 
+// TO-DO: Objeto de teste, remover antes do envio
+
 let testTimer: any = null;
 testTimer = new Timer({ goalSecs: 20, pos: new Position(200, 16) });
 setTimeout(() => {

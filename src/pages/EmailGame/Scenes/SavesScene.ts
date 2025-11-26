@@ -2,12 +2,20 @@ import GameObject from "../Elements/GameObject";
 import TextObject from "../Elements/TextObject";
 import type { Save } from "../GameState";
 import Position from "../Position";
+import { Utils } from "../Utils";
 import Scene from "./Scene";
 
-export const SELECTSAVE = "selectSave";
-export const DELETESAVE = "deleteSave";
+export const SELECTSAVE = "selectSave"; // Referência da ação de selecionar um salvamento
+export const DELETESAVE = "deleteSave"; // Referência da ação de deletar um salvamento
 
-function saveTextObjects(save: Save, num: number): TextObject[] {
+/**
+ * Dado um objeto de salvamento e seu número na ordem
+ * retorna os objetos de texto com as informações para aparecerem na tela
+ * @param save
+ * @param num
+ * @returns
+ */
+function generateSaveTextObjects(save: Save, num: number): TextObject[] {
   let pos = new Position();
   switch (num) {
     case 0:
@@ -48,10 +56,9 @@ function saveTextObjects(save: Save, num: number): TextObject[] {
     direction: "center",
   });
   let timeText =
-    save.lastSaveTime.getHours() +
+    Utils.numberFormat(save.lastSaveTime.getHours(), 2) +
     ":" +
-    (save.lastSaveTime.getMinutes() < 10 ? "0" : "") +
-    save.lastSaveTime.getMinutes();
+    Utils.numberFormat(save.lastSaveTime.getMinutes(), 2);
   let time = new TextObject({
     pos: pos.add(0, 12),
     color: "bnw",
@@ -63,6 +70,7 @@ function saveTextObjects(save: Save, num: number): TextObject[] {
   return [time, date];
 }
 
+// Cena de salvamentos
 export default class SaveScene extends Scene {
   constructor(saveSlots: Save[], currentSave: number | null) {
     super({
@@ -72,6 +80,11 @@ export default class SaveScene extends Scene {
     this.update(saveSlots, currentSave);
   }
 
+  /**
+   * Atualiza os objetos da cena com uma dada lista de dados de salvamentos
+   * @param saveSlots
+   * @param currentSaveId
+   */
   update(saveSlots: Save[], currentSaveId: number | null) {
     this.gameObjects = [];
     let slot1Btn = new GameObject({
@@ -109,9 +122,9 @@ export default class SaveScene extends Scene {
       },
     });
 
-    let slot1Text = saveTextObjects(saveSlots[0], 0);
-    let slot2Text = saveTextObjects(saveSlots[1], 1);
-    let slot3Text = saveTextObjects(saveSlots[2], 2);
+    let slot1Text = generateSaveTextObjects(saveSlots[0], 0);
+    let slot2Text = generateSaveTextObjects(saveSlots[1], 1);
+    let slot3Text = generateSaveTextObjects(saveSlots[2], 2);
 
     this.gameObjects = [
       ...this.gameObjects,
