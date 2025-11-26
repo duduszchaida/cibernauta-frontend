@@ -244,20 +244,8 @@ export default function Game() {
             {gameData.game_type === "local" && (
               <div className="space-y-4 order-3 xl:order-3">
                 <div className="bg-[#374B7C] rounded-2xl p-5">
-                  <h2 className="text-white text-lg font-semibold mb-5">
-                    Sua Pontuação Recorde
-                  </h2>
-
-                  <div className="bg-[#2B3E68] rounded-xl p-6 text-center">
-                    <div className="text-[#5B7FC7] text-7xl font-bold mb-2">
-                      {highScore}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-[#374B7C] rounded-2xl p-5">
                   <h2 className="text-white text-lg font-semibold mb-5 flex items-center gap-2">
-                    Ranking
+                    Placar
                   </h2>
 
                   <div className="space-y-2">
@@ -285,11 +273,11 @@ export default function Game() {
                                 }`}
                               >
                                 {index === 0
-                                  ? "🥇"
+                                  ? <img src={"/number_1.png"} style={{width: "32px", height: "32px", imageRendering: "pixelated"}}/>
                                   : index === 1
-                                    ? "🥈"
+                                    ? <img src={"/number_2.png"} style={{width: "32px", height: "32px", imageRendering: "pixelated"}}/>
                                     : index === 2
-                                      ? "🥉"
+                                      ? <img src={"/number_3.png"} style={{width: "32px", height: "32px", imageRendering: "pixelated"}}/>
                                       : index + 1}
                               </div>
                               <div className="text-white text-sm font-medium">
