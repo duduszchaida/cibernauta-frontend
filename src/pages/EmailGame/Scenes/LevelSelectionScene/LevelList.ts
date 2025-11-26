@@ -15,7 +15,7 @@ export const LevelList: Record<string, Level> = {
     reference: CONTROLSLEVEL,
     buttons: [SAFE, MALICIOUS],
     starterEmail: EmailList.mailTutorialControls,
-    canInspect: false,
+    canInspect: true,
     secondsTimer: 0,
   },
   [TUTORIALLEVEL]: {
@@ -36,7 +36,7 @@ export const LevelList: Record<string, Level> = {
   },
   [ELEMENTSLEVEL]: {
     name: "Elementos de email",
-    goal: 2000,
+    goal: 1,
     emailDataList: [],
     reference: ELEMENTSLEVEL,
     buttons: [SAFE, MALICIOUS],

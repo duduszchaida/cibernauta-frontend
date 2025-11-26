@@ -4,16 +4,6 @@ import Scene from "./Scenes/Scene";
 import { DESKTOPSCENE, SAVESCENE } from "./Scenes/SceneReferences";
 import { StartScene } from "./Scenes/StartScene";
 
-// RESET SAVES
-// savesService.saveGame({
-//   game_id: 1,
-//   save_data: JSON.stringify([
-//     { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
-//     { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
-//     { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
-//   ]),
-// });
-
 export type LevelProgress = {
   reference: string;
   highscore: number;

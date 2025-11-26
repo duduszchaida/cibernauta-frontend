@@ -2,6 +2,7 @@ import GameObject from "../Elements/GameObject";
 import TextObject from "../Elements/TextObject";
 import type { Save } from "../GameState";
 import Position from "../Position";
+import { Utils } from "../Utils";
 import Scene from "./Scene";
 
 export const SELECTSAVE = "selectSave";
@@ -48,9 +49,9 @@ function saveTextObjects(save: Save, num: number): TextObject[] {
     direction: "center",
   });
   let timeText =
-    save.lastSaveTime.getHours() +
+    Utils.numberFormat(save.lastSaveTime.getHours(), 2) +
     ":" +
-    (save.lastSaveTime.getMinutes() < 10 ? "0" : "") +
+    Utils.numberFormat(save.lastSaveTime.getMinutes(), 2) +
     save.lastSaveTime.getMinutes();
   let time = new TextObject({
     pos: pos.add(0, 12),
