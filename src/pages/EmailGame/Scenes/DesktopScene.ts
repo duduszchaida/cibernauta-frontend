@@ -3,7 +3,9 @@ import Position from "../Position";
 import Scene from "./Scene";
 import { LEVELSELECTION, SAVESCENE } from "./SceneReferences";
 
-export const MANUALSAVE = "manualSave";
+export const MANUALSAVE = "manualSave"; // Referência da função de salvamento manual do jogo
+
+// Cena da "área de trabalho"
 export class DesktopScene extends Scene {
   constructor() {
     super({
@@ -20,6 +22,7 @@ export class DesktopScene extends Scene {
           spriteName: "icon_save",
           appName: "Salvar Jogo",
           clickFunction: () => {
+            console.log("mnsv");
             return { type: MANUALSAVE };
           },
         }),

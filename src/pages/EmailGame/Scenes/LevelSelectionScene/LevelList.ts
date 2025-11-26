@@ -2,11 +2,13 @@ import { MALICIOUS, SAFE, SPAM } from "../EmailScene/EmailData";
 import * as EmailList from "../EmailScene/EmailList";
 import type { Level } from "./Level";
 
+// Referências de níveis
 export const CONTROLSLEVEL = "controlsLevel";
 export const TUTORIALLEVEL = "tutorialLevel";
 export const ELEMENTSLEVEL = "elementsLevel";
 export const TESTLEVEL = "testLevel";
 
+// Dicionário dos níveis com suas referências
 export const LevelList: Record<string, Level> = {
   [CONTROLSLEVEL]: {
     name: "Aprendendo os Controles",
@@ -15,7 +17,7 @@ export const LevelList: Record<string, Level> = {
     reference: CONTROLSLEVEL,
     buttons: [SAFE, MALICIOUS],
     starterEmail: EmailList.mailTutorialControls,
-    canInspect: true,
+    canSelect: true,
     secondsTimer: 0,
   },
   [TUTORIALLEVEL]: {
@@ -31,7 +33,7 @@ export const LevelList: Record<string, Level> = {
     reference: TUTORIALLEVEL,
     buttons: [SAFE, MALICIOUS],
     starterEmail: EmailList.mailTutorialClass,
-    canInspect: false,
+    canSelect: false,
     secondsTimer: 180,
   },
   [ELEMENTSLEVEL]: {
@@ -41,7 +43,7 @@ export const LevelList: Record<string, Level> = {
     reference: ELEMENTSLEVEL,
     buttons: [SAFE, MALICIOUS],
     starterEmail: EmailList.mailTutorialElements,
-    canInspect: true,
+    canSelect: true,
     secondsTimer: 180,
   },
 
@@ -53,11 +55,12 @@ export const LevelList: Record<string, Level> = {
     starterEmail: EmailList.mailTutorialTest,
     reference: TUTORIALLEVEL,
     buttons: [SAFE, MALICIOUS, SPAM],
-    canInspect: false,
+    canSelect: false,
     secondsTimer: 300,
   },
 };
 
+// Ordem dos níveis no jogo
 export const levelOrder: Level[] = [
   LevelList[CONTROLSLEVEL],
   LevelList[TUTORIALLEVEL],

@@ -2,24 +2,20 @@ import type CanvasObject from "../CanvasObject";
 import TextObject from "../Elements/TextObject";
 import Position from "../Position";
 import { gameTimeTracker } from "../GameTimeTracker";
+import { Utils } from "../Utils";
 
+// Timer usado para funções temporizadas
 export default class Timer extends TextObject {
-  loop: boolean;
-  loopCount: number = 1;
-  loopMax: number;
-  hasSetInterval: boolean;
-  interval: any = null;
-  goalSecs: number;
-  goalTics: number;
-  goalFunc: Function;
-
-  started: boolean = false;
-  finished: boolean = false;
-  startTick: number = Infinity;
-  paused: boolean = false;
-  lastPauseTic = 0;
-  ticAtLastPause = 0;
-  totalPauseTics = 0;
+  goalSecs: number; // Tempo objetivo do timer em segundos
+  goalTics: number; // Tempo objetivo do timer em tics do jogo
+  goalFunc: Function; // Função executada após chegar ao tempo objetivo
+  loop: boolean; // Indica se o timer reinicia após chegar ao tempo objetivo
+  loopCount: number = 0; // Indica quantas vezes o timer reiniciou após chegar ao tempo objetivo
+  loopMax: number; // Indica quantas vezes o timer pode ser reiniciado
+  interval: any = null; // Guarda o setInterval de verificação do timer
+  started: boolean = false; // Indica se o timer já foi iniciado
+  finished: boolean = false; // Indica se o timer já foi encerrado
+  startTick: number = Infinity; // Tic de quando o timer foi iniciado
 
   constructor(args: {
     goalSecs: number;
@@ -28,7 +24,6 @@ export default class Timer extends TextObject {
     goalFunc?: Function;
     pos?: Position;
     invisible?: boolean;
-    interval?: boolean;
   }) {
     super({
       color: "red",
@@ -41,33 +36,18 @@ export default class Timer extends TextObject {
     this.goalSecs = args.goalSecs;
     this.loop = args.loop ?? false;
     this.loopMax = args.loopMax ?? Infinity;
-    this.hasSetInterval = args.interval ?? false;
     this.goalFunc = args.goalFunc ?? (() => {});
     this.goalTics = this.goalSecs * gameTimeTracker.ticsPerSecond;
   }
 
-  start() {
-    this.startTick = gameTimeTracker.currentTic;
-    this.started = true;
-    this.finished = false;
-    if (this.hasSetInterval) {
-      this.interval = setInterval(() => {
-        this.check();
-      }, 10);
-    }
-  }
-
-  pause() {
-    if (this.paused) {
-      this.totalPauseTics += gameTimeTracker.currentTic - this.lastPauseTic;
-    } else {
-      this.lastPauseTic = gameTimeTracker.currentTic;
-    }
-    this.paused != this.paused;
-  }
-
+  /**
+   * Verifica as condições de máximo de loops para encerrar o interval e
+   * se o tempo percorrido dês do tic do inicio do timer até o tic atual for maior que o tempo objetivo em tics
+   * executa goalFunc e caso também não for loop, encerra o interval
+   * @returns
+   */
   check() {
-    if (this.loopCount > this.loopMax) {
+    if (this.loopCount >= this.loopMax) {
       if (this.interval) {
         clearInterval(this.interval);
       }
@@ -75,7 +55,7 @@ export default class Timer extends TextObject {
     }
     if (gameTimeTracker.currentTic - this.startTick >= this.goalTics) {
       if (this.loop) {
-        if (this.loopCount <= this.loopMax) {
+        if (this.loopCount < this.loopMax) {
           this.goalFunc();
           this.startTick = gameTimeTracker.currentTic;
           this.loopCount++;
@@ -83,50 +63,54 @@ export default class Timer extends TextObject {
       } else {
         if (!this.finished) {
           this.goalFunc();
+          this.finished = true;
           if (this.interval) {
             clearInterval(this.interval);
           }
         }
-        this.finished = true;
       }
     }
   }
 
-  elapsedTics(): number {
-    return gameTimeTracker.currentTic - (this.startTick + this.totalPauseTics);
+  /**
+   * Marca startTick como o tic do momento atual e inicia o timer e seu interval para verificar o progresso do timer
+   */
+  start() {
+    this.startTick = gameTimeTracker.currentTic;
+    this.started = true;
+    this.finished = false;
+    this.interval = setInterval(() => {
+      this.check();
+    }, 10);
   }
 
+  /**
+   * Retorna uma string com o tempo restante do timer, formatado em "MM:SS"
+   * @returns
+   */
   timeRemaining(): string {
     let secsRemaining;
     if (this.started) {
       secsRemaining = Math.ceil(
-        (this.goalTics +
-          this.totalPauseTics +
-          this.startTick -
-          gameTimeTracker.currentTic) /
+        (this.goalTics + this.startTick - gameTimeTracker.currentTic) /
           gameTimeTracker.ticsPerSecond,
       );
     } else {
       secsRemaining = this.goalSecs;
     }
-    if (secsRemaining <= 0) {
-      return "00:00";
-    }
-    let minutes = Math.floor(secsRemaining / 60);
-    let seconds = secsRemaining % 60;
-    let minZero = "";
-    let secsZero = "";
-    if (minutes < 10) {
-      minZero = "0";
-    }
-    if (seconds < 10) {
-      secsZero = "0";
-    }
-    return minZero + minutes + ":" + secsZero + seconds;
+    let minutes = Math.max(Math.floor(secsRemaining / 60), 0);
+    let seconds = Math.max(secsRemaining % 60, 0);
+    return (
+      Utils.numberFormat(minutes, 2) + ":" + Utils.numberFormat(seconds, 2)
+    );
   }
 
+  /**
+   * Se não estiver invisível usa um dado CanvasObject para renderizar timeRemaining()
+   * @param canvasObject
+   * @returns
+   */
   render(canvasObject: CanvasObject): void {
-    this.check();
     if (this.invisible) {
       return;
     }

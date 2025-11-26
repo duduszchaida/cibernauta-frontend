@@ -1,9 +1,10 @@
 import Position from "../Position";
 
+// Objeto que representa o volume de um elemento
 export default class Hitbox {
-  pos: Position;
-  width: number;
-  height: number;
+  pos: Position; // Posição do elemento
+  width: number; // Largura do elemento
+  height: number; // Altura do elemento
 
   constructor(args: { pos: Position; width: number; height: number }) {
     this.pos = args.pos;
@@ -11,7 +12,8 @@ export default class Hitbox {
     this.height = args.height;
   }
 
-  positionInside(targetPos: Position) {
+  // Retorna um indicador se uma dada posição está contida dentro de sua largura e altura
+  positionInside(targetPos: Position): boolean {
     const { pos, width, height } = this;
     const { x, y } = targetPos;
     if (x < pos.x || y < pos.y) {

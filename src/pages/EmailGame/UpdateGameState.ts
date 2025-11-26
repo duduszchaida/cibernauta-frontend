@@ -8,13 +8,13 @@ import keyboardState, { PRESSED } from "./Input/KeyboardState";
 import mouseState from "./Input/MouseState";
 import Position from "./Position";
 import { DesktopScene, MANUALSAVE } from "./Scenes/DesktopScene";
-import EmailElement, {
-  INSPECT as SELECTANOMALY,
-} from "./Scenes/EmailScene/EmailElement";
+import EmailPicture, {
+  SELECT as SELECTANOMALY,
+} from "./Scenes/EmailScene/EmailPicture";
 import EmailContent from "./Scenes/EmailScene/EmailContent";
-import EmailScene, { JUDGEEMAIL } from "./Scenes/EmailScene/EmailScene";
-import EmailTextComponent from "./Scenes/EmailScene/EmailTextComponent";
-import { INSPECTMODE } from "./Scenes/EmailScene/Toolbar";
+import EmailScene, { CLASSEMAIL } from "./Scenes/EmailScene/EmailScene";
+import EmailTextElement from "./Scenes/EmailScene/EmailTextElement";
+import { INSPECTMODE } from "./Scenes/EmailScene/ButtonPannel";
 import { LevelSelectionScene } from "./Scenes/LevelSelectionScene/LevelSelectionScene";
 import SaveScene, { DELETESAVE, SELECTSAVE } from "./Scenes/SavesScene";
 import type Scene from "./Scenes/Scene";
@@ -29,7 +29,7 @@ import { ScoreScene } from "./Scenes/ScoreScene";
 
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
-    if (gameState.currentScene.level.canInspect) {
+    if (gameState.currentScene.level.canSelect) {
       gameState.inspecting = !gameState.inspecting;
     }
     gameState.currentScene.switchToolBar();
@@ -64,7 +64,7 @@ function createScene(result: any, gameState: GameState): Scene {
 
 export default function updateGameState(gameState: GameState, cursor: Cursor) {
   if (
-    keyboardState["Escape"]?.keyState == PRESSED &&
+    keyboardState["Escape"]?.pressState == PRESSED &&
     !keyboardState["Escape"]?.read
   ) {
     pauseTraining(gameState);
@@ -89,10 +89,10 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
       continue;
     }
     firstContact = true;
-    if (obj.click instanceof Function) {
+    if (obj.clickFunction instanceof Function) {
       if (
-        obj instanceof EmailElement ||
-        obj instanceof EmailTextComponent ||
+        obj instanceof EmailPicture ||
+        obj instanceof EmailTextElement ||
         obj instanceof EmailContent
       ) {
         if (gameState.inspecting) {
@@ -102,7 +102,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
         cursor.state = "pointer";
       }
       if (mouseState.click) {
-        const result = obj.click(mouseState.pos);
+        const result = obj.clickFunction(mouseState.pos);
         switch (result?.type) {
           case SCENECHANGE:
             gameState.currentScene = createScene(result, gameState);
@@ -115,7 +115,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             break;
           case SCROLLTO:
             if (gameState.currentScene instanceof EmailScene) {
-              gameState.currentScene.emailManager.scrollEmailTo(result.shift);
+              gameState.currentScene.emailInterface.scrollEmailTo(result.shift);
             }
             break;
           case SELECTANOMALY:
@@ -124,11 +124,11 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
               gameState.currentScene instanceof EmailScene
             ) {
               if (typeof result.reference == "string") {
-                gameState.currentScene.emailManager.selectAnomaly(
+                gameState.currentScene.emailInterface.selectAnomaly(
                   result.reference,
                 );
               } else {
-                gameState.currentScene.emailManager.selectParagraph(
+                gameState.currentScene.emailInterface.selectParagraph(
                   result.reference,
                 );
               }
@@ -141,6 +141,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             pauseTraining(gameState);
             break;
           case MANUALSAVE:
+            console.log("saving");
             gameState.saveGame(true);
             break;
           case SELECTSAVE:
@@ -151,19 +152,21 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             );
             break;
           case DELETESAVE:
-            gameState.deleteSave(result.slot);
-            gameState.currentScene = createScene(
-              { sceneReference: SAVESCENE },
-              gameState,
-            );
+            if (gameState.currentScene instanceof SaveScene) {
+              gameState.deleteSave(result.slot);
+              gameState.currentScene.update(
+                gameState.saveSlots,
+                gameState.currentSaveSlotId,
+              );
+            }
             break;
-          case JUDGEEMAIL:
+          case CLASSEMAIL:
             if (gameState.currentScene instanceof EmailScene) {
               gameState.currentScene.evaluateEmail(result.class);
               gameState.inspecting = false;
               if (
                 gameState.currentScene.emailDataList.length == 0 ||
-                gameState.currentScene.timeEnded
+                gameState.currentScene.timer.finished
               ) {
                 gameState.currentScene = createScene(
                   {
@@ -182,15 +185,15 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
       }
     }
     if (
-      obj.drag instanceof Function &&
+      obj.dragFunction instanceof Function &&
       (mouseState.dragging || mouseState.held) &&
       obj.hitbox.positionInside(mouseState.draggingFrom)
     ) {
       cursor.state = "pointer";
       if (gameState.currentScene instanceof EmailScene) {
-        const result = obj.drag(mouseState.pos);
+        const result = obj.dragFunction(mouseState.pos);
         if (result.type == SCROLLTO) {
-          gameState.currentScene.emailManager.scrollEmailTo(
+          gameState.currentScene.emailInterface.scrollEmailTo(
             Math.round(result.shift),
           );
         }
@@ -200,12 +203,12 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
 
   if (mouseState.scroll != 0) {
     if (gameState.currentScene instanceof EmailScene) {
-      gameState.currentScene.emailManager.scrollEmail(mouseState.scroll * 3);
+      gameState.currentScene.emailInterface.scrollEmail(mouseState.scroll * 3);
     }
   }
 
   if (
-    keyboardState[" "]?.keyState == PRESSED &&
+    keyboardState[" "]?.pressState == PRESSED &&
     !keyboardState[" "]?.read &&
     gameState.currentScene instanceof EmailScene
   ) {

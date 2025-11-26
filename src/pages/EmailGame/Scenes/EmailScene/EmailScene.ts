@@ -1,8 +1,7 @@
-import { PauseScreen } from "./PauseScreen";
 import type { Level } from "../LevelSelectionScene/Level";
 import GameObject from "../../Elements/GameObject";
 import Scene from "../Scene";
-import Toolbar from "./Toolbar";
+import ButtonPannel from "./ButtonPannel";
 import Timer from "../../Elements/Timer";
 import { PauseButton } from "../../Elements/PauseBtn";
 import Position from "../../Position";
@@ -11,9 +10,16 @@ import { ExitButton } from "../../Elements/ExitButton";
 import { Utils } from "../../Utils";
 import { mailTutorialControls } from "./EmailList";
 import { MALICIOUS, SAFE, SPAM, type EmailData } from "./EmailData";
-import { ADDRESS, NAME, PICTURE, CONTENT } from "./EmailElement";
-import EmailManager from "./EmailManager";
+import { PICTURE } from "./EmailPicture";
+import { ADDRESS, NAME } from "./EmailTextElement";
+import EmailInterface from "./EmailInterface";
+import type { Evaluation } from "./Evaluation";
+import { NOTEPAD } from "./Notepad";
 
+export const CLASSEMAIL = "classEmail"; // Referência de ação de classificar um email
+export const OPENNOTEPAD = "openNotepad"; // Referência de ação de abrir o caderno
+
+// Borda genêrica da cena de emails
 const emailBorder = new GameObject({
   spriteName: "email_border",
   width: 352,
@@ -21,6 +27,7 @@ const emailBorder = new GameObject({
   ignoreClick: true,
 });
 
+// Imagem usada para cobrir o sprite de seleção de parágrafo
 const selectCover = new GameObject({
   height: 256,
   width: 352,
@@ -28,18 +35,19 @@ const selectCover = new GameObject({
   ignoreClick: true,
 });
 
-export const JUDGEEMAIL = "judgeEmail";
-export const OPENNOTEPAD = "openNotepad";
-const NOTEPAD = "notepad";
+// Elemento da tela de pause da cena de emails
+class PauseScreen extends GameObject {
+  constructor() {
+    super({
+      height: 256,
+      width: 352,
+      ignoreClick: true,
+      spriteName: "pause_screen",
+    });
+  }
+}
 
-export type Evaluation = {
-  [PICTURE]: boolean | null;
-  [ADDRESS]: boolean | null;
-  [NAME]: boolean | null;
-  [CONTENT]: boolean | null;
-  class: boolean | null;
-};
-
+// Função para gerar os botões do painel de botões
 function makeButton(
   btn: typeof SAFE | typeof MALICIOUS | typeof SPAM | typeof NOTEPAD,
 ) {
@@ -51,7 +59,7 @@ function makeButton(
         invisible: true,
         spriteName: "btn_safe",
         clickFunction: () => {
-          return { type: JUDGEEMAIL, class: SAFE };
+          return { type: CLASSEMAIL, class: SAFE };
         },
       });
     case MALICIOUS:
@@ -61,7 +69,7 @@ function makeButton(
         invisible: true,
         spriteName: "btn_malicious",
         clickFunction: () => {
-          return { type: JUDGEEMAIL, class: MALICIOUS };
+          return { type: CLASSEMAIL, class: MALICIOUS };
         },
       });
     case SPAM:
@@ -71,7 +79,7 @@ function makeButton(
         invisible: true,
         spriteName: "btn_spam",
         clickFunction: () => {
-          return { type: JUDGEEMAIL, class: SPAM };
+          return { type: CLASSEMAIL, class: SPAM };
         },
       });
     case NOTEPAD:
@@ -87,19 +95,21 @@ function makeButton(
   }
 }
 
+// Cena de classificar emails
 export default class EmailScene extends Scene {
-  level: Level;
-  emailManager: EmailManager = new EmailManager(mailTutorialControls);
-  emailDataList: EmailData[] = [];
-  toolBar!: Toolbar;
-  timer: Timer;
-  toolButtons: GameObject[] = [];
-  paused: boolean = false;
-  pausedObjectList: GameObject[];
-  unpausedObjectList: GameObject[];
-  pauseButton = new PauseButton();
-  evaluations: { evaluation: Evaluation; emailData: EmailData }[] = [];
-  timeEnded: boolean = false;
+  emailInterface: EmailInterface = new EmailInterface(mailTutorialControls); // Interface de emails
+  emailDataList: EmailData[] = []; // Lista de dados dos emails
+  buttonPannel!: ButtonPannel; // Painel de botões
+  toolButtons: GameObject[] = []; // Lista dos objetos dos botões usados no painel de botões
+  timer: Timer; // Timer do limíte de tempo para classificar emails
+
+  paused: boolean = false; // Indica se o jogo está pausado
+  pausedObjectList: GameObject[]; // Lista de objetos para substituir quando estiver pausado
+  unpausedObjectList: GameObject[]; // Lista para guardar os objetos para retornar do pause
+  pauseButton = new PauseButton(); // Objeto de botão de pause da cena
+
+  level: Level; // Nível atual
+  evaluations: { evaluation: Evaluation; emailData: EmailData }[] = []; // Lisa de avaliações dos emails do nível
 
   constructor(level: Level) {
     super({
@@ -111,10 +121,7 @@ export default class EmailScene extends Scene {
     this.timer = new Timer({
       goalSecs: level.secondsTimer,
       pos: new Position(293, 4),
-      goalFunc: () => {
-        console.log("aaaaaaaaa");
-        this.timeEnded = true;
-      },
+      goalFunc: () => {},
     });
     this.unpausedObjectList = [];
     this.pausedObjectList = [
@@ -124,59 +131,15 @@ export default class EmailScene extends Scene {
       this.pauseButton,
       this.timer,
     ];
-    this.toolBar = new Toolbar();
+    this.buttonPannel = new ButtonPannel();
     this.generateToolButtons();
     this.nextEmail(true);
   }
 
-  generateEmail(emailData?: EmailData) {
-    if (!emailData) {
-      let randId = Utils.randomArrayId(this.emailDataList);
-      emailData = this.emailDataList[randId];
-      this.emailDataList.splice(randId, 1);
-    }
-    this.emailManager.newData(emailData);
-
-    this.switchToolBar();
-    this.gameObjects = [
-      ...this.gameObjects,
-      this.emailManager.emailContent,
-      selectCover,
-      this.emailManager[PICTURE],
-      this.emailManager[NAME],
-      this.emailManager[ADDRESS],
-    ];
-    if (this.emailManager.scrollBar) {
-      this.gameObjects.push(this.emailManager.scrollBar);
-    }
-    this.gameObjects.push(this.toolBar);
-    this.toolButtons.forEach((b) => {
-      this.gameObjects.push(b);
-    });
-  }
-
-  nextEmail(first: boolean = false) {
-    this.gameObjects = [];
-    this.generateEmail(first ? this.level.starterEmail : undefined);
-    this.gameObjects = [
-      ...this.gameObjects,
-      emailBorder,
-      new ExitButton(LEVELSELECTION),
-      this.pauseButton,
-      this.timer,
-    ];
-    if (!this.timer.started && !first) {
-      this.timer.start();
-    }
-  }
-
-  switchToolBar() {
-    this.toolBar.open = !this.toolBar.open;
-    this.toolButtons.forEach((b) => {
-      b.invisible = !this.toolBar?.open;
-    });
-  }
-
+  /**
+   * Para cada referência de botão na lista de botões do nível,
+   * o botão correspondente é gerado e adicionado à lista de botões usados no painel
+   */
   generateToolButtons() {
     this.level.buttons.forEach((btn) => {
       switch (btn) {
@@ -197,13 +160,80 @@ export default class EmailScene extends Scene {
     });
   }
 
-  evaluateEmail(classification: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
-    this.evaluations.push({
-      evaluation: this.emailManager.evaluate(classification),
-      emailData: this.emailManager.emailData,
+  /**
+   * Atualiza a interface de emails comum dado EmailData, ou um aleatório da emailDataList
+   * e atualiza a lista de objetos da cena
+   * @param emailData
+   */
+  generateEmail(emailData?: EmailData) {
+    this.gameObjects = [];
+    if (!emailData) {
+      let randId = Utils.randomArrayId(this.emailDataList);
+      emailData = this.emailDataList[randId];
+      this.emailDataList.splice(randId, 1);
+    }
+    this.emailInterface.newData(emailData);
+
+    this.switchToolBar();
+    this.gameObjects = [
+      ...this.gameObjects,
+      this.emailInterface.emailContent,
+      selectCover,
+      this.emailInterface[PICTURE],
+      this.emailInterface[NAME],
+      this.emailInterface[ADDRESS],
+    ];
+    if (this.emailInterface.scrollBar) {
+      this.gameObjects.push(this.emailInterface.scrollBar);
+    }
+    this.gameObjects = [
+      ...this.gameObjects,
+      this.buttonPannel,
+      ...this.toolButtons,
+      emailBorder,
+      new ExitButton(LEVELSELECTION),
+      this.pauseButton,
+      this.timer,
+    ];
+  }
+
+  /**
+   * Gera um email, usando o email inicial do nível se for o primeiro email gerado,
+   * e inicia o timer se não for o primeiro email
+   * @param first
+   */
+  nextEmail(first: boolean = false) {
+    this.generateEmail(first ? this.level.starterEmail : undefined);
+    if (!this.timer.started && !first) {
+      this.timer.start();
+    }
+  }
+
+  /**
+   * Abre/fecha o painel de botões e ajusta a invisibilidade dos botões
+   */
+  switchToolBar() {
+    this.buttonPannel.open = !this.buttonPannel.open;
+    this.toolButtons.forEach((b) => {
+      b.invisible = !this.buttonPannel?.open;
     });
   }
 
+  /**
+   * Adiciona à lista de avaliações a avaliação do email e os dados do email atual
+   * @param classification
+   */
+  evaluateEmail(classification: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
+    this.evaluations.push({
+      evaluation: this.emailInterface.evaluate(classification),
+      emailData: this.emailInterface.emailData,
+    });
+  }
+
+  /**
+   * Altera o estado de pause da cena e do botão de pause,
+   * e faz as substituções dos objetos da cena com os objetos para o estado de pause
+   */
   pause() {
     this.paused = !this.paused;
     this.pauseButton.paused = !this.pauseButton.paused;

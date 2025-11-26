@@ -7,29 +7,33 @@ import type GameState from "../GameState";
 import Position from "../Position";
 import { Utils } from "../Utils";
 import type { EmailData } from "./EmailScene/EmailData";
-import { ADDRESS, NAME, PICTURE } from "./EmailScene/EmailElement";
-import type { Evaluation } from "./EmailScene/EmailScene";
+import { PICTURE } from "./EmailScene/EmailPicture";
+import { ADDRESS, NAME } from "./EmailScene/EmailTextElement";
+import type { Evaluation } from "./EmailScene/Evaluation";
 import type { Level } from "./LevelSelectionScene/Level";
 import Scene from "./Scene";
 import { LEVELSELECTION } from "./SceneReferences";
 
-const classRightPoints = 200;
-const classWrongPoints = -100;
-const elementRightPoints = 50;
-const elementWrongPoints = -25;
+const classRightPoints = 200; // Valor em pontos para cada email classificado corretamente
+const classWrongPoints = -100; // Valor em pontos para cada email classificado incorretamente
+const elementRightPoints = 50; // Valor em pontos para cada elemento selecionado corretamente
+const elementWrongPoints = -25; // Valor em pontos para cada elemento selecionado incorretamente
 
+// Cena de cálculo da pontuação das avaliações do jogador
 export class ScoreScene extends Scene {
-  evaluations: { evaluation: Evaluation; emailData: EmailData }[];
-  gameState: GameState;
-  level: Level;
-  classRight: number = 0;
-  classWrong: number = 0;
-  elementRight: number = 0;
-  elementWrong: number = 0;
-  totalScore: number = 0;
-  timer: Timer;
-  scoreObjects: GameObject[] = [];
-  scoreObjectId: number = 0;
+  evaluations: { evaluation: Evaluation; emailData: EmailData }[]; // Lista de avaliações
+  gameState: GameState; // Estado do jogo
+  level: Level; // Nível atual
+
+  classRight: number = 0; // Contador de classificações corretas
+  classWrong: number = 0; // Contador de classificações incorretas
+  elementRight: number = 0; // Contador de seleções de elemento corretas
+  elementWrong: number = 0; // Contador de seleções de elemento incorretas
+  totalScore: number = 0; // Soma dos pontos
+
+  scoreObjects: GameObject[] = []; // Lista de objetos de pontuação
+  scoreObjectId: number = 0; // Id do objeto de pontuação atual
+  timer: Timer; // Timer para aparecer os objetos de pontação com um espaço de tempo
 
   constructor(
     evaluations: { evaluation: Evaluation; emailData: EmailData }[],
@@ -41,6 +45,7 @@ export class ScoreScene extends Scene {
     this.gameState = gameState;
     this.level = level;
     this.calcPoints();
+    this.generateObjects();
     this.timer = new Timer({
       goalSecs: 0.75,
       goalFunc: () => {
@@ -49,13 +54,15 @@ export class ScoreScene extends Scene {
         }
         this.scoreObjectId++;
       },
-      interval: true,
       loop: true,
       loopMax: 6,
     });
     this.timer.start();
   }
 
+  /**
+   * Calcula os pontos, salva um novo recorde de pontos na fase e atualiza o recorde de pontos do salvamento do jogo
+   */
   calcPoints() {
     this.evaluations.forEach((x) => {
       let e = x.evaluation;
@@ -74,6 +81,31 @@ export class ScoreScene extends Scene {
       });
     });
 
+    if (this.totalScore >= this.level.goal) {
+      let levelHs = 0;
+      if (
+        this.gameState.currentSave.levelProgressRecord[this.level.reference]
+          ?.highscore > this.level.goal
+      ) {
+        levelHs =
+          this.gameState.currentSave.levelProgressRecord[this.level.reference]
+            .highscore;
+      }
+      this.gameState.currentSave.levelProgressRecord[this.level.reference] = {
+        reference: this.level.reference,
+        highscore: Math.max(this.totalScore, levelHs),
+        perfect: this.classWrong + this.elementWrong == 0,
+      };
+      if (this.totalScore >= levelHs) {
+        this.gameState.updateHighscore();
+      }
+    }
+  }
+
+  /**
+   * Gera os objetos da cena
+   */
+  generateObjects() {
     this.totalScore =
       this.classRight * classRightPoints +
       this.classWrong * classWrongPoints +
@@ -183,25 +215,5 @@ export class ScoreScene extends Scene {
       appBorder,
       new ExitButton(LEVELSELECTION),
     ];
-
-    if (this.totalScore >= this.level.goal) {
-      let levelHs = 0;
-      if (
-        this.gameState.currentSave.levelProgressRecord[this.level.reference]
-          ?.highscore > this.level.goal
-      ) {
-        levelHs =
-          this.gameState.currentSave.levelProgressRecord[this.level.reference]
-            .highscore;
-      }
-      this.gameState.currentSave.levelProgressRecord[this.level.reference] = {
-        reference: this.level.reference,
-        highscore: Math.max(this.totalScore, levelHs),
-        perfect: this.classWrong + this.elementWrong == 0,
-      };
-      if (this.totalScore >= levelHs) {
-        this.gameState.updateHighscore();
-      }
-    }
   }
 }

@@ -9,8 +9,10 @@ import { DESKTOPSCENE } from "../SceneReferences";
 import { LevelBlock } from "./LevelBlock";
 import { LevelList, levelOrder } from "./LevelList";
 
+// Cena de listagem de níveis
 export class LevelSelectionScene extends Scene {
-  gameState: GameState;
+  gameState: GameState; // Estado atual do jogo
+
   constructor(gameState: GameState) {
     super({
       backgroundSpriteName: "bg_beige",
@@ -40,6 +42,11 @@ export class LevelSelectionScene extends Scene {
     );
   }
 
+  /**
+   * Gera os blocos de nível para cada nível na lista de progresso do salvamento atual do estado do jogo
+   * e o próximo na ordem da lista de níveis, se houver
+   * @returns
+   */
   generateLevelBlocks() {
     let i = 0;
     for (const key in this.gameState.currentSave.levelProgressRecord) {

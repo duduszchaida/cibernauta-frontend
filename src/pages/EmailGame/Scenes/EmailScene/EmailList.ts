@@ -1,5 +1,7 @@
 import { MALICIOUS, SAFE, SPAM, type EmailData } from "./EmailData";
 
+// Lista de export de todos os emails do jogo
+
 export const mailspamDesconto90: EmailData = {
   text: `PARABÉNS!!!\n\nVocê foi selecionado para RECEBER um cupom de até 90% de DESCONTO em nossos produtos incríveis!\nMas é SÓ HOJE! Clique e aproveite:\n\nhttp://superofertaspromocao.biz/premio\n\nNão perca tempo! Essa é sua chance de mudar de vida!\nEquipe Promoções Imperdíveis`,
   address: "promocoes@shop.com",
@@ -7,7 +9,6 @@ export const mailspamDesconto90: EmailData = {
   name: "Loja de coisas",
   picture: "picture_default_3",
   anomalyParagraphs: [1, 2, 3],
-  key: crypto.randomUUID(),
 };
 
 export const mailmalSuport: EmailData = {
@@ -17,7 +18,6 @@ export const mailmalSuport: EmailData = {
   name: "Suporte de tecnocidade",
   picture: "picture_default_2",
   anomalyParagraphs: [0, 1, 2, 3],
-  key: crypto.randomUUID(),
 };
 
 export const mailsafeSubscription: EmailData = {
@@ -26,7 +26,6 @@ export const mailsafeSubscription: EmailData = {
   class: SAFE,
   name: "Emprura",
   picture: "picture_default_1",
-  key: crypto.randomUUID(),
 };
 
 export const mailGrandma: EmailData = {
@@ -35,7 +34,6 @@ export const mailGrandma: EmailData = {
   class: SAFE,
   name: "Aparecida",
   picture: "picture_default_1",
-  key: crypto.randomUUID(),
 };
 
 // Controls Level
@@ -46,7 +44,6 @@ export const mailTutorialControls: EmailData = {
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
-  key: crypto.randomUUID(),
 };
 
 // Classification
@@ -57,7 +54,6 @@ export const mailTutorialClass: EmailData = {
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
-  key: crypto.randomUUID(),
 };
 
 export const mailMal1: EmailData = {
@@ -66,7 +62,6 @@ export const mailMal1: EmailData = {
   class: MALICIOUS,
   name: "Banco do mal",
   picture: "picture_hacker_2",
-  key: crypto.randomUUID(),
 };
 
 export const mailMal2: EmailData = {
@@ -75,7 +70,6 @@ export const mailMal2: EmailData = {
   class: MALICIOUS,
   name: "Não é Virus",
   picture: "picture_hacker_0",
-  key: crypto.randomUUID(),
 };
 
 export const mailMal3: EmailData = {
@@ -84,7 +78,6 @@ export const mailMal3: EmailData = {
   class: MALICIOUS,
   name: "Hacker Entregas",
   picture: "picture_hacker_1",
-  key: crypto.randomUUID(),
 };
 
 export const mailSafe1: EmailData = {
@@ -93,7 +86,6 @@ export const mailSafe1: EmailData = {
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
-  key: crypto.randomUUID(),
 };
 
 export const mailSafe2: EmailData = {
@@ -102,7 +94,6 @@ export const mailSafe2: EmailData = {
   class: SAFE,
   name: "Sistema de Emails",
   picture: "picture_default_1",
-  key: crypto.randomUUID(),
 };
 
 // Inspect
@@ -113,7 +104,6 @@ export const mailTutorialElements: EmailData = {
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
-  key: crypto.randomUUID(),
 };
 
 // General
@@ -124,7 +114,6 @@ export const mailTutorialTest: EmailData = {
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
-  key: crypto.randomUUID(),
 };
 
 // MALICIOUS
@@ -135,7 +124,6 @@ export const mailMal4: EmailData = {
   class: MALICIOUS,
   name: "Rubloks Oficial",
   picture: "picture_rubloks",
-  key: crypto.randomUUID(),
 };
 
 // SPAM
@@ -146,7 +134,6 @@ export const mailSpam1: EmailData = {
   class: SPAM,
   name: "Compras Choppu",
   picture: "picture_choppu",
-  key: crypto.randomUUID(),
 };
 
 export const mailSpam2: EmailData = {
@@ -155,7 +142,6 @@ export const mailSpam2: EmailData = {
   class: SPAM,
   name: "PineappleBook",
   picture: "picture_pbook",
-  key: crypto.randomUUID(),
 };
 
 export const mailSpam3: EmailData = {
@@ -164,7 +150,6 @@ export const mailSpam3: EmailData = {
   class: SPAM,
   name: "CatMusic",
   picture: "picture_catmusic",
-  key: crypto.randomUUID(),
 };
 
 export const nonTutorials: EmailData[] = [

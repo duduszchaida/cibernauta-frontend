@@ -1,3 +1,4 @@
+// Referências de cenas
 export const DESKTOPSCENE = "desktop";
 export const TIMERTESTSCENE = "timerTestScene";
 export const EMAILSCENE = "emailScene";

@@ -1,12 +1,13 @@
 import Position from "../Position";
 
+// Objeto que guarda o estado atual do mouse
 const mouseState: {
-  held: boolean;
-  click: boolean;
-  pos: Position;
-  dragging: boolean;
-  draggingFrom: Position;
-  scroll: number;
+  pos: Position; // Posição atual do mouse no elemento canvas
+  held: boolean; // Identifica se o mouse está sendo segurado
+  click: boolean; // Identifica se o mouse foi clicado
+  dragging: boolean; // Identifica se o mouse está arrastando
+  draggingFrom: Position; // Identifica de que posição no canvas o mouse está arrastando
+  scroll: number; // Valor atual de scroll da roda do mouse
 } = {
   held: false,
   pos: new Position(),
@@ -16,8 +17,13 @@ const mouseState: {
   scroll: 0,
 };
 
-let scrollTimeout: NodeJS.Timeout;
+let scrollTimeout: NodeJS.Timeout; // Timeout para poder zerar o valor de scroll do mouseState (não há como identificar se o scroll do mouse não está sendo usado)
 
+/**
+ * Vincula um dado elemento HTML os eventListeners de mouse, que atualizam os dados de mouseState
+ * @param element
+ * @param gameScale
+ */
 export function bindMouseEvents(element: HTMLElement, gameScale: number) {
   element.addEventListener("mousedown", () => {
     mouseState.held = true;

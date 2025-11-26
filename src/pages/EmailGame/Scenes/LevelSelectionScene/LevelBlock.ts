@@ -8,17 +8,17 @@ import { Utils } from "../../Utils";
 import { EMAILSCENE } from "../SceneReferences";
 import type { Level } from "./Level";
 
+// Bloco de nível para a cena de seleção de níveis
+// retorna o tipo SCENECHANGE com a referência EMAILSCENE e level como seu nível em sua função de click
 export class LevelBlock extends GameObject {
-  name: string;
-  highscore: number;
-  goal: number;
-  perfect: boolean;
-  fontSprite = findSprite("minecraftia_brown");
+  level: Level; // Nível que o bloco representa
+  levelProgress: LevelProgress; // Progresso do jogador no nível
+  fontSprite = findSprite("minecraftia_brown"); // Sprite de fonte para renderização de texto
 
   constructor(args: {
     level: Level;
     levelProgress: LevelProgress;
-    order: number;
+    order: number; // Posição do nível na lista de níveis
   }) {
     super({
       pos: new Position(6, 47 + 24 * args.order),
@@ -33,12 +33,15 @@ export class LevelBlock extends GameObject {
         };
       },
     });
-    this.name = args.level.name;
-    this.goal = args.level.goal;
-    this.highscore = args.levelProgress.highscore;
-    this.perfect = args.levelProgress.perfect;
+    this.level = args.level;
+    this.levelProgress = args.levelProgress;
   }
 
+  /**
+   * Com um dado CanvasObject renderiza os sprites e textos nescessários
+   * @param canvasObject
+   * @returns
+   */
   render(canvasObject: CanvasObject): void {
     if (this.pos.y < 23) {
       return;
@@ -47,14 +50,14 @@ export class LevelBlock extends GameObject {
     canvasObject.writeText(
       this.fontSprite,
       "minecraftia",
-      this.name,
+      this.level.name,
       this.pos.add(41, 5),
     );
-    if (this.highscore < this.goal) {
+    if (this.levelProgress.highscore < this.level.goal) {
       canvasObject.writeText(
         this.fontSprite,
         "minecraftia",
-        "Objetivo: " + Utils.numberFormat(this.goal, 6),
+        "Objetivo: " + Utils.numberFormat(this.level.goal, 6),
         this.pos.add(308, 5),
         "left",
       );
@@ -63,12 +66,12 @@ export class LevelBlock extends GameObject {
     canvasObject.writeText(
       this.fontSprite,
       "minecraftia",
-      "Pontuação: " + Utils.numberFormat(this.highscore, 6),
+      "Pontuação: " + Utils.numberFormat(this.levelProgress.highscore, 6),
       this.pos.add(308, 5),
       "left",
     );
     let badgeSpriteName = "marker_finished";
-    if (this.perfect) {
+    if (this.levelProgress.perfect) {
       badgeSpriteName = "marker_perfect";
     }
     let badge = new GameObject({
