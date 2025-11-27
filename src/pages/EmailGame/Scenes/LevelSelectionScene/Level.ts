@@ -1,3 +1,5 @@
+import type Sprite from "../../Elements/Sprite";
+import type { ButtonReference } from "../EmailScene/Buttons";
 import type { EmailData } from "../EmailScene/EmailData";
 
 // Dados de nível do jogo
@@ -8,6 +10,7 @@ export type Level = {
   reference: string; // Texto de referência do nível
   emailDataList: EmailData[]; // Lista de dados de emails do nível
   starterEmail?: EmailData; // dados do email inicial do nível
-  buttons: string[]; // lista de referências dos botões usados no nível
+  buttons: ButtonReference[]; // lista de referências dos botões usados no nível
   canSelect: boolean; // Indica se a função de selecionar elementos está habilitada no nível
+  notepadPages?: (Sprite | string)[];
 };

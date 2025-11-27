@@ -32,4 +32,10 @@ export const Utils = {
     }
     return (negative ? "-" : "") + thousands + hundreds;
   },
+
+  isStringArray(value: unknown): value is string[] {
+    return (
+      Array.isArray(value) && value.every((item) => typeof item === "string")
+    );
+  },
 };

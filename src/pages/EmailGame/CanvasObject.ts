@@ -141,9 +141,22 @@ export default class CanvasObject {
     slicePosY = 0,
     sliceHeight = 0,
   ) {
-    let chars = text.split("");
-    let totalWidth = 0;
+    let words = text.split(" ");
     let currentWidth = 0;
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i];
+      currentWidth += measureTextWidth(word, font) + 3;
+      if (currentWidth > limitWidth) {
+        words[i] = "\n" + word;
+        currentWidth = 0;
+      } else {
+        currentWidth += 3;
+      }
+    }
+    currentWidth = 0;
+
+    let chars = words.join(" ").split("");
+    let totalWidth = 0;
     let currentHeight = 0;
     let startX = 0;
     const fontMap = fontMaps[font];

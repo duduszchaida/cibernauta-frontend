@@ -12,10 +12,7 @@ import EmailPicture, {
   SELECT as SELECTANOMALY,
 } from "./Scenes/EmailScene/EmailPicture";
 import EmailContent from "./Scenes/EmailScene/EmailContent";
-import EmailScene, {
-  CLASSEMAIL,
-  OPENNOTEPAD,
-} from "./Scenes/EmailScene/EmailScene";
+import EmailScene from "./Scenes/EmailScene/EmailScene";
 import EmailTextElement from "./Scenes/EmailScene/EmailTextElement";
 import { INSPECTMODE } from "./Scenes/EmailScene/ButtonPannel";
 import { LevelSelectionScene } from "./Scenes/LevelSelectionScene/LevelSelectionScene";
@@ -30,6 +27,8 @@ import {
 } from "./Scenes/SceneReferences";
 import { ScoreScene } from "./Scenes/ScoreScene";
 import { Notepad } from "./Scenes/EmailScene/Notepad";
+import { CLASSEMAIL, OPENNOTEPAD } from "./Scenes/EmailScene/Buttons";
+import type GameObject from "./Elements/GameObject";
 
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
@@ -65,6 +64,147 @@ function createScene(result: any, gameState: GameState): Scene {
   }
 }
 
+function mouseClickHandler(gameState: GameState, obj: GameObject) {
+  if (!obj.clickFunction) {
+    return;
+  }
+  const result = obj.clickFunction(mouseState.pos);
+  switch (result?.type) {
+    case SCENECHANGE:
+      gameState.currentScene = createScene(result, gameState);
+      if (gameState.inspecting) {
+        inspectModeSwitch(gameState);
+      }
+      if (gameTimeTracker.paused) {
+        gameTimeTracker.pause();
+      }
+      break;
+    case SCROLLTO:
+      if (gameState.currentScene instanceof EmailScene) {
+        gameState.currentScene.emailInterface.scrollEmailTo(result.shift);
+      }
+      break;
+    case SELECTANOMALY:
+      if (
+        gameState.inspecting &&
+        gameState.currentScene instanceof EmailScene
+      ) {
+        if (typeof result.reference == "string") {
+          gameState.currentScene.emailInterface.selectAnomaly(result.reference);
+        } else {
+          gameState.currentScene.emailInterface.selectParagraph(
+            result.reference,
+          );
+        }
+      }
+      break;
+    case INSPECTMODE:
+      inspectModeSwitch(gameState);
+      break;
+    case OPENNOTEPAD:
+      if (gameState.currentScene instanceof EmailScene) {
+        gameState.currentScene.toggleNotepad();
+      }
+      break;
+    case PAUSEGAME:
+      pauseTraining(gameState);
+      break;
+    case MANUALSAVE:
+      console.log("saving");
+      gameState.saveGame();
+      break;
+    case SELECTSAVE:
+      gameState.selectSave(result.slot);
+      gameState.currentScene = createScene(
+        { sceneReference: DESKTOPSCENE },
+        gameState,
+      );
+      break;
+    case DELETESAVE:
+      if (gameState.currentScene instanceof SaveScene) {
+        gameState.deleteSave(result.slot);
+        gameState.currentScene.update(
+          gameState.saveSlots,
+          gameState.currentSaveSlotId,
+        );
+      }
+      break;
+    case CLASSEMAIL:
+      if (gameState.currentScene instanceof EmailScene) {
+        gameState.currentScene.evaluateEmail(result.class);
+        gameState.inspecting = false;
+        if (
+          gameState.currentScene.emailDataList.length == 0 ||
+          gameState.currentScene.timer.finished
+        ) {
+          gameState.currentScene = createScene(
+            {
+              sceneReference: SCORESCENE,
+              evaluations: gameState.currentScene.evaluations,
+              level: gameState.currentScene.level,
+            },
+            gameState,
+          );
+        } else {
+          gameState.currentScene.nextEmail();
+        }
+      }
+      break;
+  }
+}
+
+function mouseHoverHandler(
+  gameState: GameState,
+  cursor: Cursor,
+  obj: GameObject,
+) {
+  if (obj.clickFunction instanceof Function) {
+    if (
+      obj instanceof EmailPicture ||
+      obj instanceof EmailTextElement ||
+      obj instanceof EmailContent
+    ) {
+      if (gameState.inspecting) {
+        cursor.state = "inspect";
+      }
+    } else if (obj instanceof Notepad) {
+      if (cursor.pos.subtractPos(obj.pos).x > obj.width / 2) {
+        if (!obj.lastPage) {
+          cursor.state = "right";
+        } else {
+          cursor.state = "arrow";
+        }
+      } else {
+        if (!obj.firstPage) {
+          cursor.state = "left";
+        } else {
+          cursor.state = "arrow";
+        }
+      }
+    } else {
+      cursor.state = "pointer";
+    }
+    if (mouseState.click) {
+      mouseClickHandler(gameState, obj);
+    }
+  }
+  if (
+    obj.dragFunction instanceof Function &&
+    (mouseState.dragging || mouseState.held) &&
+    obj.hitbox.positionInside(mouseState.draggingFrom)
+  ) {
+    cursor.state = "pointer";
+    if (gameState.currentScene instanceof EmailScene) {
+      const result = obj.dragFunction(mouseState.pos);
+      if (result.type == SCROLLTO) {
+        gameState.currentScene.emailInterface.scrollEmailTo(
+          Math.round(result.shift),
+        );
+      }
+    }
+  }
+}
+
 export default function updateGameState(gameState: GameState, cursor: Cursor) {
   if (
     keyboardState["Escape"]?.pressState == PRESSED &&
@@ -92,127 +232,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
       continue;
     }
     firstContact = true;
-    if (obj.clickFunction instanceof Function) {
-      if (
-        obj instanceof EmailPicture ||
-        obj instanceof EmailTextElement ||
-        obj instanceof EmailContent
-      ) {
-        if (gameState.inspecting) {
-          cursor.state = "inspect";
-        }
-      } else if (obj instanceof Notepad) {
-        if (cursor.pos.subtractPos(obj.pos).x > obj.width / 2) {
-          cursor.state = "right";
-        } else {
-          cursor.state = "left";
-        }
-      } else {
-        cursor.state = "pointer";
-      }
-      if (mouseState.click) {
-        const result = obj.clickFunction(mouseState.pos);
-        switch (result?.type) {
-          case SCENECHANGE:
-            gameState.currentScene = createScene(result, gameState);
-            if (gameState.inspecting) {
-              inspectModeSwitch(gameState);
-            }
-            if (gameTimeTracker.paused) {
-              gameTimeTracker.pause();
-            }
-            break;
-          case SCROLLTO:
-            if (gameState.currentScene instanceof EmailScene) {
-              gameState.currentScene.emailInterface.scrollEmailTo(result.shift);
-            }
-            break;
-          case SELECTANOMALY:
-            if (
-              gameState.inspecting &&
-              gameState.currentScene instanceof EmailScene
-            ) {
-              if (typeof result.reference == "string") {
-                gameState.currentScene.emailInterface.selectAnomaly(
-                  result.reference,
-                );
-              } else {
-                gameState.currentScene.emailInterface.selectParagraph(
-                  result.reference,
-                );
-              }
-            }
-            break;
-          case INSPECTMODE:
-            inspectModeSwitch(gameState);
-            break;
-          case OPENNOTEPAD:
-            if (gameState.currentScene instanceof EmailScene) {
-              gameState.currentScene.toggleNotepad();
-            }
-            break;
-          case PAUSEGAME:
-            pauseTraining(gameState);
-            break;
-          case MANUALSAVE:
-            console.log("saving");
-            gameState.saveGame();
-            break;
-          case SELECTSAVE:
-            gameState.selectSave(result.slot);
-            gameState.currentScene = createScene(
-              { sceneReference: DESKTOPSCENE },
-              gameState,
-            );
-            break;
-          case DELETESAVE:
-            if (gameState.currentScene instanceof SaveScene) {
-              gameState.deleteSave(result.slot);
-              gameState.currentScene.update(
-                gameState.saveSlots,
-                gameState.currentSaveSlotId,
-              );
-            }
-            break;
-          case CLASSEMAIL:
-            if (gameState.currentScene instanceof EmailScene) {
-              gameState.currentScene.evaluateEmail(result.class);
-              gameState.inspecting = false;
-              if (
-                gameState.currentScene.emailDataList.length == 0 ||
-                gameState.currentScene.timer.finished
-              ) {
-                gameState.currentScene = createScene(
-                  {
-                    sceneReference: SCORESCENE,
-                    evaluations: gameState.currentScene.evaluations,
-                    level: gameState.currentScene.level,
-                  },
-                  gameState,
-                );
-              } else {
-                gameState.currentScene.nextEmail();
-              }
-            }
-            break;
-        }
-      }
-    }
-    if (
-      obj.dragFunction instanceof Function &&
-      (mouseState.dragging || mouseState.held) &&
-      obj.hitbox.positionInside(mouseState.draggingFrom)
-    ) {
-      cursor.state = "pointer";
-      if (gameState.currentScene instanceof EmailScene) {
-        const result = obj.dragFunction(mouseState.pos);
-        if (result.type == SCROLLTO) {
-          gameState.currentScene.emailInterface.scrollEmailTo(
-            Math.round(result.shift),
-          );
-        }
-      }
-    }
+    mouseHoverHandler(gameState, cursor, obj);
   }
 
   if (mouseState.scroll != 0) {

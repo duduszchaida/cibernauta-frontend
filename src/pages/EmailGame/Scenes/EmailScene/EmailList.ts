@@ -40,7 +40,7 @@ export const mailGrandma: EmailData = {
 
 export const mailTutorialControls: EmailData = {
   text: `Olá! E bem vind@ ao treinamento de identificação de emails da equipe Cibernauta.\n\nDaqui em diante, você irá aprender como identificar emails seguros, maliciosos e spam em todas as suas formas.\n\nMas antes de começar, vamos dar uma olhada nos controles que temos aqui.\n\nNa parte lateral da direita, mais ou menos por aqui -->\nTemos a barra de scroll, se clicar nela ou arrasta-la pode mover o conteúdo do email para cima e para baixo.\n\nNão ache estranho se ela às vezes não estiver presente, ela só aparece quando um email é comprido o suficiente para precisar dela.\n\nAlém dela também temos seu painel de botões, para abrir ele basta clicar no botão com a seta no canto esquerdo.\n\nNo painel você tem acesso a o que é preciso para classificar um email.\nPor enquanto só temos os botões de SEGURO (verde e redondo) e MALICIOSO (quadrado vermelho).\n\nPara prosseguir classifique esse email como SEGURO e vamos seguir em frente.`,
-  address: "teamcibernauta@mail.com",
+  address: "cibernauta@mail.com",
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
@@ -50,7 +50,7 @@ export const mailTutorialControls: EmailData = {
 
 export const mailTutorialClass: EmailData = {
   text: `Agora que tem uma noção básica dos controles, vamos à o que interessa, emails.\n\nNesse próximo treino vamos ver uma série de emails e é o seu trabalho identificar se eles são SEGUROs ou MALICIOSOs.\n\nMas como fazer isso? Existem várias maneiras, mas por enquanto só para aquecer, vamos começar com algo básico.\n\nEmails de pessoas e empresas desconhecidas ou até suspeitas podem ser maliciosos. Se vir um email de alguém que for desconhecido ou suspeito, marque como MALICIOSO, se não, pode marcar como SEGURO.\n\nUma última coisa, no canto de cima, junto com o botão de pause, tem o cronômetro, esse é o tempo que você terá para classificar quantos emails conseguir.\n\nQuando o cronómetro chegar a 0 (ou não houver mais emails), você irá para o placar de pontos, onde pode ver quantos erros e acertos cometeu, e sua pontuação final.\n\nEle só começa a contar quando esse email for classificado e seguirá para o próximo, então assim que estiver pronto, marque esse como SEGURO e boa sorte!`,
-  address: "teamcibernauta@mail.com",
+  address: "cibernauta@mail.com",
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
@@ -82,7 +82,7 @@ export const mailMal3: EmailData = {
 
 export const mailSafe1: EmailData = {
   text: `Tudo certo por enquanto?\n\nNão se esqueça que se precisar de um momento para respirar, pode apertar o botão de pause lá encima no canto, onde você pode ver também alguns controles adicionais.\n\nContamos com você!\n\nEquipe Cibernauta`,
-  address: "teamcibernauta@mail.com",
+  address: "cibernauta@mail.com",
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
@@ -100,7 +100,7 @@ export const mailSafe2: EmailData = {
 
 export const mailTutorialElements: EmailData = {
   text: `Agora que passamos por esse aquecimento vamos ver a parte mais crucial do treinamento. Elementos.`,
-  address: "teamcibernauta@mail.com",
+  address: "cibernauta@mail.com",
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
@@ -110,7 +110,7 @@ export const mailTutorialElements: EmailData = {
 
 export const mailTutorialTest: EmailData = {
   text: `Esta é uma fase para teste.\n\n:D`,
-  address: "teamcibernauta@mail.com",
+  address: "cibernauta@mail.com",
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",

@@ -14,10 +14,8 @@ import { PICTURE } from "./EmailPicture";
 import { ADDRESS, NAME } from "./EmailTextElement";
 import EmailInterface from "./EmailInterface";
 import type { Evaluation } from "./Evaluation";
-import { Notepad, NOTEPAD } from "./Notepad";
-
-export const CLASSEMAIL = "classEmail"; // Referência de ação de classificar um email
-export const OPENNOTEPAD = "openNotepad"; // Referência de ação de abrir o caderno
+import { Notepad } from "./Notepad";
+import { makeButton } from "./Buttons";
 
 // Borda genêrica da cena de emails
 const emailBorder = new GameObject({
@@ -47,60 +45,12 @@ class PauseScreen extends GameObject {
   }
 }
 
-// Função para gerar os botões do painel de botões
-function makeButton(
-  btn: typeof SAFE | typeof MALICIOUS | typeof SPAM | typeof NOTEPAD,
-) {
-  switch (btn) {
-    case SAFE:
-      return new GameObject({
-        height: 24,
-        width: 24,
-        invisible: true,
-        spriteName: "btn_safe",
-        clickFunction: () => {
-          return { type: CLASSEMAIL, class: SAFE };
-        },
-      });
-    case MALICIOUS:
-      return new GameObject({
-        height: 24,
-        width: 24,
-        invisible: true,
-        spriteName: "btn_malicious",
-        clickFunction: () => {
-          return { type: CLASSEMAIL, class: MALICIOUS };
-        },
-      });
-    case SPAM:
-      return new GameObject({
-        height: 24,
-        width: 24,
-        invisible: true,
-        spriteName: "btn_spam",
-        clickFunction: () => {
-          return { type: CLASSEMAIL, class: SPAM };
-        },
-      });
-    case NOTEPAD:
-      return new GameObject({
-        height: 24,
-        width: 24,
-        invisible: true,
-        spriteName: "btn_notepad",
-        clickFunction: () => {
-          return { type: OPENNOTEPAD };
-        },
-      });
-  }
-}
-
 // Cena de classificar emails
 export default class EmailScene extends Scene {
   emailInterface: EmailInterface = new EmailInterface(mailTutorialControls); // Interface de emails
   emailDataList: EmailData[] = []; // Lista de dados dos emails
   buttonPannel = new ButtonPannel(); // Painel de botões
-  notepad = new Notepad(); // Caderno
+  notepad: Notepad; // Caderno
   buttons: GameObject[] = []; // Lista dos objetos dos botões usados no painel de botões
   timer: Timer; // Timer do limíte de tempo para classificar emails
 
@@ -119,6 +69,7 @@ export default class EmailScene extends Scene {
     });
     this.level = level;
     this.emailDataList = [...level.emailDataList];
+    this.notepad = new Notepad(level.notepadPages);
     this.timer = new Timer({
       goalSecs: level.secondsTimer,
       pos: new Position(293, 4),
@@ -142,24 +93,7 @@ export default class EmailScene extends Scene {
    */
   generateButtons() {
     this.level.buttons.forEach((btn) => {
-      switch (btn) {
-        case SAFE:
-          this.buttons.push(makeButton(SAFE));
-          break;
-        case MALICIOUS:
-          this.buttons.push(makeButton(MALICIOUS));
-          break;
-        case SPAM:
-          this.buttons.push(makeButton(SPAM));
-          break;
-        case NOTEPAD:
-          this.buttons.push(makeButton(NOTEPAD));
-          break;
-      }
-    });
-    this.buttons.forEach((b, i) => {
-      b.pos.y = 222;
-      b.pos.x = 42 + 32 * i;
+      this.buttons.push(makeButton(btn));
     });
   }
 

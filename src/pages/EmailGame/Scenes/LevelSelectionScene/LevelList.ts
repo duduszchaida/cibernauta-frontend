@@ -1,3 +1,4 @@
+import { findSprite } from "../../FindSprite";
 import { MALICIOUS, SAFE, SPAM } from "../EmailScene/EmailData";
 import * as EmailList from "../EmailScene/EmailList";
 import { NOTEPAD } from "../EmailScene/Notepad";
@@ -46,6 +47,12 @@ export const LevelList: Record<string, Level> = {
     starterEmail: EmailList.mailTutorialElements,
     canSelect: true,
     secondsTimer: 180,
+    notepadPages: [
+      findSprite("page_tutorial"),
+      "Neste caderno você vai encontrar todas as informações que precisa para identificar e classificar emails.",
+      findSprite("page_section_address"),
+      "cibernauta@mail.com",
+    ],
   },
 
   // Debug
