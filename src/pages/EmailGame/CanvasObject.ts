@@ -145,21 +145,21 @@ export default class CanvasObject {
     let currentWidth = 0;
     for (let i = 0; i < words.length; i++) {
       const word = words[i];
-      currentWidth += measureTextWidth(word, font) + 3;
+      const wordWidth = measureTextWidth(word, font)
+      currentWidth += wordWidth;
       if (currentWidth > limitWidth) {
         words[i] = "\n" + word;
-        currentWidth = 0;
-      } else {
-        currentWidth += 3;
+        currentWidth = wordWidth;
       }
+      currentWidth += 3;
     }
-    currentWidth = 0;
-
-    let chars = words.join(" ").split("");
+    currentWidth = 0;      
+    let chars = words.join(" ").replace(/ \n/g, "\n").split("");
     let totalWidth = 0;
     let currentHeight = 0;
     let startX = 0;
     const fontMap = fontMaps[font];
+
     chars.forEach((l) => {
       if (fontMap.letters[l] == undefined) {
         console.warn(`character "${l}" missing`);
@@ -168,8 +168,7 @@ export default class CanvasObject {
     });
     if (direction == "center") {
       startX = Math.floor(-totalWidth / 2);
-    }
-    if (direction == "left") {
+    } else if (direction == "left") {
       for (let i = chars.length - 1; i > -1; i--) {
         const char = chars[i];
         const charMap = fontMap.letters[char];
@@ -188,6 +187,9 @@ export default class CanvasObject {
       for (let i = 0; i < chars.length; i++) {
         const char = chars[i];
         const charMap = fontMap.letters[char];
+        // if (text == "Neste caderno você vai encontrar todas as informações que precisa para identificar e classificar emails.") {
+        //   console.log(char, charMap.width, currentWidth, limitWidth)
+        // }        
         if (currentWidth + charMap.width > limitWidth || char == "\n") {
           currentWidth = 0;
           currentHeight += fontMap.charHeight;
