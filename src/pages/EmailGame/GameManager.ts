@@ -10,7 +10,6 @@ import { Popup } from "./Elements/Popup";
 
 let canvasObject: CanvasObject;
 
-const gameScale = 2;
 const cursor = new Cursor();
 const popup = new Popup();
 const gameState = new GameState({
@@ -23,14 +22,13 @@ function renderFrameLoop() {
   requestAnimationFrame(renderFrameLoop);
 }
 
-export async function startGame(canvasElement: HTMLCanvasElement) {
+export async function startGame(canvasElement: HTMLCanvasElement, gameScale: number) {
   await gameState.init();
   canvasObject = new CanvasObject({
     height: 256 * gameScale,
     width: 352 * gameScale,
     backgroundColor: "#000",
     canvasElement: canvasElement,
-    id: "canvasId",
     scale: gameScale,
   });
   gameTimeTracker.start();

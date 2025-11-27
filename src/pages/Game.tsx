@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
-import GameComponent from "./GameComponent";
 import { useAuth } from "../contexts/AuthContext";
 import { gamesService } from "@/services/gamesService";
 import { savesService } from "@/services/savesService";
+import EmailGameComponent from "./EmailGameComponent";
+import IframeGameComponent from "./IframeGameComponent";
 
 interface GameControl {
   control_id: number;
@@ -45,28 +46,7 @@ export default function Game() {
   const [gameData, setGameData] = useState<GameData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [highScore, setHighScore] = useState(0);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-
-  const handleScoreUpdate = async (score: number) => {
-    if (score > highScore && gameId) {
-      try {
-        const response = await savesService.updateHighscore({
-          game_id: Number(gameId),
-          score: score,
-        });
-        setHighScore(response.score);
-
-        const leaderboardData = await savesService.getLeaderboard(
-          Number(gameId),
-          10,
-        );
-        setLeaderboard(leaderboardData);
-      } catch (err) {
-        console.error("Erro ao atualizar highscore:", err);
-      }
-    }
-  };
 
   useEffect(() => {
     const loadGame = async () => {
@@ -93,11 +73,6 @@ export default function Game() {
 
         if (data.game_type === "local") {
           try {
-            const highscoreData = await savesService.getHighscore(
-              Number(gameId),
-            );
-            setHighScore(highscoreData.score || 0);
-
             const leaderboardData = await savesService.getLeaderboard(
               Number(gameId),
               10,
@@ -157,7 +132,7 @@ export default function Game() {
     <div className="min-h-screen bg-[#2B71A3]">
       <Navigation username={user?.username} showGamesLink={true} />
 
-      <div className="pt-6 pb-12 px-6">
+      <div className="pt-6 px-6">
         <div className="max-w-full mx-auto">
           <div
             className={`grid grid-cols-1 gap-4 max-w-[1920px] mx-auto ${
@@ -172,37 +147,46 @@ export default function Game() {
                     : ""
             }`}
           >
-            {gameData.controls && gameData.controls.length > 0 && (
-              <div className="bg-[#374B7C] rounded-2xl p-5 h-fit order-1 xl:order-1">
-                <h2 className="text-white text-lg font-semibold mb-5">
-                  Controles
-                </h2>
-
-                <div className="space-y-3">
-                  {gameData.controls.map((control) => (
-                    <div
-                      key={control.control_id}
-                      className="bg-[#2B3E68] rounded-xl p-3"
-                    >
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={`/keys/${control.key_image}.png`}
-                          alt={control.description}
-                          style={{
-                            imageRendering: "pixelated",
-                            width: 62,
-                            height: 62,
-                          }}
-                        />
-                        <span className="text-white text-base font-medium">
-                          {control.description}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+            <div>
+              {/* <div className="bg-[#374B7C] rounded-2xl p-5 h-fit order-1 xl:order-1">
+                <span className="text-white text-xl font-semibold p-3">
+                  {gameData.game_title}
+                </span>
               </div>
-            )}
+              <br /> */}
+              {gameData.controls && gameData.controls.length > 0 && (
+                <div className="bg-[#374B7C] rounded-2xl p-5 h-fit order-1 xl:order-1">
+                  <h2 className="text-white text-lg font-semibold mb-5">
+                    Controles
+                  </h2>
+
+                  <div className="space-y-3">
+                    {gameData.controls.map((control) => (
+                      <div
+                        key={control.control_id}
+                        className="bg-[#2B3E68] rounded-xl p-3"
+                      >
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={`/keys/${control.key_image}.png`}
+                            alt={control.description}
+                            style={{
+                              imageRendering: "pixelated",
+                              width: 62,
+                              height: 62,
+                            }}
+                          />
+                          <span className="text-white text-base font-medium">
+                            {control.description}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
 
             <div className="bg-[#374B7C] rounded-2xl p-5 order-2 xl:order-2">
               {gameData.enabled === false &&
@@ -220,24 +204,12 @@ export default function Game() {
                   </div>
                 )}
 
-              <div className="flex items-center justify-between mb-3">
-                <h1 className="text-white text-xl font-semibold">
-                  {gameData.game_title}
-                </h1>
-              </div>
-
               <div className="bg-[#1a2744] rounded-lg overflow-hidden border-4 border-[#2B3E68] flex items-center justify-center">
-                <GameComponent
-                  gameUrl={gameData.game_url}
-                  gameType={gameData.game_type}
-                  gameId={gameData.game_id}
-                  userId={user?.user_id}
-                  onScoreUpdate={
-                    gameData.game_type === "local"
-                      ? handleScoreUpdate
-                      : undefined
-                  }
-                />
+                {
+                  gameData.game_id == 1 
+                    ? <EmailGameComponent ></EmailGameComponent>
+                    : <IframeGameComponent gameUrl={gameData.game_url}/>
+                }
               </div>
             </div>
 
