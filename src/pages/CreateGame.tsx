@@ -183,7 +183,7 @@ export default function CreateGame() {
 
             <div>
               <label className="block text-gray-300 text-base font-medium mb-2">
-                URL da Imagem
+                URL da Imagem1
               </label>
               <input
                 type="text"
@@ -240,7 +240,36 @@ export default function CreateGame() {
                 className="w-full h-[56px] px-5 bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg text-white text-base placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 disabled:opacity-50 transition-all"
               />
               <p className="text-gray-400 text-sm mt-2">
-                ⭐ 1 = Fácil | ⭐⭐ 2 = Médio | ⭐⭐⭐ 3 = Difícil
+                1 = Fácil{" "}
+                <img
+                  src={"/diff_1.png"}
+                  style={{
+                    width: 16,
+                    height: 16,
+                    imageRendering: "pixelated",
+                    display: "inline",
+                  }}
+                />{" "}
+                | 2 = Médio{" "}
+                <img
+                  src={"/diff_2.png"}
+                  style={{
+                    width: 16,
+                    height: 16,
+                    imageRendering: "pixelated",
+                    display: "inline",
+                  }}
+                />{" "}
+                | 3 = Difícil{" "}
+                <img
+                  src={"/diff_3.png"}
+                  style={{
+                    width: 16,
+                    height: 16,
+                    imageRendering: "pixelated",
+                    display: "inline",
+                  }}
+                />{" "}
               </p>
             </div>
 

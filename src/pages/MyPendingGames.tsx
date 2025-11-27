@@ -141,10 +141,6 @@ export default function MyPendingGames() {
     }
   };
 
-  const getDifficultyStars = (difficulty: number) => {
-    return "⭐".repeat(difficulty);
-  };
-
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "PENDING":
@@ -266,7 +262,16 @@ export default function MyPendingGames() {
                           {game.game_title}
                         </TableCell>
                         <TableCell className="text-gray-400">
-                          {getDifficultyStars(game.difficulty)}
+                          {
+                            <img
+                              src={"/diff_" + game.difficulty + ".png"}
+                              style={{
+                                width: 32,
+                                height: 32,
+                                imageRendering: "pixelated",
+                              }}
+                            />
+                          }
                         </TableCell>
                         <TableCell className="text-gray-400">
                           {formatDate(game.created_at)}
@@ -291,7 +296,7 @@ export default function MyPendingGames() {
 
                             <button
                               onClick={() =>
-                                handleDelete(game.change_id, game.game_title)
+                                handleDelete(game.request_id, game.game_title)
                               }
                               className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-red-400 hover:text-white hover:bg-red-900 p-2 transition-colors"
                               title="Excluir"
@@ -353,7 +358,16 @@ export default function MyPendingGames() {
                           {game.game_title}
                         </TableCell>
                         <TableCell className="text-gray-400">
-                          {getDifficultyStars(game.difficulty)}
+                          {
+                            <img
+                              src={"/diff_" + game.difficulty + ".png"}
+                              style={{
+                                width: 32,
+                                height: 32,
+                                imageRendering: "pixelated",
+                              }}
+                            />
+                          }
                         </TableCell>
                         <TableCell>{getStatusBadge(game.status)}</TableCell>
                         <TableCell className="text-gray-400">
@@ -417,7 +431,16 @@ export default function MyPendingGames() {
                     Dificuldade
                   </label>
                   <p className="text-white">
-                    {getDifficultyStars(selectedGame.difficulty)}
+                    {
+                      <img
+                        src={"/diff_" + selectedGame.difficulty + ".png"}
+                        style={{
+                          width: 32,
+                          height: 32,
+                          imageRendering: "pixelated",
+                        }}
+                      />
+                    }
                   </p>
                 </div>
 
@@ -434,7 +457,7 @@ export default function MyPendingGames() {
               {selectedGame.image_url && (
                 <div>
                   <label className="block text-gray-400 text-sm mb-1">
-                    URL da Imagem
+                    URL da Imagem3
                   </label>
                   <a
                     href={selectedGame.image_url}

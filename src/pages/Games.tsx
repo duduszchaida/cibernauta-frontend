@@ -95,7 +95,11 @@ export default function Games() {
   const loadGames = async () => {
     try {
       const data = await gamesService.getAll();
-      setGames(data);
+      setGames(
+        data.sort((a: Game, b: Game) => {
+          return a.game_id - b.game_id;
+        }),
+      );
     } catch (error) {
       toast({
         title: "Erro",
@@ -105,10 +109,6 @@ export default function Games() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const getDifficultyStars = (difficulty: number) => {
-    return Array(difficulty).fill("⭐").join("");
   };
 
   const handleDeleteGame = async (gameId: number, gameTitle: string) => {
@@ -339,9 +339,14 @@ export default function Games() {
                       <span className="text-sm text-gray-400">
                         Dificuldade:
                       </span>
-                      <span className="text-sm">
-                        {getDifficultyStars(game.difficulty)}
-                      </span>
+                      <img
+                        src={"/diff_" + game.difficulty + ".png"}
+                        style={{
+                          width: 32,
+                          height: 32,
+                          imageRendering: "pixelated",
+                        }}
+                      />
                     </div>
 
                     <p className="text-gray-400 text-sm leading-5">

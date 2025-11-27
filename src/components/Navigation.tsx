@@ -45,10 +45,9 @@ export default function Navigation({
           <img
             src="/logo-cibernauta-sm.png"
             alt="Cibernauta"
-            className="w-[64px] h-[64px]"
+            className="w-[184px] h-[64px]"
             style={{ imageRendering: "pixelated" }}
           />
-          <span className="text-white text-xl font-bold">Cibernauta</span>
         </Link>
         {showGamesLink && (
           <Link

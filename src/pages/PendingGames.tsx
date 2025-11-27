@@ -88,7 +88,7 @@ export default function PendingGames() {
 
   const handleReject = async (requestId: number) => {
     try {
-      await pendingGamesService.approve(changeId, "REJECTED");
+      await pendingGamesService.approve(requestId, "REJECTED");
       toast({
         title: "Rejeitado",
         description: "Alteração rejeitada",
@@ -107,10 +107,6 @@ export default function PendingGames() {
   const handleView = (game: PendingGame) => {
     setSelectedGame(game);
     setIsViewDialogOpen(true);
-  };
-
-  const getDifficultyStars = (difficulty: number) => {
-    return "⭐".repeat(difficulty);
   };
 
   if (isLoading) {
@@ -186,7 +182,16 @@ export default function PendingGames() {
                       {game.createdBy?.username || "Desconhecido"}
                     </TableCell>
                     <TableCell className="text-gray-400">
-                      {getDifficultyStars(game.difficulty)}
+                      {
+                        <img
+                          src={"/diff_" + game.difficulty + ".png"}
+                          style={{
+                            width: 32,
+                            height: 32,
+                            imageRendering: "pixelated",
+                          }}
+                        />
+                      }
                     </TableCell>
                     <TableCell className="text-gray-400">
                       {new Date(game.created_at).toLocaleDateString("pt-BR")}
@@ -277,7 +282,16 @@ export default function PendingGames() {
                     Dificuldade
                   </label>
                   <p className="text-white">
-                    {getDifficultyStars(selectedGame.difficulty)}
+                    {
+                      <img
+                        src={"/diff_" + selectedGame.difficulty + ".png"}
+                        style={{
+                          width: 32,
+                          height: 32,
+                          imageRendering: "pixelated",
+                        }}
+                      />
+                    }
                   </p>
                 </div>
 
@@ -294,7 +308,7 @@ export default function PendingGames() {
               {selectedGame.image_url && (
                 <div>
                   <label className="block text-gray-400 text-sm mb-1">
-                    URL da Imagem
+                    URL da Imagem4
                   </label>
                   <a
                     href={selectedGame.image_url}
