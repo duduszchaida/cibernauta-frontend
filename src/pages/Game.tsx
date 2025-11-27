@@ -187,7 +187,6 @@ export default function Game() {
               )}
             </div>
 
-
             <div className="bg-[#374B7C] rounded-2xl p-5 order-2 xl:order-2">
               {gameData.enabled === false &&
                 (user?.role === "ADMIN" || user?.role === "MODERATOR") && (
@@ -204,12 +203,12 @@ export default function Game() {
                   </div>
                 )}
 
-              <div className="bg-[#1a2744] rounded-lg overflow-hidden border-4 border-[#2B3E68] flex items-center justify-center">
-                {
-                  gameData.game_id == 1 
-                    ? <EmailGameComponent ></EmailGameComponent>
-                    : <IframeGameComponent gameUrl={gameData.game_url}/>
-                }
+              <div className="bg-[#1a2744] rounded-lg overflow-hidden flex items-center justify-center">
+                {gameData.game_id == 1 ? (
+                  <EmailGameComponent></EmailGameComponent>
+                ) : (
+                  <IframeGameComponent gameUrl={gameData.game_url} />
+                )}
               </div>
             </div>
 
@@ -244,13 +243,36 @@ export default function Game() {
                                         : "bg-[#4A5D8F] text-gray-300"
                                 }`}
                               >
-                                {index === 0
-                                  ? <img src={"/number_1.png"} style={{width: "32px", height: "32px", imageRendering: "pixelated"}}/>
-                                  : index === 1
-                                    ? <img src={"/number_2.png"} style={{width: "32px", height: "32px", imageRendering: "pixelated"}}/>
-                                    : index === 2
-                                      ? <img src={"/number_3.png"} style={{width: "32px", height: "32px", imageRendering: "pixelated"}}/>
-                                      : index + 1}
+                                {index === 0 ? (
+                                  <img
+                                    src={"/number_1.png"}
+                                    style={{
+                                      width: "32px",
+                                      height: "32px",
+                                      imageRendering: "pixelated",
+                                    }}
+                                  />
+                                ) : index === 1 ? (
+                                  <img
+                                    src={"/number_2.png"}
+                                    style={{
+                                      width: "32px",
+                                      height: "32px",
+                                      imageRendering: "pixelated",
+                                    }}
+                                  />
+                                ) : index === 2 ? (
+                                  <img
+                                    src={"/number_3.png"}
+                                    style={{
+                                      width: "32px",
+                                      height: "32px",
+                                      imageRendering: "pixelated",
+                                    }}
+                                  />
+                                ) : (
+                                  index + 1
+                                )}
                               </div>
                               <div className="text-white text-sm font-medium">
                                 {entry.save.user.username}

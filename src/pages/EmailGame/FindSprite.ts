@@ -22,6 +22,8 @@ const sprites: Record<string, Sprite> = {
   cursor_drag: new Sprite("/game/email/cursor_drag.png"),
   cursor_inspect: new Sprite("/game/email/cursor_inspect.png"),
   cursor_pointer: new Sprite("/game/email/cursor_pointer.png"),
+  cursor_right: new Sprite("/game/email/cursor_right.png"),
+  cursor_left: new Sprite("/game/email/cursor_left.png"),
 
   email_border: new Sprite("/game/email/email_border.png"),
   email_selection_cover: new Sprite("/game/email/email_selection_cover.png"),
@@ -47,6 +49,8 @@ const sprites: Record<string, Sprite> = {
   ),
   minecraftia_selected: new Sprite("/game/email/minecraftia_selected.png"),
   minecraftia_white: new Sprite("/game/email/minecraftia_white.png"),
+
+  notepad: new Sprite("/game/email/notepad.png"),
 
   objective_met: new Sprite("/game/email/objective_met.png"),
   objective_failed: new Sprite("/game/email/objective_failed.png"),

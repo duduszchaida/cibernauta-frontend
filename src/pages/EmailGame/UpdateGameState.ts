@@ -12,7 +12,10 @@ import EmailPicture, {
   SELECT as SELECTANOMALY,
 } from "./Scenes/EmailScene/EmailPicture";
 import EmailContent from "./Scenes/EmailScene/EmailContent";
-import EmailScene, { CLASSEMAIL } from "./Scenes/EmailScene/EmailScene";
+import EmailScene, {
+  CLASSEMAIL,
+  OPENNOTEPAD,
+} from "./Scenes/EmailScene/EmailScene";
 import EmailTextElement from "./Scenes/EmailScene/EmailTextElement";
 import { INSPECTMODE } from "./Scenes/EmailScene/ButtonPannel";
 import { LevelSelectionScene } from "./Scenes/LevelSelectionScene/LevelSelectionScene";
@@ -26,13 +29,14 @@ import {
   SCORESCENE,
 } from "./Scenes/SceneReferences";
 import { ScoreScene } from "./Scenes/ScoreScene";
+import { Notepad } from "./Scenes/EmailScene/Notepad";
 
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
     if (gameState.currentScene.level.canSelect) {
       gameState.inspecting = !gameState.inspecting;
     }
-    gameState.currentScene.switchToolBar();
+    gameState.currentScene.togglePannel();
   }
 }
 
@@ -97,6 +101,12 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
         if (gameState.inspecting) {
           cursor.state = "inspect";
         }
+      } else if (obj instanceof Notepad) {
+        if (cursor.pos.subtractPos(obj.pos).x > obj.width / 2) {
+          cursor.state = "right";
+        } else {
+          cursor.state = "left";
+        }
       } else {
         cursor.state = "pointer";
       }
@@ -135,6 +145,11 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             break;
           case INSPECTMODE:
             inspectModeSwitch(gameState);
+            break;
+          case OPENNOTEPAD:
+            if (gameState.currentScene instanceof EmailScene) {
+              gameState.currentScene.toggleNotepad();
+            }
             break;
           case PAUSEGAME:
             pauseTraining(gameState);

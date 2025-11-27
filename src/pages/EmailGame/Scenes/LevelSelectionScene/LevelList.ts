@@ -1,5 +1,6 @@
 import { MALICIOUS, SAFE, SPAM } from "../EmailScene/EmailData";
 import * as EmailList from "../EmailScene/EmailList";
+import { NOTEPAD } from "../EmailScene/Notepad";
 import type { Level } from "./Level";
 
 // Referências de níveis
@@ -41,7 +42,7 @@ export const LevelList: Record<string, Level> = {
     goal: 1,
     emailDataList: [],
     reference: ELEMENTSLEVEL,
-    buttons: [SAFE, MALICIOUS],
+    buttons: [SAFE, MALICIOUS, NOTEPAD],
     starterEmail: EmailList.mailTutorialElements,
     canSelect: true,
     secondsTimer: 180,

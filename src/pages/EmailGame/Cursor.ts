@@ -5,7 +5,7 @@ import type Sprite from "./Elements/Sprite";
 
 export default class Cursor {
   pos: Position = new Position(-32, -32);
-  state: "arrow" | "pointer" | "inspect" = "arrow";
+  state: "arrow" | "pointer" | "inspect" | "left" | "right" = "arrow";
   inspecting: boolean = false;
   spriteList: Record<string, Sprite> = {
     arrow: findSprite("cursor_arrow"),

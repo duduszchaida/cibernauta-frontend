@@ -14,7 +14,7 @@ import { PICTURE } from "./EmailPicture";
 import { ADDRESS, NAME } from "./EmailTextElement";
 import EmailInterface from "./EmailInterface";
 import type { Evaluation } from "./Evaluation";
-import { NOTEPAD } from "./Notepad";
+import { Notepad, NOTEPAD } from "./Notepad";
 
 export const CLASSEMAIL = "classEmail"; // Referência de ação de classificar um email
 export const OPENNOTEPAD = "openNotepad"; // Referência de ação de abrir o caderno
@@ -99,8 +99,9 @@ function makeButton(
 export default class EmailScene extends Scene {
   emailInterface: EmailInterface = new EmailInterface(mailTutorialControls); // Interface de emails
   emailDataList: EmailData[] = []; // Lista de dados dos emails
-  buttonPannel!: ButtonPannel; // Painel de botões
-  toolButtons: GameObject[] = []; // Lista dos objetos dos botões usados no painel de botões
+  buttonPannel = new ButtonPannel(); // Painel de botões
+  notepad = new Notepad(); // Caderno
+  buttons: GameObject[] = []; // Lista dos objetos dos botões usados no painel de botões
   timer: Timer; // Timer do limíte de tempo para classificar emails
 
   paused: boolean = false; // Indica se o jogo está pausado
@@ -131,8 +132,7 @@ export default class EmailScene extends Scene {
       this.pauseButton,
       this.timer,
     ];
-    this.buttonPannel = new ButtonPannel();
-    this.generateToolButtons();
+    this.generateButtons();
     this.nextEmail(true);
   }
 
@@ -140,21 +140,24 @@ export default class EmailScene extends Scene {
    * Para cada referência de botão na lista de botões do nível,
    * o botão correspondente é gerado e adicionado à lista de botões usados no painel
    */
-  generateToolButtons() {
+  generateButtons() {
     this.level.buttons.forEach((btn) => {
       switch (btn) {
         case SAFE:
-          this.toolButtons.push(makeButton(SAFE));
+          this.buttons.push(makeButton(SAFE));
           break;
         case MALICIOUS:
-          this.toolButtons.push(makeButton(MALICIOUS));
+          this.buttons.push(makeButton(MALICIOUS));
           break;
         case SPAM:
-          this.toolButtons.push(makeButton(SPAM));
+          this.buttons.push(makeButton(SPAM));
+          break;
+        case NOTEPAD:
+          this.buttons.push(makeButton(NOTEPAD));
           break;
       }
     });
-    this.toolButtons.forEach((b, i) => {
+    this.buttons.forEach((b, i) => {
       b.pos.y = 222;
       b.pos.x = 42 + 32 * i;
     });
@@ -174,7 +177,9 @@ export default class EmailScene extends Scene {
     }
     this.emailInterface.newData(emailData);
 
-    this.switchToolBar();
+    if (this.buttonPannel.open) {
+      this.togglePannel();
+    }
     this.gameObjects = [
       ...this.gameObjects,
       this.emailInterface.emailContent,
@@ -189,7 +194,8 @@ export default class EmailScene extends Scene {
     this.gameObjects = [
       ...this.gameObjects,
       this.buttonPannel,
-      ...this.toolButtons,
+      ...this.buttons,
+      this.notepad,
       emailBorder,
       new ExitButton(LEVELSELECTION),
       this.pauseButton,
@@ -212,11 +218,21 @@ export default class EmailScene extends Scene {
   /**
    * Abre/fecha o painel de botões e ajusta a invisibilidade dos botões
    */
-  switchToolBar() {
+  togglePannel() {
     this.buttonPannel.open = !this.buttonPannel.open;
-    this.toolButtons.forEach((b) => {
+    if (!this.notepad.invisible) {
+      this.notepad.invisible = true;
+    }
+    this.buttons.forEach((b) => {
       b.invisible = !this.buttonPannel?.open;
     });
+  }
+
+  /**
+   * Abre/fecha o caderno
+   */
+  toggleNotepad() {
+    this.notepad.invisible = !this.notepad.invisible;
   }
 
   /**
