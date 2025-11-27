@@ -89,7 +89,7 @@ export class ScoreScene extends Scene {
 
     let levelHs =
       this.gameState.currentSave.levelProgressRecord[this.level.reference]
-        ?.highscore;
+        ?.highscore ?? 0;
     if (this.totalScore >= this.level.goal) {
       this.gameState.currentSave.levelProgressRecord[this.level.reference] = {
         reference: this.level.reference,
