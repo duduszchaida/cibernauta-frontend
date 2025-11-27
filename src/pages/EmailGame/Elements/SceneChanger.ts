@@ -16,10 +16,12 @@ export default class SceneChanger extends GameObject {
     sceneReference?: string; // Referência usada no retorno de clickFunction que indica para qual cena a cena atual deve ser alterada
   }) {
     super({ ...args, width: args.width ?? 32, height: args.height ?? 32 });
-    this.clickFunction = () => {
-      if (args.sceneReference) {
-        return { type: SCENECHANGE, sceneReference: args.sceneReference };
-      }
-    };
+    this.clickFunction =
+      args.clickFunction ??
+      (() => {
+        if (args.sceneReference) {
+          return { type: SCENECHANGE, sceneReference: args.sceneReference };
+        }
+      });
   }
 }

@@ -54,7 +54,6 @@ function createScene(result: any, gameState: GameState): Scene {
     case LEVELSELECTION:
       return new LevelSelectionScene(gameState);
     case SCORESCENE:
-      gameState.saveGame(true);
       return new ScoreScene(result.evaluations, result.level, gameState);
     default:
       alert("no sceneReference");
@@ -142,7 +141,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
             break;
           case MANUALSAVE:
             console.log("saving");
-            gameState.saveGame(true);
+            gameState.saveGame();
             break;
           case SELECTSAVE:
             gameState.selectSave(result.slot);

@@ -105,7 +105,7 @@ export default class GameState {
     }
   }
 
-  saveGame(showPopup: boolean = false) {
+  saveGame() {
     if (this.currentSaveSlotId == null) {
       alert("trying to save game on null slot id");
       return;
@@ -114,9 +114,7 @@ export default class GameState {
     this.saveSlots[this.currentSaveSlotId] = JSON.parse(
       JSON.stringify(this.currentSave),
     );
-    if (showPopup) {
-      this.popup.newPopup("Progresso do jogo salvo.", 2.5);
-    }
+    this.popup.newPopup("Progresso do jogo salvo.", 2.5);
     savesService.saveGame({
       game_id: 1,
       save_data: JSON.stringify(this.saveSlots),

@@ -22,7 +22,6 @@ export class DesktopScene extends Scene {
           spriteName: "icon_save",
           appName: "Salvar Jogo",
           clickFunction: () => {
-            console.log("mnsv");
             return { type: MANUALSAVE };
           },
         }),
