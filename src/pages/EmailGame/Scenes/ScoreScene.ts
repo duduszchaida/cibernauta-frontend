@@ -81,24 +81,22 @@ export class ScoreScene extends Scene {
       });
     });
 
+    this.totalScore =
+      this.classRight * classRightPoints +
+      this.classWrong * classWrongPoints +
+      this.elementRight * elementRightPoints +
+      this.elementWrong * elementWrongPoints;
+
+    let levelHs =
+      this.gameState.currentSave.levelProgressRecord[this.level.reference]
+        ?.highscore;
     if (this.totalScore >= this.level.goal) {
-      let levelHs = 0;
-      if (
-        this.gameState.currentSave.levelProgressRecord[this.level.reference]
-          ?.highscore > this.level.goal
-      ) {
-        levelHs =
-          this.gameState.currentSave.levelProgressRecord[this.level.reference]
-            .highscore;
-      }
       this.gameState.currentSave.levelProgressRecord[this.level.reference] = {
         reference: this.level.reference,
         highscore: Math.max(this.totalScore, levelHs),
         perfect: this.classWrong + this.elementWrong == 0,
       };
-      if (this.totalScore >= levelHs) {
-        this.gameState.updateHighscore();
-      }
+      this.gameState.updateHighscore();
     }
   }
 
@@ -106,12 +104,6 @@ export class ScoreScene extends Scene {
    * Gera os objetos da cena
    */
   generateObjects() {
-    this.totalScore =
-      this.classRight * classRightPoints +
-      this.classWrong * classWrongPoints +
-      this.elementRight * elementRightPoints +
-      this.elementWrong * elementWrongPoints;
-
     const classRightText = new TextObject({
       pos: new Position(336, 54 + 28 * 0),
       color: this.classRight > 0 ? "lime" : "brown",
