@@ -1,8 +1,13 @@
 import { useEffect, useRef, type CSSProperties } from "react";
 import { startGame } from "./EmailGame/GameManager";
 
+interface EmailGameComponentProps {
+  leaderboardUpdate: () => Promise<void>;
+}
 
-export default function EmailGameComponent() {
+export default function EmailGameComponent({
+  leaderboardUpdate,
+}: EmailGameComponentProps) {
   const canvasStyle: CSSProperties = {
     cursor: "none",
     imageRendering: "pixelated",
@@ -14,7 +19,7 @@ export default function EmailGameComponent() {
   useEffect(() => {
     if (canvasRef.current && !gameStarted.current) {
       gameStarted.current = true;
-      startGame(canvasRef.current, gameScale);
+      startGame(canvasRef.current, gameScale, leaderboardUpdate);
     }
   }, []);
 

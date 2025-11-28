@@ -12,7 +12,7 @@ let canvasObject: CanvasObject;
 
 const cursor = new Cursor();
 const popup = new Popup();
-const gameState = new GameState({
+export const gameState = new GameState({
   popup: popup,
 });
 
@@ -22,8 +22,12 @@ function renderFrameLoop() {
   requestAnimationFrame(renderFrameLoop);
 }
 
-export async function startGame(canvasElement: HTMLCanvasElement, gameScale: number) {
-  await gameState.init();
+export async function startGame(
+  canvasElement: HTMLCanvasElement,
+  gameScale: number,
+  leaderboardUpdate: () => Promise<void>,
+) {
+  await gameState.init(leaderboardUpdate);
   canvasObject = new CanvasObject({
     height: 256 * gameScale,
     width: 352 * gameScale,

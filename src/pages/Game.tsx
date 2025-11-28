@@ -48,6 +48,19 @@ export default function Game() {
   const [error, setError] = useState<string | null>(null);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
+  async function getLeaderBoard() {
+    console.log("getting leaderboard");
+    try {
+      const leaderboardData = await savesService.getLeaderboard(
+        Number(gameId),
+        10,
+      );
+      setLeaderboard(leaderboardData);
+    } catch (err) {
+      console.error("Erro ao carregar highscore:", err);
+    }
+  }
+
   useEffect(() => {
     const loadGame = async () => {
       if (!gameId) {
@@ -72,15 +85,8 @@ export default function Game() {
         setGameData(data);
 
         if (data.game_type === "local") {
-          try {
-            const leaderboardData = await savesService.getLeaderboard(
-              Number(gameId),
-              10,
-            );
-            setLeaderboard(leaderboardData);
-          } catch (err) {
-            console.error("Erro ao carregar highscore:", err);
-          }
+          console.log("first");
+          getLeaderBoard();
         }
       } catch (err) {
         console.error("Erro ao carregar jogo:", err);
@@ -205,7 +211,9 @@ export default function Game() {
 
               <div className="bg-[#1a2744] rounded-lg overflow-hidden flex items-center justify-center">
                 {gameData.game_id == 1 ? (
-                  <EmailGameComponent></EmailGameComponent>
+                  <EmailGameComponent
+                    leaderboardUpdate={getLeaderBoard}
+                  ></EmailGameComponent>
                 ) : (
                   <IframeGameComponent gameUrl={gameData.game_url} />
                 )}

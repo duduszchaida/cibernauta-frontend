@@ -23,12 +23,14 @@ export default class GameState {
   currentScene!: Scene;
   currentSave!: Save;
   saveSlots!: Save[];
+  leaderboardUpdate!: () => Promise<void>;
 
   constructor(args: { popup: Popup }) {
     this.popup = args.popup;
   }
 
-  async init() {
+  async init(leaderboardUpdate: () => Promise<void>) {
+    this.leaderboardUpdate = leaderboardUpdate;
     let savesData: any = null;
     try {
       savesData = (await savesService.getSave(1)).save_data;
@@ -119,5 +121,6 @@ export default class GameState {
       game_id: 1,
       save_data: JSON.stringify(this.saveSlots),
     });
+    this.leaderboardUpdate();
   }
 }
