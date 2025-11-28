@@ -49,7 +49,6 @@ export default function Game() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   async function getLeaderBoard() {
-    console.log("getting leaderboard");
     try {
       const leaderboardData = await savesService.getLeaderboard(
         Number(gameId),
@@ -85,7 +84,6 @@ export default function Game() {
         setGameData(data);
 
         if (data.game_type === "local") {
-          console.log("first");
           getLeaderBoard();
         }
       } catch (err) {

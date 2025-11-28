@@ -119,7 +119,7 @@ export const mailElementsMal1: EmailData = {
   class: MALICIOUS,
   name: "Equipe de Cobranças",
   picture: "picture_default_6",
-  anomalyParagraphs: [1, 3],
+  anomalyParagraphs: [1, 2, 3],
 };
 
 export const mailElementsMal2: EmailData = {
@@ -146,7 +146,7 @@ export const mailElementsMal4: EmailData = {
   class: MALICIOUS,
   name: "Compras Choppu",
   picture: "picture_choppu",
-  anomalyParagraphs: [3],
+  anomalyParagraphs: [2, 3],
 };
 
 export const mailElementsSafe1: EmailData = {

@@ -16,6 +16,7 @@ import EmailInterface from "./EmailInterface";
 import type { Evaluation } from "./Evaluation";
 import { Notepad } from "./Notepad";
 import { makeButton } from "./Buttons";
+import { Notifier as Notifier } from "./Notifier";
 
 // Borda genêrica da cena de emails
 const emailBorder = new GameObject({
@@ -53,6 +54,7 @@ export default class EmailScene extends Scene {
   notepad: Notepad; // Caderno
   buttons: GameObject[] = []; // Lista dos objetos dos botões usados no painel de botões
   timer: Timer; // Timer do limíte de tempo para classificar emails
+  notifier: Notifier = new Notifier();
 
   paused: boolean = false; // Indica se o jogo está pausado
   pausedObjectList: GameObject[]; // Lista de objetos para substituir quando estiver pausado
@@ -82,6 +84,7 @@ export default class EmailScene extends Scene {
       new ExitButton(LEVELSELECTION, true),
       this.pauseButton,
       this.timer,
+      this.notifier,
     ];
     this.generateButtons();
     this.nextEmail(true);
@@ -134,6 +137,7 @@ export default class EmailScene extends Scene {
       new ExitButton(LEVELSELECTION, true),
       this.pauseButton,
       this.timer,
+      this.notifier,
     ];
   }
 
@@ -174,10 +178,20 @@ export default class EmailScene extends Scene {
    * @param classification
    */
   evaluateEmail(classification: typeof SAFE | typeof MALICIOUS | typeof SPAM) {
+    const evaluation = this.emailInterface.evaluate(classification);
     this.evaluations.push({
-      evaluation: this.emailInterface.evaluate(classification),
+      evaluation: evaluation,
       emailData: this.emailInterface.emailData,
     });
+    if (!evaluation.class) {
+      this.notifier.notify("class");
+    } else if (
+      evaluation.address == false ||
+      evaluation.content == false ||
+      evaluation.picture == false
+    ) {
+      this.notifier.notify("element");
+    }
   }
 
   /**

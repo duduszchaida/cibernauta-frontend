@@ -54,6 +54,9 @@ const sprites: Record<string, Sprite> = {
 
   notepad: new Sprite("/game/email/notepad.png"),
 
+  notif_class: new Sprite("/game/email/notif_class.png"),
+  notif_element: new Sprite("/game/email/notif_element.png"),
+
   objective_met: new Sprite("/game/email/objective_met.png"),
   objective_failed: new Sprite("/game/email/objective_failed.png"),
 
