@@ -1,12 +1,14 @@
 import { findSprite } from "../../FindSprite";
 import { MALICIOUS, SAFE, SPAM } from "../EmailScene/EmailData";
 import * as EmailList from "../EmailScene/EmailList";
+import { NOTEPAD } from "../EmailScene/Notepad";
 import type { Level } from "./Level";
 
 // Referências de níveis
 export const CONTROLSLEVEL = "controlsLevel";
 export const TUTORIALLEVEL = "tutorialLevel";
 export const ELEMENTSLEVEL = "elementsLevel";
+export const NOTEPADLEVEL = "notepadLevel";
 export const TESTLEVEL = "testLevel";
 
 // Dicionário dos níveis com suas referências
@@ -52,6 +54,21 @@ export const LevelList: Record<string, Level> = {
       "cibernauta@mail.com",
     ],
   },
+  [NOTEPADLEVEL]: {
+    name: "Teste do caderno",
+    goal: 2500,
+    emailDataList: [],
+    reference: NOTEPADLEVEL,
+    buttons: [SAFE, MALICIOUS, NOTEPAD],
+    starterEmail: EmailList.mailTutorialTest,
+    canSelect: true,
+    secondsTimer: 180,
+    notepadPages: [
+      findSprite("page_tutorial"),
+      findSprite("page_section_address"),
+      "cibernauta@mail.com",
+    ],
+  },
 
   // Debug
   [TESTLEVEL]: {
@@ -71,5 +88,6 @@ export const levelOrder: Level[] = [
   LevelList[CONTROLSLEVEL],
   LevelList[TUTORIALLEVEL],
   LevelList[ELEMENTSLEVEL],
+  // LevelList[NOTEPADLEVEL],
   LevelList[TESTLEVEL],
 ];

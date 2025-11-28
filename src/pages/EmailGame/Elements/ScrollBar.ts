@@ -27,6 +27,18 @@ export default class ScrollBar extends GameObject {
     });
     this.length = length;
     this.barLength = 182 - 1 * this.length;
+    this.clickFunction = (mousePos: Position) => {
+      return {
+        type: SCROLLTO,
+        shift: mousePos.y - this.pos.y - (this.barLength / 4 + 3),
+      };
+    };
+    this.dragFunction = (mousePos: Position) => {
+      return {
+        type: SCROLLTO,
+        shift: mousePos.y - this.pos.y - (this.barLength / 4 + 3),
+      };
+    };
   }
 
   scroll(num: number) {
@@ -73,18 +85,4 @@ export default class ScrollBar extends GameObject {
       new Position(0, 4),
     );
   }
-
-  click = (mousePos: Position) => {
-    return {
-      type: SCROLLTO,
-      shift: mousePos.y - this.pos.y - (this.barLength / 4 + 3),
-    };
-  };
-
-  drag = (mousePos: Position) => {
-    return {
-      type: SCROLLTO,
-      shift: mousePos.y - this.pos.y - (this.barLength / 4 + 3),
-    };
-  };
 }
