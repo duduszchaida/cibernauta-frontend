@@ -244,9 +244,10 @@ export const mailSafeGrandma3: EmailData = {
 export const mailMalGrandma1: EmailData = {
   text: `Bom dia, querido(a)!\n\nPassei para te desejar uma manhã cheia de luz, paz e muitas coisas boas. E olha, dizem que quando a gente começa o dia com o coração aberto e uma energia positiva, tudo flui melhor.\n\nPor isso, resolvi compartilhar algo especial que recebi: um pequeno “ritual de gratidão” que promete atrair bons sentimentos para o resto do dia.\n\nSe você quiser que seu dia seja cheio de gratidão, alegria e boas surpresas, é só entrar neste link aqui:\n\nhttp://energia-positiva.gratidao-matinal.com\n\nÉ rapidinho e, segundo a mensagem que recebi, ajuda a renovar as vibrações da manhã.\n\nDesejo que seu dia seja maravilhoso. Depois me conta se sentiu a diferença!`,
   address: adresses.grandma,
-  class: SAFE,
+  class: MALICIOUS,
   name: "Maria Aparecida",
   picture: "picture_grandma",
+  anomalyParagraphs: [4],
 };
 
 export const nonTutorials: EmailData[] = [
