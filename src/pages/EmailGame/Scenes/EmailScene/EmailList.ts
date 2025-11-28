@@ -1,5 +1,12 @@
 import { MALICIOUS, SAFE, SPAM, type EmailData } from "./EmailData";
 
+const adresses: Record<string, string> = {
+  cibernauta: "cibernauta@mail.com",
+  choppu: "emails@choppu.com",
+  pineappleBook: "pineapplebook@mail.com",
+  fritter: "fritter@frtr.com",
+};
+
 // Lista de export de todos os emails do jogo
 
 export const mailspamDesconto90: EmailData = {
@@ -40,7 +47,7 @@ export const mailGrandma: EmailData = {
 
 export const mailTutorialControls: EmailData = {
   text: `Olá! E bem vind@ ao treinamento de identificação de emails da equipe Cibernauta.\n\nDaqui em diante, você irá aprender como identificar emails seguros, maliciosos e spam em todas as suas formas.\n\nMas antes de começar, vamos dar uma olhada nos controles que temos aqui.\n\nNa parte lateral da direita, mais ou menos por aqui -->\nTemos a barra de scroll, se clicar nela ou arrasta-la pode mover o conteúdo do email para cima e para baixo.\n\nNão ache estranho se ela às vezes não estiver presente, ela só aparece quando um email é comprido o suficiente para precisar dela.\n\nAlém dela também temos seu painel de botões, para abrir ele basta clicar no botão com a seta no canto esquerdo.\n\nNo painel você tem acesso a o que é preciso para classificar um email.\nPor enquanto só temos os botões de SEGURO (verde e redondo) e MALICIOSO (quadrado vermelho).\n\nPara prosseguir classifique esse email como SEGURO e vamos seguir em frente.`,
-  address: "cibernauta@mail.com",
+  address: adresses.cibernauta,
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
@@ -50,13 +57,13 @@ export const mailTutorialControls: EmailData = {
 
 export const mailTutorialClass: EmailData = {
   text: `Agora que tem uma noção básica dos controles, vamos à o que interessa, emails.\n\nNesse próximo treino vamos ver uma série de emails e é o seu trabalho identificar se eles são SEGUROs ou MALICIOSOs.\n\nMas como fazer isso? Existem várias maneiras, mas por enquanto só para aquecer, vamos começar com algo básico.\n\nEmails de pessoas e empresas desconhecidas ou até suspeitas podem ser maliciosos. Se vir um email de alguém que for desconhecido ou suspeito, marque como MALICIOSO, se não, pode marcar como SEGURO.\n\nUma última coisa, no canto de cima, junto com o botão de pause, tem o cronômetro, esse é o tempo que você terá para classificar quantos emails conseguir.\n\nQuando o cronómetro chegar a 0 (ou não houver mais emails), você irá para o placar de pontos, onde pode ver quantos erros e acertos cometeu, e sua pontuação final.\n\nEle só começa a contar quando esse email for classificado e seguirá para o próximo, então assim que estiver pronto, marque esse como SEGURO e boa sorte!`,
-  address: "cibernauta@mail.com",
+  address: adresses.cibernauta,
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
 };
 
-export const mailMal1: EmailData = {
+export const mailClassMal1: EmailData = {
   text: `Prezado cliente, Sua conta bancária foi SUSPENSA por atividade irregular.\n\nPara evitar o CANCELAMENTO IMEDIATO, acesse o link abaixo e confirme seus dados:\n\nhttp://banco-verificacao-segura123.com/urgente\nSe não confirmar em 1 HORA, sua conta será apagada para sempre.\n\nAtenciosamente, Equipe do Banco.`,
   address: "hackers@mail.com",
   class: MALICIOUS,
@@ -64,7 +71,7 @@ export const mailMal1: EmailData = {
   picture: "picture_hacker_2",
 };
 
-export const mailMal2: EmailData = {
+export const mailClassMal2: EmailData = {
   text: `Olá,\n\nSeu computador está DESATUALIZADO e em risco crítico.\n\nNos envie seu endereço de email e sua senha antes que seja tarde demais.`,
   address: "hackers@mail.com",
   class: MALICIOUS,
@@ -72,7 +79,7 @@ export const mailMal2: EmailData = {
   picture: "picture_hacker_0",
 };
 
-export const mailMal3: EmailData = {
+export const mailClassMal3: EmailData = {
   text: `Caro usuário,\n\nSeu PACOTE não pôde ser entregue porque está faltando pagamento de TAXA.\n\nPara liberar a entrega, pague agora mesmo:\n\nhttp://correios-entrega-rapidahoje.net/liberar\n\nSe você não pagar nas próximas 24h, o pacote será DEVOLVIDO definitivamente.\n\nServiço de Entregas`,
   address: "hackers@mail.com",
   class: MALICIOUS,
@@ -80,15 +87,15 @@ export const mailMal3: EmailData = {
   picture: "picture_hacker_1",
 };
 
-export const mailSafe1: EmailData = {
+export const mailClassSafe1: EmailData = {
   text: `Tudo certo por enquanto?\n\nNão se esqueça que se precisar de um momento para respirar, pode apertar o botão de pause lá encima no canto, onde você pode ver também alguns controles adicionais.\n\nContamos com você!\n\nEquipe Cibernauta`,
-  address: "cibernauta@mail.com",
+  address: adresses.cibernauta,
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
 };
 
-export const mailSafe2: EmailData = {
+export const mailClassSafe2: EmailData = {
   text: `Alerta de segurança\n\nDetectamos um novo login na sua Conta. Se foi você que fez isso, nenhuma ação é necessária. Se não foi, ajudaremos a proteger sua conta.\n\nVerificar atividade.`,
   address: "emails@mail.com",
   class: SAFE,
@@ -100,7 +107,7 @@ export const mailSafe2: EmailData = {
 
 export const mailTutorialElements: EmailData = {
   text: `Agora que passamos por esse aquecimento vamos ver a parte mais crucial do treinamento. Selecionar elementos.\n\nTodo email é composto de elementos, como a foto no canto superior esquerdo, o endereço de onde veio esse email ou até o texto que você está lendo.\n\nAgora, além de classificar os emails, você também pode SELECIONAR seus elementos.\n\nQuando estiver com seu painel aberto, seu cursor do mouse vai virar uma seta em diagonal, isso quer dizer que está no modo de seleção.\n\nNo modo de seleção, qualquer elemento do email que você clicar será selecionado como uma ANOMALIA, ou seja, algo que indica que esse email não é SEGURO.\n\nPara essa próxima etapa, vamos começar a partir do princípio que qualquer email oferecendo algo de GRAÇA ou pedindo que você faça algo com URGÊNCIA como ralizar um pagamento ou entrar em algum link, é malicioso.\n\nSe ver algo do tipo, marque aonde no texto que isso aparece e classifique como MALICIOSO. Se o texto tiver mais frases do tipo em outros lugares não tem problema, você só precisa selecionar uma delas que já conta.\n\nElementos que forem corretamente marcados como ANOMALIAS te darão pontos extras! Mas elementos selecionados incorretamente irão reduzir sua pontuação.\n\nPronto para seguir em frente?`,
-  address: "cibernauta@mail.com",
+  address: adresses.cibernauta,
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
@@ -116,7 +123,7 @@ export const mailElementsMal1: EmailData = {
 };
 
 export const mailElementsMal2: EmailData = {
-  text: `Olá Jogador,\n\nDetectamos uma atividade suspeita na sua conta Rubloks e, por segurança, precisamos que você verifique sua identidade imediatamente. Caso contrário, sua conta poderá ser removida permanentemente e todo seu inventário de bloquinhos premium será perdido.\n\nClique no link abaixo para continuar sua verificação:\n\nhttps://rubloks-secure-login.freegift.claim-now.co\n\nApós confirmar seus dados, você receberá 500 Rubux grátis como forma de agradecimento pela sua cooperação.\n\nObrigado por escolher Rubloks,\nA Equipe Oficial de Segurança Rubloks`,
+  text: `Olá Jogador,\n\nDetectamos uma atividade suspeita na sua conta Rubloks e, por segurança, precisamos que você verifique sua identidade imediatamente. Caso contrário, sua conta poderá ser removida permanentemente e todo seu inventário de Ruboks será perdido.\n\nClique no link abaixo para continuar sua verificação:\n\nhttps://rubloks-secure-login.freegift.claim-now.co\n\nApós confirmar seus dados, você receberá 500 Ruboks grátis como forma de agradecimento pela sua cooperação.\n\nObrigado por escolher Rubloks,\nA Equipe Oficial de Segurança Rubloks`,
   address: "rubloks@oficial.com",
   class: MALICIOUS,
   name: "Rubloks Oficial",
@@ -124,11 +131,45 @@ export const mailElementsMal2: EmailData = {
   anomalyParagraphs: [1, 3, 4],
 };
 
+export const mailElementsMal3: EmailData = {
+  text: `ATENÇÃO!\n\nSua assinatura PREMIUM vai expirar HOJE. Para manter o acesso, faça a renovação IMEDIATA pelo link abaixo:\n\nhttp://renovacao-conta-premium-now.com/pagamento\n\nSe não renovar agora, sua conta será permanentemente bloqueada.\n\nEquipe PineappleBook`,
+  address: "p1neapplebook@mail.com",
+  class: MALICIOUS,
+  name: "PineappleBook",
+  picture: "picture_pbook",
+  anomalyParagraphs: [1, 2, 3],
+};
+
+export const mailElementsMal4: EmailData = {
+  text: `Olá,\n\nSua NOTA FISCAL está pronta, mas devido a um erro no sistema ela não pode ser enviada como anexo.\nAcesse o documento clicando no link abaixo:\n\nhttp://notafiscal-online-check.com/download\n\nSe você não abrir em até 24h, perderá acesso ao documento.\n\nDepartamento Financeiro`,
+  address: "choppu@mail.com",
+  class: MALICIOUS,
+  name: "Compras Choppu",
+  picture: "picture_choppu",
+  anomalyParagraphs: [3],
+};
+
+export const mailElementsSafe1: EmailData = {
+  text: `Olá,\n\nAgradecemos sua compra!\nSua nota fiscal já está disponível no site oficial. Você pode acessá-la pelo link seguro abaixo:\n\nhttps://loja-oficial.com.br/minha-conta/notas\n\nSe tiver qualquer dúvida, estamos à disposição.\n\nAtenciosamente,\nEquipe Loja Oficial`,
+  address: adresses.choppu,
+  class: SAFE,
+  name: "Compras Choppu",
+  picture: "picture_choppu",
+};
+
+export const mailElementsSafe2: EmailData = {
+  text: `Olá!\n\nObrigado por criar uma conta no Fritter. Estamos felizes em ter você aqui!\nPara começar a personalizar sua experiência, recomendamos visitar sua página de configurações:\n\nhttps://fritter.com/configuracoes\n\nLá você pode ajustar notificações, escolher interesses e configurar a segurança da sua conta.\n\nSe precisar de ajuda, basta responder este email ou acessar nossa Central de Suporte.\n\nBem-vindo à conversa!\nEquipe Fritter`,
+  address: adresses.fritter,
+  class: SAFE,
+  name: "Fritter",
+  picture: "picture_fritter",
+};
+
 // General
 
 export const mailTutorialTest: EmailData = {
   text: `Esta é uma fase para teste.\n\n:D`,
-  address: "cibernauta@mail.com",
+  address: adresses.cibernauta,
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
@@ -136,11 +177,19 @@ export const mailTutorialTest: EmailData = {
 
 // MALICIOUS
 
+export const mailGenMal1: EmailData = {
+  text: `Oi,\n\nEstou tentando falar com você desde cedo, mas não estou conseguindo. Estou viajando e tive um problema com meu cartão — não tenho acesso à conta e preciso fazer um pagamento urgente.\n\nPor favor, você pode me ajudar transferindo o valor temporariamente? Assim que eu resolver tudo, devolvo imediatamente.\n\nAqui estão os dados para transferência:\nhttp://suporte-financeiro-urgente.com/transferir\n\nPor favor, é realmente importante.\nObrigado.`,
+  address: "fernando.nandes@mail.com",
+  class: MALICIOUS,
+  name: "Fernando Fernandes",
+  picture: "picture_default_5",
+};
+
 // SPAM
 
 export const mailGenSpam1: EmailData = {
-  text: `Moletom BenIO que pode ser de se interesse, está em oferta!\n\nVerifique sua lista de desejos da Choppu e aproveite o desconto de 25% com frete grátis em todo Brasil!\n\nhttps://Choppu.com.br`,
-  address: "emails@choppu.com",
+  text: `Moletom BenIO que pode ser de se interesse, está em oferta!\n\nVerifique sua lista de desejos da Choppu e aproveite o desconto de 25% com frete grátis em todo País!\n\nhttps://Choppu.com.br`,
+  address: adresses.choppu,
   class: SPAM,
   name: "Compras Choppu",
   picture: "picture_choppu",
@@ -148,7 +197,7 @@ export const mailGenSpam1: EmailData = {
 
 export const mailGenSpam2: EmailData = {
   text: `Seu amigo Ciclano e outras 32 pessoas reagiram a foto de AnimesIrados no PineappleBook.\nVeja agora!\n\nhttps://pineapplebook.com`,
-  address: "pineapplebook@mail.com",
+  address: adresses.pineappleBook,
   class: SPAM,
   name: "PineappleBook",
   picture: "picture_pbook",
@@ -163,12 +212,14 @@ export const mailGenSpam3: EmailData = {
 };
 
 export const nonTutorials: EmailData[] = [
+  mailClassMal1,
+  mailClassMal2,
+  mailClassMal3,
+  mailElementsMal1,
+  mailElementsMal2,
+  mailElementsSafe1,
   mailGenSpam1,
   mailGenSpam2,
   mailGenSpam3,
-  mailMal1,
-  mailMal2,
-  mailMal3,
-  mailElementsMal1,
-  mailElementsMal2,
+  mailGenMal1,
 ];

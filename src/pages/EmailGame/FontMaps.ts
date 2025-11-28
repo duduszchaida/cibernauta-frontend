@@ -63,7 +63,7 @@ const fontMaps: Record<string, FontMap> = {
       h: { x: 7, y: 2, width: 5 },
       i: { x: 8, y: 2, width: 1 },
       j: { x: 9, y: 2, width: 5 },
-      k: { x: 10, y: 2, width: 5 },
+      k: { x: 10, y: 2, width: 4 },
       l: { x: 11, y: 2, width: 2 },
       m: { x: 12, y: 2, width: 5 },
       n: { x: 13, y: 2, width: 5 },

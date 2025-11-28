@@ -4,6 +4,7 @@ const sprites: Record<string, Sprite> = {
   app_border: new Sprite("/game/email/app_border.png"),
 
   bg_beige: new Sprite("/game/email/bg_beige.png"),
+  bg_levels: new Sprite("/game/email/bg_levels.png"),
   bg_blue: new Sprite("/game/email/bg_blue.png"),
   bg_green: new Sprite("/game/email/bg_green.png"),
   bg_save_screen: new Sprite("/game/email/bg_save_screen.png"),
@@ -82,6 +83,7 @@ const sprites: Record<string, Sprite> = {
   picture_pbook: new Sprite("/game/email/picture_pbook.png"),
   picture_rubloks: new Sprite("/game/email/picture_rubloks.png"),
   picture_selected: new Sprite("/game/email/picture_selected.png"),
+  picture_fritter: new Sprite("/game/email/picture_fritter.png"),
 
   popup: new Sprite("/game/email/popup.png"),
 

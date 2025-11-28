@@ -15,7 +15,7 @@ export class LevelSelectionScene extends Scene {
 
   constructor(gameState: GameState) {
     super({
-      backgroundSpriteName: "bg_beige",
+      backgroundSpriteName: "bg_levels",
       gameObjects: [appBorder, new ExitButton(DESKTOPSCENE)],
     });
     this.gameState = gameState;
