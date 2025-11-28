@@ -6,6 +6,7 @@ import Timer from "../Elements/Timer";
 import type GameState from "../GameState";
 import Position from "../Position";
 import { Utils } from "../Utils";
+import { CONTENT } from "./EmailScene/EmailContent";
 import type { EmailData } from "./EmailScene/EmailData";
 import { PICTURE } from "./EmailScene/EmailPicture";
 import { ADDRESS, NAME } from "./EmailScene/EmailTextElement";
@@ -72,7 +73,7 @@ export class ScoreScene extends Scene {
       } else {
         this.classWrong++;
       }
-      const keys: (keyof Evaluation)[] = [ADDRESS, PICTURE, NAME];
+      const keys: (keyof Evaluation)[] = [ADDRESS, PICTURE, NAME, CONTENT];
       keys.forEach((k) => {
         if (e[k]) {
           this.elementRight++;
@@ -95,7 +96,9 @@ export class ScoreScene extends Scene {
       this.gameState.currentSave.levelProgressRecord[this.level.reference] = {
         reference: this.level.reference,
         highscore: Math.max(this.totalScore, levelHs),
-        perfect: this.classWrong + this.elementWrong == 0,
+        perfect:
+          this.gameState.currentSave.levelProgressRecord[this.level.reference]
+            .perfect || this.classWrong + this.elementWrong == 0,
       };
       this.gameState.updateHighscore();
     }

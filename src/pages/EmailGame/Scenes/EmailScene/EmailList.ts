@@ -99,11 +99,29 @@ export const mailSafe2: EmailData = {
 // Inspect
 
 export const mailTutorialElements: EmailData = {
-  text: `Agora que passamos por esse aquecimento vamos ver a parte mais crucial do treinamento. Selecionar elementos.\n\nTodo email é composto de elementos, como a foto no canto superior esquerdo, o endereço de onde veio esse email ou até o conteúdo de texto.\n\nAgora, além de classificar os emails, você também pode SELECIONAR seus elementos, mas o que isso quer dizer?\n\nQuando estiver com seu painel aberto, seu cursor do mouse vai virar uma seta em diagonal, isso quer dizer que está no modo de seleção.\n\nNo modo de seleção, qualquer elemento do email que você clicar será selecionado como uma ANOMALIA, ou seja, algo que indica que esse email não é SEGURO.\n\nExperimente selecionar alguns dos elementos desse email para ver como é antes de prosseguir.\n\nElementos que forem corretamente marcados como ANOMALIAS te darão pontos extras! Mas elementos selecionados incorretamente irão reduzir sua pontuação.\n\nNão esqueça que emails seguros são emails sem nenhuma anomalia, então antes de prosseguir, desselecione qualquer elemento que estiver selecionado e vamos em frente!`,
+  text: `Agora que passamos por esse aquecimento vamos ver a parte mais crucial do treinamento. Selecionar elementos.\n\nTodo email é composto de elementos, como a foto no canto superior esquerdo, o endereço de onde veio esse email ou até o texto que você está lendo.\n\nAgora, além de classificar os emails, você também pode SELECIONAR seus elementos.\n\nQuando estiver com seu painel aberto, seu cursor do mouse vai virar uma seta em diagonal, isso quer dizer que está no modo de seleção.\n\nNo modo de seleção, qualquer elemento do email que você clicar será selecionado como uma ANOMALIA, ou seja, algo que indica que esse email não é SEGURO.\n\nPara essa próxima etapa, vamos começar a partir do princípio que qualquer email oferecendo algo de GRAÇA ou pedindo que você faça algo com URGÊNCIA como ralizar um pagamento ou entrar em algum link, é malicioso.\n\nSe ver algo do tipo, marque aonde no texto que isso aparece e classifique como MALICIOSO. Se o texto tiver mais frases do tipo em outros lugares não tem problema, você só precisa selecionar uma delas que já conta.\n\nElementos que forem corretamente marcados como ANOMALIAS te darão pontos extras! Mas elementos selecionados incorretamente irão reduzir sua pontuação.\n\nPronto para seguir em frente?`,
   address: "cibernauta@mail.com",
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
+};
+
+export const mailElementsMal1: EmailData = {
+  text: `Prezado cliente,\n\nIdentificamos um pagamento PENDENTE no valor de R$ 247,90.\nPara evitar multa e bloqueio, realize o pagamento no link seguro abaixo:\n\nhttp://cobranca-sistema24h.net/pagar\n\nEste é seu último aviso.\n\nDepartamento de Cobranças`,
+  address: "cobrancas@dep.com",
+  class: MALICIOUS,
+  name: "Equipe de Cobranças",
+  picture: "picture_default_6",
+  anomalyParagraphs: [1, 3],
+};
+
+export const mailElementsMal2: EmailData = {
+  text: `Olá Jogador,\n\nDetectamos uma atividade suspeita na sua conta Rubloks e, por segurança, precisamos que você verifique sua identidade imediatamente. Caso contrário, sua conta poderá ser removida permanentemente e todo seu inventário de bloquinhos premium será perdido.\n\nClique no link abaixo para continuar sua verificação:\n\nhttps://rubloks-secure-login.freegift.claim-now.co\n\nApós confirmar seus dados, você receberá 500 Rubux grátis como forma de agradecimento pela sua cooperação.\n\nObrigado por escolher Rubloks,\nA Equipe Oficial de Segurança Rubloks`,
+  address: "rubloks@oficial.com",
+  class: MALICIOUS,
+  name: "Rubloks Oficial",
+  picture: "picture_rubloks",
+  anomalyParagraphs: [1, 3, 4],
 };
 
 // General
@@ -118,17 +136,9 @@ export const mailTutorialTest: EmailData = {
 
 // MALICIOUS
 
-export const mailMal4: EmailData = {
-  text: `Olá Jogador,\n\nDetectamos uma atividade suspeita na sua conta Rubloks e, por segurança, precisamos que você verifique sua identidade imediatamente. Caso contrário, sua conta poderá ser removida permanentemente e todo seu inventário de bloquinhos premium será perdido.\n\nClique no link abaixo para continuar sua verificação:\n\nhttps://rubloks-secure-login.freegift.claim-now.co\n\nApós confirmar seus dados, você receberá 500 Rubux grátis como forma de agradecimento pela sua cooperação.\n\nObrigado por escolher Rubloks,\nA Equipe Oficial de Segurança Rubloks`,
-  address: "rubloks@oficial.com",
-  class: MALICIOUS,
-  name: "Rubloks Oficial",
-  picture: "picture_rubloks",
-};
-
 // SPAM
 
-export const mailSpam1: EmailData = {
+export const mailGenSpam1: EmailData = {
   text: `Moletom BenIO que pode ser de se interesse, está em oferta!\n\nVerifique sua lista de desejos da Choppu e aproveite o desconto de 25% com frete grátis em todo Brasil!\n\nhttps://Choppu.com.br`,
   address: "emails@choppu.com",
   class: SPAM,
@@ -136,7 +146,7 @@ export const mailSpam1: EmailData = {
   picture: "picture_choppu",
 };
 
-export const mailSpam2: EmailData = {
+export const mailGenSpam2: EmailData = {
   text: `Seu amigo Ciclano e outras 32 pessoas reagiram a foto de AnimesIrados no PineappleBook.\nVeja agora!\n\nhttps://pineapplebook.com`,
   address: "pineapplebook@mail.com",
   class: SPAM,
@@ -144,7 +154,7 @@ export const mailSpam2: EmailData = {
   picture: "picture_pbook",
 };
 
-export const mailSpam3: EmailData = {
+export const mailGenSpam3: EmailData = {
   text: `Curta CatMusic Premium por 2 meses de graça!\n\nOuça suas playlists com o plano Premium por 2 meses sem pagar nada e aproveite.\n\nApós o periodo de teste, será cobrado o valor de R$ 1,99/mês.\n\nAssine já!`,
   address: "marketing@catmusic.com",
   class: SPAM,
@@ -153,11 +163,12 @@ export const mailSpam3: EmailData = {
 };
 
 export const nonTutorials: EmailData[] = [
-  mailSpam1,
-  mailSpam2,
-  mailSpam3,
+  mailGenSpam1,
+  mailGenSpam2,
+  mailGenSpam3,
   mailMal1,
   mailMal2,
   mailMal3,
-  mailMal4,
+  mailElementsMal1,
+  mailElementsMal2,
 ];

@@ -92,10 +92,7 @@ export default class EmailInterface {
         return false;
       }
     }
-    if (this.anomalyParagraphs.length == 0) {
-      return null;
-    }
-    return false;
+    return null;
   }
 
   /**

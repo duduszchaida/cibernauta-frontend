@@ -1,7 +1,6 @@
 import { findSprite } from "../../FindSprite";
 import { MALICIOUS, SAFE, SPAM } from "../EmailScene/EmailData";
 import * as EmailList from "../EmailScene/EmailList";
-import { NOTEPAD } from "../EmailScene/Notepad";
 import type { Level } from "./Level";
 
 // Referências de níveis
@@ -40,8 +39,8 @@ export const LevelList: Record<string, Level> = {
   },
   [ELEMENTSLEVEL]: {
     name: "Elementos de email",
-    goal: 1,
-    emailDataList: [],
+    goal: 1500,
+    emailDataList: [EmailList.mailElementsMal1, EmailList.mailElementsMal2],
     reference: ELEMENTSLEVEL,
     buttons: [SAFE, MALICIOUS],
     starterEmail: EmailList.mailTutorialElements,
