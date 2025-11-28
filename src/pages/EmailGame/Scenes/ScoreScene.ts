@@ -98,7 +98,7 @@ export class ScoreScene extends Scene {
         highscore: Math.max(this.totalScore, levelHs),
         perfect:
           this.gameState.currentSave.levelProgressRecord[this.level.reference]
-            .perfect || this.classWrong + this.elementWrong == 0,
+            ?.perfect || this.classWrong + this.elementWrong == 0,
       };
       this.gameState.updateHighscore();
     }
