@@ -206,7 +206,7 @@ export class ScoreScene extends Scene {
       goalText,
       goalResult,
       appBorder,
-      new ExitButton(LEVELSELECTION),
+      new ExitButton(LEVELSELECTION, true),
     ];
   }
 }

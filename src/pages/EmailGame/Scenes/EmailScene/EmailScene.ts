@@ -79,7 +79,7 @@ export default class EmailScene extends Scene {
     this.pausedObjectList = [
       new PauseScreen(),
       emailBorder,
-      new ExitButton(LEVELSELECTION),
+      new ExitButton(LEVELSELECTION, true),
       this.pauseButton,
       this.timer,
     ];
@@ -131,7 +131,7 @@ export default class EmailScene extends Scene {
       ...this.buttons,
       this.notepad,
       emailBorder,
-      new ExitButton(LEVELSELECTION),
+      new ExitButton(LEVELSELECTION, true),
       this.pauseButton,
       this.timer,
     ];

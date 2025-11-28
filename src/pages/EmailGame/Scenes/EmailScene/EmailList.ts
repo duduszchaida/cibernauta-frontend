@@ -99,7 +99,7 @@ export const mailSafe2: EmailData = {
 // Inspect
 
 export const mailTutorialElements: EmailData = {
-  text: `Agora que passamos por esse aquecimento vamos ver a parte mais crucial do treinamento. Elementos.`,
+  text: `Agora que passamos por esse aquecimento vamos ver a parte mais crucial do treinamento. Selecionar elementos.\n\nTodo email é composto de elementos, como a foto no canto superior esquerdo, o endereço de onde veio esse email ou até o conteúdo de texto.\n\nAgora, além de classificar os emails, você também pode SELECIONAR seus elementos, mas o que isso quer dizer?\n\nQuando estiver com seu painel aberto, seu cursor do mouse vai virar uma seta em diagonal, isso quer dizer que está no modo de seleção.\n\nNo modo de seleção, qualquer elemento do email que você clicar será selecionado como uma ANOMALIA, ou seja, algo que indica que esse email não é SEGURO.\n\nExperimente selecionar alguns dos elementos desse email para ver como é antes de prosseguir.\n\nElementos que forem corretamente marcados como ANOMALIAS te darão pontos extras! Mas elementos selecionados incorretamente irão reduzir sua pontuação.\n\nNão esqueça que emails seguros são emails sem nenhuma anomalia, então antes de prosseguir, desselecione qualquer elemento que estiver selecionado e vamos em frente!`,
   address: "cibernauta@mail.com",
   class: SAFE,
   name: "Equipe Cibernauta",

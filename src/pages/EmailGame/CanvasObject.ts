@@ -153,7 +153,7 @@ export default class CanvasObject {
       }
       currentWidth += 3;
     }
-    currentWidth = 0;      
+    currentWidth = 0;
     let chars = words.join(" ").replace(/ \n/g, "\n").split("");
     let totalWidth = 0;
     let currentHeight = 0;
@@ -168,7 +168,8 @@ export default class CanvasObject {
     });
     if (direction == "center") {
       startX = Math.floor(-totalWidth / 2);
-    } else if (direction == "left") {
+    }
+    if (direction == "left") {
       for (let i = chars.length - 1; i > -1; i--) {
         const char = chars[i];
         const charMap = fontMap.letters[char];
@@ -187,9 +188,7 @@ export default class CanvasObject {
       for (let i = 0; i < chars.length; i++) {
         const char = chars[i];
         const charMap = fontMap.letters[char];
-        // if (text == "Neste caderno você vai encontrar todas as informações que precisa para identificar e classificar emails.") {
-        //   console.log(char, charMap.width, currentWidth, limitWidth)
-        // }        
+  
         if (currentWidth + charMap.width > limitWidth || char == "\n") {
           currentWidth = 0;
           currentHeight += fontMap.charHeight;

@@ -15,6 +15,8 @@ const sprites: Record<string, Sprite> = {
   btn_spam: new Sprite("/game/email/btn_spam.png"),
   btn_notepad: new Sprite("/game/email/btn_notepad.png"),
   btn_trash: new Sprite("/game/email/btn_trash.png"),
+  btn_exit: new Sprite("/game/email/btn_exit.png"),
+  btn_return: new Sprite("/game/email/btn_return.png"),
 
   cam: new Sprite("/game/email/cam.png"),
 
@@ -28,7 +30,6 @@ const sprites: Record<string, Sprite> = {
   email_border: new Sprite("/game/email/email_border.png"),
   email_selection_cover: new Sprite("/game/email/email_selection_cover.png"),
   email_ui: new Sprite("/game/email/email_ui.png"),
-  exit_btn: new Sprite("/game/email/exit_btn.png"),
 
   icon_concepts: new Sprite("/game/email/icon_concepts.png"),
   icon_email: new Sprite("/game/email/icon_email.png"),
