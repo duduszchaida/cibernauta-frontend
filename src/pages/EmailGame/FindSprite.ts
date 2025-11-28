@@ -52,14 +52,13 @@ const sprites: Record<string, Sprite> = {
   minecraftia_selected: new Sprite("/game/email/minecraftia_selected.png"),
   minecraftia_white: new Sprite("/game/email/minecraftia_white.png"),
 
-  notepad: new Sprite("/game/email/notepad.png"),
-
   notif_class: new Sprite("/game/email/notif_class.png"),
   notif_element: new Sprite("/game/email/notif_element.png"),
 
   objective_met: new Sprite("/game/email/objective_met.png"),
   objective_failed: new Sprite("/game/email/objective_failed.png"),
 
+  notepad: new Sprite("/game/email/notepad.png"),
   page_test: new Sprite("/game/email/page_test.png"),
   page_tutorial: new Sprite("/game/email/page_tutorial.png"),
   page_section_address: new Sprite("/game/email/page_section_address.png"),
@@ -80,13 +79,15 @@ const sprites: Record<string, Sprite> = {
   picture_default_5: new Sprite("/game/email/picture_default_5.png"),
   picture_default_6: new Sprite("/game/email/picture_default_6.png"),
   picture_default_7: new Sprite("/game/email/picture_default_7.png"),
+  picture_fritter: new Sprite("/game/email/picture_fritter.png"),
+  picture_grandma: new Sprite("/game/email/picture_grandma.png"),
   picture_hacker_0: new Sprite("/game/email/picture_hacker_0.png"),
   picture_hacker_1: new Sprite("/game/email/picture_hacker_1.png"),
   picture_hacker_2: new Sprite("/game/email/picture_hacker_2.png"),
   picture_pbook: new Sprite("/game/email/picture_pbook.png"),
   picture_rubloks: new Sprite("/game/email/picture_rubloks.png"),
   picture_selected: new Sprite("/game/email/picture_selected.png"),
-  picture_fritter: new Sprite("/game/email/picture_fritter.png"),
+  picture_mail: new Sprite("/game/email/picture_mail.png"),
 
   popup: new Sprite("/game/email/popup.png"),
 

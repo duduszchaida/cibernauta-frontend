@@ -5,41 +5,17 @@ const adresses: Record<string, string> = {
   choppu: "emails@choppu.com",
   pineappleBook: "pineapplebook@mail.com",
   fritter: "fritter@frtr.com",
+  mail: "mail@mail.com",
+  grandma: "aparecida1948@mail.com",
 };
 
 // Lista de export de todos os emails do jogo
-
-export const mailspamDesconto90: EmailData = {
-  text: `PARABÉNS!!!\n\nVocê foi selecionado para RECEBER um cupom de até 90% de DESCONTO em nossos produtos incríveis!\nMas é SÓ HOJE! Clique e aproveite:\n\nhttp://superofertaspromocao.biz/premio\n\nNão perca tempo! Essa é sua chance de mudar de vida!\nEquipe Promoções Imperdíveis`,
-  address: "promocoes@shop.com",
-  class: SPAM,
-  name: "Loja de coisas",
-  picture: "picture_default_3",
-  anomalyParagraphs: [1, 2, 3],
-};
-
-export const mailmalSuport: EmailData = {
-  text: `Prezado usuário,\nDetectamos um problema URGENTE em sua conta e precisamos que você confirme seus dados imediatamente para evitar bloqueio permanente.\n\nClique no link abaixo e faça login para manter sua conta ativa:\n\nhttp://seguranca-verificacao-login.com/auth\n\nAtenção: se você não confirmar nas próximas 2 horas, sua conta será removida.\n\nSuporte Técnico`,
-  address: "tecnicus@zap.com",
-  class: MALICIOUS,
-  name: "Suporte de tecnocidade",
-  picture: "picture_default_2",
-  anomalyParagraphs: [0, 1, 2, 3],
-};
 
 export const mailsafeSubscription: EmailData = {
   text: `Olá SeuNome,\nEstamos confirmando sua inscrição no workshop "Boas Práticas de Segurança Digital", que ocorrerá no dia 12/12 às 14h.\nVocê pode acessar todos os materiais e informações no link do nosso site oficial:\n\nhttps://empresa-segura.com.br/workshop\n\nSe tiver qualquer dúvida, responda por este mesmo email.\n\nAtenciosamente,\nEquipe Empresa Segura`,
   address: "empresasegura@mail.zig",
   class: SAFE,
   name: "Emprura",
-  picture: "picture_default_1",
-};
-
-export const mailGrandma: EmailData = {
-  text: `Estava pensando em você hoje e resolvi mandar este email só para saber como você está.\nFiz aquele bolo de chocolate que você gosta, e ficou uma delícia! Quando você tiver um tempinho, venha me visitar para comer um pedaço.\n\nAh, e se quiser ver as fotos do aniversário do seu primo, coloquei tudo no nosso grupo da família, lá no azap mesmo.\n\nSe cuida, meu amor.\nVovó`,
-  address: "aparecida123@mail.com",
-  class: SAFE,
-  name: "Aparecida",
   picture: "picture_default_1",
 };
 
@@ -56,7 +32,7 @@ export const mailTutorialControls: EmailData = {
 // Classification
 
 export const mailTutorialClass: EmailData = {
-  text: `Agora que tem uma noção básica dos controles, vamos à o que interessa, emails.\n\nNesse próximo treino vamos ver uma série de emails e é o seu trabalho identificar se eles são SEGUROs ou MALICIOSOs.\n\nMas como fazer isso? Existem várias maneiras, mas por enquanto só para aquecer, vamos começar com algo básico.\n\nEmails de pessoas e empresas desconhecidas ou até suspeitas podem ser maliciosos. Se vir um email de alguém que for desconhecido ou suspeito, marque como MALICIOSO, se não, pode marcar como SEGURO.\n\nUma última coisa, no canto de cima, junto com o botão de pause, tem o cronômetro, esse é o tempo que você terá para classificar quantos emails conseguir.\n\nQuando o cronómetro chegar a 0 (ou não houver mais emails), você irá para o placar de pontos, onde pode ver quantos erros e acertos cometeu, e sua pontuação final.\n\nEle só começa a contar quando esse email for classificado e seguirá para o próximo, então assim que estiver pronto, marque esse como SEGURO e boa sorte!`,
+  text: `Agora que tem uma noção básica dos controles, vamos à o que interessa, emails.\n\nNesse próximo treino vamos ver uma série de emails e é o seu trabalho identificar se eles são SEGUROs ou MALICIOSOs.\n\nMas como fazer isso? Existem várias maneiras, mas por enquanto só para aquecer, vamos começar com algo básico.\n\nEmails de pessoas e empresas desconhecidas ou até suspeitas podem ser maliciosos. Se vir um email de alguém que for desconhecido ou suspeito, marque como MALICIOSO, se for de alguém que conhece como Cibernauta ou Mail, uma das empresas que fornece serviço de email, pode marcar como SEGURO.\n\nUma última coisa, no canto de cima, junto com o botão de pause, tem o cronômetro, esse é o tempo que você terá para classificar quantos emails conseguir.\n\nQuando o cronómetro chegar a 0 (ou não houver mais emails), você irá para o placar de pontos, onde pode ver quantos erros e acertos cometeu, e sua pontuação final.\n\nEle só começa a contar quando esse email for classificado e seguirá para o próximo, então assim que estiver pronto, marque esse como SEGURO e boa sorte!`,
   address: adresses.cibernauta,
   class: SAFE,
   name: "Equipe Cibernauta",
@@ -96,11 +72,11 @@ export const mailClassSafe1: EmailData = {
 };
 
 export const mailClassSafe2: EmailData = {
-  text: `Alerta de segurança\n\nDetectamos um novo login na sua Conta. Se foi você que fez isso, nenhuma ação é necessária. Se não foi, ajudaremos a proteger sua conta.\n\nVerificar atividade.`,
-  address: "emails@mail.com",
+  text: `Alerta de segurança\n\nDetectamos uma tentativa de login na sua Conta. Se não foi você que fez isso, nenhuma ação é necessária. Caso contrário, acesse o link abaixo para fazer uma verificação.\n\nhttps://mail.verif-activity/user?=486350147\n\nAgradecemos sua compreensão.`,
+  address: adresses.mail,
   class: SAFE,
-  name: "Sistema de Emails",
-  picture: "picture_default_1",
+  name: "Mail Emails",
+  picture: "picture_mail",
 };
 
 // Inspect
@@ -165,6 +141,16 @@ export const mailElementsSafe2: EmailData = {
   picture: "picture_fritter",
 };
 
+export const mailElementsSafe3: EmailData = {
+  text: `Escrever alguma dica de uso para o usuário`,
+  address: adresses.cibernauta,
+  class: SAFE,
+  name: "Equipe Cibernauta",
+  picture: "picture_fritter",
+};
+
+// Adresses
+
 // General
 
 export const mailTutorialTest: EmailData = {
@@ -183,6 +169,15 @@ export const mailGenMal1: EmailData = {
   class: MALICIOUS,
   name: "Fernando Fernandes",
   picture: "picture_default_5",
+};
+
+export const mailGenMal2: EmailData = {
+  text: `Prezado usuário,\nDetectamos um problema URGENTE em sua conta e precisamos que você confirme seus dados imediatamente para evitar bloqueio permanente.\n\nClique no link abaixo e faça login para manter sua conta ativa:\n\nhttp://seguranca-verificacao-login.com/auth\n\nAtenção: se você não confirmar nas próximas 2 horas, sua conta será removida.\n\nSuporte Técnico`,
+  address: "tecnicus@zap.com",
+  class: MALICIOUS,
+  name: "Suporte de tecnocidade",
+  picture: "picture_default_2",
+  anomalyParagraphs: [0, 1, 2, 3],
 };
 
 // SPAM
@@ -209,6 +204,49 @@ export const mailGenSpam3: EmailData = {
   class: SPAM,
   name: "CatMusic",
   picture: "picture_catmusic",
+};
+
+export const mailGenSpam4: EmailData = {
+  text: `PARABÉNS!!!\n\nVocê foi selecionado para RECEBER um cupom de até 90% de DESCONTO em nossos produtos incríveis!\nMas é SÓ HOJE! Clique e aproveite:\n\nhttp://superofertaspromocao.biz/premio\n\nNão perca tempo! Essa é sua chance de mudar de vida!\nEquipe Promoções Imperdíveis`,
+  address: "promocoes@shop.com",
+  class: SPAM,
+  name: "Loja de coisas",
+  picture: "picture_default_3",
+  anomalyParagraphs: [1, 2, 3],
+};
+
+// SAFE
+
+export const mailSafeGrandma1: EmailData = {
+  text: `Bom dia!\n\nQue esta manhã traga leveza ao seu coração e energia renovada para começar o dia com esperança e tranquilidade. Cada novo amanhecer é uma oportunidade de seguir em frente, ajustar os passos e encontrar motivos para sorrir, mesmo nas pequenas coisas.\n\nDesejo que o seu dia seja repleto de boas notícias, gentilezas inesperadas e momentos agradáveis. Que você consiga lidar com qualquer desafio com calma e sabedoria, lembrando sempre de cuidar de si e valorizar quem está ao seu redor.\n\nQue o dia seja produtivo, sereno e cheio de boas vibrações.\nCom carinho, desejo a você e à sua família um ótimo dia!`,
+  address: adresses.grandma,
+  class: SAFE,
+  name: "Maria Aparecida",
+  picture: "picture_grandma",
+};
+
+export const mailSafeGrandma2: EmailData = {
+  text: `Bom dia!\n\nQue seu dia comece com pensamentos positivos e aquela sensação gostosa de que algo bom pode acontecer a qualquer momento. Aproveite esta nova manhã para respirar fundo, organizar a mente e seguir em frente com leveza.\n\nQue cada tarefa seja realizada com tranquilidade e cada encontro traga um pouco de alegria. Que você encontre motivos simples para sorrir e tenha forças para lidar com o que for necessário, sempre com calma e paciência.\n\nDesejo a você e a todos que ama um dia harmonioso, produtivo e cheio de momentos especiais.`,
+  address: adresses.grandma,
+  class: SAFE,
+  name: "Maria Aparecida",
+  picture: "picture_grandma",
+};
+
+export const mailSafeGrandma3: EmailData = {
+  text: `Bom dia!\n\nQue esta manhã abra as portas para novas oportunidades e lhe traga motivação para realizar tudo o que precisa. A cada novo dia, renovamos também nossa capacidade de recomeçar, ajustar rotas e descobrir novas formas de ver a vida.\n\nQue hoje você receba boas mensagens, tenha conversas agradáveis e encontre pequenas alegrias no meio da rotina. Que o dia seja leve, cheio de calma e permeado por boas vibrações.\n\nDesejo a você um dia iluminado, inspirador e muito agradável!`,
+  address: adresses.grandma,
+  class: SAFE,
+  name: "Maria Aparecida",
+  picture: "picture_grandma",
+};
+
+export const mailMalGrandma1: EmailData = {
+  text: `Bom dia, querido(a)!\n\nPassei para te desejar uma manhã cheia de luz, paz e muitas coisas boas. E olha, dizem que quando a gente começa o dia com o coração aberto e uma energia positiva, tudo flui melhor.\n\nPor isso, resolvi compartilhar algo especial que recebi: um pequeno “ritual de gratidão” que promete atrair bons sentimentos para o resto do dia.\n\nSe você quiser que seu dia seja cheio de gratidão, alegria e boas surpresas, é só entrar neste link aqui:\n\nhttp://energia-positiva.gratidao-matinal.com\n\nÉ rapidinho e, segundo a mensagem que recebi, ajuda a renovar as vibrações da manhã.\n\nDesejo que seu dia seja maravilhoso. Depois me conta se sentiu a diferença!`,
+  address: adresses.grandma,
+  class: SAFE,
+  name: "Maria Aparecida",
+  picture: "picture_grandma",
 };
 
 export const nonTutorials: EmailData[] = [

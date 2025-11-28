@@ -91,6 +91,7 @@ const fontMaps: Record<string, FontMap> = {
       õ: { x: 15, y: 3, width: 5 },
       ú: { x: 16, y: 3, width: 5 },
       ç: { x: 17, y: 3, width: 5 },
+      "=": { x: 18, y: 3, width: 5 },
       "0": { x: 0, y: 4, width: 5 },
       "1": { x: 1, y: 4, width: 5 },
       "2": { x: 2, y: 4, width: 5 },

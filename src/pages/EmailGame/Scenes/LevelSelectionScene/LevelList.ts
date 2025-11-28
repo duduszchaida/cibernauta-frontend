@@ -49,6 +49,7 @@ export const LevelList: Record<string, Level> = {
       EmailList.mailElementsMal4,
       EmailList.mailElementsSafe1,
       EmailList.mailElementsSafe2,
+      EmailList.mailSafeGrandma1,
     ],
     reference: ELEMENTSLEVEL,
     buttons: [SAFE, MALICIOUS],
