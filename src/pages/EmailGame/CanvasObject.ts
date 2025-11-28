@@ -138,6 +138,7 @@ export default class CanvasObject {
     pos: Position,
     direction = "right",
     limitWidth = Infinity,
+    lineHeightAdd = 0,
     slicePosY = 0,
     sliceHeight = 0,
   ) {
@@ -145,7 +146,7 @@ export default class CanvasObject {
     let currentWidth = 0;
     for (let i = 0; i < words.length; i++) {
       const word = words[i];
-      const wordWidth = measureTextWidth(word, font)
+      const wordWidth = measureTextWidth(word, font);
       currentWidth += wordWidth;
       if (currentWidth > limitWidth) {
         words[i] = "\n" + word;
@@ -188,10 +189,10 @@ export default class CanvasObject {
       for (let i = 0; i < chars.length; i++) {
         const char = chars[i];
         const charMap = fontMap.letters[char];
-  
+
         if (currentWidth + charMap.width > limitWidth || char == "\n") {
           currentWidth = 0;
-          currentHeight += fontMap.charHeight;
+          currentHeight += fontMap.charHeight + lineHeightAdd;
         }
         this.writeCharacter(
           fontSprite,
@@ -232,6 +233,7 @@ export default class CanvasObject {
         pos.add(currentX, 0),
         "right",
         Infinity,
+        0,
         sliceY,
         sliceHeight,
       );

@@ -63,18 +63,30 @@ export const LevelList: Record<string, Level> = {
     ],
   },
   [NOTEPADLEVEL]: {
-    name: "Teste do caderno",
+    name: "Endereços",
     goal: 2500,
-    emailDataList: [],
+    emailDataList: [EmailList.mailSafeGrandma2],
     reference: NOTEPADLEVEL,
     buttons: [SAFE, MALICIOUS, NOTEPAD],
-    starterEmail: EmailList.mailTutorialTest,
+    starterEmail: EmailList.mailTutorialNotepad,
     canSelect: true,
     secondsTimer: 180,
     notepadPages: [
       findSprite("page_tutorial"),
       findSprite("page_section_address"),
-      "cibernauta@mail.com",
+      EmailList.addresses.cibernauta +
+        " " +
+        EmailList.addresses.grandma +
+        " " +
+        EmailList.addresses.catMusic +
+        " " +
+        EmailList.addresses.choppu +
+        " " +
+        EmailList.addresses.pineappleBook +
+        " " +
+        EmailList.addresses.fritter +
+        " " +
+        EmailList.addresses.rubloks,
     ],
   },
 
@@ -96,6 +108,6 @@ export const levelOrder: Level[] = [
   LevelList[CONTROLSLEVEL],
   LevelList[TUTORIALLEVEL],
   LevelList[ELEMENTSLEVEL],
-  // LevelList[NOTEPADLEVEL],
+  LevelList[NOTEPADLEVEL],
   LevelList[TESTLEVEL],
 ];

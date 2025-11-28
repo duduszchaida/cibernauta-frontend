@@ -1,12 +1,14 @@
 import { MALICIOUS, SAFE, SPAM, type EmailData } from "./EmailData";
 
-const adresses: Record<string, string> = {
+export const addresses = {
   cibernauta: "cibernauta@mail.com",
   choppu: "emails@choppu.com",
   pineappleBook: "pineapplebook@mail.com",
-  fritter: "fritter@frtr.com",
+  fritter: "fritter@frttr.com",
   mail: "mail@mail.com",
-  grandma: "aparecida1948@mail.com",
+  grandma: "aparecida48@mail.com",
+  catMusic: "sales@catmusic.com",
+  rubloks: "oficial@rubloks.com",
 };
 
 // Lista de export de todos os emails do jogo
@@ -23,7 +25,7 @@ export const mailsafeSubscription: EmailData = {
 
 export const mailTutorialControls: EmailData = {
   text: `Olá! E bem vind@ ao treinamento de identificação de emails da equipe Cibernauta.\n\nDaqui em diante, você irá aprender como identificar emails seguros, maliciosos e spam em todas as suas formas.\n\nMas antes de começar, vamos dar uma olhada nos controles que temos aqui.\n\nNa parte lateral da direita, mais ou menos por aqui -->\nTemos a barra de scroll, se clicar nela ou arrasta-la pode mover o conteúdo do email para cima e para baixo.\n\nNão ache estranho se ela às vezes não estiver presente, ela só aparece quando um email é comprido o suficiente para precisar dela.\n\nAlém dela também temos seu painel de botões, para abrir ele basta clicar no botão com a seta no canto esquerdo.\n\nNo painel você tem acesso a o que é preciso para classificar um email.\nPor enquanto só temos os botões de SEGURO (verde e redondo) e MALICIOSO (quadrado vermelho).\n\nPara prosseguir classifique esse email como SEGURO e vamos seguir em frente.`,
-  address: adresses.cibernauta,
+  address: addresses.cibernauta,
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
@@ -33,7 +35,7 @@ export const mailTutorialControls: EmailData = {
 
 export const mailTutorialClass: EmailData = {
   text: `Agora que tem uma noção básica dos controles, vamos à o que interessa, emails.\n\nNesse próximo treino vamos ver uma série de emails e é o seu trabalho identificar se eles são SEGUROs ou MALICIOSOs.\n\nMas como fazer isso? Existem várias maneiras, mas por enquanto só para aquecer, vamos começar com algo básico.\n\nEmails de pessoas e empresas desconhecidas ou até suspeitas podem ser maliciosos. Se vir um email de alguém que for desconhecido ou suspeito, marque como MALICIOSO, se for de alguém que conhece como Cibernauta ou Mail, uma das empresas que fornece serviço de email, pode marcar como SEGURO.\n\nUma última coisa, no canto de cima, junto com o botão de pause, tem o cronômetro, esse é o tempo que você terá para classificar quantos emails conseguir.\n\nQuando o cronómetro chegar a 0 (ou não houver mais emails), você irá para o placar de pontos, onde pode ver quantos erros e acertos cometeu, e sua pontuação final.\n\nEle só começa a contar quando esse email for classificado e seguirá para o próximo, então assim que estiver pronto, marque esse como SEGURO e boa sorte!`,
-  address: adresses.cibernauta,
+  address: addresses.cibernauta,
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
@@ -65,7 +67,7 @@ export const mailClassMal3: EmailData = {
 
 export const mailClassSafe1: EmailData = {
   text: `Tudo certo por enquanto?\n\nNão se esqueça que se precisar de um momento para respirar, pode apertar o botão de pause lá encima no canto, onde você pode ver também alguns controles adicionais.\n\nContamos com você!\n\nEquipe Cibernauta`,
-  address: adresses.cibernauta,
+  address: addresses.cibernauta,
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
@@ -73,17 +75,17 @@ export const mailClassSafe1: EmailData = {
 
 export const mailClassSafe2: EmailData = {
   text: `Alerta de segurança\n\nDetectamos uma tentativa de login na sua Conta. Se não foi você que fez isso, nenhuma ação é necessária. Caso contrário, acesse o link abaixo para fazer uma verificação.\n\nhttps://mail.verif-activity/user?=486350147\n\nAgradecemos sua compreensão.`,
-  address: adresses.mail,
+  address: addresses.mail,
   class: SAFE,
   name: "Mail Emails",
   picture: "picture_mail",
 };
 
-// Inspect
+// Elements
 
 export const mailTutorialElements: EmailData = {
   text: `Agora que passamos por esse aquecimento vamos ver a parte mais crucial do treinamento. Selecionar elementos.\n\nTodo email é composto de elementos, como a foto no canto superior esquerdo, o endereço de onde veio esse email ou até o texto que você está lendo.\n\nAgora, além de classificar os emails, você também pode SELECIONAR seus elementos.\n\nQuando estiver com seu painel aberto, seu cursor do mouse vai virar uma seta em diagonal, isso quer dizer que está no modo de seleção.\n\nNo modo de seleção, qualquer elemento do email que você clicar será selecionado como uma ANOMALIA, ou seja, algo que indica que esse email não é SEGURO.\n\nPara essa próxima etapa, vamos começar a partir do princípio que qualquer email oferecendo algo de GRAÇA ou pedindo que você faça algo com URGÊNCIA como ralizar um pagamento ou entrar em algum link, é malicioso.\n\nSe ver algo do tipo, marque aonde no texto que isso aparece e classifique como MALICIOSO. Se o texto tiver mais frases do tipo em outros lugares não tem problema, você só precisa selecionar uma delas que já conta.\n\nElementos que forem corretamente marcados como ANOMALIAS te darão pontos extras! Mas elementos selecionados incorretamente irão reduzir sua pontuação.\n\nPronto para seguir em frente?`,
-  address: adresses.cibernauta,
+  address: addresses.cibernauta,
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
@@ -127,7 +129,7 @@ export const mailElementsMal4: EmailData = {
 
 export const mailElementsSafe1: EmailData = {
   text: `Olá,\n\nAgradecemos sua compra!\nSua nota fiscal já está disponível no site oficial. Você pode acessá-la pelo link seguro abaixo:\n\nhttps://loja-oficial.com.br/minha-conta/notas\n\nSe tiver qualquer dúvida, estamos à disposição.\n\nAtenciosamente,\nEquipe Loja Oficial`,
-  address: adresses.choppu,
+  address: addresses.choppu,
   class: SAFE,
   name: "Compras Choppu",
   picture: "picture_choppu",
@@ -135,7 +137,7 @@ export const mailElementsSafe1: EmailData = {
 
 export const mailElementsSafe2: EmailData = {
   text: `Olá!\n\nObrigado por criar uma conta no Fritter. Estamos felizes em ter você aqui!\nPara começar a personalizar sua experiência, recomendamos visitar sua página de configurações:\n\nhttps://fritter.com/configuracoes\n\nLá você pode ajustar notificações, escolher interesses e configurar a segurança da sua conta.\n\nSe precisar de ajuda, basta responder este email ou acessar nossa Central de Suporte.\n\nBem-vindo à conversa!\nEquipe Fritter`,
-  address: adresses.fritter,
+  address: addresses.fritter,
   class: SAFE,
   name: "Fritter",
   picture: "picture_fritter",
@@ -143,19 +145,34 @@ export const mailElementsSafe2: EmailData = {
 
 export const mailElementsSafe3: EmailData = {
   text: `Escrever alguma dica de uso para o usuário`,
-  address: adresses.cibernauta,
+  address: addresses.cibernauta,
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_fritter",
 };
 
-// Adresses
+// Notepad / Adresses
 
+export const mailTutorialNotepad: EmailData = {
+  text: `Olá! Para essa próxima etapa você terá uma nova ferramenta, o caderno de informações! Pode ver que tem um botão novo no painel, ele abrirá o caderno.\n\nNeste caderno, você terá informações importantes para ajudar na sua classificação de emails, como o que veremos nesta etapa, endereços de email.\n\nUma coisa importante de saber enquanto estiver na internet, além de que há pessoas com intenções maliciosas, é que elas podem muitas vezes se passar por outras pessoas ou empresas. Uma maneira comum é pelo endereço de email.\n\nCada pessoa e empresa possúi seu próprio endereço de email, como o nosso lá encima na esquerda, cibernauta@mail.com, mas como cada um pode escolher o endereço que quiser, muitas pessoas criam endereços parecidos com endereços oficiais.\n\nPor isso é importante quando receber um email de alguma pessoa ou empresa, verificar que o endereço de email é oficial e seguro.\n\nQuando estiver usando a internet, você pode pesquisar quais os endereços de email oficiais de alguma empresa, mas aqui no treinamento eles estarão no caderno.\n\nEm resumo, se ver algum endereço de email que não seja igual aos escritos no caderno, pode marcar ele como uma ANOMALIA, e classifique o email como MALICIOSO.\n\nLembre-se que o que foi ensinado nas etapas anteriores também se aplicam aqui. Agora marque esse email como SEGURO e vamos nessa!`,
+  address: addresses.cibernauta,
+  class: SAFE,
+  name: "Equipe Cibernauta",
+  picture: "picture_cibernauta",
+};
+
+export const mailNotepadMal1: EmailData = {
+  text: ``,
+  address: "emails@cibernauta.com",
+  class: SAFE,
+  name: "Equipe Cibernauta",
+  picture: "picture_cibernauta",
+};
 // General
 
 export const mailTutorialTest: EmailData = {
   text: `Esta é uma fase para teste.\n\n:D`,
-  address: adresses.cibernauta,
+  address: addresses.cibernauta,
   class: SAFE,
   name: "Equipe Cibernauta",
   picture: "picture_cibernauta",
@@ -184,7 +201,7 @@ export const mailGenMal2: EmailData = {
 
 export const mailGenSpam1: EmailData = {
   text: `Moletom BenIO que pode ser de se interesse, está em oferta!\n\nVerifique sua lista de desejos da Choppu e aproveite o desconto de 25% com frete grátis em todo País!\n\nhttps://Choppu.com.br`,
-  address: adresses.choppu,
+  address: addresses.choppu,
   class: SPAM,
   name: "Compras Choppu",
   picture: "picture_choppu",
@@ -192,7 +209,7 @@ export const mailGenSpam1: EmailData = {
 
 export const mailGenSpam2: EmailData = {
   text: `Seu amigo Ciclano e outras 32 pessoas reagiram a foto de AnimesIrados no PineappleBook.\nVeja agora!\n\nhttps://pineapplebook.com`,
-  address: adresses.pineappleBook,
+  address: addresses.pineappleBook,
   class: SPAM,
   name: "PineappleBook",
   picture: "picture_pbook",
@@ -200,7 +217,7 @@ export const mailGenSpam2: EmailData = {
 
 export const mailGenSpam3: EmailData = {
   text: `Curta CatMusic Premium por 2 meses de graça!\n\nOuça suas playlists com o plano Premium por 2 meses sem pagar nada e aproveite.\n\nApós o periodo de teste, será cobrado o valor de R$ 1,99/mês.\n\nAssine já!`,
-  address: "marketing@catmusic.com",
+  address: addresses.catMusic,
   class: SPAM,
   name: "CatMusic",
   picture: "picture_catmusic",
@@ -219,7 +236,7 @@ export const mailGenSpam4: EmailData = {
 
 export const mailSafeGrandma1: EmailData = {
   text: `Bom dia!\n\nQue esta manhã traga leveza ao seu coração e energia renovada para começar o dia com esperança e tranquilidade. Cada novo amanhecer é uma oportunidade de seguir em frente, ajustar os passos e encontrar motivos para sorrir, mesmo nas pequenas coisas.\n\nDesejo que o seu dia seja repleto de boas notícias, gentilezas inesperadas e momentos agradáveis. Que você consiga lidar com qualquer desafio com calma e sabedoria, lembrando sempre de cuidar de si e valorizar quem está ao seu redor.\n\nQue o dia seja produtivo, sereno e cheio de boas vibrações.\nCom carinho, desejo a você e à sua família um ótimo dia!`,
-  address: adresses.grandma,
+  address: addresses.grandma,
   class: SAFE,
   name: "Maria Aparecida",
   picture: "picture_grandma",
@@ -227,7 +244,7 @@ export const mailSafeGrandma1: EmailData = {
 
 export const mailSafeGrandma2: EmailData = {
   text: `Bom dia!\n\nQue seu dia comece com pensamentos positivos e aquela sensação gostosa de que algo bom pode acontecer a qualquer momento. Aproveite esta nova manhã para respirar fundo, organizar a mente e seguir em frente com leveza.\n\nQue cada tarefa seja realizada com tranquilidade e cada encontro traga um pouco de alegria. Que você encontre motivos simples para sorrir e tenha forças para lidar com o que for necessário, sempre com calma e paciência.\n\nDesejo a você e a todos que ama um dia harmonioso, produtivo e cheio de momentos especiais.`,
-  address: adresses.grandma,
+  address: addresses.grandma,
   class: SAFE,
   name: "Maria Aparecida",
   picture: "picture_grandma",
@@ -235,7 +252,7 @@ export const mailSafeGrandma2: EmailData = {
 
 export const mailSafeGrandma3: EmailData = {
   text: `Bom dia!\n\nQue esta manhã abra as portas para novas oportunidades e lhe traga motivação para realizar tudo o que precisa. A cada novo dia, renovamos também nossa capacidade de recomeçar, ajustar rotas e descobrir novas formas de ver a vida.\n\nQue hoje você receba boas mensagens, tenha conversas agradáveis e encontre pequenas alegrias no meio da rotina. Que o dia seja leve, cheio de calma e permeado por boas vibrações.\n\nDesejo a você um dia iluminado, inspirador e muito agradável!`,
-  address: adresses.grandma,
+  address: addresses.grandma,
   class: SAFE,
   name: "Maria Aparecida",
   picture: "picture_grandma",
@@ -243,7 +260,7 @@ export const mailSafeGrandma3: EmailData = {
 
 export const mailMalGrandma1: EmailData = {
   text: `Bom dia, querido(a)!\n\nPassei para te desejar uma manhã cheia de luz, paz e muitas coisas boas. E olha, dizem que quando a gente começa o dia com o coração aberto e uma energia positiva, tudo flui melhor.\n\nPor isso, resolvi compartilhar algo especial que recebi: um pequeno “ritual de gratidão” que promete atrair bons sentimentos para o resto do dia.\n\nSe você quiser que seu dia seja cheio de gratidão, alegria e boas surpresas, é só entrar neste link aqui:\n\nhttp://energia-positiva.gratidao-matinal.com\n\nÉ rapidinho e, segundo a mensagem que recebi, ajuda a renovar as vibrações da manhã.\n\nDesejo que seu dia seja maravilhoso. Depois me conta se sentiu a diferença!`,
-  address: adresses.grandma,
+  address: addresses.grandma,
   class: MALICIOUS,
   name: "Maria Aparecida",
   picture: "picture_grandma",

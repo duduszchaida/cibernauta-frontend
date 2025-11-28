@@ -62,6 +62,7 @@ const sprites: Record<string, Sprite> = {
   page_test: new Sprite("/game/email/page_test.png"),
   page_tutorial: new Sprite("/game/email/page_tutorial.png"),
   page_section_address: new Sprite("/game/email/page_section_address.png"),
+  page_section_domain: new Sprite("/game/email/page_section_domain.png"),
 
   paragraph_selected: new Sprite("/game/email/paragraph_selected.png"),
   pause_off_btn: new Sprite("/game/email/pause_off_btn.png"),

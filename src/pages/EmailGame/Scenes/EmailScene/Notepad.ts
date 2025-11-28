@@ -31,10 +31,9 @@ export class Notepad extends GameObject {
     };
     this.pages = pages ?? [
       findSprite("page_test"),
-      "123",
-      "456",
+      "123\n456",
       findSprite("page_test"),
-      "84324654",
+      "84324654 843246541 8432465454 843246540,154",
     ];
   }
 
@@ -61,9 +60,10 @@ export class Notepad extends GameObject {
       this.fontSprite,
       "minecraftia",
       page,
-      new Position(197, 142),
+      new Position(197, 141),
       "right",
       115,
+      4,
     );
   }
 }
