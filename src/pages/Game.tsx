@@ -50,7 +50,6 @@ export default function Game() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   async function getLeaderBoard() {
-    console.log("getting leaderboard");
     try {
       // Busca um número maior de entradas para encontrar a posição do usuário
       const leaderboardData = await savesService.getLeaderboard(

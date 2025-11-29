@@ -14,9 +14,11 @@ import { PICTURE } from "./EmailPicture";
 import { ADDRESS, NAME } from "./EmailTextElement";
 import EmailInterface from "./EmailInterface";
 import type { Evaluation } from "./Evaluation";
-import { Notepad } from "./Notepad";
+import { NOTEPAD, Notepad } from "./Notepad";
 import { makeButton } from "./Buttons";
 import { Notifier as Notifier } from "./Notifier";
+import type CanvasObject from "../../CanvasObject";
+import { findSprite } from "../../FindSprite";
 
 // Borda genêrica da cena de emails
 const emailBorder = new GameObject({
@@ -36,13 +38,32 @@ const selectCover = new GameObject({
 
 // Elemento da tela de pause da cena de emails
 class PauseScreen extends GameObject {
-  constructor() {
+  notepad: boolean;
+  notepadControlsSprite = findSprite("pause_screen_notepad");
+  constructor(notepad: boolean) {
     super({
       height: 256,
       width: 352,
       ignoreClick: true,
       spriteName: "pause_screen",
     });
+    this.notepad = notepad;
+  }
+
+  render(canvasObject: CanvasObject) {
+    if (this.invisible) {
+      return;
+    }
+    canvasObject.drawSprite(this.sprite, this.pos, this.width, this.height);
+    if (!this.notepad) {
+      return;
+    }
+    canvasObject.drawSprite(
+      this.notepadControlsSprite,
+      this.pos,
+      this.width,
+      this.height,
+    );
   }
 }
 
@@ -79,7 +100,7 @@ export default class EmailScene extends Scene {
     });
     this.unpausedObjectList = [];
     this.pausedObjectList = [
-      new PauseScreen(),
+      new PauseScreen(level.buttons.includes(NOTEPAD)),
       emailBorder,
       new ExitButton(LEVELSELECTION, true),
       this.pauseButton,

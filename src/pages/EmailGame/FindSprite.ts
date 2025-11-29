@@ -69,6 +69,7 @@ const sprites: Record<string, Sprite> = {
   pause_off_btn: new Sprite("/game/email/pause_off_btn.png"),
   pause_on_btn: new Sprite("/game/email/pause_on_btn.png"),
   pause_screen: new Sprite("/game/email/pause_screen.png"),
+  pause_screen_notepad: new Sprite("/game/email/pause_screen_notepad.png"),
 
   picture_catmusic: new Sprite("/game/email/picture_catmusic.png"),
   picture_cibernauta: new Sprite("/game/email/picture_cibernauta.png"),

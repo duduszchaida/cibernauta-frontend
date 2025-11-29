@@ -18,6 +18,7 @@ const keyboardState: Record<string, KeyState> = {};
  */
 export function bindKeyboardEvents(element: HTMLElement) {
   element.addEventListener("keydown", (e) => {
+    console.log(e.key);
     if (e.key == " ") {
       e.preventDefault();
     }
