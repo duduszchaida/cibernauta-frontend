@@ -189,26 +189,28 @@ export default function Games() {
             )}
           </div>
 
-          {user?.role === "USER" && showBanner && !myRequest && (
-            <Alert className="mb-8 bg-blue-900/30 border-blue-700 relative">
-              <button
-                onClick={() => setShowBanner(false)}
-                className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-              <Info className="h-4 w-4 text-blue-400" />
-              <AlertDescription className="text-gray-300 ml-2">
-                Quer criar seus próprios jogos educativos?{" "}
+          {user?.role === "USER" &&
+            showBanner &&
+            (!myRequest || myRequest.status === "APPROVED") && (
+              <Alert className="mb-8 bg-blue-900/30 border-blue-700 relative">
                 <button
-                  onClick={() => setShowRequestDialog(true)}
-                  className="text-blue-400 hover:text-blue-300 underline font-medium"
+                  onClick={() => setShowBanner(false)}
+                  className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors"
                 >
-                  Solicite permissão de moderador aqui
+                  <X className="w-4 h-4" />
                 </button>
-              </AlertDescription>
-            </Alert>
-          )}
+                <Info className="h-4 w-4 text-blue-400" />
+                <AlertDescription className="text-gray-300 ml-2">
+                  Quer criar seus próprios jogos educativos?{" "}
+                  <button
+                    onClick={() => setShowRequestDialog(true)}
+                    className="text-blue-400 hover:text-blue-300 underline font-medium"
+                  >
+                    Solicite permissão de moderador aqui
+                  </button>
+                </AlertDescription>
+              </Alert>
+            )}
 
           {user?.role === "USER" &&
             myRequest &&
