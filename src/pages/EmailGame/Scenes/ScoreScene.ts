@@ -41,7 +41,6 @@ export class ScoreScene extends Scene {
     level: Level,
     gameState: GameState,
   ) {
-    console.log(evaluations);
     super({ backgroundSpriteName: "bg_score", gameObjects: [] });
     this.evaluations = evaluations;
     this.gameState = gameState;

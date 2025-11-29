@@ -16,8 +16,11 @@ const keyboardState: Record<string, KeyState> = {};
  * atualiza seu estado de pressionado dependendo de seu estado atual
  * e marca a tecla como não lida
  */
-export function bindKeyboardEvents() {
-  document.addEventListener("keydown", (e) => {
+export function bindKeyboardEvents(element: HTMLElement) {
+  element.addEventListener("keydown", (e) => {
+    if (e.key == " ") {
+      e.preventDefault();
+    }
     // Verifica se ela já foi gravada no dicionário, criando um novo KeyState se não foi
     if (keyboardState[e.key] == null) {
       keyboardState[e.key] = { pressState: UNPRESSED, read: false };
@@ -37,7 +40,7 @@ export function bindKeyboardEvents() {
     }
   });
 
-  document.addEventListener("keyup", (e) => {
+  element.addEventListener("keyup", (e) => {
     if (keyboardState[e.key] == null) {
       keyboardState[e.key] = { pressState: UNPRESSED, read: false };
     }
