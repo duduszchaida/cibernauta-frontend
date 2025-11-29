@@ -37,6 +37,7 @@ interface LeaderboardEntry {
       role?: string;
     };
   };
+  position?: number;
 }
 
 export default function Game() {
@@ -84,7 +85,49 @@ export default function Game() {
         setGameData(data);
 
         if (data.game_type === "local") {
-          getLeaderBoard();
+          try {
+            // Busca um número maior de entradas para encontrar a posição do usuário
+            const leaderboardData = await savesService.getLeaderboard(
+              Number(gameId),
+              100,
+            );
+
+            // Encontra a posição do usuário atual no ranking
+            const userIndex = leaderboardData.findIndex(
+              (entry: LeaderboardEntry) => entry.save.user.username === user?.username
+            );
+
+            let displayLeaderboard: LeaderboardEntry[] = [];
+
+            if (userIndex === -1) {
+              // Usuário não tem pontuação, mostra apenas o top 10
+              displayLeaderboard = leaderboardData.slice(0, 10).map((entry: LeaderboardEntry, index: number) => ({
+                ...entry,
+                position: index + 1
+              }));
+            } else if (userIndex < 10) {
+              // Usuário está no top 10, mostra o top 10
+              displayLeaderboard = leaderboardData.slice(0, 10).map((entry: LeaderboardEntry, index: number) => ({
+                ...entry,
+                position: index + 1
+              }));
+            } else {
+              // Usuário não está no top 10, mostra top 9 + usuário
+              const top9 = leaderboardData.slice(0, 9).map((entry: LeaderboardEntry, index: number) => ({
+                ...entry,
+                position: index + 1
+              }));
+              const userEntry = {
+                ...leaderboardData[userIndex],
+                position: userIndex + 1
+              };
+              displayLeaderboard = [...top9, userEntry];
+            }
+
+            setLeaderboard(displayLeaderboard);
+          } catch (err) {
+            console.error("Erro ao carregar highscore:", err);
+          }
         }
       } catch (err) {
         console.error("Erro ao carregar jogo:", err);
@@ -227,69 +270,72 @@ export default function Game() {
 
                   <div className="space-y-2">
                     {leaderboard.length > 0 ? (
-                      leaderboard.map((entry, index) => (
-                        <div
-                          key={entry.highscore_id}
-                          className={`bg-[#2B3E68] rounded-lg p-3 ${
-                            entry.save.user.username === user?.username
-                              ? "border-2 border-yellow-400"
-                              : ""
-                          }`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                              <div
-                                className={`flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm ${
-                                  index === 0
-                                    ? "bg-yellow-500 text-white"
-                                    : index === 1
-                                      ? "bg-gray-400 text-white"
-                                      : index === 2
-                                        ? "bg-amber-600 text-white"
-                                        : "bg-[#4A5D8F] text-gray-300"
-                                }`}
-                              >
-                                {index === 0 ? (
-                                  <img
-                                    src={"/number_1.png"}
-                                    style={{
-                                      width: "32px",
-                                      height: "32px",
-                                      imageRendering: "pixelated",
-                                    }}
-                                  />
-                                ) : index === 1 ? (
-                                  <img
-                                    src={"/number_2.png"}
-                                    style={{
-                                      width: "32px",
-                                      height: "32px",
-                                      imageRendering: "pixelated",
-                                    }}
-                                  />
-                                ) : index === 2 ? (
-                                  <img
-                                    src={"/number_3.png"}
-                                    style={{
-                                      width: "32px",
-                                      height: "32px",
-                                      imageRendering: "pixelated",
-                                    }}
-                                  />
-                                ) : (
-                                  index + 1
-                                )}
+                      leaderboard.map((entry) => {
+                        const position = entry.position || 0;
+                        return (
+                          <div
+                            key={entry.highscore_id}
+                            className={`bg-[#2B3E68] rounded-lg p-3 ${
+                              entry.save.user.username === user?.username
+                                ? "border-2 border-yellow-400"
+                                : ""
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div
+                                  className={`flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm ${
+                                    position === 1
+                                      ? "bg-yellow-500 text-white"
+                                      : position === 2
+                                        ? "bg-gray-400 text-white"
+                                        : position === 3
+                                          ? "bg-amber-600 text-white"
+                                          : "bg-[#4A5D8F] text-gray-300"
+                                  }`}
+                                >
+                                  {position === 1 ? (
+                                    <img
+                                      src={"/number_1.png"}
+                                      style={{
+                                        width: "32px",
+                                        height: "32px",
+                                        imageRendering: "pixelated",
+                                      }}
+                                    />
+                                  ) : position === 2 ? (
+                                    <img
+                                      src={"/number_2.png"}
+                                      style={{
+                                        width: "32px",
+                                        height: "32px",
+                                        imageRendering: "pixelated",
+                                      }}
+                                    />
+                                  ) : position === 3 ? (
+                                    <img
+                                      src={"/number_3.png"}
+                                      style={{
+                                        width: "32px",
+                                        height: "32px",
+                                        imageRendering: "pixelated",
+                                      }}
+                                    />
+                                  ) : (
+                                    position
+                                  )}
+                                </div>
+                                <div className="text-white text-sm font-medium">
+                                  {entry.save.user.username}
+                                </div>
                               </div>
-                              <div className="text-white text-sm font-medium">
-                                {entry.save.user.username}
+                              <div className="text-yellow-400 font-bold text-lg">
+                                {entry.score}
                               </div>
-                            </div>
-                            <div className="text-yellow-400 font-bold text-lg">
-                              {entry.score}
                             </div>
                           </div>
-                        </div>
-                      ))
+                        );
+                      })
                     ) : (
                       <div className="bg-[#2B3E68] rounded-lg p-6 text-center">
                         <p className="text-gray-400 text-sm">
@@ -297,10 +343,6 @@ export default function Game() {
                         </p>
                       </div>
                     )}
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
