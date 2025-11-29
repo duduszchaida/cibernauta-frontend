@@ -8,6 +8,7 @@ const sprites: Record<string, Sprite> = {
   bg_blue: new Sprite("/game/email/bg_blue.png"),
   bg_green: new Sprite("/game/email/bg_green.png"),
   bg_save_screen: new Sprite("/game/email/bg_save_screen.png"),
+  bg_settings: new Sprite("/game/email/bg_settings.png"),
   bg_score: new Sprite("/game/email/bg_score.png"),
   bg_start: new Sprite("/game/email/bg_start.png"),
 
@@ -108,6 +109,8 @@ const sprites: Record<string, Sprite> = {
   wcp_lime: new Sprite("/game/email/wcp_lime.png"),
   wcp_red: new Sprite("/game/email/wcp_red.png"),
   wcp_selected: new Sprite("/game/email/wcp_selected.png"),
+
+  yes_no_switch: new Sprite("/game/email/yes_no_switch.png"),
 };
 
 const spriteArr = Object.values(sprites);

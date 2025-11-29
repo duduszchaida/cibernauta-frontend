@@ -14,6 +14,11 @@ export type Save = {
   lastSaveTime: Date | string | null;
   levelProgressRecord: Record<string, LevelProgress>;
   lastTotalScore: number;
+  settings?: {
+    autoSave: boolean;
+    filter: boolean;
+    savePopup: boolean;
+  };
 };
 
 export default class GameState {

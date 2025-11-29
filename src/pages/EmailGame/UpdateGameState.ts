@@ -24,11 +24,13 @@ import {
   LEVELSELECTION,
   SAVESCENE,
   SCORESCENE,
+  SETTINGSSCENE,
 } from "./Scenes/SceneReferences";
 import { ScoreScene } from "./Scenes/ScoreScene";
 import { Notepad } from "./Scenes/EmailScene/Notepad";
 import { CLASSEMAIL, OPENNOTEPAD } from "./Scenes/EmailScene/Buttons";
 import type GameObject from "./Elements/GameObject";
+import { SettingsScene } from "./Scenes/SettingsScene";
 
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
@@ -58,8 +60,10 @@ function createScene(result: any, gameState: GameState): Scene {
       return new LevelSelectionScene(gameState);
     case SCORESCENE:
       return new ScoreScene(result.evaluations, result.level, gameState);
+    case SETTINGSSCENE:
+      return new SettingsScene();
     default:
-      alert("no sceneReference");
+      alert("no known sceneReference");
       return new SaveScene(gameState.saveSlots, gameState.currentSaveSlotId);
   }
 }

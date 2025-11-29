@@ -1,7 +1,7 @@
 import AppIcon from "../Elements/AppIcon";
 import Position from "../Position";
 import Scene from "./Scene";
-import { LEVELSELECTION, SAVESCENE } from "./SceneReferences";
+import { LEVELSELECTION, SAVESCENE, SETTINGSSCENE } from "./SceneReferences";
 
 export const MANUALSAVE = "manualSave"; // Referência da função de salvamento manual do jogo
 
@@ -12,13 +12,13 @@ export class DesktopScene extends Scene {
       backgroundSpriteName: "bg_blue",
       gameObjects: [
         new AppIcon({
-          pos: new Position(16, 16),
+          pos: new Position(20, 16),
           spriteName: "icon_email",
           appName: "Treinamento",
           sceneReference: LEVELSELECTION,
         }),
         new AppIcon({
-          pos: new Position(16, 80),
+          pos: new Position(20, 80),
           spriteName: "icon_save",
           appName: "Salvar Jogo",
           clickFunction: () => {
@@ -26,10 +26,16 @@ export class DesktopScene extends Scene {
           },
         }),
         new AppIcon({
-          pos: new Position(16, 144),
+          pos: new Position(20, 144),
           spriteName: "icon_saves",
           appName: "Salvamentos",
           sceneReference: SAVESCENE,
+        }),
+        new AppIcon({
+          pos: new Position(304, 204),
+          spriteName: "icon_settings",
+          appName: "Opções",
+          sceneReference: SETTINGSSCENE,
         }),
       ],
     });
