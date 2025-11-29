@@ -1,5 +1,5 @@
 import { findSprite } from "../../FindSprite";
-import { MALICIOUS, SAFE, SPAM } from "../EmailScene/EmailData";
+import { MALICIOUS, SAFE } from "../EmailScene/EmailData";
 import * as EmailList from "../EmailScene/EmailList";
 import { NOTEPAD } from "../EmailScene/Notepad";
 import type { Level } from "./Level";
@@ -100,18 +100,6 @@ export const LevelList: Record<string, Level> = {
         EmailList.addresses.catMusic,
     ],
   },
-
-  // Debug
-  [TESTLEVEL]: {
-    name: "Fase com todos os emails",
-    goal: 10000,
-    emailDataList: [...EmailList.nonTutorials],
-    starterEmail: EmailList.mailTutorialTest,
-    reference: TUTORIALLEVEL,
-    buttons: [SAFE, MALICIOUS, SPAM],
-    canSelect: false,
-    secondsTimer: 300,
-  },
 };
 
 // Ordem dos níveis no jogo
@@ -120,5 +108,4 @@ export const levelOrder: Level[] = [
   LevelList[TUTORIALLEVEL],
   LevelList[ELEMENTSLEVEL],
   LevelList[NOTEPADLEVEL],
-  LevelList[TESTLEVEL],
 ];

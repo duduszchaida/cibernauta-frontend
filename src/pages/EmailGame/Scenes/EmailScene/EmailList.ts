@@ -355,20 +355,3 @@ export const mailMalGrandma1: EmailData = {
   picture: "picture_grandma",
   anomalyParagraphs: [4],
 };
-
-export const nonTutorials: EmailData[] = [
-  mailClassMal1,
-  mailClassMal2,
-  mailClassMal3,
-  mailElementsMal1,
-  mailElementsMal2,
-  mailElementsSafe1,
-  mailMalGrandma1,
-  mailSafeGrandma1,
-  mailSafeGrandma2,
-  mailSafeGrandma3,
-  mailGenSpam1,
-  mailGenSpam2,
-  mailGenSpam3,
-  mailGenMal1,
-];
