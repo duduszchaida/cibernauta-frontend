@@ -94,32 +94,39 @@ export default function Game() {
 
             // Encontra a posição do usuário atual no ranking
             const userIndex = leaderboardData.findIndex(
-              (entry: LeaderboardEntry) => entry.save.user.username === user?.username
+              (entry: LeaderboardEntry) =>
+                entry.save.user.username === user?.username,
             );
 
             let displayLeaderboard: LeaderboardEntry[] = [];
 
             if (userIndex === -1) {
               // Usuário não tem pontuação, mostra apenas o top 10
-              displayLeaderboard = leaderboardData.slice(0, 10).map((entry: LeaderboardEntry, index: number) => ({
-                ...entry,
-                position: index + 1
-              }));
+              displayLeaderboard = leaderboardData
+                .slice(0, 10)
+                .map((entry: LeaderboardEntry, index: number) => ({
+                  ...entry,
+                  position: index + 1,
+                }));
             } else if (userIndex < 10) {
               // Usuário está no top 10, mostra o top 10
-              displayLeaderboard = leaderboardData.slice(0, 10).map((entry: LeaderboardEntry, index: number) => ({
-                ...entry,
-                position: index + 1
-              }));
+              displayLeaderboard = leaderboardData
+                .slice(0, 10)
+                .map((entry: LeaderboardEntry, index: number) => ({
+                  ...entry,
+                  position: index + 1,
+                }));
             } else {
               // Usuário não está no top 10, mostra top 9 + usuário
-              const top9 = leaderboardData.slice(0, 9).map((entry: LeaderboardEntry, index: number) => ({
-                ...entry,
-                position: index + 1
-              }));
+              const top9 = leaderboardData
+                .slice(0, 9)
+                .map((entry: LeaderboardEntry, index: number) => ({
+                  ...entry,
+                  position: index + 1,
+                }));
               const userEntry = {
                 ...leaderboardData[userIndex],
-                position: userIndex + 1
+                position: userIndex + 1,
               };
               displayLeaderboard = [...top9, userEntry];
             }
@@ -195,12 +202,6 @@ export default function Game() {
             }`}
           >
             <div>
-              {/* <div className="bg-[#374B7C] rounded-2xl p-5 h-fit order-1 xl:order-1">
-                <span className="text-white text-xl font-semibold p-3">
-                  {gameData.game_title}
-                </span>
-              </div>
-              <br /> */}
               {gameData.controls && gameData.controls.length > 0 && (
                 <div className="bg-[#374B7C] rounded-2xl p-5 h-fit order-1 xl:order-1">
                   <h2 className="text-white text-lg font-semibold mb-5">
@@ -343,6 +344,10 @@ export default function Game() {
                         </p>
                       </div>
                     )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
