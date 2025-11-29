@@ -50,12 +50,54 @@ export default function Game() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   async function getLeaderBoard() {
+    console.log("getting leaderboard");
     try {
+      // Busca um número maior de entradas para encontrar a posição do usuário
       const leaderboardData = await savesService.getLeaderboard(
         Number(gameId),
-        10,
+        100,
       );
-      setLeaderboard(leaderboardData);
+
+      // Encontra a posição do usuário atual no ranking
+      const userIndex = leaderboardData.findIndex(
+        (entry: LeaderboardEntry) =>
+          entry.save.user.username === user?.username,
+      );
+
+      let displayLeaderboard: LeaderboardEntry[] = [];
+
+      if (userIndex === -1) {
+        // Usuário não tem pontuação, mostra apenas o top 10
+        displayLeaderboard = leaderboardData
+          .slice(0, 10)
+          .map((entry: LeaderboardEntry, index: number) => ({
+            ...entry,
+            position: index + 1,
+          }));
+      } else if (userIndex < 10) {
+        // Usuário está no top 10, mostra o top 10
+        displayLeaderboard = leaderboardData
+          .slice(0, 10)
+          .map((entry: LeaderboardEntry, index: number) => ({
+            ...entry,
+            position: index + 1,
+          }));
+      } else {
+        // Usuário não está no top 10, mostra top 9 + usuário
+        const top9 = leaderboardData
+          .slice(0, 9)
+          .map((entry: LeaderboardEntry, index: number) => ({
+            ...entry,
+            position: index + 1,
+          }));
+        const userEntry = {
+          ...leaderboardData[userIndex],
+          position: userIndex + 1,
+        };
+        displayLeaderboard = [...top9, userEntry];
+      }
+
+      setLeaderboard(displayLeaderboard);
     } catch (err) {
       console.error("Erro ao carregar highscore:", err);
     }
@@ -85,56 +127,7 @@ export default function Game() {
         setGameData(data);
 
         if (data.game_type === "local") {
-          try {
-            // Busca um número maior de entradas para encontrar a posição do usuário
-            const leaderboardData = await savesService.getLeaderboard(
-              Number(gameId),
-              100,
-            );
-
-            // Encontra a posição do usuário atual no ranking
-            const userIndex = leaderboardData.findIndex(
-              (entry: LeaderboardEntry) =>
-                entry.save.user.username === user?.username,
-            );
-
-            let displayLeaderboard: LeaderboardEntry[] = [];
-
-            if (userIndex === -1) {
-              // Usuário não tem pontuação, mostra apenas o top 10
-              displayLeaderboard = leaderboardData
-                .slice(0, 10)
-                .map((entry: LeaderboardEntry, index: number) => ({
-                  ...entry,
-                  position: index + 1,
-                }));
-            } else if (userIndex < 10) {
-              // Usuário está no top 10, mostra o top 10
-              displayLeaderboard = leaderboardData
-                .slice(0, 10)
-                .map((entry: LeaderboardEntry, index: number) => ({
-                  ...entry,
-                  position: index + 1,
-                }));
-            } else {
-              // Usuário não está no top 10, mostra top 9 + usuário
-              const top9 = leaderboardData
-                .slice(0, 9)
-                .map((entry: LeaderboardEntry, index: number) => ({
-                  ...entry,
-                  position: index + 1,
-                }));
-              const userEntry = {
-                ...leaderboardData[userIndex],
-                position: userIndex + 1,
-              };
-              displayLeaderboard = [...top9, userEntry];
-            }
-
-            setLeaderboard(displayLeaderboard);
-          } catch (err) {
-            console.error("Erro ao carregar highscore:", err);
-          }
+          getLeaderBoard();
         }
       } catch (err) {
         console.error("Erro ao carregar jogo:", err);

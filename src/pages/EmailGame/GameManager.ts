@@ -37,6 +37,6 @@ export async function startGame(
   });
   gameTimeTracker.start();
   bindMouseEvents(canvasObject.element, gameScale);
-  bindKeyboardEvents();
+  bindKeyboardEvents(canvasObject.element);
   renderFrameLoop();
 }

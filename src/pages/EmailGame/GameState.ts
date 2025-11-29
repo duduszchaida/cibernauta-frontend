@@ -121,6 +121,9 @@ export default class GameState {
       game_id: 1,
       save_data: JSON.stringify(this.saveSlots),
     });
-    this.leaderboardUpdate();
+    setTimeout(() => {
+      console.log("updating leaderboard GS");
+      this.leaderboardUpdate();
+    }, 1500);
   }
 }

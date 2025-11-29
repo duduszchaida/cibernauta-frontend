@@ -12,6 +12,7 @@ export default function EmailGameComponent({
     cursor: "none",
     imageRendering: "pixelated",
     border: "none",
+    outline: "none",
   };
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameStarted = useRef(false);
@@ -36,7 +37,7 @@ export default function EmailGameComponent({
         backgroundColor: "#000",
       }}
     >
-      <canvas ref={canvasRef} style={canvasStyle} />
+      <canvas ref={canvasRef} style={canvasStyle} tabIndex={0} />
     </div>
   );
 }
