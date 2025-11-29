@@ -1,5 +1,5 @@
 import { findSprite } from "../../FindSprite";
-import { MALICIOUS, SAFE } from "../EmailScene/EmailData";
+import { MALICIOUS, SAFE, SPAM } from "../EmailScene/EmailData";
 import * as EmailList from "../EmailScene/EmailList";
 import { NOTEPAD } from "../EmailScene/Notepad";
 import type { Level } from "./Level";
@@ -8,7 +8,8 @@ import type { Level } from "./Level";
 export const CONTROLSLEVEL = "controlsLevel";
 export const TUTORIALLEVEL = "tutorialLevel";
 export const ELEMENTSLEVEL = "elementsLevel";
-export const NOTEPADLEVEL = "notepadLevel";
+export const ADDRESSESLEVEL = "addressesLevel";
+export const SERVICESLEVEL = "servicesLevel";
 export const TESTLEVEL = "testLevel";
 
 // Dicionário dos níveis com suas referências
@@ -50,7 +51,7 @@ export const LevelList: Record<string, Level> = {
       EmailList.mailElementsSafe1,
       EmailList.mailElementsSafe2,
       EmailList.mailSafeGrandma1,
-      EmailList.mailGenMal2,
+      EmailList.mailElementsMal5,
     ],
     reference: ELEMENTSLEVEL,
     buttons: [SAFE, MALICIOUS],
@@ -63,7 +64,7 @@ export const LevelList: Record<string, Level> = {
       "cibernauta@mail.com",
     ],
   },
-  [NOTEPADLEVEL]: {
+  [ADDRESSESLEVEL]: {
     name: "Endereços",
     goal: 2000,
     emailDataList: [
@@ -77,7 +78,7 @@ export const LevelList: Record<string, Level> = {
       EmailList.mailAddressSafe3,
       EmailList.mailGenMal1,
     ],
-    reference: NOTEPADLEVEL,
+    reference: ADDRESSESLEVEL,
     buttons: [SAFE, MALICIOUS, NOTEPAD],
     starterEmail: EmailList.mailTutorialNotepad,
     canSelect: true,
@@ -86,18 +87,58 @@ export const LevelList: Record<string, Level> = {
       findSprite("page_tutorial"),
       findSprite("page_section_address"),
       EmailList.addresses.grandma +
-        " " +
+        "\n" +
         EmailList.addresses.cibernauta +
-        " " +
+        "\n" +
         EmailList.addresses.choppu +
-        " " +
+        "\n" +
         EmailList.addresses.fritter +
-        " " +
+        "\n" +
         EmailList.addresses.rubloks +
-        " " +
+        "\n" +
         EmailList.addresses.pineappleBook +
-        " " +
+        "\n" +
         EmailList.addresses.catMusic,
+      EmailList.addresses.tecnus + "\n" + EmailList.addresses.mail,
+    ],
+  },
+  [SERVICESLEVEL]: {
+    name: "Serviços",
+    goal: 2100,
+    emailDataList: [EmailList.mailSafeGrandma2],
+    reference: SERVICESLEVEL,
+    buttons: [SAFE, MALICIOUS, SPAM, NOTEPAD],
+    starterEmail: EmailList.mailTutorialAuth,
+    canSelect: true,
+    secondsTimer: 180,
+    notepadPages: [
+      findSprite("page_section_address"),
+      EmailList.addresses.grandma +
+        "\n" +
+        EmailList.addresses.cibernauta +
+        "\n" +
+        EmailList.addresses.choppu +
+        "\n" +
+        EmailList.addresses.fritter +
+        "\n" +
+        EmailList.addresses.rubloks +
+        "\n" +
+        EmailList.addresses.pineappleBook +
+        "\n" +
+        EmailList.addresses.catMusic,
+      EmailList.addresses.tecnus + "\n" + EmailList.addresses.mail,
+      findSprite("page_section_contacts"),
+      EmailList.names.grandma +
+        "\n" +
+        EmailList.names.cibernauta +
+        "\n" +
+        EmailList.names.fritter +
+        "\n" +
+        EmailList.names.catMusic +
+        "\n" +
+        EmailList.names.mail +
+        "\n" +
+        EmailList.names.tecnus,
     ],
   },
 };
@@ -107,5 +148,6 @@ export const levelOrder: Level[] = [
   LevelList[CONTROLSLEVEL],
   LevelList[TUTORIALLEVEL],
   LevelList[ELEMENTSLEVEL],
-  LevelList[NOTEPADLEVEL],
+  LevelList[ADDRESSESLEVEL],
+  LevelList[SERVICESLEVEL],
 ];

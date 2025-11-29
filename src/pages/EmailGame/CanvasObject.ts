@@ -4,6 +4,36 @@ import type Sprite from "./Elements/Sprite";
 import measureTextWidth from "./MeasureTextWidth";
 import type { Line } from "./Scenes/EmailScene/EmailContent";
 
+function splitWithBreakline(text: string): string[] {
+  const parts = [];
+  const tokens = text.split(/(\n)/);
+
+  for (let i = 0; i < tokens.length; i++) {
+    const token = tokens[i];
+
+    if (token === "\n") {
+      if (tokens[i + 1]) {
+        const next = tokens[i + 1];
+        const ws = next.split(" ");
+        parts.push("\n" + ws[0]);
+        for (let j = 1; j < ws.length; j++) {
+          if (ws[j] !== "") parts.push(ws[j]);
+        }
+        i++;
+      } else {
+        parts.push("\n");
+      }
+    } else {
+      const ws = token.split(" ");
+      for (const w of ws) {
+        if (w !== "") parts.push(w);
+      }
+    }
+  }
+
+  return parts;
+}
+
 // Objeto para renderizar Sprites em um elmento HTML canvas
 export default class CanvasObject {
   width: number; // Largura do elemento canvas HTML
@@ -142,11 +172,14 @@ export default class CanvasObject {
     slicePosY = 0,
     sliceHeight = 0,
   ) {
-    let words = text.split(" ");
+    let words = splitWithBreakline(text);
     let currentWidth = 0;
     for (let i = 0; i < words.length; i++) {
       const word = words[i];
       const wordWidth = measureTextWidth(word, font);
+      if (word[0] == "\n") {
+        currentWidth = 0;
+      }
       currentWidth += wordWidth;
       if (currentWidth > limitWidth) {
         words[i] = "\n" + word;

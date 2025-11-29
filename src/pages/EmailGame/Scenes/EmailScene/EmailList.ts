@@ -9,9 +9,10 @@ export const addresses = {
   grandma: "aparecida48@mail.com",
   catMusic: "sales@catmusic.com",
   rubloks: "oficial@rubloks.com",
+  tecnus: "suporte@tecnus.com",
 };
 
-const names = {
+export const names = {
   cibernauta: "Equipe Cibernauta",
   choppu: "Compras Choppu",
   pineappleBook: "PineappleBook",
@@ -20,6 +21,7 @@ const names = {
   grandma: "Maria Aparecida",
   catMusic: "CatMusic",
   rubloks: "Rubloks",
+  tecnus: "Tecnus Suporte",
 };
 
 const pictures = {
@@ -31,6 +33,7 @@ const pictures = {
   grandma: "picture_grandma",
   catMusic: "picture_catmusic",
   rubloks: "picture_rubloks",
+  tecnus: "picture_tecnus",
 };
 
 // Lista de export de todos os emails do jogo
@@ -149,6 +152,16 @@ export const mailElementsMal4: EmailData = {
   anomalyParagraphs: [2, 3],
 };
 
+export const mailElementsMal5: EmailData = {
+  text: `Prezado usuário,\nDetectamos um problema URGENTE em sua conta e precisamos que você confirme seus dados imediatamente para evitar bloqueio permanente.\n\nClique no link abaixo e faça login para manter sua conta ativa:\n\nhttp://seguranca-verificacao-login.com/auth\n\nAtenção: se você não confirmar nas próximas 2 horas, sua conta será removida.\n\nTecnus Suporte`,
+  address: "tecnus@mail.com",
+  class: MALICIOUS,
+  name: "Tecnus",
+  picture: pictures.tecnus,
+  anomalyParagraphs: [0, 1, 3],
+  anomalyAddress: true,
+};
+
 export const mailElementsSafe1: EmailData = {
   text: `Olá,\n\nAgradecemos sua compra!\nSua nota fiscal já está disponível no site oficial. Você pode acessá-la pelo link seguro abaixo:\n\nhttps://loja-oficial.com.br/minha-conta/notas\n\nSe tiver qualquer dúvida, estamos à disposição.\n\nAtenciosamente,\nEquipe Loja Oficial`,
   address: addresses.choppu,
@@ -240,7 +253,7 @@ export const mailAddressSafe1: EmailData = {
 };
 
 export const mailAddressSafe2: EmailData = {
-  text: `Olá!\n\nLançamos novas ferramentas no Choppu para facilitar sua organização.\nVocê pode conhecer todas as novidades aqui:\n\nhttps://choppu.com/novidades\n\nObrigado por usar nossa plataforma!\n\nemails@choppu.com\nEquipe Choppu`,
+  text: `Olá!\n\nLançamos novas ferramentas no Choppu para facilitar sua organização.\nVocê pode conhecer todas as novidades aqui:\n\nhttps://choppu.com/novidades\n\nObrigado por usar nossa plataforma!\n\nEquipe Choppu`,
   address: addresses.choppu,
   class: SAFE,
   name: names.choppu,
@@ -253,6 +266,49 @@ export const mailAddressSafe3: EmailData = {
   class: SAFE,
   name: names.catMusic,
   picture: pictures.catMusic,
+};
+
+// Autorized
+
+export const mailTutorialAuth: EmailData = {
+  text: `Você está indo muito bem! Vamos agora passar para o próximo passo, identificar SPAM\n\nOs emails classificados como SPAM são interessantes, eles nem sempre são MALICIOSOS, o que diferencia eles dos demais é que eles são muitas vezes... desnecessários.\n\nEmails de SPAM são conhecidos por inundar caixas de entrada de emails, com propagandas e oferecendo serviços que nem se quer temos interesse.\n\nNo caderno, você verá que há uma nova seção após os endereços conhecidos. "Serviços Autorizados"\n\nQuando estiver navegando pela internet você saberá que seviços você tem ou não interesse e pessoas de quem quer receber menságens, mas para esse treinamento, emails de serviços e pessoas que não forem MALICIOSOs mas não estiverem na lista de autorizados, são considerados SPAM.\n\nPara classificar emails como SPAM foi adicionado um novo botão ao seu painel, azul com um "!" no centro.\n\nPronto para prosseguir?`,
+  address: addresses.cibernauta,
+  class: SAFE,
+  name: names.cibernauta,
+  picture: pictures.cibernauta,
+};
+
+export const mailAuthSpam1: EmailData = {
+  text: `Moletom BenIO que pode ser de se interesse, está em oferta!\n\nVerifique sua lista de desejos da Choppu e aproveite o desconto de 25% com frete grátis em todo País!\n\nhttps://Choppu.com.br`,
+  address: addresses.choppu,
+  class: SPAM,
+  name: names.choppu,
+  picture: pictures.choppu,
+};
+
+export const mailGenSpam2: EmailData = {
+  text: `Cleber e outras 32 pessoas que talvez você conheça reagiram a foto de AnimesIrados no PineappleBook.\nVeja agora!\n\nhttps://pineapplebook.com`,
+  address: addresses.pineappleBook,
+  class: SPAM,
+  name: names.pineappleBook,
+  picture: pictures.pineappleBook,
+};
+
+export const mailAuthSafe1: EmailData = {
+  text: `Curta CatMusic Premium por 2 meses de graça!\n\nOuça suas playlists com o plano Premium por 2 meses sem pagar nada e aproveite.\n\nApós o periodo de teste, será cobrado o valor de R$ 1,99/mês.\n\nAssine já!`,
+  address: addresses.catMusic,
+  class: SAFE,
+  name: names.catMusic,
+  picture: pictures.catMusic,
+};
+
+export const mailAuthMal1: EmailData = {
+  text: `PARABÉNS!!!\n\nVocê foi selecionado para RECEBER um cupom de até 90% de DESCONTO em nossos produtos incríveis!\nMas é SÓ HOJE! Clique e aproveite:\n\nhttp://superofertaspromocao.biz/premio\n\nNão perca tempo! Essa é sua chance de mudar de vida!\nEquipe Promoções Imperdíveis`,
+  address: "promocoes@chappu.com",
+  class: MALICIOUS,
+  name: "Lojas Choppu",
+  picture: pictures.choppu,
+  anomalyAddress: true,
 };
 
 // General
@@ -277,51 +333,7 @@ export const mailGenMal1: EmailData = {
   anomalyAddress: true,
 };
 
-export const mailGenMal2: EmailData = {
-  text: `Prezado usuário,\nDetectamos um problema URGENTE em sua conta e precisamos que você confirme seus dados imediatamente para evitar bloqueio permanente.\n\nClique no link abaixo e faça login para manter sua conta ativa:\n\nhttp://seguranca-verificacao-login.com/auth\n\nAtenção: se você não confirmar nas próximas 2 horas, sua conta será removida.\n\nSuporte Técnico`,
-  address: "tecnicus@zap.com",
-  class: MALICIOUS,
-  name: "Suporte de tecnocidade",
-  picture: "picture_default_2",
-  anomalyParagraphs: [0, 1, 3],
-  anomalyAddress: true,
-};
-
-// SPAM
-
-export const mailGenSpam1: EmailData = {
-  text: `Moletom BenIO que pode ser de se interesse, está em oferta!\n\nVerifique sua lista de desejos da Choppu e aproveite o desconto de 25% com frete grátis em todo País!\n\nhttps://Choppu.com.br`,
-  address: addresses.choppu,
-  class: SPAM,
-  name: names.choppu,
-  picture: pictures.choppu,
-};
-
-export const mailGenSpam2: EmailData = {
-  text: `Seu amigo Ciclano e outras 32 pessoas reagiram a foto de AnimesIrados no PineappleBook.\nVeja agora!\n\nhttps://pineapplebook.com`,
-  address: addresses.pineappleBook,
-  class: SPAM,
-  name: names.pineappleBook,
-  picture: pictures.pineappleBook,
-};
-
-export const mailGenSpam3: EmailData = {
-  text: `Curta CatMusic Premium por 2 meses de graça!\n\nOuça suas playlists com o plano Premium por 2 meses sem pagar nada e aproveite.\n\nApós o periodo de teste, será cobrado o valor de R$ 1,99/mês.\n\nAssine já!`,
-  address: addresses.catMusic,
-  class: SPAM,
-  name: names.catMusic,
-  picture: pictures.catMusic,
-};
-
-export const mailGenSpam4: EmailData = {
-  text: `PARABÉNS!!!\n\nVocê foi selecionado para RECEBER um cupom de até 90% de DESCONTO em nossos produtos incríveis!\nMas é SÓ HOJE! Clique e aproveite:\n\nhttp://superofertaspromocao.biz/premio\n\nNão perca tempo! Essa é sua chance de mudar de vida!\nEquipe Promoções Imperdíveis`,
-  address: "promocoes@shop.com",
-  class: SPAM,
-  name: "Loja de coisas",
-  picture: "picture_default_3",
-};
-
-// SAFE
+// Grandma
 
 export const mailSafeGrandma1: EmailData = {
   text: `Bom dia!\n\nQue esta manhã traga leveza ao seu coração e energia renovada para começar o dia com esperança e tranquilidade. Cada novo amanhecer é uma oportunidade de seguir em frente, ajustar os passos e encontrar motivos para sorrir, mesmo nas pequenas coisas.\n\nDesejo que o seu dia seja repleto de boas notícias, gentilezas inesperadas e momentos agradáveis. Que você consiga lidar com qualquer desafio com calma e sabedoria, lembrando sempre de cuidar de si e valorizar quem está ao seu redor.\n\nQue o dia seja produtivo, sereno e cheio de boas vibrações.\nCom carinho, desejo a você e à sua família um ótimo dia!`,

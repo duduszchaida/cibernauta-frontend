@@ -64,6 +64,7 @@ const sprites: Record<string, Sprite> = {
   page_tutorial: new Sprite("/game/email/page_tutorial.png"),
   page_section_address: new Sprite("/game/email/page_section_address.png"),
   page_section_domain: new Sprite("/game/email/page_section_domain.png"),
+  page_section_contacts: new Sprite("/game/email/page_section_contacts.png"),
 
   paragraph_selected: new Sprite("/game/email/paragraph_selected.png"),
   pause_off_btn: new Sprite("/game/email/pause_off_btn.png"),
@@ -87,10 +88,11 @@ const sprites: Record<string, Sprite> = {
   picture_hacker_0: new Sprite("/game/email/picture_hacker_0.png"),
   picture_hacker_1: new Sprite("/game/email/picture_hacker_1.png"),
   picture_hacker_2: new Sprite("/game/email/picture_hacker_2.png"),
+  picture_mail: new Sprite("/game/email/picture_mail.png"),
   picture_pbook: new Sprite("/game/email/picture_pbook.png"),
   picture_rubloks: new Sprite("/game/email/picture_rubloks.png"),
   picture_selected: new Sprite("/game/email/picture_selected.png"),
-  picture_mail: new Sprite("/game/email/picture_mail.png"),
+  picture_tecnus: new Sprite("/game/email/picture_tecnus.png"),
 
   popup: new Sprite("/game/email/popup.png"),
 
