@@ -76,6 +76,12 @@ export default class EmailInterface {
       content: (data.anomalyParagraphs ?? []).length > 0,
     };
     this.anomalyParagraphs = data.anomalyParagraphs ?? [];
+    this.selectedAnomalies = {
+      name: false,
+      content: false,
+      address: false,
+      picture: false,
+    };
   }
 
   /**

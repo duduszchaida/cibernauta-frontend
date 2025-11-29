@@ -40,7 +40,7 @@ export const LevelList: Record<string, Level> = {
     secondsTimer: 180,
   },
   [ELEMENTSLEVEL]: {
-    name: "Elementos de email",
+    name: "Os quatro elementos",
     goal: 1500,
     emailDataList: [
       EmailList.mailElementsMal1,
@@ -50,6 +50,7 @@ export const LevelList: Record<string, Level> = {
       EmailList.mailElementsSafe1,
       EmailList.mailElementsSafe2,
       EmailList.mailSafeGrandma1,
+      EmailList.mailGenMal2,
     ],
     reference: ELEMENTSLEVEL,
     buttons: [SAFE, MALICIOUS],
@@ -64,8 +65,18 @@ export const LevelList: Record<string, Level> = {
   },
   [NOTEPADLEVEL]: {
     name: "Endereços",
-    goal: 2500,
-    emailDataList: [EmailList.mailSafeGrandma2],
+    goal: 2000,
+    emailDataList: [
+      EmailList.mailSafeGrandma2,
+      EmailList.mailAddressMal1,
+      EmailList.mailAddressMal2,
+      EmailList.mailAddressMal3,
+      EmailList.mailAddressMal4,
+      EmailList.mailAddressSafe1,
+      EmailList.mailAddressSafe2,
+      EmailList.mailAddressSafe3,
+      EmailList.mailGenMal1,
+    ],
     reference: NOTEPADLEVEL,
     buttons: [SAFE, MALICIOUS, NOTEPAD],
     starterEmail: EmailList.mailTutorialNotepad,
@@ -74,19 +85,19 @@ export const LevelList: Record<string, Level> = {
     notepadPages: [
       findSprite("page_tutorial"),
       findSprite("page_section_address"),
-      EmailList.addresses.cibernauta +
+      EmailList.addresses.grandma +
         " " +
-        EmailList.addresses.grandma +
-        " " +
-        EmailList.addresses.catMusic +
+        EmailList.addresses.cibernauta +
         " " +
         EmailList.addresses.choppu +
         " " +
-        EmailList.addresses.pineappleBook +
-        " " +
         EmailList.addresses.fritter +
         " " +
-        EmailList.addresses.rubloks,
+        EmailList.addresses.rubloks +
+        " " +
+        EmailList.addresses.pineappleBook +
+        " " +
+        EmailList.addresses.catMusic,
     ],
   },
 
