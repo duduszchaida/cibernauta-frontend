@@ -96,6 +96,7 @@ const sprites: Record<string, Sprite> = {
   picture_selected: new Sprite("/game/email/picture_selected.png"),
   picture_tecnus: new Sprite("/game/email/picture_tecnus.png"),
   picture_yvideos: new Sprite("/game/email/picture_yvideos.png"),
+  picture_zetflix: new Sprite("/game/email/picture_zetflix.png"),
 
   popup: new Sprite("/game/email/popup.png"),
 
@@ -103,6 +104,8 @@ const sprites: Record<string, Sprite> = {
   save_avatar_empty: new Sprite("/game/email/save_avatar_empty.png"),
   save_avatar_green: new Sprite("/game/email/save_avatar_green.png"),
   save_avatar_pink: new Sprite("/game/email/save_avatar_pink.png"),
+
+  screen_filter: new Sprite("/game/email/screen_filter.png"),
 
   scroll_bar: new Sprite("/game/email/scroll_bar.png"),
   scroll_slot: new Sprite("/game/email/scroll_slot.png"),
@@ -115,6 +118,8 @@ const sprites: Record<string, Sprite> = {
   wcp_lime: new Sprite("/game/email/wcp_lime.png"),
   wcp_red: new Sprite("/game/email/wcp_red.png"),
   wcp_selected: new Sprite("/game/email/wcp_selected.png"),
+  wcp_dark_blue: new Sprite("/game/email/wcp_dark_blue.png"),
+  wcp_dark_gray: new Sprite("/game/email/wcp_dark_gray.png"),
 
   yes_no_switch: new Sprite("/game/email/yes_no_switch.png"),
 };

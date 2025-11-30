@@ -59,7 +59,7 @@ export class ScoreScene extends Scene {
       loopMax: 6,
     });
     this.timer.start();
-    this.gameState.saveGame();
+    this.gameState.saveGame(false);
   }
 
   /**

@@ -13,6 +13,7 @@ export const addresses = {
   roberto: "rferreira@mail.com",
   catMusic: "sales@catmusic.com",
   tecnus: "suporte@tecnus.com",
+  zetflix: "zetflix@mail.com",
 };
 
 export const names = {
@@ -28,6 +29,7 @@ export const names = {
   tecnus: "Tecnus Suporte",
   jitjot: "JitJot",
   yvideos: "YVideos",
+  zetflix: "Zetflix Ent",
 };
 
 const pictures = {
@@ -44,6 +46,7 @@ const pictures = {
   gov: "picture_brasil",
   jitjot: "picture_jitjot",
   yvideos: "picture_yvideos",
+  zetflix: "picture_zetflix",
 };
 
 // Lista de export de todos os emails do jogo
@@ -314,6 +317,14 @@ export const mailContactSpam3: EmailData = {
 
 export const mailContactSpam4: EmailData = {
   text: `Olá,\n\nUm canal que você acompanhou recentemente acabou de publicar um novo vídeo e achamos que ele pode ser do seu interesse. O conteúdo está recebendo bastante atenção e já apareceu entre os mais vistos do dia.\n\nPara assistir agora, utilize o link abaixo:\n\nwww.yvideos-video-recs.net/watch\n\nSe não quiser perder atualizações, continue interagindo com os conteúdos recomendados.`,
+  address: addresses.yvideos,
+  class: SPAM,
+  name: names.yvideos,
+  picture: pictures.yvideos,
+};
+
+export const mailContactSpam5: EmailData = {
+  text: `Olá, fulano!\n\nAqui é a ZetFlix, sua plataforma de entretenimento preferida — sempre trazendo o que está bombando nas telas do Brasil!\n\nConfira abaixo o Top 3 Séries Mais Assistidas da Semana:\n\n- .Documentário Amazonas\n- .Heróis do Ontem\n- 4mor em 8 Bit5\n\nAssine e confira já!`,
   address: addresses.yvideos,
   class: SPAM,
   name: names.yvideos,

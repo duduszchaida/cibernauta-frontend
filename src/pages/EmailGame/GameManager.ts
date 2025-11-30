@@ -1,6 +1,6 @@
 import CanvasObject from "./CanvasObject";
 import Cursor from "./Cursor";
-import renderScene from "./RenderScene";
+import renderCurrentScene from "./RenderScene";
 import { bindMouseEvents } from "./Input/MouseState";
 import { bindKeyboardEvents } from "./Input/KeyboardState";
 import GameState from "./GameState";
@@ -18,7 +18,7 @@ export const gameState = new GameState({
 
 function renderFrameLoop() {
   updateGameState(gameState, cursor);
-  renderScene(gameState.currentScene, canvasObject, cursor, popup);
+  renderCurrentScene(gameState, canvasObject, cursor, popup);
   requestAnimationFrame(renderFrameLoop);
 }
 

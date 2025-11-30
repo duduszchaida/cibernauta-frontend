@@ -154,7 +154,9 @@ export default function GameForm() {
         });
 
         toast({
-          title: isEditMode ? "Enviado para aprovação!" : "Enviado para aprovação!",
+          title: isEditMode
+            ? "Enviado para aprovação!"
+            : "Enviado para aprovação!",
           description: isEditMode
             ? "Suas alterações serão revisadas por um administrador"
             : "Seu jogo será revisado por um administrador",
@@ -248,7 +250,7 @@ export default function GameForm() {
 
             <div>
               <label className="block text-gray-300 text-base font-medium mb-2">
-                URL da Imagem
+                URL da Imagem de capa (370px x 240px)
               </label>
               <input
                 type="text"

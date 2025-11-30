@@ -30,7 +30,8 @@ import { ScoreScene } from "./Scenes/ScoreScene";
 import { Notepad } from "./Scenes/EmailScene/Notepad";
 import { CLASSEMAIL, OPENNOTEPAD } from "./Scenes/EmailScene/Buttons";
 import type GameObject from "./Elements/GameObject";
-import { SettingsScene } from "./Scenes/SettingsScene";
+import { SettingsScene } from "./Scenes/SettingsScene/SettingsScene";
+import { TOGGLESETTING } from "./Scenes/SettingsScene/Toggle";
 
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
@@ -61,7 +62,7 @@ function createScene(result: any, gameState: GameState): Scene {
     case SCORESCENE:
       return new ScoreScene(result.evaluations, result.level, gameState);
     case SETTINGSSCENE:
-      return new SettingsScene();
+      return new SettingsScene(gameState);
     default:
       alert("no known sceneReference");
       return new SaveScene(gameState.saveSlots, gameState.currentSaveSlotId);
@@ -110,12 +111,18 @@ function mouseClickHandler(gameState: GameState, obj: GameObject) {
         gameState.currentScene.toggleNotepad();
       }
       break;
+    case TOGGLESETTING:
+      if (gameState.currentScene instanceof SettingsScene) {
+        gameState.currentScene.toggle(result.config);
+      }
+      gameState.saveGame(false);
+      break;
     case PAUSEGAME:
       pauseTraining(gameState);
       break;
     case MANUALSAVE:
       console.log("saving");
-      gameState.saveGame();
+      gameState.saveGame(true);
       break;
     case SELECTSAVE:
       gameState.selectSave(result.slot);

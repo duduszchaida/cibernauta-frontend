@@ -3,6 +3,11 @@ import type { Popup } from "./Elements/Popup";
 import Scene from "./Scenes/Scene";
 import { DESKTOPSCENE, SAVESCENE } from "./Scenes/SceneReferences";
 import { StartScene } from "./Scenes/StartScene";
+import {
+  SETTINGAUTOSAVE,
+  SETTINGPOPUP,
+  type SETTINGFILTER,
+} from "./Scenes/SettingsScene/SettingsReferences";
 
 export type LevelProgress = {
   reference: string;
@@ -15,9 +20,9 @@ export type Save = {
   levelProgressRecord: Record<string, LevelProgress>;
   lastTotalScore: number;
   settings?: {
-    autoSave: boolean;
-    filter: boolean;
-    savePopup: boolean;
+    [SETTINGAUTOSAVE]: boolean;
+    [SETTINGFILTER]: boolean;
+    [SETTINGPOPUP]: boolean;
   };
 };
 
@@ -112,7 +117,10 @@ export default class GameState {
     }
   }
 
-  saveGame() {
+  saveGame(manual: boolean) {
+    if (!manual && !this.currentSave.settings?.[SETTINGAUTOSAVE]) {
+      return;
+    }
     if (this.currentSaveSlotId == null) {
       alert("trying to save game on null slot id");
       return;
@@ -121,7 +129,9 @@ export default class GameState {
     this.saveSlots[this.currentSaveSlotId] = JSON.parse(
       JSON.stringify(this.currentSave),
     );
-    this.popup.newPopup("Progresso do jogo salvo.", 2.5);
+    if (this.currentSave.settings?.[SETTINGPOPUP]) {
+      this.popup.newPopup("Progresso do jogo salvo.", 2.5);
+    }
     savesService.saveGame({
       game_id: 1,
       save_data: JSON.stringify(this.saveSlots),
