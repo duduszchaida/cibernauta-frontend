@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Trash2, Edit2 } from "lucide-react";
+import { Trash2, Edit2, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "../contexts/AuthContext";
 import {
@@ -49,6 +49,7 @@ export default function ManageUsers() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<number | null>(null);
+  const [isDeletingUser, setIsDeletingUser] = useState(false);
 
   useEffect(() => {
     loadUsers();
@@ -121,6 +122,7 @@ export default function ManageUsers() {
     if (!userToDelete) return;
 
     try {
+      setIsDeletingUser(true);
       await usersService.delete(userToDelete);
 
       toast({
@@ -138,6 +140,8 @@ export default function ManageUsers() {
           error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
       });
+    } finally {
+      setIsDeletingUser(false);
     }
   };
 
@@ -413,15 +417,24 @@ export default function ManageUsers() {
             <Button
               variant="outline"
               onClick={() => setIsDeleteConfirmOpen(false)}
+              disabled={isDeletingUser}
               className="border-[#4C91FF] text-gray-300 hover:bg-[#0A274F]"
             >
               Cancelar
             </Button>
             <Button
               onClick={handleConfirmDelete}
+              disabled={isDeletingUser}
               className="bg-red-600 text-white hover:bg-red-700"
             >
-              Confirmar Exclusão
+              {isDeletingUser ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Excluindo...
+                </>
+              ) : (
+                "Confirmar Exclusão"
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

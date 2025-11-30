@@ -3,14 +3,22 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "../contexts/AuthContext";
 import { Switch } from "@/components/ui/switch";
+import GameSubmissionGuide from "@/components/GameSubmissionGuide";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { ChevronDown, Plus, X } from "lucide-react";
 import KeySelectorDialog from "@/components/KeySelectorDialog";
 import { Button } from "@/components/ui/button";
-import { Plus, X } from "lucide-react";
 import { gamesService } from "@/services/gamesService";
 import { pendingGamesService } from "@/services/pendingGamesService";
 
-export default function EditGame() {
+export default function GameForm() {
   const { id } = useParams<{ id: string }>();
+  const isEditMode = !!id;
+  const [isGuideOpen, setIsGuideOpen] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
@@ -21,17 +29,17 @@ export default function EditGame() {
   const [difficulty, setDifficulty] = useState("");
   const [enabled, setEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const [controls, setControls] = useState<
     Array<{ key_image: string; description: string }>
   >([]);
   const [showKeyDialog, setShowKeyDialog] = useState(false);
 
   useEffect(() => {
-    if (id) {
+    if (isEditMode) {
       loadGame(Number(id));
     }
-  }, [id]);
+  }, [id, isEditMode]);
 
   const loadGame = async (gameId: number) => {
     try {
@@ -75,6 +83,15 @@ export default function EditGame() {
       return;
     }
 
+    if (!isEditMode && !gameUrl.trim()) {
+      toast({
+        title: "Erro",
+        description: "Por favor, insira uma url para o jogo",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (
       !difficulty ||
       isNaN(Number(difficulty)) ||
@@ -92,43 +109,62 @@ export default function EditGame() {
     setIsLoading(true);
     try {
       if (user?.role === "ADMIN") {
-        await gamesService.update(Number(id), {
-          game_title: title,
-          description,
-          difficulty: Number(difficulty),
-          image_url: imageUrl.trim() || undefined,
-          game_url: gameUrl.trim() || undefined,
-          enabled,
-          controls: controls,
-        });
+        if (isEditMode) {
+          await gamesService.update(Number(id), {
+            game_title: title,
+            description,
+            difficulty: Number(difficulty),
+            image_url: imageUrl.trim() || undefined,
+            game_url: gameUrl.trim() || undefined,
+            enabled,
+            controls: controls,
+          });
 
-        toast({
-          title: "Sucesso!",
-          description: "Jogo atualizado com sucesso",
-        });
+          toast({
+            title: "Sucesso!",
+            description: "Jogo atualizado com sucesso",
+          });
+        } else {
+          await gamesService.create({
+            game_title: title,
+            description,
+            difficulty: Number(difficulty),
+            image_url: imageUrl.trim() || undefined,
+            game_url: gameUrl.trim() || undefined,
+            enabled,
+            controls: controls.length > 0 ? controls : undefined,
+          });
+
+          toast({
+            title: "Sucesso!",
+            description: "Jogo cadastrado com sucesso",
+          });
+        }
       } else {
         await pendingGamesService.create({
-          game_id: Number(id),
-          change_type: "UPDATE",
+          game_id: isEditMode ? Number(id) : undefined,
+          change_type: isEditMode ? "UPDATE" : "CREATE",
           game_title: title,
           description,
           difficulty: Number(difficulty),
           image_url: imageUrl.trim() || undefined,
           game_url: gameUrl.trim() || undefined,
           enabled,
-          controls: controls,
+          controls: controls.length > 0 ? controls : undefined,
         });
 
         toast({
-          title: "Enviado para aprovação!",
-          description: "Suas alterações serão revisadas por um administrador",
+          title: isEditMode ? "Enviado para aprovação!" : "Enviado para aprovação!",
+          description: isEditMode
+            ? "Suas alterações serão revisadas por um administrador"
+            : "Seu jogo será revisado por um administrador",
         });
       }
 
       navigate("/games");
     } catch (error: any) {
       toast({
-        title: "Erro ao atualizar jogo",
+        title: isEditMode ? "Erro ao atualizar jogo" : "Erro ao cadastrar jogo",
         description:
           error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
@@ -161,7 +197,38 @@ export default function EditGame() {
   return (
     <div className="min-h-screen bg-[#274584] px-4 py-12 sm:px-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-white text-3xl font-normal mb-10">Editar jogo</h1>
+        <h1 className="text-white text-3xl font-normal mb-6">
+          {isEditMode ? "Editar jogo" : "Cadastrar jogo"}
+        </h1>
+
+        {!isEditMode && (
+          <Collapsible
+            open={isGuideOpen}
+            onOpenChange={setIsGuideOpen}
+            className="mb-8"
+          >
+            <CollapsibleTrigger className="w-full">
+              <div className="bg-[#0A274F] border-2 border-blue-600 rounded-lg p-4 hover:bg-[#0d2f5e] transition-colors cursor-pointer">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-blue-400 text-lg">📚</span>
+                    <span className="text-white font-medium">
+                      Guia: Como cadastrar um jogo educativo
+                    </span>
+                  </div>
+                  <ChevronDown
+                    className={`w-5 h-5 text-blue-400 transition-transform ${
+                      isGuideOpen ? "transform rotate-180" : ""
+                    }`}
+                  />
+                </div>
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="mt-2">
+              <GameSubmissionGuide variant="full" />
+            </CollapsibleContent>
+          </Collapsible>
+        )}
 
         <div className="space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -181,7 +248,7 @@ export default function EditGame() {
 
             <div>
               <label className="block text-gray-300 text-base font-medium mb-2">
-                URL da Imagem2
+                URL da Imagem
               </label>
               <input
                 type="text"
@@ -367,7 +434,11 @@ export default function EditGame() {
               disabled={isLoading}
               className="w-full sm:w-[160px] h-[48px] bg-[#2563EB] text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 font-medium text-base shadow-lg"
             >
-              {isLoading ? "Salvando..." : "Salvar Alterações"}
+              {isLoading
+                ? "Salvando..."
+                : isEditMode
+                  ? "Salvar Alterações"
+                  : "Salvar Jogo"}
             </button>
           </div>
         </div>

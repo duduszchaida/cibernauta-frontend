@@ -14,8 +14,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ResetPasswordSuccess from "./pages/ResetPasswordSuccess";
 import VerifyEmail from "./pages/VerifyEmail";
 import Games from "./pages/Games";
-import CreateGame from "./pages/CreateGame";
-import EditGame from "./pages/EditGame";
+import GameForm from "./pages/GameForm";
 import NotFound from "./pages/NotFound";
 import Game from "./pages/Game";
 import ManageUsers from "./pages/ManageUsers";
@@ -181,7 +180,7 @@ const App = () => (
               path="/create-game"
               element={
                 <ModeratorRoute>
-                  <CreateGame />
+                  <GameForm />
                 </ModeratorRoute>
               }
             />
@@ -189,7 +188,7 @@ const App = () => (
               path="/edit-game/:id"
               element={
                 <ModeratorRoute>
-                  <EditGame />
+                  <GameForm />
                 </ModeratorRoute>
               }
             />
