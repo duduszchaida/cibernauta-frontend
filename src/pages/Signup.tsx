@@ -224,7 +224,7 @@ export default function Signup() {
           </button>
         </form>
 
-        <p className="text-center mt-6 text-gray-400">
+        <p className="text-center mt-6 text-gray-400 pb-10">
           Já tem uma conta?{" "}
           <Link to="/" className="text-blue-400 hover:underline">
             Entre aqui

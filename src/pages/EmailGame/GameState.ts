@@ -5,8 +5,8 @@ import { DESKTOPSCENE, SAVESCENE } from "./Scenes/SceneReferences";
 import { StartScene } from "./Scenes/StartScene";
 import {
   SETTINGAUTOSAVE,
+  SETTINGFILTER,
   SETTINGPOPUP,
-  type SETTINGFILTER,
 } from "./Scenes/SettingsScene/SettingsReferences";
 
 export type LevelProgress = {
@@ -44,14 +44,48 @@ export default class GameState {
     let savesData: any = null;
     try {
       savesData = (await savesService.getSave(1)).save_data;
+      if (!savesData.settings) {
+        savesData.settings = {
+          [SETTINGAUTOSAVE]: true,
+          [SETTINGFILTER]: false,
+          [SETTINGPOPUP]: true,
+        };
+      }
     } catch {
       console.warn("couldn't get save");
     }
     let newGame = true;
     let saves: Save[] = [
-      { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
-      { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
-      { lastSaveTime: null, levelProgressRecord: {}, lastTotalScore: 0 },
+      {
+        lastSaveTime: null,
+        levelProgressRecord: {},
+        lastTotalScore: 0,
+        settings: {
+          [SETTINGAUTOSAVE]: true,
+          [SETTINGFILTER]: false,
+          [SETTINGPOPUP]: true,
+        },
+      },
+      {
+        lastSaveTime: null,
+        levelProgressRecord: {},
+        lastTotalScore: 0,
+        settings: {
+          [SETTINGAUTOSAVE]: true,
+          [SETTINGFILTER]: false,
+          [SETTINGPOPUP]: true,
+        },
+      },
+      {
+        lastSaveTime: null,
+        levelProgressRecord: {},
+        lastTotalScore: 0,
+        settings: {
+          [SETTINGAUTOSAVE]: true,
+          [SETTINGFILTER]: false,
+          [SETTINGPOPUP]: true,
+        },
+      },
     ];
     if (savesData != null) {
       saves = JSON.parse(savesData);
@@ -64,10 +98,16 @@ export default class GameState {
     } else {
       this.currentSaveSlotId = null;
     }
+    console.log("setting currentSave empty");
     this.currentSave = {
       lastSaveTime: null,
       levelProgressRecord: {},
       lastTotalScore: 0,
+      settings: {
+        [SETTINGAUTOSAVE]: true,
+        [SETTINGFILTER]: false,
+        [SETTINGPOPUP]: true,
+      },
     };
   }
 
@@ -95,6 +135,13 @@ export default class GameState {
     this.currentSave = JSON.parse(
       JSON.stringify(this.saveSlots[this.currentSaveSlotId]),
     );
+    if (!this.currentSave.settings) {
+      this.currentSave.settings = {
+        [SETTINGAUTOSAVE]: true,
+        [SETTINGFILTER]: false,
+        [SETTINGPOPUP]: true,
+      };
+    }
   }
 
   deleteSave(index: number) {
@@ -117,7 +164,7 @@ export default class GameState {
     }
   }
 
-  saveGame(manual: boolean) {
+  saveGame(manual: boolean, settings: boolean = false) {
     if (!manual && !this.currentSave.settings?.[SETTINGAUTOSAVE]) {
       return;
     }
@@ -129,15 +176,19 @@ export default class GameState {
     this.saveSlots[this.currentSaveSlotId] = JSON.parse(
       JSON.stringify(this.currentSave),
     );
+    console.log(this.currentSave);
     if (this.currentSave.settings?.[SETTINGPOPUP]) {
-      this.popup.newPopup("Progresso do jogo salvo.", 2.5);
+      if (settings) {
+        this.popup.newPopup("Configurações salvas.", 2.5);
+      } else {
+        this.popup.newPopup("Progresso do jogo salvo.", 2.5);
+      }
     }
     savesService.saveGame({
       game_id: 1,
       save_data: JSON.stringify(this.saveSlots),
     });
     setTimeout(() => {
-      console.log("updating leaderboard GS");
       this.leaderboardUpdate();
     }, 1500);
   }

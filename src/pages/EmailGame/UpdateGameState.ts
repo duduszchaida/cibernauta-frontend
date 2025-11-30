@@ -115,13 +115,12 @@ function mouseClickHandler(gameState: GameState, obj: GameObject) {
       if (gameState.currentScene instanceof SettingsScene) {
         gameState.currentScene.toggle(result.config);
       }
-      gameState.saveGame(false);
+      gameState.saveGame(false, true);
       break;
     case PAUSEGAME:
       pauseTraining(gameState);
       break;
     case MANUALSAVE:
-      console.log("saving");
       gameState.saveGame(true);
       break;
     case SELECTSAVE:

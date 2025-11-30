@@ -83,6 +83,5 @@ export class SettingsScene extends Scene {
     }
     this.gameState.currentSave.settings[config] =
       !this.gameState.currentSave.settings[config];
-    console.log(this.gameState.currentSave.settings);
   }
 }
