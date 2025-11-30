@@ -72,6 +72,7 @@ const sprites: Record<string, Sprite> = {
   pause_screen: new Sprite("/game/email/pause_screen.png"),
   pause_screen_notepad: new Sprite("/game/email/pause_screen_notepad.png"),
 
+  picture_brasil: new Sprite("/game/email/picture_brasil.png"),
   picture_catmusic: new Sprite("/game/email/picture_catmusic.png"),
   picture_cibernauta: new Sprite("/game/email/picture_cibernauta.png"),
   picture_choppu: new Sprite("/game/email/picture_choppu.png"),
@@ -88,11 +89,13 @@ const sprites: Record<string, Sprite> = {
   picture_hacker_0: new Sprite("/game/email/picture_hacker_0.png"),
   picture_hacker_1: new Sprite("/game/email/picture_hacker_1.png"),
   picture_hacker_2: new Sprite("/game/email/picture_hacker_2.png"),
+  picture_jitjot: new Sprite("/game/email/picture_jitjot.png"),
   picture_mail: new Sprite("/game/email/picture_mail.png"),
   picture_pbook: new Sprite("/game/email/picture_pbook.png"),
   picture_rubloks: new Sprite("/game/email/picture_rubloks.png"),
   picture_selected: new Sprite("/game/email/picture_selected.png"),
   picture_tecnus: new Sprite("/game/email/picture_tecnus.png"),
+  picture_yvideos: new Sprite("/game/email/picture_yvideos.png"),
 
   popup: new Sprite("/game/email/popup.png"),
 

@@ -9,7 +9,7 @@ export const CONTROLSLEVEL = "controlsLevel";
 export const TUTORIALLEVEL = "tutorialLevel";
 export const ELEMENTSLEVEL = "elementsLevel";
 export const ADDRESSESLEVEL = "addressesLevel";
-export const SERVICESLEVEL = "servicesLevel";
+export const CONTACTSLEVEL = "contactsLevel";
 export const TESTLEVEL = "testLevel";
 
 // Dicionário dos níveis com suas referências
@@ -82,7 +82,7 @@ export const LevelList: Record<string, Level> = {
     buttons: [SAFE, MALICIOUS, NOTEPAD],
     starterEmail: EmailList.mailTutorialNotepad,
     canSelect: true,
-    secondsTimer: 180,
+    secondsTimer: 210,
     notepadPages: [
       findSprite("page_tutorial"),
       findSprite("page_section_address"),
@@ -102,15 +102,28 @@ export const LevelList: Record<string, Level> = {
       EmailList.addresses.tecnus + "\n" + EmailList.addresses.mail,
     ],
   },
-  [SERVICESLEVEL]: {
-    name: "Serviços",
+  [CONTACTSLEVEL]: {
+    name: "Contatos",
     goal: 2100,
-    emailDataList: [EmailList.mailSafeGrandma2],
-    reference: SERVICESLEVEL,
+    emailDataList: [
+      EmailList.mailSafeGrandma2,
+      EmailList.mailContactMal1,
+      EmailList.mailContactMal2,
+      EmailList.mailContactMal3,
+      EmailList.mailContactMal4,
+      EmailList.mailContactSpam1,
+      EmailList.mailContactSpam2,
+      EmailList.mailContactSpam3,
+      EmailList.mailContactSpam4,
+      EmailList.mailContactSafe1,
+      EmailList.mailContactSafe2,
+      EmailList.mailContactSafe3,
+    ],
+    reference: CONTACTSLEVEL,
     buttons: [SAFE, MALICIOUS, SPAM, NOTEPAD],
-    starterEmail: EmailList.mailTutorialAuth,
+    starterEmail: EmailList.mailTutorialContact,
     canSelect: true,
-    secondsTimer: 180,
+    secondsTimer: 240,
     notepadPages: [
       findSprite("page_section_address"),
       EmailList.addresses.grandma +
@@ -126,17 +139,23 @@ export const LevelList: Record<string, Level> = {
         EmailList.addresses.pineappleBook +
         "\n" +
         EmailList.addresses.catMusic,
-      EmailList.addresses.tecnus + "\n" + EmailList.addresses.mail,
+      EmailList.addresses.tecnus +
+        "\n" +
+        EmailList.addresses.mail +
+        "\n" +
+        EmailList.addresses.jitjot +
+        "\n" +
+        EmailList.addresses.yvideos,
       findSprite("page_section_contacts"),
-      EmailList.names.grandma +
+      EmailList.names.catMusic +
         "\n" +
         EmailList.names.cibernauta +
         "\n" +
         EmailList.names.fritter +
         "\n" +
-        EmailList.names.catMusic +
-        "\n" +
         EmailList.names.mail +
+        "\n" +
+        EmailList.names.grandma +
         "\n" +
         EmailList.names.tecnus,
     ],
@@ -149,5 +168,5 @@ export const levelOrder: Level[] = [
   LevelList[TUTORIALLEVEL],
   LevelList[ELEMENTSLEVEL],
   LevelList[ADDRESSESLEVEL],
-  LevelList[SERVICESLEVEL],
+  LevelList[CONTACTSLEVEL],
 ];

@@ -1,27 +1,33 @@
 import { MALICIOUS, SAFE, SPAM, type EmailData } from "./EmailData";
 
 export const addresses = {
+  grandma: "aparecida48@mail.com",
   cibernauta: "cibernauta@mail.com",
   choppu: "emails@choppu.com",
-  pineappleBook: "pineapplebook@mail.com",
   fritter: "fritter@frttr.com",
   mail: "mail@mail.com",
-  grandma: "aparecida48@mail.com",
-  catMusic: "sales@catmusic.com",
+  jitjot: "mail@jitjot.com",
+  yvideos: "yvideos@mail.com",
   rubloks: "oficial@rubloks.com",
+  pineappleBook: "pineapplebook@mail.com",
+  roberto: "rferreira@mail.com",
+  catMusic: "sales@catmusic.com",
   tecnus: "suporte@tecnus.com",
 };
 
 export const names = {
+  grandma: "Maria Aparecida",
   cibernauta: "Equipe Cibernauta",
   choppu: "Compras Choppu",
   pineappleBook: "PineappleBook",
   fritter: "Fritter",
   mail: "Mail Emails",
-  grandma: "Maria Aparecida",
   catMusic: "CatMusic",
+  roberto: "Roberto Ferreira",
   rubloks: "Rubloks",
   tecnus: "Tecnus Suporte",
+  jitjot: "JitJot",
+  yvideos: "YVideos",
 };
 
 const pictures = {
@@ -34,6 +40,10 @@ const pictures = {
   catMusic: "picture_catmusic",
   rubloks: "picture_rubloks",
   tecnus: "picture_tecnus",
+  roberto: "picture_default_2",
+  gov: "picture_brasil",
+  jitjot: "picture_jitjot",
+  yvideos: "picture_yvideos",
 };
 
 // Lista de export de todos os emails do jogo
@@ -268,17 +278,17 @@ export const mailAddressSafe3: EmailData = {
   picture: pictures.catMusic,
 };
 
-// Autorized
+// Contact
 
-export const mailTutorialAuth: EmailData = {
-  text: `Você está indo muito bem! Vamos agora passar para o próximo passo, identificar SPAM\n\nOs emails classificados como SPAM são interessantes, eles nem sempre são MALICIOSOS, o que diferencia eles dos demais é que eles são muitas vezes... desnecessários.\n\nEmails de SPAM são conhecidos por inundar caixas de entrada de emails, com propagandas e oferecendo serviços que nem se quer temos interesse.\n\nNo caderno, você verá que há uma nova seção após os endereços conhecidos. "Serviços Autorizados"\n\nQuando estiver navegando pela internet você saberá que seviços você tem ou não interesse e pessoas de quem quer receber menságens, mas para esse treinamento, emails de serviços e pessoas que não forem MALICIOSOs mas não estiverem na lista de autorizados, são considerados SPAM.\n\nPara classificar emails como SPAM foi adicionado um novo botão ao seu painel, azul com um "!" no centro.\n\nPronto para prosseguir?`,
+export const mailTutorialContact: EmailData = {
+  text: `Você está indo muito bem! Vamos agora passar para o próximo passo, identificar SPAM\n\nOs emails classificados como SPAM são interessantes, eles nem sempre são MALICIOSOS, o que diferencia eles dos demais é que eles são muitas vezes... desnecessários.\n\nEmails de SPAM são conhecidos por inundar caixas de entrada de emails, com propagandas e oferecendo serviços que nem se quer temos interesse.\n\nNo caderno, você verá que há uma nova seção após os endereços conhecidos. "Contatos Autorizados"\n\nQuando estiver navegando pela internet você saberá que seviços você tem ou não interesse e pessoas de quem quer receber menságens, mas para esse treinamento, emails de serviços e pessoas que não forem MALICIOSOs mas não estiverem na lista de autorizados, são considerados SPAM.\n\nPara classificar emails como SPAM foi adicionado um novo botão ao seu painel, azul com um "!" no centro.\n\nPronto para prosseguir?`,
   address: addresses.cibernauta,
   class: SAFE,
   name: names.cibernauta,
   picture: pictures.cibernauta,
 };
 
-export const mailAuthSpam1: EmailData = {
+export const mailContactSpam1: EmailData = {
   text: `Moletom BenIO que pode ser de se interesse, está em oferta!\n\nVerifique sua lista de desejos da Choppu e aproveite o desconto de 25% com frete grátis em todo País!\n\nhttps://Choppu.com.br`,
   address: addresses.choppu,
   class: SPAM,
@@ -286,7 +296,7 @@ export const mailAuthSpam1: EmailData = {
   picture: pictures.choppu,
 };
 
-export const mailGenSpam2: EmailData = {
+export const mailContactSpam2: EmailData = {
   text: `Cleber e outras 32 pessoas que talvez você conheça reagiram a foto de AnimesIrados no PineappleBook.\nVeja agora!\n\nhttps://pineapplebook.com`,
   address: addresses.pineappleBook,
   class: SPAM,
@@ -294,7 +304,23 @@ export const mailGenSpam2: EmailData = {
   picture: pictures.pineappleBook,
 };
 
-export const mailAuthSafe1: EmailData = {
+export const mailContactSpam3: EmailData = {
+  text: `Olá,\n\nUm usuário que você pode conhecer acabou de postar um novo vídeo e achamos que ele combina com o tipo de conteúdo que você costuma assistir.\n\nO vídeo já está recebendo muitas visualizações e comentários, não deixe de conferir antes que ele saia das recomendações! Acesse pelo link abaixo:\n\nwww.videos-recomendados.online/watch\n\nSe quiser receber mais notificações como esta, é só continuar ativo(a) em nossa plataforma.`,
+  address: addresses.jitjot,
+  class: SPAM,
+  name: names.jitjot,
+  picture: pictures.jitjot,
+};
+
+export const mailContactSpam4: EmailData = {
+  text: `Olá,\n\nUm canal que você acompanhou recentemente acabou de publicar um novo vídeo e achamos que ele pode ser do seu interesse. O conteúdo está recebendo bastante atenção e já apareceu entre os mais vistos do dia.\n\nPara assistir agora, utilize o link abaixo:\n\nwww.yvideos-video-recs.net/watch\n\nSe não quiser perder atualizações, continue interagindo com os conteúdos recomendados.`,
+  address: addresses.yvideos,
+  class: SPAM,
+  name: names.yvideos,
+  picture: pictures.yvideos,
+};
+
+export const mailContactSafe1: EmailData = {
   text: `Curta CatMusic Premium por 2 meses de graça!\n\nOuça suas playlists com o plano Premium por 2 meses sem pagar nada e aproveite.\n\nApós o periodo de teste, será cobrado o valor de R$ 1,99/mês.\n\nAssine já!`,
   address: addresses.catMusic,
   class: SAFE,
@@ -302,13 +328,59 @@ export const mailAuthSafe1: EmailData = {
   picture: pictures.catMusic,
 };
 
-export const mailAuthMal1: EmailData = {
+export const mailContactSafe2: EmailData = {
+  text: `Olá!\n\nEstamos escrevendo para informar que sua solicitação recente passou para a fase final de revisão. O problema reportado realmente estava ligado a uma configuração incorreta nos nossos servidores, e já realizamos os ajustes necessários.\n\nRealize um novo login e verifique se tudo está funcionando corretamente. Se encontrar qualquer irregularidade, responda este email diretamente e nosso time dará continuidade ao atendimento.\n\nAgradecemos sua paciência durante o processo.\nAtenciosamente, Tecnus Suporte`,
+  address: addresses.tecnus,
+  class: SAFE,
+  name: names.tecnus,
+  picture: pictures.tecnus,
+};
+
+export const mailContactSafe3: EmailData = {
+  text: `Olá,\n\nAgradecemos seu interesse na vaga e o envio do seu currículo. Após analisarmos seu perfil, gostaríamos de convidá-lo(a) para participar da próxima etapa do processo seletivo: uma entrevista individual com nossa equipe de recrutamento.\n\nA entrevista terá duração aproximada de 30 a 45 minutos e será realizada de forma remota. Durante a conversa, abordaremos sua experiência profissional, expectativas para a função e detalhes sobre o projeto e o ambiente de trabalho.\n\nPor favor, responda informando sua disponibilidade para os próximos dias, assim poderemos agendar o melhor horário.\n\nAtenciosamente,\nRoberto Ferreira`,
+  address: addresses.roberto,
+  class: SAFE,
+  name: names.roberto,
+  picture: pictures.roberto,
+};
+
+export const mailContactMal1: EmailData = {
   text: `PARABÉNS!!!\n\nVocê foi selecionado para RECEBER um cupom de até 90% de DESCONTO em nossos produtos incríveis!\nMas é SÓ HOJE! Clique e aproveite:\n\nhttp://superofertaspromocao.biz/premio\n\nNão perca tempo! Essa é sua chance de mudar de vida!\nEquipe Promoções Imperdíveis`,
   address: "promocoes@chappu.com",
   class: MALICIOUS,
   name: "Lojas Choppu",
   picture: pictures.choppu,
   anomalyAddress: true,
+  anomalyParagraphs: [1, 3],
+};
+
+export const mailContactMal2: EmailData = {
+  text: `Olá,\nIdentificamos uma inconsistência grave associada ao seu perfil. Essa falha pode comprometer seus dados pessoais e resultou na desativação automática de algumas funcionalidades.\n\nA única forma de evitar a perda permanente de informações é restaurar seu acesso por meio da ferramenta de recuperação emergencial. Por motivos de segurança, é necessário que você confirme suas credenciais e reinstale a chave de autenticação usando o link abaixo.\n\nhttp://auth.tecnus.com.br/13547\n\nEntendemos que isso pode causar preocupação, mas o processo é rápido e essencial para proteger seus dados.\n\nSe a restauração não for concluída dentro das próximas 2 horas, a conta será desativada automaticamente.\n\nTecnus\nEquipe de Verificação Emergencial`,
+  address: "tecnus.suporte@mail.com",
+  class: MALICIOUS,
+  name: "Tecnus",
+  picture: pictures.tecnus,
+  anomalyAddress: true,
+  anomalyParagraphs: [1, 4],
+};
+
+export const mailContactMal3: EmailData = {
+  text: `Curta CatMusic Premium por 2 meses de graça!\n\nOuça suas playlists com o plano Premium por 2 meses sem pagar nada e aproveite.\n\nApós o periodo de teste, será cobrado o valor de R$ 1,99/mês.\n\nAssine já!`,
+  address: "catmusic@sales.com",
+  class: MALICIOUS,
+  name: names.catMusic,
+  picture: pictures.catMusic,
+  anomalyAddress: true,
+};
+
+export const mailContactMal4: EmailData = {
+  text: `Prezado(a) cidadão(ã),\n\nATENÇÃO: Constatamos uma irregularidade grave no seu cadastro junto ao Governo Federal. Caso a situação não seja regularizada imediatamente, seu CPF poderá ser suspenso e você perderá acesso a vários serviços públicos.\n\nPara evitar consequências legais, é OBRIGATÓRIO que você faça a validação do seu cadastro pelo link abaixo:\n\nhttps://governo-federal-validacao-urgente.com.br/atualizar-dados\n(Acesse somente pelo computador. O sistema não funciona em celular.)\n\nO não cumprimento desta solicitação resultará em multa automática e possível restrição do CPF ainda nas próximas 24 horas.\n\nEste é um comunicado oficial. Não ignore.\n\nAtenciosamente,\nDepartamento Nacional de Regularização Cadastral\nGoverno Federal`,
+  address: "governo@mail.com",
+  class: MALICIOUS,
+  name: "Email Governo Oficial",
+  picture: pictures.gov,
+  anomalyAddress: true,
+  anomalyParagraphs: [1, 2, 4, 5],
 };
 
 // General
