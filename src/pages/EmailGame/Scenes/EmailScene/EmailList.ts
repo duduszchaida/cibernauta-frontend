@@ -132,7 +132,7 @@ export const mailElementsMal1: EmailData = {
   class: MALICIOUS,
   name: "Equipe de Cobranças",
   picture: "picture_default_6",
-  anomalyParagraphs: [1, 2, 4],
+  anomalyParagraphs: [1, 3],
 };
 
 export const mailElementsMal2: EmailData = {
@@ -401,7 +401,7 @@ export const mailGenMal1: EmailData = {
   class: MALICIOUS,
   name: "Fernando Fernandes",
   picture: "picture_default_5",
-  anomalyParagraphs: [1, 2, 3],
+  anomalyParagraphs: [1, 3],
   anomalyAddress: true,
 };
 

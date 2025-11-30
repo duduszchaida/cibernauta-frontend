@@ -99,7 +99,13 @@ export const LevelList: Record<string, Level> = {
         EmailList.addresses.pineappleBook +
         "\n" +
         EmailList.addresses.catMusic,
-      EmailList.addresses.tecnus + "\n" + EmailList.addresses.mail,
+      EmailList.addresses.tecnus +
+        "\n" +
+        EmailList.addresses.mail +
+        "\n" +
+        EmailList.addresses.jitjot +
+        "\n" +
+        EmailList.addresses.yvideos,
     ],
   },
   [CONTACTSLEVEL]: {
@@ -156,6 +162,8 @@ export const LevelList: Record<string, Level> = {
         EmailList.names.mail +
         "\n" +
         EmailList.names.grandma +
+        "\n" +
+        EmailList.names.roberto +
         "\n" +
         EmailList.names.tecnus,
     ],
