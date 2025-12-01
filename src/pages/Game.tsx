@@ -228,7 +228,7 @@ export default function Game() {
               )}
             </div>
 
-            <div className="bg-[#374B7C] rounded-2xl p-3 sm:p-5 order-2 xl:order-2 w-full overflow-hidden mb-8">
+            <div className="bg-[#374B7C] rounded-2xl p-3 sm:p-5 order-2 xl:order-2 w-full overflow-hidden mb-8 h-fit">
               {gameData.enabled === false &&
                 (user?.role === "ADMIN" || user?.role === "MODERATOR") && (
                   <div className="mb-4 bg-red-900/30 border-2 border-red-500 rounded-lg p-3 flex items-center gap-2">
