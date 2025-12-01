@@ -105,7 +105,7 @@ export const LevelList: Record<string, Level> = {
         "\n" +
         EmailList.addresses.jitjot +
         "\n" +
-        EmailList.addresses.yvideos,
+        EmailList.addresses.youVideos,
     ],
   },
   [CONTACTSLEVEL]: {
@@ -151,7 +151,7 @@ export const LevelList: Record<string, Level> = {
         "\n" +
         EmailList.addresses.jitjot +
         "\n" +
-        EmailList.addresses.yvideos,
+        EmailList.addresses.youVideos,
       findSprite("page_section_contacts"),
       EmailList.names.catMusic +
         "\n" +

@@ -7,7 +7,7 @@ export const addresses = {
   fritter: "fritter@frttr.com",
   mail: "mail@mail.com",
   jitjot: "mail@jitjot.com",
-  yvideos: "yvideos@mail.com",
+  youVideos: "youVideos@mail.com",
   rubloks: "oficial@rubloks.com",
   pineappleBook: "pineapplebook@mail.com",
   roberto: "rferreira@mail.com",
@@ -28,7 +28,7 @@ export const names = {
   rubloks: "Rubloks",
   tecnus: "Tecnus Suporte",
   jitjot: "JitJot",
-  yvideos: "YVideos",
+  youVideos: "YouVideos",
   zetflix: "Zetflix Ent",
 };
 
@@ -45,7 +45,7 @@ const pictures = {
   roberto: "picture_default_2",
   gov: "picture_brasil",
   jitjot: "picture_jitjot",
-  yvideos: "picture_yvideos",
+  youVideos: "picture_youvideos",
   zetflix: "picture_zetflix",
 };
 
@@ -316,19 +316,19 @@ export const mailContactSpam3: EmailData = {
 };
 
 export const mailContactSpam4: EmailData = {
-  text: `Olá,\n\nUm canal que você acompanhou recentemente acabou de publicar um novo vídeo e achamos que ele pode ser do seu interesse. O conteúdo está recebendo bastante atenção e já apareceu entre os mais vistos do dia.\n\nPara assistir agora, utilize o link abaixo:\n\nwww.yvideos-video-recs.net/watch\n\nSe não quiser perder atualizações, continue interagindo com os conteúdos recomendados.`,
-  address: addresses.yvideos,
+  text: `Olá,\n\nUm canal que você acompanhou recentemente acabou de publicar um novo vídeo e achamos que ele pode ser do seu interesse. O conteúdo está recebendo bastante atenção e já apareceu entre os mais vistos do dia.\n\nPara assistir agora, utilize o link abaixo:\n\nwww.youvideos-video-recs.net/watch\n\nSe não quiser perder atualizações, continue interagindo com os conteúdos recomendados.`,
+  address: addresses.youVideos,
   class: SPAM,
-  name: names.yvideos,
-  picture: pictures.yvideos,
+  name: names.youVideos,
+  picture: pictures.youVideos,
 };
 
 export const mailContactSpam5: EmailData = {
   text: `Olá, fulano!\n\nAqui é a ZetFlix, sua plataforma de entretenimento preferida — sempre trazendo o que está bombando nas telas do Brasil!\n\nConfira abaixo o Top 3 Séries Mais Assistidas da Semana:\n\n- .Documentário Amazonas\n- .Heróis do Ontem\n- 4mor em 8 Bit5\n\nAssine e confira já!`,
-  address: addresses.yvideos,
+  address: addresses.youVideos,
   class: SPAM,
-  name: names.yvideos,
-  picture: pictures.yvideos,
+  name: names.youVideos,
+  picture: pictures.youVideos,
 };
 
 export const mailContactSafe1: EmailData = {
