@@ -174,7 +174,7 @@ export default function Game() {
 
   return (
     <div className="min-h-screen bg-[#2B71A3] overflow-x-hidden">
-      <Navigation username={user?.username} showGamesLink={true} />
+      <Navigation username={user?.username} />
 
       <div className="pt-6 px-4 sm:px-6 overflow-x-hidden">
         <div

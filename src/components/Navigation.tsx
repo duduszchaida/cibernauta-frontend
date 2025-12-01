@@ -20,12 +20,12 @@ import {
 interface NavigationProps {
   full_name?: string;
   username?: string;
-  showGamesLink?: boolean;
+  hideGamesLink?: boolean;
 }
 
 export default function Navigation({
   username,
-  showGamesLink = false,
+  hideGamesLink = false,
 }: NavigationProps) {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
@@ -36,20 +36,15 @@ export default function Navigation({
   };
 
   return (
-    <nav className="w-full h-[73px] border-b border-gray-800 bg-[#274584] flex items-center justify-between px-8">
+    <nav className="w-full h-[73px] bg-[#274584] flex items-center justify-between px-8">
       <div className="flex items-center gap-3">
-        <Link
-          to="/games"
-          className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-        >
-          <img
-            src="/logo-cibernauta-sm.png"
-            alt="Cibernauta"
-            className="w-[184px] h-[64px]"
-            style={{ imageRendering: "pixelated" }}
-          />
-        </Link>
-        {showGamesLink && (
+        <img
+          src="/logo-cibernauta-sm.png"
+          alt="Cibernauta"
+          className="w-[184px] h-[64px]"
+          style={{ imageRendering: "pixelated" }}
+        />
+        {!hideGamesLink && (
           <Link
             to="/games"
             className="ml-4 flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-800 text-blue-400 hover:bg-gray-700 transition-colors"

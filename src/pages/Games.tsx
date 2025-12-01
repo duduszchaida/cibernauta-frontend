@@ -146,7 +146,7 @@ export default function Games() {
 
   return (
     <div className="min-h-screen bg-[#2B71A3]">
-      <Navigation username={user?.username} showGamesLink={false} />
+      <Navigation username={user?.username} hideGamesLink />
 
       <div className="mt-[180px] mx-auto px-4 sm:px-6 lg:px-[184px]">
         <div className="bg-[#274584] rounded-t-[25px] min-h-[861px] pt-[103px] px-4 sm:px-8 lg:px-[143px] pb-12">

@@ -125,6 +125,8 @@ export default function KeySelectorDialog({
                     src={`/keys/${key}.png`}
                     alt={key}
                     className="w-full h-auto pixelated"
+                    width={124}
+                    height={124}
                     style={{ imageRendering: "pixelated" }}
                   />
                 </button>
