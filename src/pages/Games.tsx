@@ -149,7 +149,7 @@ export default function Games() {
       <Navigation username={user?.username} showGamesLink={false} />
 
       <div className="mt-[180px] mx-auto px-4 sm:px-6 lg:px-[184px]">
-        <div className="bg-[#274584] rounded-t-[25px] min-h-[861px] pt-[103px] px-4 sm:px-8 lg:px-[143px]">
+        <div className="bg-[#274584] rounded-t-[25px] min-h-[861px] pt-[103px] px-4 sm:px-8 lg:px-[143px] pb-12">
           <div className="mb-8 flex justify-between items-start">
             <div>
               <h1 className="text-white text-3xl font-bold mb-2">
@@ -269,8 +269,7 @@ export default function Games() {
                       : "hover:border-gray-700 cursor-pointer"
                   }`}
                 >
-                  {(user?.role === "ADMIN" ||
-                    user?.role === "MODERATOR") && (
+                  {(user?.role === "ADMIN" || user?.role === "MODERATOR") && (
                     <div className="absolute top-4 right-4 z-10">
                       <button
                         onClick={(e) => {

@@ -111,8 +111,8 @@ export default function Game() {
       }
 
       try {
+        console.log(gameId);
         const data = await gamesService.getOne(Number(gameId));
-
         if (
           data.enabled === false &&
           user?.role !== "ADMIN" &&
@@ -122,9 +122,7 @@ export default function Game() {
           setLoading(false);
           return;
         }
-
         setGameData(data);
-
         if (data.game_type === "local") {
           getLeaderBoard();
         }

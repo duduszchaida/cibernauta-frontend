@@ -28,7 +28,6 @@ export default function EmailGameComponent({
   if (innerWidth < 1700 || innerHeight < 900) {
     gameScale = 2;
   }
-  console.log(innerWidth, gameScale);
 
   return (
     <div

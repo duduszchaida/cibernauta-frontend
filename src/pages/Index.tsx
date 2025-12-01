@@ -45,10 +45,8 @@ export default function Index() {
           toast({
             title: "Email verificado!",
             description:
-              "Sua conta foi ativada com sucesso. Agora você pode fazer login.",
+              "Sua conta foi ativada com sucesso. Você pode já fechar esta guia e fazer login.",
           });
-
-          navigate("/", { replace: true });
         })
         .catch((error) => {
           console.error("Erro ao verificar email:", error);

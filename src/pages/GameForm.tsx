@@ -17,7 +17,7 @@ import { pendingGamesService } from "@/services/pendingGamesService";
 
 export default function GameForm() {
   const { id } = useParams<{ id: string }>();
-  const isEditMode = !!id;
+  const isEditMode = Boolean(id);
   const [isGuideOpen, setIsGuideOpen] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -208,7 +208,7 @@ export default function GameForm() {
           {isEditMode ? "Editar jogo" : "Cadastrar jogo"}
         </h1>
 
-        {!isEditMode && (
+        {!isEditMode && user?.role != "ADMIN" && (
           <Collapsible
             open={isGuideOpen}
             onOpenChange={setIsGuideOpen}
@@ -279,7 +279,9 @@ export default function GameForm() {
                   name="gameType"
                   value="external"
                   checked={gameType === "external"}
-                  onChange={(e) => setGameType(e.target.value as "local" | "external")}
+                  onChange={(e) =>
+                    setGameType(e.target.value as "local" | "external")
+                  }
                   disabled={isLoading}
                   className="w-4 h-4 text-blue-600 focus:ring-blue-500 focus:ring-2"
                 />
@@ -291,7 +293,9 @@ export default function GameForm() {
                   name="gameType"
                   value="local"
                   checked={gameType === "local"}
-                  onChange={(e) => setGameType(e.target.value as "local" | "external")}
+                  onChange={(e) =>
+                    setGameType(e.target.value as "local" | "external")
+                  }
                   disabled={isLoading}
                   className="w-4 h-4 text-blue-600 focus:ring-blue-500 focus:ring-2"
                 />
