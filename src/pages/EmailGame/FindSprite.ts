@@ -21,6 +21,7 @@ const sprites: Record<string, Sprite> = {
   btn_notepad: new Sprite("/game/email/btn_notepad.png"),
   btn_notepad_held: new Sprite("/game/email/btn_notepad_held.png"),
   btn_trash: new Sprite("/game/email/btn_trash.png"),
+  btn_trash_held: new Sprite("/game/email/btn_trash_held.png"),
   btn_exit: new Sprite("/game/email/btn_exit.png"),
   btn_exit_held: new Sprite("/game/email/btn_exit_held.png"),
   btn_return: new Sprite("/game/email/btn_return.png"),
@@ -123,6 +124,7 @@ const sprites: Record<string, Sprite> = {
   scroll_slot: new Sprite("/game/email/scroll_slot.png"),
   start_btn: new Sprite("/game/email/start_btn.png"),
   toolbar: new Sprite("/game/email/toolbar.png"),
+  toolbar_held: new Sprite("/game/email/toolbar_held.png"),
 
   wcp_black: new Sprite("/game/email/wcp_black.png"),
   wcp_brown: new Sprite("/game/email/wcp_brown.png"),

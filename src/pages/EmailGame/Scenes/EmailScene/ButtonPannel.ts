@@ -13,6 +13,7 @@ export default class ButtonPannel extends GameObject {
       height: 32,
       width: 192,
       spriteName: "toolbar",
+      heldSpriteName: "toolbar_held",
       hitbox: new Hitbox({ pos: new Position(7, 218), height: 32, width: 32 }),
     });
     this.clickFunction = () => {
@@ -25,8 +26,12 @@ export default class ButtonPannel extends GameObject {
     if (this.open) {
       slicePos = new Position(0, 32);
     }
+    let sprite = this.sprite;
+    if (this.heldSprite && this.cursorHeld) {
+      sprite = this.heldSprite;
+    }
     canvasObject.drawSprite(
-      this.sprite,
+      sprite,
       this.pos,
       this.width,
       this.height,

@@ -3,6 +3,7 @@ import TextObject from "../Elements/TextObject";
 import type { Save } from "../GameState";
 import Position from "../Position";
 import { Utils } from "../Utils";
+import { levelOrder } from "./LevelSelectionScene/LevelList";
 import Scene from "./Scene";
 
 export const SELECTSAVE = "selectSave"; // Referência da ação de selecionar um salvamento
@@ -39,35 +40,46 @@ function generateSaveTextObjects(save: Save, num: number): TextObject[] {
       }),
     ];
   }
+  const progressText =
+    "Progresso: " +
+    (Object.keys(save.levelProgressRecord).length / levelOrder.length) * 100 +
+    "%";
+  const progress = new TextObject({
+    pos: pos,
+    color: "bnw",
+    font: "minecraftia",
+    text: progressText,
+    direction: "center",
+  });
   if (typeof save.lastSaveTime == "string") {
     save.lastSaveTime = new Date(save.lastSaveTime);
   }
-  let dateText =
+  const dateText =
     save.lastSaveTime.getDate() +
     "/" +
     (save.lastSaveTime.getMonth() + 1) +
     "/" +
     save.lastSaveTime.getFullYear();
-  let date = new TextObject({
-    pos: pos,
+  const date = new TextObject({
+    pos: pos.add(0, 12),
     color: "bnw",
     font: "minecraftia",
     text: dateText,
     direction: "center",
   });
-  let timeText =
+  const timeText =
     Utils.numberFormat(save.lastSaveTime.getHours(), 2) +
     ":" +
     Utils.numberFormat(save.lastSaveTime.getMinutes(), 2);
-  let time = new TextObject({
-    pos: pos.add(0, 12),
+  const time = new TextObject({
+    pos: pos.add(0, 24),
     color: "bnw",
     font: "minecraftia",
     text: timeText,
     direction: "center",
   });
 
-  return [time, date];
+  return [progress, time, date];
 }
 
 // Cena de salvamentos
@@ -139,8 +151,9 @@ export default class SaveScene extends Scene {
       if (saveSlots[i].lastSaveTime) {
         this.gameObjects.push(
           new GameObject({
-            pos: new Position(71 + i * 96, 172),
+            pos: new Position(69 + i * 96, 184),
             spriteName: "btn_trash",
+            heldSpriteName: "btn_trash_held",
             height: 20,
             width: 20,
             clickFunction: () => {
