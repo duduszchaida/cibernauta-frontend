@@ -23,7 +23,7 @@ export default function renderCurrentScene(
   });
   popup.render(canvas);
   cursor.render(canvas);
-  if (gameState.currentSave.settings?.settingFilter) {
+  if (gameState.currentSave.settings.settingFilter) {
     canvas.drawSprite(findSprite("screen_filter"), new Position(), 352, 256);
   }
 }

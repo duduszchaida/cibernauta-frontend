@@ -8,7 +8,7 @@ import { DESKTOPSCENE } from "../SceneReferences";
 import {
   SETTINGAUTOSAVE,
   SETTINGFILTER,
-  SETTINGPOPUP,
+  SETTINGSAVEWARNING,
   type Setting,
 } from "./SettingsReferences";
 import { Toggle } from "./Toggle";
@@ -29,7 +29,7 @@ export class SettingsScene extends Scene {
       this.gameState.currentSave.settings = {
         [SETTINGAUTOSAVE]: true,
         [SETTINGFILTER]: false,
-        [SETTINGPOPUP]: true,
+        [SETTINGSAVEWARNING]: true,
       };
     }
     const autoSaveText = new TextObject({
@@ -64,8 +64,8 @@ export class SettingsScene extends Scene {
       ),
       savePopupText,
       new Toggle(
-        SETTINGPOPUP,
-        this.gameState.currentSave.settings[SETTINGPOPUP],
+        SETTINGSAVEWARNING,
+        this.gameState.currentSave.settings[SETTINGSAVEWARNING],
         1,
       ),
       filterText,

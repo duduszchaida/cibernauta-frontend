@@ -18,7 +18,7 @@ export default class TextObject extends GameObject {
     text: string;
     font: string;
     color: string;
-    direction?: string;
+    direction?: "left" | "right" | "center";
     ignoreClick?: boolean;
     invisible?: boolean;
   }) {

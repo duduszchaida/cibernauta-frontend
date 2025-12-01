@@ -7,27 +7,29 @@ import type Sprite from "./Sprite";
 // Objeto que representa elementos no jogo
 export default class GameObject {
   pos: Position; // Posição do objeto no elemento de canvas
-  sprite: Sprite; // Sprite que será renderizado no elemento de canvas
   height: number; // Altura do objeto
   width: number; // Largura do objeto
   hitbox: Hitbox; // Objeto de hitbox, usado para verificar se o mouse está sobrepondo o objeto
-  invisible: boolean; // Indica se o objeto ignora a renderização
-  ignoreClick: boolean; // Indica se o objeto é ignorado na função de click do mouse
-  cursorHovering: boolean = false;
-  hoverSprite?: Sprite;
-  cursorHeld: boolean = false;
-  heldSprite?: Sprite;
 
+  sprite: Sprite; // Sprite que será renderizado no elemento de canvas
+  invisible: boolean; // Indica se o objeto ignora a renderização
+  cursorHovering: boolean = false; // Indica se o cursor está encima do objeto
+  hoverSprite?: Sprite; // Sprite alternativo renderizado quando o cursor está encima do objeto
+  cursorHeld: boolean = false; // Indica se o cursor está segurado no objeto
+  heldSprite?: Sprite; // Sprite alternativo renderizado quando o cursor está segurado no objeto
+
+  ignoreClick: boolean; // Indica se o objeto é ignorado na função de click do mouse
   clickFunction: Function | null; // Função chamada quando o mouse clica o objeto.
   // Possúi retorno genêrico para múltiplas possibilidades de funções
+
   dragFunction: Function | null; // Função chamada quando o mouse arrasta sobre o objeto
   // Possúi retorno genêrico para múltiplas possibilidades de funções
 
   constructor(args: {
     pos?: Position;
     spriteName?: string; // String usada para encontrar o objeto de Sprite correspondente
-    hoverSpriteName?: string;
-    heldSpriteName?: string;
+    hoverSpriteName?: string; // String usada para encontrar o objeto de Sprite correspondente
+    heldSpriteName?: string; // String usada para encontrar o objeto de Sprite correspondente
     width: number;
     height: number;
     hitbox?: Hitbox;
@@ -60,7 +62,7 @@ export default class GameObject {
   }
 
   /**
-   * Chama o dado CanvasObject e caso objeto não seja invisível renderiza sua sprite em sua posição com suas dimensões de largura e altura
+   * Chama o dado CanvasObject para renderiza sua sprite com sua posição e dimensões
    * @param canvasObject CanvasObject utilizado para renderizar Sprite do objeto
    * @returns
    */
@@ -71,7 +73,8 @@ export default class GameObject {
     let sprite = this.sprite;
     if (this.heldSprite && this.cursorHeld) {
       sprite = this.heldSprite;
-    } else if (this.hoverSprite && this.cursorHovering) {
+    }
+    if (this.hoverSprite && (this.cursorHovering || this.cursorHeld)) {
       sprite = this.hoverSprite;
     }
     canvasObject.drawSprite(sprite, this.pos, this.width, this.height);

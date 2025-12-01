@@ -48,7 +48,7 @@ export class LevelBlock extends GameObject {
       return;
     }
     let bgSprite = this.sprite;
-    if (this.hoverSprite && this.cursorHovering) {
+    if (this.hoverSprite && (this.cursorHovering || this.cursorHeld)) {
       bgSprite = this.hoverSprite;
     }
     canvasObject.drawSprite(bgSprite, this.pos, this.width, this.height);

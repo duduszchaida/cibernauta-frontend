@@ -1,10 +1,12 @@
 import GameObject from "../Elements/GameObject";
+import SceneChanger from "../Elements/SceneChanger";
 import TextObject from "../Elements/TextObject";
 import type { Save } from "../GameState";
 import Position from "../Position";
 import { Utils } from "../Utils";
 import { levelOrder } from "./LevelSelectionScene/LevelList";
 import Scene from "./Scene";
+import { DESKTOPSCENE } from "./SceneReferences";
 
 export const SELECTSAVE = "selectSave"; // Referência da ação de selecionar um salvamento
 export const DELETESAVE = "deleteSave"; // Referência da ação de deletar um salvamento
@@ -122,6 +124,7 @@ export default class SaveScene extends Scene {
         return { type: SELECTSAVE, slot: 1 };
       },
     });
+
     let slot3Btn = new GameObject({
       pos: new Position(240, 76),
       spriteName: saveSlots[2].lastSaveTime
@@ -168,9 +171,18 @@ export default class SaveScene extends Scene {
         pos: new Position(39 + currentSaveId * 96, 60),
         color: "bnw",
         font: "minecraftia",
-        text: "Salvamento Atual",
+        text: "Progresso Atual",
       });
-      this.gameObjects.push(selectedSaveText);
+
+      let cancelBtn = new SceneChanger({
+        pos: new Position(137, 227),
+        spriteName: "btn_cancel",
+        hoverSpriteName: "btn_cancel_held",
+        width: 78,
+        height: 20,
+        sceneReference: DESKTOPSCENE,
+      });
+      this.gameObjects.push(selectedSaveText, cancelBtn);
     }
   }
 }

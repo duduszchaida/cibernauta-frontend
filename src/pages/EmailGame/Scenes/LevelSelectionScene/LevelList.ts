@@ -21,7 +21,7 @@ export const LevelList: Record<string, Level> = {
     reference: CONTROLSLEVEL,
     buttons: [SAFE, MALICIOUS],
     starterEmail: EmailList.mailTutorialControls,
-    canSelect: true,
+    canSelect: false,
     secondsTimer: 0,
   },
   [TUTORIALLEVEL]: {

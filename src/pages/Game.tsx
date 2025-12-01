@@ -111,7 +111,6 @@ export default function Game() {
       }
 
       try {
-        console.log(gameId);
         const data = await gamesService.getOne(Number(gameId));
         if (
           data.enabled === false &&

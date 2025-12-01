@@ -3,6 +3,7 @@ import Position from "./Position";
 import type Sprite from "./Elements/Sprite";
 import measureTextWidth from "./MeasureTextWidth";
 import type { Line } from "./Scenes/EmailScene/EmailContent";
+import { Utils } from "./Utils";
 
 function splitWithBreakline(text: string): string[] {
   const parts = [];

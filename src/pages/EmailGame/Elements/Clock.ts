@@ -1,43 +1,29 @@
 import type CanvasObject from "../CanvasObject";
-import Position from "../Position";
-import { gameTimeTracker } from "../GameTimeTracker";
+import type Position from "../Position";
+import { Utils } from "../Utils";
 import TextObject from "./TextObject";
-import Timer from "./Timer";
 
-// TO-DO: Objeto de teste, remover antes do envio
-
-let testTimer: any = null;
-testTimer = new Timer({ goalSecs: 20, pos: new Position(200, 16) });
-setTimeout(() => {
-  testTimer.start();
-}, 3000);
-
-export default class Clock extends TextObject {
-  constructor() {
+export class Clock extends TextObject {
+  constructor(pos: Position) {
     super({
-      pos: new Position(128, 128),
-      color: "black",
-      font: "minecraftia",
-      text: "",
+      pos: pos,
+      color: "white",
+      font: "wcp",
+      text: "clock",
+      direction: "left",
+      ignoreClick: true,
     });
   }
 
   render(canvasObject: CanvasObject): void {
-    const timeString = gameTimeTracker.currentTic.toString();
-    canvasObject.writeText(this.fontSprite, this.font, timeString, this.pos);
     canvasObject.writeText(
       this.fontSprite,
       this.font,
-      gameTimeTracker.paused ? "game is paused" : "game is not paused",
-      new Position(64, 32),
+      Utils.numberFormat(new Date().getHours(), 2) +
+        ":" +
+        Utils.numberFormat(new Date().getMinutes(), 2),
+      this.pos,
+      this.direction,
     );
-    if (testTimer) {
-      canvasObject.writeText(
-        this.fontSprite,
-        this.font,
-        testTimer.timeRemaining(),
-        this.pos.addPos(new Position(64, 16)),
-      );
-    }
   }
 }

@@ -12,12 +12,16 @@ const sprites: Record<string, Sprite> = {
   bg_score: new Sprite("/game/email/bg_score.png"),
   bg_start: new Sprite("/game/email/bg_start.png"),
 
+  btn_cancel: new Sprite("/game/email/btn_cancel.png"),
+  btn_cancel_held: new Sprite("/game/email/btn_cancel_held.png"),
   btn_malicious: new Sprite("/game/email/btn_malicious.png"),
   btn_malicious_held: new Sprite("/game/email/btn_malicious_held.png"),
   btn_safe: new Sprite("/game/email/btn_safe.png"),
   btn_safe_held: new Sprite("/game/email/btn_safe_held.png"),
   btn_spam: new Sprite("/game/email/btn_spam.png"),
   btn_spam_held: new Sprite("/game/email/btn_spam_held.png"),
+  btn_no: new Sprite("/game/email/btn_no.png"),
+  btn_no_held: new Sprite("/game/email/btn_no_held.png"),
   btn_notepad: new Sprite("/game/email/btn_notepad.png"),
   btn_notepad_held: new Sprite("/game/email/btn_notepad_held.png"),
   btn_trash: new Sprite("/game/email/btn_trash.png"),
@@ -26,6 +30,8 @@ const sprites: Record<string, Sprite> = {
   btn_exit_held: new Sprite("/game/email/btn_exit_held.png"),
   btn_return: new Sprite("/game/email/btn_return.png"),
   btn_return_held: new Sprite("/game/email/btn_return_held.png"),
+  btn_yes: new Sprite("/game/email/btn_yes.png"),
+  btn_yes_held: new Sprite("/game/email/btn_yes_held.png"),
 
   cam: new Sprite("/game/email/cam.png"),
 
@@ -117,6 +123,7 @@ const sprites: Record<string, Sprite> = {
   save_avatar_empty: new Sprite("/game/email/save_avatar_empty.png"),
   save_avatar_green: new Sprite("/game/email/save_avatar_green.png"),
   save_avatar_pink: new Sprite("/game/email/save_avatar_pink.png"),
+  saves_warning: new Sprite("/game/email/saves_warning.png"),
 
   screen_filter: new Sprite("/game/email/screen_filter.png"),
 
@@ -128,12 +135,13 @@ const sprites: Record<string, Sprite> = {
 
   wcp_black: new Sprite("/game/email/wcp_black.png"),
   wcp_brown: new Sprite("/game/email/wcp_brown.png"),
+  wcp_dark_blue: new Sprite("/game/email/wcp_dark_blue.png"),
+  wcp_dark_gray: new Sprite("/game/email/wcp_dark_gray.png"),
   wcp_light_orange: new Sprite("/game/email/wcp_light_orange.png"),
   wcp_lime: new Sprite("/game/email/wcp_lime.png"),
   wcp_red: new Sprite("/game/email/wcp_red.png"),
   wcp_selected: new Sprite("/game/email/wcp_selected.png"),
-  wcp_dark_blue: new Sprite("/game/email/wcp_dark_blue.png"),
-  wcp_dark_gray: new Sprite("/game/email/wcp_dark_gray.png"),
+  wcp_white: new Sprite("/game/email/wcp_white.png"),
 
   yes_no_switch: new Sprite("/game/email/yes_no_switch.png"),
 };

@@ -7,7 +7,7 @@ import { gameTimeTracker } from "./GameTimeTracker";
 import keyboardState, { PRESSED } from "./Input/KeyboardState";
 import mouseState from "./Input/MouseState";
 import Position from "./Position";
-import { DesktopScene, MANUALSAVE } from "./Scenes/DesktopScene";
+import { DesktopScene, MANUALSAVE, SAVEWARNING } from "./Scenes/DesktopScene";
 import EmailPicture, {
   SELECT as SELECTANOMALY,
 } from "./Scenes/EmailScene/EmailPicture";
@@ -22,7 +22,7 @@ import {
   DESKTOPSCENE,
   EMAILSCENE,
   LEVELSELECTION,
-  SAVESCENE,
+  SAVESSCENE,
   SCORESCENE,
   SETTINGSSCENE,
 } from "./Scenes/SceneReferences";
@@ -39,6 +39,8 @@ function inspectModeSwitch(gameState: GameState) {
       gameState.inspecting = !gameState.inspecting;
     }
     gameState.currentScene.togglePannel();
+  } else {
+    gameState.inspecting = false;
   }
 }
 
@@ -55,9 +57,9 @@ function createScene(result: any, gameState: GameState): Scene {
       return new EmailScene(result.level);
     case DESKTOPSCENE:
       return new DesktopScene(
-        gameState.currentSave.settings?.settingAutosave ?? true,
+        gameState.currentSave.settings.settingAutosave ?? true,
       );
-    case SAVESCENE:
+    case SAVESSCENE:
       return new SaveScene(gameState.saveSlots, gameState.currentSaveSlotId);
     case LEVELSELECTION:
       return new LevelSelectionScene(gameState);
@@ -78,7 +80,16 @@ function mouseClickHandler(gameState: GameState, obj: GameObject) {
   const result = obj.clickFunction(mouseState.pos);
   switch (result?.type) {
     case SCENECHANGE:
-      gameState.currentScene = createScene(result, gameState);
+      if (result.sceneReference != SAVESSCENE || gameState.progressSaved) {
+        gameState.currentScene = createScene(result, gameState);
+      } else {
+        if (
+          gameState.currentScene instanceof DesktopScene &&
+          !gameState.progressSaved
+        ) {
+          gameState.currentScene.toggleSaveWarning();
+        }
+      }
       if (gameState.inspecting) {
         inspectModeSwitch(gameState);
       }
@@ -125,6 +136,18 @@ function mouseClickHandler(gameState: GameState, obj: GameObject) {
     case MANUALSAVE:
       gameState.saveGame(true);
       break;
+    case SAVEWARNING:
+      if (result.decision) {
+        gameState.currentScene = createScene(
+          { sceneReference: SAVESSCENE },
+          gameState,
+        );
+      } else {
+        if (gameState.currentScene instanceof DesktopScene) {
+          gameState.currentScene.toggleSaveWarning();
+        }
+      }
+      break;
     case SELECTSAVE:
       gameState.selectSave(result.slot);
       gameState.currentScene = createScene(
@@ -144,7 +167,6 @@ function mouseClickHandler(gameState: GameState, obj: GameObject) {
     case CLASSEMAIL:
       if (gameState.currentScene instanceof EmailScene) {
         gameState.currentScene.evaluateEmail(result.class);
-        gameState.inspecting = false;
         if (
           gameState.currentScene.emailDataList.length == 0 ||
           gameState.currentScene.timer.finished
