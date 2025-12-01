@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { startGame } from "./EmailGame/GameManager";
 
 interface EmailGameComponentProps {
@@ -13,24 +13,58 @@ export default function EmailGameComponent({
     imageRendering: "pixelated",
     border: "none",
     outline: "none",
+    maxWidth: "100%",
+    maxHeight: "100%",
+    width: "auto",
+    height: "auto",
   };
+  
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const gameStarted = useRef(false);
+  const [gameScale, setGameScale] = useState(3);
 
   useEffect(() => {
-    if (canvasRef.current && !gameStarted.current) {
+    const calculateScale = () => {
+      if (!containerRef.current) return;
+      
+      const container = containerRef.current;
+      const containerWidth = container.clientWidth;
+      const containerHeight = container.clientHeight;
+      
+      const baseWidth = 352;
+      const baseHeight = 256;
+      
+      // Calcula a escala que cabe no container mantendo proporção
+      const scaleX = Math.floor(containerWidth / baseWidth);
+      const scaleY = Math.floor(containerHeight / baseHeight);
+      
+      // Usa a menor escala para garantir que cabe
+      const newScale = Math.max(1, Math.min(scaleX, scaleY, 3));
+      
+      setGameScale(newScale);
+    };
+
+    calculateScale();
+    window.addEventListener("resize", calculateScale);
+    
+    return () => window.removeEventListener("resize", calculateScale);
+  }, []);
+
+  useEffect(() => {
+    if (canvasRef.current && !gameStarted.current && gameScale > 0) {
       gameStarted.current = true;
       startGame(canvasRef.current, gameScale, leaderboardUpdate);
     }
-  }, []);
-
-  const gameScale = 3;
+  }, [gameScale, leaderboardUpdate]);
 
   return (
     <div
+      ref={containerRef}
       style={{
-        width: 352 * gameScale,
-        height: 256 * gameScale,
+        width: "100%",
+        height: "100%",
+        minHeight: "256px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

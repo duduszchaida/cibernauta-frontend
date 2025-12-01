@@ -52,10 +52,10 @@ export default function Signup() {
       });
       return;
     }
-    if (loginUsername.length < 4) {
+    if (loginUsername.length < 3) {
       toast({
         title: "Erro",
-        description: "O usuário de login deve ter no minimo 4 caracteres",
+        description: "O usuário de login deve ter no minimo 3 caracteres",
         variant: "destructive",
       });
       return;

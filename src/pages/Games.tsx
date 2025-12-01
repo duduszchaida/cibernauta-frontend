@@ -269,7 +269,8 @@ export default function Games() {
                       : "hover:border-gray-700 cursor-pointer"
                   }`}
                 >
-                  {user?.role === "ADMIN" && (
+                  {(user?.role === "ADMIN" ||
+                    user?.role === "MODERATOR") && (
                     <div className="absolute top-4 right-4 z-10">
                       <button
                         onClick={(e) => {
@@ -295,16 +296,18 @@ export default function Games() {
                             <Pencil className="w-4 h-4" />
                             Editar
                           </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteGame(game.game_id, game.game_title);
-                            }}
-                            className="w-full px-4 py-3 text-left text-red-400 hover:bg-[#374151] transition-colors flex items-center gap-2"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                            Excluir
-                          </button>
+                          {user?.role === "ADMIN" && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteGame(game.game_id, game.game_title);
+                              }}
+                              className="w-full px-4 py-3 text-left text-red-400 hover:bg-[#374151] transition-colors flex items-center gap-2"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                              Excluir
+                            </button>
+                          )}
                         </div>
                       )}
                     </div>

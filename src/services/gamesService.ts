@@ -17,6 +17,7 @@ export const gamesService = {
     difficulty: number;
     image_url?: string;
     game_url?: string;
+    game_type?: string;
     enabled?: boolean;
     controls: Array<{ key_image: string; description: string }> | undefined;
   }) => {

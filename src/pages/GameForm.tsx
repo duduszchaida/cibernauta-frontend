@@ -28,6 +28,7 @@ export default function GameForm() {
   const [gameUrl, setGameUrl] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [enabled, setEnabled] = useState(true);
+  const [gameType, setGameType] = useState<"local" | "external">("external");
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [controls, setControls] = useState<
@@ -51,6 +52,7 @@ export default function GameForm() {
       setGameUrl(game.game_url || "");
       setDifficulty(game.difficulty.toString());
       setEnabled(game.enabled !== undefined ? game.enabled : true);
+      setGameType(game.game_type === "local" ? "local" : "external");
       setControls(game.controls || []);
     } catch (error) {
       toast({
@@ -83,7 +85,7 @@ export default function GameForm() {
       return;
     }
 
-    if (!isEditMode && !gameUrl.trim()) {
+    if (!isEditMode && gameType === "external" && !gameUrl.trim()) {
       toast({
         title: "Erro",
         description: "Por favor, insira uma url para o jogo",
@@ -116,6 +118,7 @@ export default function GameForm() {
             difficulty: Number(difficulty),
             image_url: imageUrl.trim() || undefined,
             game_url: gameUrl.trim() || undefined,
+            game_type: gameType,
             enabled,
             controls: controls,
           });
@@ -131,6 +134,7 @@ export default function GameForm() {
             difficulty: Number(difficulty),
             image_url: imageUrl.trim() || undefined,
             game_url: gameUrl.trim() || undefined,
+            game_type: gameType,
             enabled,
             controls: controls.length > 0 ? controls : undefined,
           });
@@ -149,6 +153,7 @@ export default function GameForm() {
           difficulty: Number(difficulty),
           image_url: imageUrl.trim() || undefined,
           game_url: gameUrl.trim() || undefined,
+          game_type: gameType,
           enabled,
           controls: controls.length > 0 ? controls : undefined,
         });
@@ -265,17 +270,56 @@ export default function GameForm() {
 
           <div>
             <label className="block text-gray-300 text-base font-medium mb-2">
-              URL do Jogo
+              Tipo de Jogo
             </label>
-            <input
-              type="text"
-              value={gameUrl}
-              onChange={(e) => setGameUrl(e.target.value)}
-              placeholder="https://exemplo.com/jogo"
-              disabled={isLoading}
-              className="w-full h-[56px] px-5 bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg text-white text-base placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 disabled:opacity-50 transition-all"
-            />
+            <div className="flex gap-4">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="gameType"
+                  value="external"
+                  checked={gameType === "external"}
+                  onChange={(e) => setGameType(e.target.value as "local" | "external")}
+                  disabled={isLoading}
+                  className="w-4 h-4 text-blue-600 focus:ring-blue-500 focus:ring-2"
+                />
+                <span className="text-white text-base">Externo (URL)</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="gameType"
+                  value="local"
+                  checked={gameType === "local"}
+                  onChange={(e) => setGameType(e.target.value as "local" | "external")}
+                  disabled={isLoading}
+                  className="w-4 h-4 text-blue-600 focus:ring-blue-500 focus:ring-2"
+                />
+                <span className="text-white text-base">Local (Hospedado)</span>
+              </label>
+            </div>
+            <p className="text-gray-400 text-sm mt-2">
+              {gameType === "external"
+                ? "O jogo será carregado de uma URL externa via iframe"
+                : "O jogo está hospedado localmente na aplicação"}
+            </p>
           </div>
+
+          {gameType === "external" && (
+            <div>
+              <label className="block text-gray-300 text-base font-medium mb-2">
+                URL do Jogo
+              </label>
+              <input
+                type="text"
+                value={gameUrl}
+                onChange={(e) => setGameUrl(e.target.value)}
+                placeholder="https://exemplo.com/jogo"
+                disabled={isLoading}
+                className="w-full h-[56px] px-5 bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg text-white text-base placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 disabled:opacity-50 transition-all"
+              />
+            </div>
+          )}
 
           <div>
             <label className="block text-gray-300 text-base font-medium mb-2">
