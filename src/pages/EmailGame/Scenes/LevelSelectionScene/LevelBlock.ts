@@ -21,10 +21,11 @@ export class LevelBlock extends GameObject {
     order: number; // Posição do nível na lista de níveis
   }) {
     super({
-      pos: new Position(6, 47 + 24 * args.order),
+      pos: new Position(6, 48 + 24 * args.order),
       height: 24,
       width: 324,
       spriteName: "level_block",
+      hoverSpriteName: "level_block_hover",
       clickFunction: () => {
         return {
           type: SCENECHANGE,
@@ -46,7 +47,11 @@ export class LevelBlock extends GameObject {
     if (this.pos.y < 23) {
       return;
     }
-    canvasObject.drawSprite(this.sprite, this.pos, this.width, this.height);
+    let bgSprite = this.sprite;
+    if (this.hoverSprite && this.cursorHovering) {
+      bgSprite = this.hoverSprite;
+    }
+    canvasObject.drawSprite(bgSprite, this.pos, this.width, this.height);
     canvasObject.writeText(
       this.fontSprite,
       "minecraftia",

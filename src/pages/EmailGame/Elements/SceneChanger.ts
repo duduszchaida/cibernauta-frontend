@@ -9,13 +9,19 @@ export default class SceneChanger extends GameObject {
   constructor(args: {
     pos: Position;
     spriteName: string;
+    heldSpriteName?: string;
+    hoverSpriteName?: string;
     appName?: string;
     clickFunction?: Function;
     width?: number;
     height?: number;
     sceneReference?: string; // Referência usada no retorno de clickFunction que indica para qual cena a cena atual deve ser alterada
   }) {
-    super({ ...args, width: args.width ?? 32, height: args.height ?? 32 });
+    super({
+      ...args,
+      width: args.width ?? 32,
+      height: args.height ?? 32,
+    });
     this.clickFunction =
       args.clickFunction ??
       (() => {

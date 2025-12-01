@@ -13,6 +13,10 @@ export default class GameObject {
   hitbox: Hitbox; // Objeto de hitbox, usado para verificar se o mouse está sobrepondo o objeto
   invisible: boolean; // Indica se o objeto ignora a renderização
   ignoreClick: boolean; // Indica se o objeto é ignorado na função de click do mouse
+  cursorHovering: boolean = false;
+  hoverSprite?: Sprite;
+  cursorHeld: boolean = false;
+  heldSprite?: Sprite;
 
   clickFunction: Function | null; // Função chamada quando o mouse clica o objeto.
   // Possúi retorno genêrico para múltiplas possibilidades de funções
@@ -22,6 +26,8 @@ export default class GameObject {
   constructor(args: {
     pos?: Position;
     spriteName?: string; // String usada para encontrar o objeto de Sprite correspondente
+    hoverSpriteName?: string;
+    heldSpriteName?: string;
     width: number;
     height: number;
     hitbox?: Hitbox;
@@ -32,6 +38,12 @@ export default class GameObject {
   }) {
     this.pos = args.pos ?? new Position();
     this.sprite = findSprite(args.spriteName ?? "cam");
+    if (args.hoverSpriteName) {
+      this.hoverSprite = findSprite(args.hoverSpriteName);
+    }
+    if (args.heldSpriteName) {
+      this.heldSprite = findSprite(args.heldSpriteName);
+    }
     this.width = args.width;
     this.height = args.height;
     this.hitbox =
@@ -56,6 +68,12 @@ export default class GameObject {
     if (this.invisible) {
       return;
     }
-    canvasObject.drawSprite(this.sprite, this.pos, this.width, this.height);
+    let sprite = this.sprite;
+    if (this.heldSprite && this.cursorHeld) {
+      sprite = this.heldSprite;
+    } else if (this.hoverSprite && this.cursorHovering) {
+      sprite = this.hoverSprite;
+    }
+    canvasObject.drawSprite(sprite, this.pos, this.width, this.height);
   }
 }

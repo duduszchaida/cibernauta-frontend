@@ -22,6 +22,7 @@ export function makeButton(btn: ButtonReference) {
         width: 24,
         invisible: true,
         spriteName: "btn_safe",
+        heldSpriteName: "btn_safe_held",
         clickFunction: () => {
           return { type: CLASSEMAIL, class: SAFE };
         },
@@ -33,6 +34,7 @@ export function makeButton(btn: ButtonReference) {
         width: 24,
         invisible: true,
         spriteName: "btn_malicious",
+        heldSpriteName: "btn_malicious_held",
         clickFunction: () => {
           return { type: CLASSEMAIL, class: MALICIOUS };
         },
@@ -44,6 +46,7 @@ export function makeButton(btn: ButtonReference) {
         width: 24,
         invisible: true,
         spriteName: "btn_spam",
+        heldSpriteName: "btn_spam_held",
         clickFunction: () => {
           return { type: CLASSEMAIL, class: SPAM };
         },
@@ -55,6 +58,7 @@ export function makeButton(btn: ButtonReference) {
         width: 24,
         invisible: true,
         spriteName: "btn_notepad",
+        heldSpriteName: "btn_notepad_held",
         clickFunction: () => {
           return { type: OPENNOTEPAD };
         },

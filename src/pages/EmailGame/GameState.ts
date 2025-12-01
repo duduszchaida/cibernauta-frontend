@@ -44,15 +44,8 @@ export default class GameState {
     let savesData: any = null;
     try {
       savesData = (await savesService.getSave(1)).save_data;
-      if (!savesData.settings) {
-        savesData.settings = {
-          [SETTINGAUTOSAVE]: true,
-          [SETTINGFILTER]: false,
-          [SETTINGPOPUP]: true,
-        };
-      }
-    } catch {
-      console.warn("couldn't get save");
+    } catch (error) {
+      console.warn("couldn't get save", error);
     }
     let newGame = true;
     let saves: Save[] = [
@@ -89,6 +82,15 @@ export default class GameState {
     ];
     if (savesData != null) {
       saves = JSON.parse(savesData);
+      saves.forEach((s) => {
+        if (!s.settings) {
+          s.settings = {
+            [SETTINGAUTOSAVE]: true,
+            [SETTINGFILTER]: false,
+            [SETTINGPOPUP]: true,
+          };
+        }
+      });
       newGame = false;
     }
     this.currentScene = new StartScene(newGame ? DESKTOPSCENE : SAVESCENE);
@@ -98,7 +100,6 @@ export default class GameState {
     } else {
       this.currentSaveSlotId = null;
     }
-    console.log("setting currentSave empty");
     this.currentSave = {
       lastSaveTime: null,
       levelProgressRecord: {},
@@ -176,7 +177,6 @@ export default class GameState {
     this.saveSlots[this.currentSaveSlotId] = JSON.parse(
       JSON.stringify(this.currentSave),
     );
-    console.log(this.currentSave);
     if (this.currentSave.settings?.[SETTINGPOPUP]) {
       if (settings) {
         this.popup.newPopup("Configurações salvas.", 2.5);

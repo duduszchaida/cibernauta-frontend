@@ -10,6 +10,7 @@ export default class AppIcon extends SceneChanger {
   constructor(args: {
     pos: Position;
     spriteName: string;
+    hoverSpriteName: string;
     appName?: string;
     clickFunction?: Function;
     width?: number;
@@ -21,8 +22,14 @@ export default class AppIcon extends SceneChanger {
   }
 
   render(canvasObject: CanvasObject) {
+    let sprite = this.sprite;
+    if (this.heldSprite && this.cursorHeld) {
+      sprite = this.heldSprite;
+    } else if (this.hoverSprite && this.cursorHovering) {
+      sprite = this.hoverSprite;
+    }
     // Desenha o Sprite do ícone
-    canvasObject.drawSprite(this.sprite, this.pos, this.width, this.height);
+    canvasObject.drawSprite(sprite, this.pos, this.width, this.height);
     // Escreve o texto abaixo do ícone
     canvasObject.writeText(
       findSprite("minecraftia_bnw"),

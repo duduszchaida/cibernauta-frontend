@@ -135,9 +135,6 @@ export default class EmailScene extends Scene {
     }
     this.emailInterface.newData(emailData);
 
-    if (this.buttonPannel.open) {
-      this.togglePannel();
-    }
     this.gameObjects = [
       ...this.gameObjects,
       this.emailInterface.emailContent,

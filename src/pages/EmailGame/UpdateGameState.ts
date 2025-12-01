@@ -54,7 +54,9 @@ function createScene(result: any, gameState: GameState): Scene {
     case EMAILSCENE:
       return new EmailScene(result.level);
     case DESKTOPSCENE:
-      return new DesktopScene();
+      return new DesktopScene(
+        gameState.currentSave.settings?.settingAutosave ?? true,
+      );
     case SAVESCENE:
       return new SaveScene(gameState.saveSlots, gameState.currentSaveSlotId);
     case LEVELSELECTION:
@@ -168,6 +170,11 @@ function mouseHoverHandler(
   cursor: Cursor,
   obj: GameObject,
 ) {
+  if (mouseState.held) {
+    obj.cursorHeld = true;
+  } else {
+    obj.cursorHovering = true;
+  }
   if (obj.clickFunction instanceof Function) {
     if (
       obj instanceof EmailPicture ||
@@ -232,12 +239,15 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
 
   let firstContact = false; // Indicates if the loop has found any objects that the cursor can interact with
   const gameObjects = gameState.currentScene.gameObjects;
-  for (let i = gameObjects.length - 1; i > -1 && !firstContact; i--) {
+  for (let i = gameObjects.length - 1; i > -1; i--) {
     const obj = gameObjects[i];
+    obj.cursorHeld = false;
+    obj.cursorHovering = false;
     if (
       obj.invisible ||
       obj.ignoreClick ||
-      !obj.hitbox.positionInside(mouseState.pos)
+      !obj.hitbox.positionInside(mouseState.pos) ||
+      firstContact
     ) {
       continue;
     }

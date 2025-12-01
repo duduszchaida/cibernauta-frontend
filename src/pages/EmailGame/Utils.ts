@@ -1,6 +1,5 @@
 const logDict: Record<string, any> = {};
 export const Utils = {
-
   randomInt(min: number, max: number) {
     return Math.floor(Math.random() * max) + min;
   },
@@ -41,12 +40,12 @@ export const Utils = {
     );
   },
 
-  logOnce(thing: any){
+  logOnce(thing: any) {
     let str = thing.toString();
-    if (logDict[str]){
+    if (logDict[str]) {
       return;
     }
     logDict[str] = true;
     console.log(thing);
-  }
+  },
 };

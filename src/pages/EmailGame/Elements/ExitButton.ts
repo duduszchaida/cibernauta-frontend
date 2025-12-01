@@ -9,6 +9,7 @@ export class ExitButton extends SceneChanger {
       width: 16,
       pos: new Position(332, 4),
       spriteName: alt ? "btn_return" : "btn_exit",
+      heldSpriteName: alt ? "btn_return_held" : "btn_exit_held",
       sceneReference: reference,
     });
   }

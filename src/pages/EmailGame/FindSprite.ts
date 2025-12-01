@@ -13,12 +13,18 @@ const sprites: Record<string, Sprite> = {
   bg_start: new Sprite("/game/email/bg_start.png"),
 
   btn_malicious: new Sprite("/game/email/btn_malicious.png"),
+  btn_malicious_held: new Sprite("/game/email/btn_malicious_held.png"),
   btn_safe: new Sprite("/game/email/btn_safe.png"),
+  btn_safe_held: new Sprite("/game/email/btn_safe_held.png"),
   btn_spam: new Sprite("/game/email/btn_spam.png"),
+  btn_spam_held: new Sprite("/game/email/btn_spam_held.png"),
   btn_notepad: new Sprite("/game/email/btn_notepad.png"),
+  btn_notepad_held: new Sprite("/game/email/btn_notepad_held.png"),
   btn_trash: new Sprite("/game/email/btn_trash.png"),
   btn_exit: new Sprite("/game/email/btn_exit.png"),
+  btn_exit_held: new Sprite("/game/email/btn_exit_held.png"),
   btn_return: new Sprite("/game/email/btn_return.png"),
+  btn_return_held: new Sprite("/game/email/btn_return_held.png"),
 
   cam: new Sprite("/game/email/cam.png"),
 
@@ -33,13 +39,17 @@ const sprites: Record<string, Sprite> = {
   email_selection_cover: new Sprite("/game/email/email_selection_cover.png"),
   email_ui: new Sprite("/game/email/email_ui.png"),
 
-  icon_concepts: new Sprite("/game/email/icon_concepts.png"),
   icon_email: new Sprite("/game/email/icon_email.png"),
+  icon_email_hover: new Sprite("/game/email/icon_email_hover.png"),
   icon_save: new Sprite("/game/email/icon_save.png"),
+  icon_save_hover: new Sprite("/game/email/icon_save_hover.png"),
   icon_saves: new Sprite("/game/email/icon_saves.png"),
+  icon_saves_hover: new Sprite("/game/email/icon_saves_hover.png"),
   icon_settings: new Sprite("/game/email/icon_settings.png"),
+  icon_settings_hover: new Sprite("/game/email/icon_settings_hover.png"),
 
   level_block: new Sprite("/game/email/level_block.png"),
+  level_block_hover: new Sprite("/game/email/level_block_hover.png"),
 
   marker_finished: new Sprite("/game/email/marker_finished.png"),
   marker_perfect: new Sprite("/game/email/marker_perfect.png"),
@@ -68,7 +78,9 @@ const sprites: Record<string, Sprite> = {
 
   paragraph_selected: new Sprite("/game/email/paragraph_selected.png"),
   pause_off_btn: new Sprite("/game/email/pause_off_btn.png"),
+  pause_off_btn_held: new Sprite("/game/email/pause_off_btn_held.png"),
   pause_on_btn: new Sprite("/game/email/pause_on_btn.png"),
+  pause_on_btn_held: new Sprite("/game/email/pause_on_btn_held.png"),
   pause_screen: new Sprite("/game/email/pause_screen.png"),
   pause_screen_notepad: new Sprite("/game/email/pause_screen_notepad.png"),
 
