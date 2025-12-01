@@ -179,169 +179,167 @@ export default function Game() {
       <Navigation username={user?.username} showGamesLink={true} />
 
       <div className="pt-6 px-4 sm:px-6 overflow-x-hidden">
-        <div className="max-w-[1600px] mx-auto w-full">
-          <div
-            className={`grid grid-cols-1 gap-4 w-full ${
-              gameData.game_type === "local" &&
-              gameData.controls &&
-              gameData.controls.length > 0
-                ? "2xl:grid-cols-[300px,1fr,280px] xl:grid-cols-[260px,1fr,260px] lg:grid-cols-1"
-                : gameData.game_type === "local"
-                  ? "2xl:grid-cols-[1fr,280px] xl:grid-cols-[1fr,260px] lg:grid-cols-1"
-                  : gameData.controls && gameData.controls.length > 0
-                    ? "2xl:grid-cols-[300px,1fr] xl:grid-cols-[260px,1fr] lg:grid-cols-1"
-                    : ""
-            }`}
-          >
-            <div className="w-full">
-              {gameData.controls && gameData.controls.length > 0 && (
-                <div className="bg-[#374B7C] rounded-2xl p-3 sm:p-5 h-fit order-1 xl:order-1 w-full">
-                  <h2 className="text-white text-lg font-semibold mb-5">
-                    Controles
-                  </h2>
+        <div
+          className={`grid grid-cols-1 gap-4 w-full ${
+            gameData.game_type === "local" &&
+            gameData.controls &&
+            gameData.controls.length > 0
+              ? "2xl:grid-cols-[300px,1fr,280px] xl:grid-cols-[260px,1fr,260px] lg:grid-cols-1"
+              : gameData.game_type === "local"
+                ? "2xl:grid-cols-[1fr,280px] xl:grid-cols-[1fr,260px] lg:grid-cols-1"
+                : gameData.controls && gameData.controls.length > 0
+                  ? "2xl:grid-cols-[300px,1fr] xl:grid-cols-[260px,1fr] lg:grid-cols-1"
+                  : ""
+          }`}
+        >
+          <div className="w-full">
+            {gameData.controls && gameData.controls.length > 0 && (
+              <div className="bg-[#374B7C] rounded-2xl p-3 sm:p-5 h-fit order-1 w-full">
+                <h2 className="text-white text-lg font-semibold mb-5">
+                  Controles
+                </h2>
 
-                  <div className="space-y-3">
-                    {gameData.controls.map((control) => (
-                      <div
-                        key={control.control_id}
-                        className="bg-[#2B3E68] rounded-xl p-3"
-                      >
-                        <div className="flex items-center gap-3 min-w-0">
-                          <img
-                            src={`/keys/${control.key_image}.png`}
-                            alt={control.description}
-                            className="flex-shrink-0"
-                            style={{
-                              imageRendering: "pixelated",
-                              width: 62,
-                              height: 62,
-                            }}
-                          />
-                          <span className="text-white text-base font-medium break-words overflow-wrap-anywhere flex-1 min-w-0">
-                            {control.description}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="bg-[#374B7C] rounded-2xl p-3 sm:p-5 order-2 xl:order-2 w-full overflow-hidden h-fit w-fit">
-              {gameData.enabled === false &&
-                (user?.role === "ADMIN" || user?.role === "MODERATOR") && (
-                  <div className="mb-4 bg-red-900/30 border-2 border-red-500 rounded-lg p-3 flex items-center gap-2">
-                    <div>
-                      <div className="text-red-400 font-semibold text-sm">
-                        JOGO DESABILITADO
-                      </div>
-                      <div className="text-red-300 text-xs">
-                        Você está visualizando este jogo como
-                        administrador/moderador
+                <div className="space-y-3">
+                  {gameData.controls.map((control) => (
+                    <div
+                      key={control.control_id}
+                      className="bg-[#2B3E68] rounded-xl p-3"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <img
+                          src={`/keys/${control.key_image}.png`}
+                          alt={control.description}
+                          className="flex-shrink-0"
+                          style={{
+                            imageRendering: "pixelated",
+                            width: 62,
+                            height: 62,
+                          }}
+                        />
+                        <span className="text-white text-base font-medium break-words overflow-wrap-anywhere flex-1 min-w-0">
+                          {control.description}
+                        </span>
                       </div>
                     </div>
-                  </div>
-                )}
-
-              <div className="bg-[#1a2744] rounded-lg overflow-hidden flex items-center justify-center w-full">
-                {gameData.game_id == 1 ? (
-                  <EmailGameComponent
-                    leaderboardUpdate={getLeaderBoard}
-                  ></EmailGameComponent>
-                ) : (
-                  <IframeGameComponent gameUrl={gameData.game_url} />
-                )}
-              </div>
-            </div>
-
-            {gameData.game_type === "local" && (
-              <div className="space-y-4 order-3 xl:order-3 w-full">
-                <div className="bg-[#374B7C] rounded-2xl p-3 sm:p-5 w-full">
-                  <h2 className="text-white text-lg font-semibold mb-5 flex items-center gap-2">
-                    Placar
-                  </h2>
-
-                  <div className="space-y-2">
-                    {leaderboard.length > 0 ? (
-                      leaderboard.map((entry) => {
-                        const position = entry.position || 0;
-                        return (
-                          <div
-                            key={entry.highscore_id}
-                            className={`bg-[#2B3E68] rounded-lg p-3 ${
-                              entry.save.user.username === user?.username
-                                ? "border-2 border-yellow-400"
-                                : ""
-                            }`}
-                          >
-                            <div className="flex items-center justify-between gap-2 min-w-0">
-                              <div className="flex items-center gap-3 min-w-0 flex-1">
-                                <div
-                                  className={`flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm flex-shrink-0 ${
-                                    position === 1
-                                      ? "bg-yellow-500 text-white"
-                                      : position === 2
-                                        ? "bg-gray-400 text-white"
-                                        : position === 3
-                                          ? "bg-amber-600 text-white"
-                                          : "bg-[#4A5D8F] text-gray-300"
-                                  }`}
-                                >
-                                  {position === 1 ? (
-                                    <img
-                                      src={"/number_1.png"}
-                                      style={{
-                                        width: "32px",
-                                        height: "32px",
-                                        imageRendering: "pixelated",
-                                      }}
-                                    />
-                                  ) : position === 2 ? (
-                                    <img
-                                      src={"/number_2.png"}
-                                      style={{
-                                        width: "32px",
-                                        height: "32px",
-                                        imageRendering: "pixelated",
-                                      }}
-                                    />
-                                  ) : position === 3 ? (
-                                    <img
-                                      src={"/number_3.png"}
-                                      style={{
-                                        width: "32px",
-                                        height: "32px",
-                                        imageRendering: "pixelated",
-                                      }}
-                                    />
-                                  ) : (
-                                    position
-                                  )}
-                                </div>
-                                <div className="text-white text-sm font-medium truncate min-w-0 flex-1">
-                                  {entry.save.user.username}
-                                </div>
-                              </div>
-                              <div className="text-yellow-400 font-bold text-lg flex-shrink-0">
-                                {entry.score}
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })
-                    ) : (
-                      <div className="bg-[#2B3E68] rounded-lg p-6 text-center">
-                        <p className="text-gray-400 text-sm">
-                          Nenhuma pontuação registrada ainda
-                        </p>
-                      </div>
-                    )}
-                  </div>
+                  ))}
                 </div>
               </div>
             )}
           </div>
+
+          <div className="bg-[#374B7C] rounded-2xl p-3 sm:p-5 order-2 w-full overflow-hidden h-fit">
+            {gameData.enabled === false &&
+              (user?.role === "ADMIN" || user?.role === "MODERATOR") && (
+                <div className="mb-4 bg-red-900/30 border-2 border-red-500 rounded-lg p-3 flex items-center gap-2">
+                  <div>
+                    <div className="text-red-400 font-semibold text-sm">
+                      JOGO DESABILITADO
+                    </div>
+                    <div className="text-red-300 text-xs">
+                      Você está visualizando este jogo como
+                      administrador/moderador
+                    </div>
+                  </div>
+                </div>
+              )}
+
+            <div className="bg-[#1a2744] rounded-lg overflow-hidden flex items-center justify-center w-full">
+              {gameData.game_id == 1 ? (
+                <EmailGameComponent
+                  leaderboardUpdate={getLeaderBoard}
+                ></EmailGameComponent>
+              ) : (
+                <IframeGameComponent gameUrl={gameData.game_url} />
+              )}
+            </div>
+          </div>
+
+          {gameData.game_type === "local" && (
+            <div className="space-y-4 order-3 w-full">
+              <div className="bg-[#374B7C] rounded-2xl p-3 sm:p-5 w-full">
+                <h2 className="text-white text-lg font-semibold mb-5 flex items-center gap-2">
+                  Placar
+                </h2>
+
+                <div className="space-y-2">
+                  {leaderboard.length > 0 ? (
+                    leaderboard.map((entry) => {
+                      const position = entry.position || 0;
+                      return (
+                        <div
+                          key={entry.highscore_id}
+                          className={`bg-[#2B3E68] rounded-lg p-3 ${
+                            entry.save.user.username === user?.username
+                              ? "border-2 border-yellow-400"
+                              : ""
+                          }`}
+                        >
+                          <div className="flex items-center justify-between gap-2 min-w-0">
+                            <div className="flex items-center gap-3 min-w-0 flex-1">
+                              <div
+                                className={`flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm flex-shrink-0 ${
+                                  position === 1
+                                    ? "bg-yellow-500 text-white"
+                                    : position === 2
+                                      ? "bg-gray-400 text-white"
+                                      : position === 3
+                                        ? "bg-amber-600 text-white"
+                                        : "bg-[#4A5D8F] text-gray-300"
+                                }`}
+                              >
+                                {position === 1 ? (
+                                  <img
+                                    src={"/number_1.png"}
+                                    style={{
+                                      width: "32px",
+                                      height: "32px",
+                                      imageRendering: "pixelated",
+                                    }}
+                                  />
+                                ) : position === 2 ? (
+                                  <img
+                                    src={"/number_2.png"}
+                                    style={{
+                                      width: "32px",
+                                      height: "32px",
+                                      imageRendering: "pixelated",
+                                    }}
+                                  />
+                                ) : position === 3 ? (
+                                  <img
+                                    src={"/number_3.png"}
+                                    style={{
+                                      width: "32px",
+                                      height: "32px",
+                                      imageRendering: "pixelated",
+                                    }}
+                                  />
+                                ) : (
+                                  position
+                                )}
+                              </div>
+                              <div className="text-white text-sm font-medium truncate min-w-0 flex-1">
+                                {entry.save.user.username}
+                              </div>
+                            </div>
+                            <div className="text-yellow-400 font-bold text-lg flex-shrink-0">
+                              {entry.score}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="bg-[#2B3E68] rounded-lg p-6 text-center">
+                      <p className="text-gray-400 text-sm">
+                        Nenhuma pontuação registrada ainda
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
