@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Pencil, Trash2, Eye, CheckCircle, XCircle, Clock } from "lucide-react";
+import { Trash2, Eye, CheckCircle, XCircle, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {
   Table,
@@ -81,19 +81,6 @@ export default function MyPendingGames() {
   const handleView = (game: PendingGame) => {
     setSelectedGame(game);
     setIsViewDialogOpen(true);
-  };
-
-  const handleEditClick = (game: PendingGame) => {
-    setSelectedGame(game);
-    setEditFormData({
-      game_title: game.game_title,
-      description: game.description,
-      difficulty: game.difficulty,
-      image_url: game.image_url || "",
-      game_url: game.game_url || "",
-      enabled: game.enabled,
-    });
-    setIsEditDialogOpen(true);
   };
 
   const handleEditSubmit = async (e: React.FormEvent) => {
@@ -255,7 +242,9 @@ export default function MyPendingGames() {
                                 : "bg-yellow-600"
                             }
                           >
-                            {game.change_type === "CREATE" ? "Criar" : "Editar"}
+                            {game.change_type === "CREATE"
+                              ? "Criação"
+                              : "Edição"}
                           </Badge>
                         </TableCell>
                         <TableCell className="text-gray-300 font-medium">
@@ -284,14 +273,6 @@ export default function MyPendingGames() {
                               title="Visualizar detalhes"
                             >
                               <Eye className="w-4 h-4" />
-                            </button>
-
-                            <button
-                              onClick={() => handleEditClick(game)}
-                              className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-blue-400 hover:text-white hover:bg-blue-900 p-2 transition-colors"
-                              title="Editar"
-                            >
-                              <Pencil className="w-4 h-4" />
                             </button>
 
                             <button
@@ -351,7 +332,9 @@ export default function MyPendingGames() {
                                 : "bg-yellow-600"
                             }
                           >
-                            {game.change_type === "CREATE" ? "Criar" : "Editar"}
+                            {game.change_type === "CREATE"
+                              ? "Criação"
+                              : "Edição"}
                           </Badge>
                         </TableCell>
                         <TableCell className="text-gray-300 font-medium">
