@@ -66,7 +66,7 @@ export const LevelList: Record<string, Level> = {
   },
   [ADDRESSESLEVEL]: {
     name: "Endereços",
-    goal: 2000,
+    goal: 1900,
     emailDataList: [
       EmailList.mailSafeGrandma2,
       EmailList.mailAddressMal1,
@@ -110,7 +110,7 @@ export const LevelList: Record<string, Level> = {
   },
   [CONTACTSLEVEL]: {
     name: "Contatos",
-    goal: 2500,
+    goal: 2200,
     emailDataList: [
       EmailList.mailSafeGrandma2,
       EmailList.mailContactMal1,
