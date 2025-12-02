@@ -1,7 +1,7 @@
 import type CanvasObject from "../../CanvasObject";
 import GameObject from "../../Elements/GameObject";
 import { SCENECHANGE } from "../../Elements/SceneChanger";
-import { findSprite } from "../../FindSprite";
+import { findSprite } from "../../Sprites/FindSprite";
 import type { LevelProgress } from "../../GameState";
 import Position from "../../Position";
 import { Utils } from "../../Utils";

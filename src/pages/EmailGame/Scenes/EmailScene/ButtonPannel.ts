@@ -3,10 +3,11 @@ import GameObject from "../../Elements/GameObject";
 import Hitbox from "../../Hitbox";
 import Position from "../../Position";
 
-export const INSPECTMODE = "inspectmode";
+export const INSPECTMODE = "inspectmode"; // Referência da ação de alterar o modo inspecionar
 
+// Objeto do painel de botões
 export default class ButtonPannel extends GameObject {
-  open: boolean = false;
+  open: boolean = false; // Identifica se o painel está aberto
   constructor() {
     super({
       pos: new Position(6, 218),
@@ -21,6 +22,10 @@ export default class ButtonPannel extends GameObject {
     };
   }
 
+  /**
+   * Com um dado canvas object renderiza um recorte de seu sprite de acordo com seu stado
+   * @param canvasObject
+   */
   render(canvasObject: CanvasObject): void {
     let slicePos = new Position();
     if (this.open) {

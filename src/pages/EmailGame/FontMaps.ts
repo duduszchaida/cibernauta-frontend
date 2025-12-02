@@ -1,18 +1,21 @@
+// Mapeamento de caractere em um sprite de fonte
 type CharMap = {
-  x: number;
-  y: number;
-  width: number;
+  x: number; // Posição horizontal no sprite
+  y: number; // Poshição vertical no sprite
+  width: number; // Largura do caractere
 };
 
+// Mapeamento de fonte para um sprite
 type FontMap = {
-  cellWidth: number;
-  charHeight: number;
-  letters: Record<string | number, CharMap>;
+  charWidth: number; // Largura máxima dos caracteres
+  charHeight: number; // Altura máxima dos caracteres
+  letters: Record<string | number, CharMap>; // Dicionário de caractere para CharMap
 };
 
+// Dicionário de mapeamento de fontes
 const fontMaps: Record<string, FontMap> = {
   minecraftia: {
-    cellWidth: 6,
+    charWidth: 6,
     charHeight: 12,
     letters: {
       A: { x: 0, y: 0, width: 5 },
@@ -131,7 +134,7 @@ const fontMaps: Record<string, FontMap> = {
     },
   },
   wcp: {
-    cellWidth: 9,
+    charWidth: 9,
     charHeight: 16,
     letters: {
       A: { x: 0, y: 0, width: 6 },

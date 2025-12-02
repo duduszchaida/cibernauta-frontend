@@ -3,7 +3,7 @@ import GameObject from "./GameObject";
 
 export const SCENECHANGE = "sceneChange"; // Referência de ação de alterar cena atual
 
-// Objeto que tem como retorno de clickfunction padrão um objeto com type como SCENECHANGE e sceneReference uma dada string
+// Objeto que tem como retorno de clickfunction padrão um objeto com type SCENECHANGE e sceneReference uma string
 // Ele serve para sinalizar uma mudança do objeto de cena atual junto com a referência da cena para qual deve mudar
 export default class SceneChanger extends GameObject {
   constructor(args: {

@@ -1,10 +1,14 @@
 import fontMaps from "./FontMaps";
 import Position from "./Position";
-import type Sprite from "./Elements/Sprite";
+import type Sprite from "./Sprites/Sprite";
 import measureTextWidth from "./MeasureTextWidth";
 import type { Line } from "./Scenes/EmailScene/EmailContent";
-import { Utils } from "./Utils";
 
+/**
+ * Formata uma string que contenha \n para o uso em writeText
+ * @param text
+ * @returns
+ */
 function splitWithBreakline(text: string): string[] {
   const parts = [];
   const tokens = text.split(/(\n)/);
@@ -140,7 +144,7 @@ export default class CanvasObject {
     }
     this.ctx.drawImage(
       fontSprite.img,
-      charMap.x * fontMap.cellWidth,
+      charMap.x * fontMap.charWidth,
       charMap.y * fontMap.charHeight + slicePosY,
       charMap.width,
       sliceHeight,

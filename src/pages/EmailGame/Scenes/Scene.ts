@@ -1,6 +1,6 @@
-import { findSprite } from "../FindSprite";
+import { findSprite } from "../Sprites/FindSprite";
 import type GameObject from "../Elements/GameObject";
-import type Sprite from "../Elements/Sprite";
+import type Sprite from "../Sprites/Sprite";
 
 // Classe que representa uma lista de objetos de jogo da tela atual do jogador
 export default class Scene {

@@ -1,5 +1,6 @@
-import Sprite from "./Elements/Sprite";
+import Sprite from "./Sprite";
 
+// Dicionário de todos os sprites
 const sprites: Record<string, Sprite> = {
   app_border: new Sprite("/game/email/app_border.png"),
 
@@ -146,12 +147,14 @@ const sprites: Record<string, Sprite> = {
   yes_no_switch: new Sprite("/game/email/yes_no_switch.png"),
 };
 
+// Carrega todos os sprites do jogo
 const spriteArr = Object.values(sprites);
 const promises = spriteArr.map((sprite) => sprite.load());
 await Promise.all(promises);
 
 export default sprites;
 
+// Função de buscar um sprite a partir do nome
 export function findSprite(spriteName: string) {
   const sprite = sprites[spriteName.replaceAll("-", "_")];
   if (!sprite) {

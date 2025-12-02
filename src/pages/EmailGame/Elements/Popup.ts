@@ -1,5 +1,5 @@
 import type CanvasObject from "../CanvasObject";
-import { findSprite } from "../FindSprite";
+import { findSprite } from "../Sprites/FindSprite";
 import Position from "../Position";
 import Timer from "./Timer";
 

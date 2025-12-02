@@ -2,8 +2,8 @@ import GameObject from "./GameObject";
 import measureTextWidth from "../MeasureTextWidth";
 import type Position from "../Position";
 import type CanvasObject from "../CanvasObject";
-import type Sprite from "./Sprite";
-import { findSprite } from "../FindSprite";
+import type Sprite from "../Sprites/Sprite";
+import { findSprite } from "../Sprites/FindSprite";
 import fontMaps from "../FontMaps";
 
 // Objeto de jogo que é renderizado como texto. Usado para textos com apenas 1 linha

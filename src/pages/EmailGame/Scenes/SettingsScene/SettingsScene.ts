@@ -8,11 +8,12 @@ import { DESKTOPSCENE } from "../SceneReferences";
 import {
   SETTINGAUTOSAVE,
   SETTINGFILTER,
-  SETTINGSAVEWARNING,
+  SETTINGSPOPUP,
   type Setting,
 } from "./SettingsReferences";
 import { Toggle } from "./Toggle";
 
+// Cena de opções
 export class SettingsScene extends Scene {
   gameState: GameState;
   constructor(gameState: GameState) {
@@ -24,12 +25,15 @@ export class SettingsScene extends Scene {
     this.generateSettings();
   }
 
+  /**
+   * Gera os botões de opções de acordo com as opções atuais
+   */
   generateSettings() {
     if (!this.gameState.currentSave.settings) {
       this.gameState.currentSave.settings = {
         [SETTINGAUTOSAVE]: true,
         [SETTINGFILTER]: false,
-        [SETTINGSAVEWARNING]: true,
+        [SETTINGSPOPUP]: true,
       };
     }
     const autoSaveText = new TextObject({
@@ -64,8 +68,8 @@ export class SettingsScene extends Scene {
       ),
       savePopupText,
       new Toggle(
-        SETTINGSAVEWARNING,
-        this.gameState.currentSave.settings[SETTINGSAVEWARNING],
+        SETTINGSPOPUP,
+        this.gameState.currentSave.settings[SETTINGSPOPUP],
         1,
       ),
       filterText,
@@ -77,10 +81,12 @@ export class SettingsScene extends Scene {
     ];
   }
 
+  /**
+   * Altera uma das opções
+   * @param config
+   * @returns
+   */
   toggle(config: Setting) {
-    if (!this.gameState.currentSave.settings) {
-      return;
-    }
     this.gameState.currentSave.settings[config] =
       !this.gameState.currentSave.settings[config];
   }

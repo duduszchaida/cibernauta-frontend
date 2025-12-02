@@ -1,8 +1,8 @@
 import type CanvasObject from "../../CanvasObject";
 import GameObject from "../../Elements/GameObject";
-import { findSprite } from "../../FindSprite";
+import { findSprite } from "../../Sprites/FindSprite";
 import type Position from "../../Position";
-import type Sprite from "../../Elements/Sprite";
+import type Sprite from "../../Sprites/Sprite";
 
 export const PICTURE = "picture"; // Referência de elemento de foto de perfil do email
 

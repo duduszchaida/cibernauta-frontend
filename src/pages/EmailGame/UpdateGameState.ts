@@ -1,7 +1,7 @@
 import type Cursor from "./Cursor";
 import { PAUSEGAME } from "./Elements/PauseBtn";
 import { SCENECHANGE } from "./Elements/SceneChanger";
-import { SCROLLTO } from "./Elements/ScrollBar";
+import { SCROLLTO } from "./Scenes/EmailScene/ScrollBar";
 import type GameState from "./GameState";
 import { gameTimeTracker } from "./GameTimeTracker";
 import keyboardState, { PRESSED } from "./Input/KeyboardState";
@@ -32,6 +32,13 @@ import { CLASSEMAIL, OPENNOTEPAD } from "./Scenes/EmailScene/Buttons";
 import type GameObject from "./Elements/GameObject";
 import { SettingsScene } from "./Scenes/SettingsScene/SettingsScene";
 import { TOGGLESETTING } from "./Scenes/SettingsScene/Toggle";
+import {
+  CURSORARROW,
+  CURSORINSPECT,
+  CURSORLEFT,
+  CURSORPOINTER,
+  CURSORRIGHT,
+} from "./Cursor";
 
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
@@ -204,24 +211,24 @@ function mouseHoverHandler(
       obj instanceof EmailContent
     ) {
       if (gameState.inspecting) {
-        cursor.state = "inspect";
+        cursor.state = CURSORINSPECT;
       }
     } else if (obj instanceof Notepad) {
       if (cursor.pos.subtractPos(obj.pos).x > obj.width / 2) {
         if (!obj.lastPage) {
-          cursor.state = "right";
+          cursor.state = CURSORRIGHT;
         } else {
-          cursor.state = "arrow";
+          cursor.state = CURSORARROW;
         }
       } else {
         if (!obj.firstPage) {
-          cursor.state = "left";
+          cursor.state = CURSORLEFT;
         } else {
-          cursor.state = "arrow";
+          cursor.state = CURSORARROW;
         }
       }
     } else {
-      cursor.state = "pointer";
+      cursor.state = CURSORPOINTER;
     }
     if (mouseState.click) {
       mouseClickHandler(gameState, obj);
@@ -232,7 +239,7 @@ function mouseHoverHandler(
     (mouseState.dragging || mouseState.held) &&
     obj.hitbox.positionInside(mouseState.draggingFrom)
   ) {
-    cursor.state = "pointer";
+    cursor.state = CURSORPOINTER;
     if (gameState.currentScene instanceof EmailScene) {
       const result = obj.dragFunction(mouseState.pos);
       if (result.type == SCROLLTO) {
@@ -252,7 +259,7 @@ export default function updateGameState(gameState: GameState, cursor: Cursor) {
     pauseTraining(gameState);
   }
 
-  cursor.state = "arrow";
+  cursor.state = CURSORARROW;
   cursor.pos = mouseState.pos;
   cursor.spriteShift = new Position(-16, -16);
   if (mouseState.held) {

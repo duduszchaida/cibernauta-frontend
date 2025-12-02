@@ -1,5 +1,5 @@
 import type CanvasObject from "../CanvasObject";
-import { findSprite } from "../FindSprite";
+import { findSprite } from "../Sprites/FindSprite";
 import Position from "../Position";
 import GameObject from "./GameObject";
 
@@ -26,7 +26,7 @@ export class PauseButton extends GameObject {
   }
 
   /**
-   * Chama o dado CanvasObject e dependendo de seu estado de pausado renderiza seu sprite ou altSprite em sua posição com suas dimensões de largura e altura
+   * Com um dado CanvasObject renderiza seu sprite dependendo de seu estado
    * @param canvasObject CanvasObject utilizado para renderizar Sprite do objeto
    * @returns
    */

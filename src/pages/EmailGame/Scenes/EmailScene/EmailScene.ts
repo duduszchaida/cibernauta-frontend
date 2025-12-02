@@ -18,7 +18,7 @@ import { NOTEPAD, Notepad } from "./Notepad";
 import { makeButton } from "./Buttons";
 import { Notifier as Notifier } from "./Notifier";
 import type CanvasObject from "../../CanvasObject";
-import { findSprite } from "../../FindSprite";
+import { findSprite } from "../../Sprites/FindSprite";
 
 // Borda genêrica da cena de emails
 const emailBorder = new GameObject({

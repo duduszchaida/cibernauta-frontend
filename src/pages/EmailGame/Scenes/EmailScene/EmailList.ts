@@ -1,5 +1,6 @@
 import { MALICIOUS, SAFE, SPAM, type EmailData } from "./EmailData";
 
+// Lista de endereços de email "oficiais"
 export const addresses = {
   grandma: "aparecida48@mail.com",
   cibernauta: "cibernauta@mail.com",
@@ -16,6 +17,7 @@ export const addresses = {
   zetflix: "zetflix@mail.com",
 };
 
+// Lista de endereços de nomes "oficiais"
 export const names = {
   grandma: "Maria Aparecida",
   cibernauta: "Equipe Cibernauta",
@@ -32,6 +34,7 @@ export const names = {
   zetflix: "Zetflix Ent",
 };
 
+// Lista de endereços de imagens
 const pictures = {
   cibernauta: "picture_cibernauta",
   choppu: "picture_choppu",

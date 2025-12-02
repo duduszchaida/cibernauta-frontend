@@ -6,8 +6,10 @@ import { StartScene } from "./Scenes/StartScene";
 import {
   SETTINGAUTOSAVE,
   SETTINGFILTER,
-  SETTINGSAVEWARNING,
+  SETTINGSPOPUP,
 } from "./Scenes/SettingsScene/SettingsReferences";
+
+// TO-DO: comentar
 
 export type LevelProgress = {
   reference: string;
@@ -22,7 +24,7 @@ export type Save = {
   settings: {
     [SETTINGAUTOSAVE]: boolean;
     [SETTINGFILTER]: boolean;
-    [SETTINGSAVEWARNING]: boolean;
+    [SETTINGSPOPUP]: boolean;
   };
 };
 
@@ -40,7 +42,7 @@ export default class GameState {
     settings: {
       [SETTINGAUTOSAVE]: true,
       [SETTINGFILTER]: false,
-      [SETTINGSAVEWARNING]: true,
+      [SETTINGSPOPUP]: true,
     },
   });
   leaderboardUpdate!: () => Promise<void>;
@@ -66,7 +68,7 @@ export default class GameState {
         settings: {
           [SETTINGAUTOSAVE]: true,
           [SETTINGFILTER]: false,
-          [SETTINGSAVEWARNING]: true,
+          [SETTINGSPOPUP]: true,
         },
       },
       {
@@ -76,7 +78,7 @@ export default class GameState {
         settings: {
           [SETTINGAUTOSAVE]: true,
           [SETTINGFILTER]: false,
-          [SETTINGSAVEWARNING]: true,
+          [SETTINGSPOPUP]: true,
         },
       },
       {
@@ -86,7 +88,7 @@ export default class GameState {
         settings: {
           [SETTINGAUTOSAVE]: true,
           [SETTINGFILTER]: false,
-          [SETTINGSAVEWARNING]: true,
+          [SETTINGSPOPUP]: true,
         },
       },
     ];
@@ -97,7 +99,7 @@ export default class GameState {
           s.settings = {
             [SETTINGAUTOSAVE]: true,
             [SETTINGFILTER]: false,
-            [SETTINGSAVEWARNING]: true,
+            [SETTINGSPOPUP]: true,
           };
         }
       });
@@ -117,7 +119,7 @@ export default class GameState {
       settings: {
         [SETTINGAUTOSAVE]: true,
         [SETTINGFILTER]: false,
-        [SETTINGSAVEWARNING]: true,
+        [SETTINGSPOPUP]: true,
       },
     };
   }
@@ -153,7 +155,7 @@ export default class GameState {
       this.currentSave.settings = {
         [SETTINGAUTOSAVE]: true,
         [SETTINGFILTER]: false,
-        [SETTINGSAVEWARNING]: true,
+        [SETTINGSPOPUP]: true,
       };
     }
   }
@@ -166,7 +168,7 @@ export default class GameState {
       settings: {
         [SETTINGAUTOSAVE]: true,
         [SETTINGFILTER]: false,
-        [SETTINGSAVEWARNING]: true,
+        [SETTINGSPOPUP]: true,
       },
     };
     savesService.saveGame({
@@ -181,7 +183,7 @@ export default class GameState {
         settings: {
           [SETTINGAUTOSAVE]: true,
           [SETTINGFILTER]: false,
-          [SETTINGSAVEWARNING]: true,
+          [SETTINGSPOPUP]: true,
         },
       };
       this.currentSaveSlotId = null;
@@ -199,7 +201,7 @@ export default class GameState {
     this.currentSave.lastSaveTime = new Date();
     this.lastSaveState = JSON.stringify(this.currentSave);
     this.saveSlots[this.currentSaveSlotId] = JSON.parse(this.lastSaveState);
-    if (this.currentSave.settings[SETTINGSAVEWARNING]) {
+    if (this.currentSave.settings[SETTINGSPOPUP]) {
       if (settings) {
         this.popup.newPopup("Configurações salvas.", 2.5);
       } else {

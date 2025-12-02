@@ -1,4 +1,4 @@
-import ScrollBar from "../../Elements/ScrollBar.ts";
+import ScrollBar from "./ScrollBar.ts";
 import Position from "../../Position.ts";
 import EmailPicture from "./EmailPicture.ts";
 import EmailContent, { CONTENT } from "./EmailContent.ts";

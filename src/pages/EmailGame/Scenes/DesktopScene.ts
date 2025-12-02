@@ -5,9 +5,10 @@ import Position from "../Position";
 import Scene from "./Scene";
 import { LEVELSELECTION, SAVESSCENE, SETTINGSSCENE } from "./SceneReferences";
 
-export const MANUALSAVE = "manualSave"; // Referência da função de salvamento manual do jogo
-export const SAVEWARNING = "savewarningAccept"; // Referência da função de salvamento manual do jogo
+export const MANUALSAVE = "manualSave"; // Referência da ação de salvamento manual do jogo
+export const SAVEWARNING = "savewarningAccept"; // Referência da ação de aceitar/negar o aviso de progresso não salvo
 
+// Objeto de aviso de progresso não salvo
 const saveWarning = new GameObject({
   height: 256,
   width: 352,
@@ -15,6 +16,7 @@ const saveWarning = new GameObject({
   invisible: true,
 });
 
+// Objeto do botão para aceitar o aviso
 const warningAccept = new GameObject({
   pos: new Position(118, 176),
   width: 39,
@@ -27,6 +29,7 @@ const warningAccept = new GameObject({
   },
 });
 
+// Objeto do botão para negar o aviso
 const warningDecline = new GameObject({
   pos: new Position(195, 176),
   height: 23,
@@ -91,6 +94,9 @@ export class DesktopScene extends Scene {
     this.warningDecline.invisible = true;
   }
 
+  /**
+   * Alterna a visibilidade do aviso e seus botões
+   */
   toggleSaveWarning() {
     this.saveWarning.invisible = !this.saveWarning.invisible;
     this.warningAccept.invisible = !this.warningAccept.invisible;

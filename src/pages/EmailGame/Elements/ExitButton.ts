@@ -3,7 +3,10 @@ import SceneChanger from "./SceneChanger";
 
 // Classe de objeto genêrico de botão de sair de um aplicativo
 export class ExitButton extends SceneChanger {
-  constructor(reference: string, alt?: boolean) {
+  constructor(
+    reference: string,
+    alt?: boolean, // Identifica se usará o sprite alternativo do botão
+  ) {
     super({
       height: 16,
       width: 16,

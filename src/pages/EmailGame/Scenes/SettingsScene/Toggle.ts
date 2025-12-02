@@ -3,10 +3,11 @@ import GameObject from "../../Elements/GameObject";
 import Position from "../../Position";
 import type { Setting } from "./SettingsReferences";
 
-export const TOGGLESETTING = "toggleConfig";
+export const TOGGLESETTING = "toggleConfig"; // Referência da ação de alterar uma opção
 
+// Botão de ativar/desativar uma opção
 export class Toggle extends GameObject {
-  on: boolean;
+  on: boolean; // Indica se está ativo
   constructor(config: Setting, on: boolean, order: number) {
     super({
       height: 26,
@@ -21,6 +22,10 @@ export class Toggle extends GameObject {
     this.on = on;
   }
 
+  /**
+   * Com um dado canvasObject renderiza seu sprite de acordo com seu estado
+   * @param canvasObject
+   */
   render(canvasObject: CanvasObject): void {
     canvasObject.drawSprite(
       this.sprite,

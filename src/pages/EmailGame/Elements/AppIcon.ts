@@ -1,6 +1,6 @@
 import type CanvasObject from "../CanvasObject";
 import Position from "../Position";
-import { findSprite } from "../FindSprite";
+import { findSprite } from "../Sprites/FindSprite";
 import SceneChanger from "./SceneChanger";
 
 // Ícones utilizados na DesktopScene, se diferencia de SceneChanger por renderizar o texto de appName abaixo do Sprite
@@ -21,6 +21,10 @@ export default class AppIcon extends SceneChanger {
     this.textLines = args.textLines ?? [];
   }
 
+  /**
+   * Desenha o sprite do objeto de acordo com seu estado e escreve o texto abaixo do objeto
+   * @param canvasObject
+   */
   render(canvasObject: CanvasObject) {
     let sprite = this.sprite;
     if (this.heldSprite && this.cursorHeld) {

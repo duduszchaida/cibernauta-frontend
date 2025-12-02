@@ -8,24 +8,32 @@ import { gameTimeTracker } from "./GameTimeTracker";
 import updateGameState from "./UpdateGameState";
 import { Popup } from "./Elements/Popup";
 
+// Objeto de canvas usado para renderizar o jogo
 let canvasObject: CanvasObject;
 
-const cursor = new Cursor();
+// Objeto de popup do jogo
 const popup = new Popup();
+
+// Estado do jogo
 export const gameState = new GameState({
   popup: popup,
 });
 
-function renderFrameLoop() {
+// Cursor do jogo
+const cursor = new Cursor();
+
+// Loop de atualizar estado de jogo e renderização do jogo
+function gameLoop() {
   updateGameState(gameState, cursor);
   renderCurrentScene(gameState, canvasObject, cursor, popup);
-  requestAnimationFrame(renderFrameLoop);
+  requestAnimationFrame(gameLoop);
 }
 
+// Função para iniciar o jogo
 export async function startGame(
-  canvasElement: HTMLCanvasElement,
-  gameScale: number,
-  leaderboardUpdate: () => Promise<void>,
+  canvasElement: HTMLCanvasElement, // Elemento de canvas usado para o jogo
+  gameScale: number, // Escala de renderização do jogo
+  leaderboardUpdate: () => Promise<void>, // Função para atualizar o placar do jogo
 ) {
   await gameState.init(leaderboardUpdate);
   canvasObject = new CanvasObject({
@@ -38,5 +46,5 @@ export async function startGame(
   gameTimeTracker.start();
   bindMouseEvents(canvasObject.element, gameScale);
   bindKeyboardEvents(canvasObject.element);
-  renderFrameLoop();
+  gameLoop();
 }

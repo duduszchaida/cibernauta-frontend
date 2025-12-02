@@ -1,8 +1,8 @@
 import type CanvasObject from "../CanvasObject";
-import { findSprite } from "../FindSprite";
+import { findSprite } from "../Sprites/FindSprite";
 import Hitbox from "../Hitbox";
 import Position from "../Position";
-import type Sprite from "./Sprite";
+import type Sprite from "../Sprites/Sprite";
 
 // Objeto que representa elementos no jogo
 export default class GameObject {

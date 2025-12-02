@@ -3,6 +3,7 @@ import type Position from "../Position";
 import { Utils } from "../Utils";
 import TextObject from "./TextObject";
 
+// Objeto de relógio
 export class Clock extends TextObject {
   constructor(pos: Position) {
     super({
@@ -15,6 +16,10 @@ export class Clock extends TextObject {
     });
   }
 
+  /**
+   * Com um dado canvasObject escreve o horário à esquerda de sua posição
+   * @param canvasObject
+   */
   render(canvasObject: CanvasObject): void {
     canvasObject.writeText(
       this.fontSprite,

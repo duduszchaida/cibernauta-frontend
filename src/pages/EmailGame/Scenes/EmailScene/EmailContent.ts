@@ -1,10 +1,10 @@
 import type CanvasObject from "../../CanvasObject";
 import GameObject from "../../Elements/GameObject";
-import { findSprite } from "../../FindSprite";
+import { findSprite } from "../../Sprites/FindSprite";
 import fontMaps from "../../FontMaps";
 import measureTextWidth from "../../MeasureTextWidth";
 import Position from "../../Position";
-import type Sprite from "../../Elements/Sprite";
+import type Sprite from "../../Sprites/Sprite";
 import { SELECT } from "./EmailPicture";
 
 export const CONTENT = "content"; // Referência de elemento de conteúdo do email

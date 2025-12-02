@@ -1,14 +1,15 @@
 import type CanvasObject from "../../CanvasObject";
 import GameObject from "../../Elements/GameObject";
-import Sprite from "../../Elements/Sprite";
-import { findSprite } from "../../FindSprite";
+import Sprite from "../../Sprites/Sprite";
+import { findSprite } from "../../Sprites/FindSprite";
 import Position from "../../Position";
 
 export const NOTEPAD = "notepad"; // Referência do objeto de caderno
 
+// Objeto de caderno usado em EmailScene
 export class Notepad extends GameObject {
-  currentPage = 0;
-  pages: (string | Sprite)[];
+  currentPage = 0; // Id da página atual
+  pages: (string | Sprite)[]; // Lista de sprites / Textos do caderno
   fontSprite = findSprite("minecraftia_brown");
   constructor(pages?: (Sprite | string)[]) {
     super({
@@ -45,6 +46,11 @@ export class Notepad extends GameObject {
     return this.currentPage == this.pages.length - 1;
   }
 
+  /**
+   * Com um dado canvas object, renderiza sua imagem de fundo e a página atual
+   * @param canvasObject
+   * @returns
+   */
   render(canvasObject: CanvasObject): void {
     if (this.invisible) {
       return;

@@ -1,4 +1,4 @@
-import { findSprite } from "../../FindSprite";
+import { findSprite } from "../../Sprites/FindSprite";
 import { MALICIOUS, SAFE, SPAM } from "../EmailScene/EmailData";
 import * as EmailList from "../EmailScene/EmailList";
 import { NOTEPAD } from "../EmailScene/Notepad";

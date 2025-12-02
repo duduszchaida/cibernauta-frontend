@@ -18,6 +18,7 @@ const keyboardState: Record<string, KeyState> = {};
  */
 export function bindKeyboardEvents(element: HTMLElement) {
   element.addEventListener("keydown", (e) => {
+    // Evita que a tela escrole com barra de espaço
     if (e.key == " ") {
       e.preventDefault();
     }

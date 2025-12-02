@@ -1,8 +1,8 @@
 import { SELECT } from "./EmailPicture";
 import TextObject from "../../Elements/TextObject";
-import type Sprite from "../../Elements/Sprite";
+import type Sprite from "../../Sprites/Sprite";
 import Position from "../../Position";
-import { findSprite } from "../../FindSprite";
+import { findSprite } from "../../Sprites/FindSprite";
 import type CanvasObject from "../../CanvasObject";
 import fontMaps from "../../FontMaps";
 
