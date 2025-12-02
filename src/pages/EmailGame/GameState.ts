@@ -38,16 +38,7 @@ export default class GameState {
   currentScene!: Scene; // Cena atual
   currentSave!: Save; // Salvamento atual
   saveSlots!: Save[]; // Lista de salvamentos
-  lastSaveState: string = JSON.stringify({
-    lastSaveTime: null,
-    levelProgressRecord: {},
-    lastTotalScore: 0,
-    settings: {
-      [SETTINGAUTOSAVE]: true,
-      [SETTINGFILTER]: false,
-      [SETTINGSPOPUP]: true,
-    },
-  }); // Último estado salvo durante o jogo
+  lastSaveState!: string; // Último estado salvo durante o jogo
   leaderboardUpdate!: () => Promise<void>; // Função de atualizar o placar
 
   constructor(args: { popup: Popup }) {
@@ -129,6 +120,7 @@ export default class GameState {
         [SETTINGSPOPUP]: true,
       },
     };
+    this.lastSaveState = JSON.stringify(this.currentSave);
   }
 
   /**
