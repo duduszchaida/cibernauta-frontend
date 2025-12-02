@@ -115,7 +115,7 @@ const sprites: Record<string, Sprite> = {
   picture_rubloks: new Sprite("/game/email/picture_rubloks.png"),
   picture_selected: new Sprite("/game/email/picture_selected.png"),
   picture_tecnus: new Sprite("/game/email/picture_tecnus.png"),
-  picture_yvideos: new Sprite("/game/email/picture_yvideos.png"),
+  picture_youvideos: new Sprite("/game/email/picture_youvideos.png"),
   picture_zetflix: new Sprite("/game/email/picture_zetflix.png"),
 
   popup: new Sprite("/game/email/popup.png"),
