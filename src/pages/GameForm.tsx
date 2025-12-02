@@ -85,7 +85,7 @@ export default function GameForm() {
       return;
     }
 
-    if (!isEditMode && gameType === "external" && !gameUrl.trim()) {
+    if (gameType === "external" && gameUrl.trim() == "") {
       toast({
         title: "Erro",
         description: "Por favor, insira uma url para o jogo",
@@ -116,8 +116,8 @@ export default function GameForm() {
             game_title: title,
             description,
             difficulty: Number(difficulty),
-            image_url: imageUrl.trim() || undefined,
-            game_url: gameUrl.trim() || undefined,
+            image_url: imageUrl.trim() || null,
+            game_url: gameType == "external" ? gameUrl.trim() || null : null,
             game_type: gameType,
             enabled,
             controls: controls,
@@ -132,11 +132,11 @@ export default function GameForm() {
             game_title: title,
             description,
             difficulty: Number(difficulty),
-            image_url: imageUrl.trim() || undefined,
-            game_url: gameUrl.trim() || undefined,
+            image_url: imageUrl.trim() || null,
+            game_url: gameUrl.trim() || null,
             game_type: gameType,
             enabled,
-            controls: controls.length > 0 ? controls : undefined,
+            controls: controls.length > 0 ? controls : null,
           });
 
           toast({
@@ -317,7 +317,9 @@ export default function GameForm() {
               <input
                 type="text"
                 value={gameUrl}
-                onChange={(e) => setGameUrl(e.target.value)}
+                onChange={(e) => {
+                  setGameUrl(e.target.value);
+                }}
                 placeholder="https://exemplo.com/jogo"
                 disabled={isLoading}
                 className="w-full h-[56px] px-5 bg-[#0A274F] border-2 border-[#4C91FF] rounded-lg text-white text-base placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 disabled:opacity-50 transition-all"

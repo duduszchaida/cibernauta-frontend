@@ -15,11 +15,11 @@ export const gamesService = {
     game_title: string;
     description: string;
     difficulty: number;
-    image_url?: string;
-    game_url?: string;
+    image_url?: string | null;
+    game_url?: string | null;
     game_type?: string;
     enabled?: boolean;
-    controls: Array<{ key_image: string; description: string }> | undefined;
+    controls: Array<{ key_image: string; description: string }> | null;
   }) => {
     const response = await api.post("/games", data);
     return response.data;
