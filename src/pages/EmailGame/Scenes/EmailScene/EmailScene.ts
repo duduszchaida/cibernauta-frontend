@@ -1,5 +1,5 @@
 import type { Level } from "../LevelSelectionScene/Level";
-import GameObject from "../../Elements/GameObject";
+import GameObject from "../../GameObject";
 import Scene from "../Scene";
 import ButtonPannel from "./ButtonPannel";
 import Timer from "../../Elements/Timer";

@@ -1,4 +1,4 @@
-import GameObject from "../Elements/GameObject";
+import GameObject from "../GameObject";
 import SceneChanger from "../Elements/SceneChanger";
 import TextObject from "../Elements/TextObject";
 import type { Save } from "../GameState";

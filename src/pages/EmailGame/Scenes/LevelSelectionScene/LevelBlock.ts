@@ -1,5 +1,5 @@
 import type CanvasObject from "../../CanvasObject";
-import GameObject from "../../Elements/GameObject";
+import GameObject from "../../GameObject";
 import { SCENECHANGE } from "../../Elements/SceneChanger";
 import { findSprite } from "../../Sprites/FindSprite";
 import type { LevelProgress } from "../../GameState";

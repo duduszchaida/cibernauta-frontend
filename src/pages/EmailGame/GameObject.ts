@@ -1,8 +1,8 @@
-import type CanvasObject from "../CanvasObject";
-import { findSprite } from "../Sprites/FindSprite";
-import Hitbox from "../Hitbox";
-import Position from "../Position";
-import type Sprite from "../Sprites/Sprite";
+import type CanvasObject from "./CanvasObject";
+import { findSprite } from "./Sprites/FindSprite";
+import Hitbox from "./Hitbox";
+import Position from "./Position";
+import type Sprite from "./Sprites/Sprite";
 
 // Objeto que representa elementos no jogo
 export default class GameObject {
@@ -13,8 +13,8 @@ export default class GameObject {
 
   sprite: Sprite; // Sprite que será renderizado no elemento de canvas
   invisible: boolean; // Indica se o objeto ignora a renderização
-  cursorHovering: boolean = false; // Indica se o cursor está encima do objeto
-  hoverSprite?: Sprite; // Sprite alternativo renderizado quando o cursor está encima do objeto
+  cursorHovering: boolean = false; // Indica se o cursor está sobrepondo o objeto
+  hoverSprite?: Sprite; // Sprite alternativo renderizado quando o cursor está sobrepondo o objeto
   cursorHeld: boolean = false; // Indica se o cursor está segurado no objeto
   heldSprite?: Sprite; // Sprite alternativo renderizado quando o cursor está segurado no objeto
 

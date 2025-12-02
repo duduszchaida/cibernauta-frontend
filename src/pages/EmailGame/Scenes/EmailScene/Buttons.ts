@@ -1,4 +1,4 @@
-import GameObject from "../../Elements/GameObject";
+import GameObject from "../../GameObject";
 import Position from "../../Position";
 import { MALICIOUS, SAFE, SPAM } from "./EmailData";
 import { NOTEPAD } from "./Notepad";

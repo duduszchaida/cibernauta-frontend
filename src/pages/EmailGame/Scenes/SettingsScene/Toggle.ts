@@ -1,5 +1,5 @@
 import type CanvasObject from "../../CanvasObject";
-import GameObject from "../../Elements/GameObject";
+import GameObject from "../../GameObject";
 import Position from "../../Position";
 import type { Setting } from "./SettingsReferences";
 

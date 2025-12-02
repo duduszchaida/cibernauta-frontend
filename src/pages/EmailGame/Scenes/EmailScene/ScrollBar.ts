@@ -1,6 +1,6 @@
 import type CanvasObject from "../../CanvasObject";
 import Position from "../../Position";
-import GameObject from "../../Elements/GameObject";
+import GameObject from "../../GameObject";
 
 // TO-DO: comentar
 

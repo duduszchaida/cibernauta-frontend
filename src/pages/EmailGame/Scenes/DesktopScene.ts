@@ -1,6 +1,6 @@
 import AppIcon from "../Elements/AppIcon";
 import { Clock } from "../Elements/Clock";
-import GameObject from "../Elements/GameObject";
+import GameObject from "../GameObject";
 import Position from "../Position";
 import Scene from "./Scene";
 import { LEVELSELECTION, SAVESSCENE, SETTINGSSCENE } from "./SceneReferences";

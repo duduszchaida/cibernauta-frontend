@@ -1,6 +1,6 @@
 import { appBorder } from "../Elements/AppBorder";
 import { ExitButton } from "../Elements/ExitButton";
-import GameObject from "../Elements/GameObject";
+import GameObject from "../GameObject";
 import TextObject from "../Elements/TextObject";
 import Timer from "../Elements/Timer";
 import type GameState from "../GameState";

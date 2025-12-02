@@ -29,7 +29,7 @@ import {
 import { ScoreScene } from "./Scenes/ScoreScene";
 import { Notepad } from "./Scenes/EmailScene/Notepad";
 import { CLASSEMAIL, OPENNOTEPAD } from "./Scenes/EmailScene/Buttons";
-import type GameObject from "./Elements/GameObject";
+import type GameObject from "./GameObject";
 import { SettingsScene } from "./Scenes/SettingsScene/SettingsScene";
 import { TOGGLESETTING } from "./Scenes/SettingsScene/Toggle";
 import {
@@ -40,6 +40,10 @@ import {
   CURSORRIGHT,
 } from "./Cursor";
 
+/**
+ * Alterna o estado de inspecionar de um dado estado de jogo
+ * @param gameState
+ */
 function inspectModeSwitch(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
     if (gameState.currentScene.level.canSelect) {
@@ -51,6 +55,10 @@ function inspectModeSwitch(gameState: GameState) {
   }
 }
 
+/**
+ * Pause a cena atual se for uma EmailScene
+ * @param gameState
+ */
 function pauseTraining(gameState: GameState) {
   if (gameState.currentScene instanceof EmailScene) {
     gameState.currentScene.pause();
@@ -58,6 +66,12 @@ function pauseTraining(gameState: GameState) {
   gameTimeTracker.pause();
 }
 
+/**
+ * Retorna uma nova cena de acordo com a referência de cena do dado resultado de ação um dado estado de jogo
+ * @param result resultado de ação
+ * @param gameState estado de jogo
+ * @returns
+ */
 function createScene(result: any, gameState: GameState): Scene {
   switch (result.sceneReference) {
     case EMAILSCENE:
@@ -80,6 +94,12 @@ function createScene(result: any, gameState: GameState): Scene {
   }
 }
 
+/**
+ * A partir de um dado estado de jogo lida com a função de click de um dado objeto de jogo
+ * @param gameState
+ * @param obj
+ * @returns
+ */
 function mouseClickHandler(gameState: GameState, obj: GameObject) {
   if (!obj.clickFunction) {
     return;
@@ -194,6 +214,12 @@ function mouseClickHandler(gameState: GameState, obj: GameObject) {
   }
 }
 
+/**
+ * A partir de um dado estado de jogo lida com a sobreposição do dado cursor em um dado objeto de jogo
+ * @param gameState
+ * @param cursor
+ * @param obj
+ */
 function mouseHoverHandler(
   gameState: GameState,
   cursor: Cursor,
@@ -251,6 +277,11 @@ function mouseHoverHandler(
   }
 }
 
+/**
+ * Atualiza um dado estado de jogo e um dado cursor de acordo com o estado do input de teclado e o estado do input do mouse
+ * @param gameState
+ * @param cursor
+ */
 export default function updateGameState(gameState: GameState, cursor: Cursor) {
   if (
     keyboardState["Escape"]?.pressState == PRESSED &&

@@ -1,4 +1,4 @@
-import GameObject from "./GameObject";
+import GameObject from "../GameObject";
 import measureTextWidth from "../MeasureTextWidth";
 import type Position from "../Position";
 import type CanvasObject from "../CanvasObject";

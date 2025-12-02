@@ -1,5 +1,11 @@
 import fontMaps from "./FontMaps";
 
+/**
+ * Mede a largura de um dado texto a partir do mapeamento de uma dada fonte
+ * @param text
+ * @param font
+ * @returns
+ */
 export default function measureTextWidth(text: string, font: string) {
   let letters = text.split("");
   let width = 0;

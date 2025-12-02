@@ -11,30 +11,33 @@ import {
 
 // TO-DO: comentar
 
+// Objeto de progresso de nível
 export type LevelProgress = {
-  reference: string;
-  highscore: number;
-  perfect: boolean;
+  reference: string; // Referência do objeto de nível
+  highscore: number; // Pontuação recorde no nível
+  perfect: boolean; // Identifica se o nível já foi completo sem erros
 };
 
+// Objeto de salvamento de progresso
 export type Save = {
-  lastSaveTime: Date | string | null;
-  levelProgressRecord: Record<string, LevelProgress>;
-  lastTotalScore: number;
+  lastSaveTime: Date | string | null; // Data do ultimo salvamento
+  levelProgressRecord: Record<string, LevelProgress>; // Dicionário de progresso de níveis
+  totalScore: number; // Pontuação total
   settings: {
     [SETTINGAUTOSAVE]: boolean;
     [SETTINGFILTER]: boolean;
     [SETTINGSPOPUP]: boolean;
-  };
+  }; // Objeto de opções; true = ativo; false = inativo
 };
 
+// Objeto de estado do jogo
 export default class GameState {
-  inspecting: boolean = false;
-  popup: Popup;
-  currentSaveSlotId: number | null = null;
-  currentScene!: Scene;
-  currentSave!: Save;
-  saveSlots!: Save[];
+  popup: Popup; // Objeto de popup para mensagem de salvamento
+  inspecting: boolean = false; // Indica se o jogador está no estado de inspecionar
+  currentSaveSlotId: number | null = null; // Id do salvamento atual selecionado
+  currentScene!: Scene; // Cena atual
+  currentSave!: Save; // Salvamento atual
+  saveSlots!: Save[]; // Lista de salvamentos
   lastSaveState: string = JSON.stringify({
     lastSaveTime: null,
     levelProgressRecord: {},
@@ -44,13 +47,17 @@ export default class GameState {
       [SETTINGFILTER]: false,
       [SETTINGSPOPUP]: true,
     },
-  });
-  leaderboardUpdate!: () => Promise<void>;
+  }); // Último estado salvo durante o jogo
+  leaderboardUpdate!: () => Promise<void>; // Função de atualizar o placar
 
   constructor(args: { popup: Popup }) {
     this.popup = args.popup;
   }
 
+  /**
+   * Inicializa o objeto
+   * @param leaderboardUpdate
+   */
   async init(leaderboardUpdate: () => Promise<void>) {
     this.leaderboardUpdate = leaderboardUpdate;
     let savesData: any = null;
@@ -64,7 +71,7 @@ export default class GameState {
       {
         lastSaveTime: null,
         levelProgressRecord: {},
-        lastTotalScore: 0,
+        totalScore: 0,
         settings: {
           [SETTINGAUTOSAVE]: true,
           [SETTINGFILTER]: false,
@@ -74,7 +81,7 @@ export default class GameState {
       {
         lastSaveTime: null,
         levelProgressRecord: {},
-        lastTotalScore: 0,
+        totalScore: 0,
         settings: {
           [SETTINGAUTOSAVE]: true,
           [SETTINGFILTER]: false,
@@ -84,7 +91,7 @@ export default class GameState {
       {
         lastSaveTime: null,
         levelProgressRecord: {},
-        lastTotalScore: 0,
+        totalScore: 0,
         settings: {
           [SETTINGAUTOSAVE]: true,
           [SETTINGFILTER]: false,
@@ -115,7 +122,7 @@ export default class GameState {
     this.currentSave = {
       lastSaveTime: null,
       levelProgressRecord: {},
-      lastTotalScore: 0,
+      totalScore: 0,
       settings: {
         [SETTINGAUTOSAVE]: true,
         [SETTINGFILTER]: false,
@@ -124,6 +131,9 @@ export default class GameState {
     };
   }
 
+  /**
+   * Pontuação total do salvamento atualmente selecionado
+   */
   get currentSaveSlotTotalScore() {
     let result = 0;
     for (const key in this.currentSave?.levelProgressRecord) {
@@ -133,13 +143,19 @@ export default class GameState {
     return result;
   }
 
+  /**
+   * Indica se o estado de salvamento atual é o mesmo que o último salvo
+   */
   get progressSaved() {
     return this.lastSaveState == JSON.stringify(this.currentSave);
   }
 
+  /**
+   * Atualiza a pontuação do jogador com a pontuação total atual
+   */
   updateHighscore() {
-    if (this.currentSaveSlotTotalScore > this.currentSave.lastTotalScore) {
-      this.currentSave.lastTotalScore = this.currentSaveSlotTotalScore;
+    if (this.currentSaveSlotTotalScore > this.currentSave.totalScore) {
+      this.currentSave.totalScore = this.currentSaveSlotTotalScore;
       savesService.updateHighscore({
         game_id: 1,
         score: this.currentSaveSlotTotalScore,
@@ -147,6 +163,10 @@ export default class GameState {
     }
   }
 
+  /**
+   * Altera o salvamento atual selecionado de acordo com o dado Id
+   * @param index
+   */
   selectSave(index: number) {
     this.currentSaveSlotId = index;
     this.lastSaveState = JSON.stringify(this.saveSlots[this.currentSaveSlotId]);
@@ -160,11 +180,15 @@ export default class GameState {
     }
   }
 
+  /**
+   * Reseta o save indicado pelo dado Id
+   * @param index
+   */
   deleteSave(index: number) {
     this.saveSlots[index] = {
       lastSaveTime: null,
       levelProgressRecord: {},
-      lastTotalScore: 0,
+      totalScore: 0,
       settings: {
         [SETTINGAUTOSAVE]: true,
         [SETTINGFILTER]: false,
@@ -179,7 +203,7 @@ export default class GameState {
       this.currentSave = {
         lastSaveTime: null,
         levelProgressRecord: {},
-        lastTotalScore: 0,
+        totalScore: 0,
         settings: {
           [SETTINGAUTOSAVE]: true,
           [SETTINGFILTER]: false,
@@ -190,6 +214,12 @@ export default class GameState {
     }
   }
 
+  /**
+   * Salva o estado atual do jogo no salvamento com o Id selecionado atual
+   * @param manual Indica se é manual e não automático
+   * @param settings Indica se é um salvamento a partir das opções
+   * @returns
+   */
   saveGame(manual: boolean, settings: boolean = false) {
     if (!manual && !this.currentSave.settings[SETTINGAUTOSAVE]) {
       return;

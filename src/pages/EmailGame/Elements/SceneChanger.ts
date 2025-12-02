@@ -1,5 +1,5 @@
 import type Position from "../Position";
-import GameObject from "./GameObject";
+import GameObject from "../GameObject";
 
 export const SCENECHANGE = "sceneChange"; // Referência de ação de alterar cena atual
 

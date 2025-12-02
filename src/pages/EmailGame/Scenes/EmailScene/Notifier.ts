@@ -1,5 +1,5 @@
 import type CanvasObject from "../../CanvasObject";
-import GameObject from "../../Elements/GameObject";
+import GameObject from "../../GameObject";
 import Timer from "../../Elements/Timer";
 import { findSprite } from "../../Sprites/FindSprite";
 import Position from "../../Position";

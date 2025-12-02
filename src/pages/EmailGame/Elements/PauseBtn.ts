@@ -1,7 +1,7 @@
 import type CanvasObject from "../CanvasObject";
 import { findSprite } from "../Sprites/FindSprite";
 import Position from "../Position";
-import GameObject from "./GameObject";
+import GameObject from "../GameObject";
 
 export const PAUSEGAME = "pauseGame"; // Referencia de ação de pausar o jogo
 
