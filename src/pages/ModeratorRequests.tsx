@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CheckCircle, XCircle, Clock, User } from "lucide-react";
+import { CheckCircle, XCircle, Clock, User, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "../contexts/AuthContext";
 import Navigation from "@/components/Navigation";
@@ -55,9 +55,6 @@ export default function ModeratorRequests() {
   const [selectedRequest, setSelectedRequest] =
     useState<ModeratorRequest | null>(null);
   const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
-  const [reviewAction, setReviewAction] = useState<
-    "APPROVED" | "REJECTED" | null
-  >(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -84,27 +81,23 @@ export default function ModeratorRequests() {
     }
   };
 
-  const handleReviewClick = (
-    request: ModeratorRequest,
-    action: "APPROVED" | "REJECTED",
-  ) => {
+  const handleReviewClick = (request: ModeratorRequest) => {
     setSelectedRequest(request);
-    setReviewAction(action);
     setIsReviewDialogOpen(true);
   };
 
-  const handleReviewSubmit = async () => {
-    if (!selectedRequest || !reviewAction) return;
+  const handleReviewSubmit = async (decision: "APPROVED" | "REJECTED") => {
+    if (!selectedRequest) return;
 
     setIsSubmitting(true);
     try {
       await moderatorRequestsService.review(
         selectedRequest.request_id,
-        reviewAction,
+        decision,
       );
       toast({
         title: "Sucesso!",
-        description: `Solicitação ${reviewAction === "APPROVED" ? "aprovada" : "rejeitada"} com sucesso`,
+        description: `Solicitação ${decision === "APPROVED" ? "aprovada" : "rejeitada"} com sucesso`,
       });
       setIsReviewDialogOpen(false);
       loadRequests();
@@ -218,11 +211,8 @@ export default function ModeratorRequests() {
                       <TableRow className="border-gray-700 hover:bg-[#1F2937]">
                         <TableHead className="text-gray-300">Usuário</TableHead>
                         <TableHead className="text-gray-300">Email</TableHead>
-                        <TableHead className="text-gray-300">Razão</TableHead>
                         <TableHead className="text-gray-300">Data</TableHead>
-                        <TableHead className="text-gray-300 text-right">
-                          Ações
-                        </TableHead>
+                        <TableHead className="text-gray-300">Ações</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -247,17 +237,6 @@ export default function ModeratorRequests() {
                           <TableCell className="text-gray-300">
                             {request.user.user_email}
                           </TableCell>
-                          <TableCell className="text-gray-300 max-w-xs">
-                            {request.reason ? (
-                              <div className="truncate" title={request.reason}>
-                                {request.reason}
-                              </div>
-                            ) : (
-                              <span className="text-gray-500 italic">
-                                Não informado
-                              </span>
-                            )}
-                          </TableCell>
                           <TableCell className="text-gray-300">
                             {formatDate(request.created_at)}
                           </TableCell>
@@ -265,23 +244,11 @@ export default function ModeratorRequests() {
                             <div className="flex gap-2 justify-end">
                               <Button
                                 size="sm"
-                                onClick={() =>
-                                  handleReviewClick(request, "APPROVED")
-                                }
-                                className="bg-green-600 hover:bg-green-700 text-white"
+                                onClick={() => handleReviewClick(request)}
+                                className="bg-[#374151] border-gray-600 text-white"
                               >
-                                <CheckCircle className="w-4 h-4 mr-1" />
-                                Aprovar
-                              </Button>
-                              <Button
-                                size="sm"
-                                onClick={() =>
-                                  handleReviewClick(request, "REJECTED")
-                                }
-                                className="bg-red-600 hover:bg-red-700 text-white"
-                              >
-                                <XCircle className="w-4 h-4 mr-1" />
-                                Rejeitar
+                                <Eye className="w-4 h-4 mr-1" />
+                                Vizualizar
                               </Button>
                             </div>
                           </TableCell>
@@ -365,15 +332,9 @@ export default function ModeratorRequests() {
       <Dialog open={isReviewDialogOpen} onOpenChange={setIsReviewDialogOpen}>
         <DialogContent className="bg-[#1F2937] border-gray-700 text-white">
           <DialogHeader>
-            <DialogTitle>
-              {reviewAction === "APPROVED"
-                ? "Aprovar Solicitação"
-                : "Rejeitar Solicitação"}
-            </DialogTitle>
+            <DialogTitle>Solicitação</DialogTitle>
             <DialogDescription className="text-gray-400">
-              {reviewAction === "APPROVED"
-                ? `Tem certeza que deseja aprovar a solicitação de ${selectedRequest?.user.full_name}? O usuário será promovido a moderador.`
-                : `Tem certeza que deseja rejeitar a solicitação de ${selectedRequest?.user.full_name}?`}
+              {`Solicitação de ${selectedRequest?.user.full_name}. O usuário será promovido a moderador.`}
             </DialogDescription>
           </DialogHeader>
 
@@ -393,19 +354,20 @@ export default function ModeratorRequests() {
               Cancelar
             </Button>
             <Button
-              onClick={handleReviewSubmit}
+              onClick={() => handleReviewSubmit("APPROVED")}
               disabled={isSubmitting}
-              className={
-                reviewAction === "APPROVED"
-                  ? "bg-green-600 hover:bg-green-700 text-white"
-                  : "bg-red-600 hover:bg-red-700 text-white"
-              }
+              className={"bg-green-600 hover:bg-green-700 text-white"}
             >
-              {isSubmitting
-                ? "Processando..."
-                : reviewAction === "APPROVED"
-                  ? "Aprovar"
-                  : "Rejeitar"}
+              <CheckCircle className="w-4 h-4 mr-1" />
+              Aprovar
+            </Button>
+            <Button
+              onClick={() => handleReviewSubmit("REJECTED")}
+              disabled={isSubmitting}
+              className={"bg-red-600 hover:bg-red-700 text-white"}
+            >
+              <XCircle className="w-4 h-4 mr-1" />
+              Rejeitar
             </Button>
           </DialogFooter>
         </DialogContent>

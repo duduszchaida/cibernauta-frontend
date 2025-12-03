@@ -177,7 +177,7 @@ export default function Game() {
 
       <div className="pt-6 px-4 sm:px-6 overflow-x-hidden">
         <div
-          className={`grid grid-cols-1 gap-4 w-full ${
+          className={`grid grid-cols-1 gap-4 w-full  ${
             gameData.game_type === "local" &&
             gameData.controls &&
             gameData.controls.length > 0
@@ -224,7 +224,9 @@ export default function Game() {
             )}
           </div>
 
-          <div className="bg-[#374B7C] rounded-2xl p-3 sm:p-5 order-2 w-full overflow-hidden h-fit">
+          <div
+            className={`bg-[#374B7C] rounded-2xl p-3 sm:p-5 order-2 w-full h-fit place-items-center ${gameData.game_type == "external" ? "max-w-[80%]" : ""}`}
+          >
             {gameData.enabled === false &&
               (user?.role === "ADMIN" || user?.role === "MODERATOR") && (
                 <div className="mb-4 bg-red-900/30 border-2 border-red-500 rounded-lg p-3 flex items-center gap-2">
