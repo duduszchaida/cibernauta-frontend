@@ -85,13 +85,26 @@ export default function GameForm() {
       return;
     }
 
-    if (gameType === "external" && gameUrl.trim() == "") {
-      toast({
-        title: "Erro",
-        description: "Por favor, insira uma url para o jogo",
-        variant: "destructive",
-      });
-      return;
+    if (gameType === "external") {
+      if (gameUrl.trim() == "") {
+        toast({
+          title: "Erro",
+          description: "Por favor, insira uma url para o jogo",
+          variant: "destructive",
+        });
+        return;
+      }
+      if (
+        gameUrl.slice(0, 8) !== "https://" &&
+        gameUrl.slice(0, 7) !== "http://"
+      ) {
+        toast({
+          title: "Erro",
+          description: "Url de jogo inválida",
+          variant: "destructive",
+        });
+        return;
+      }
     }
 
     if (
