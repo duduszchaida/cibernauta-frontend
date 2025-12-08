@@ -18,7 +18,7 @@ export default function ForgotPassword() {
     if (!email) {
       toast({
         title: "Erro",
-        description: "Por favor, insira seu email",
+        description: "Por favor, insira seu e-mail",
         variant: "destructive",
       });
       return;
@@ -28,7 +28,7 @@ export default function ForgotPassword() {
     if (!emailRegex.test(email)) {
       toast({
         title: "Erro",
-        description: "Por favor, insira um email válido",
+        description: "Por favor, insira um e-mail válido",
         variant: "destructive",
       });
       return;
@@ -39,17 +39,17 @@ export default function ForgotPassword() {
       await requestPasswordReset(email);
       setEmailSent(true);
       toast({
-        title: "Email enviado!",
+        title: "E-mail enviado!",
         description: "Verifique sua caixa de entrada para redefinir sua senha",
       });
     } catch (error: any) {
       const errorMessage = error.message || "Tente novamente mais tarde";
 
-      if (errorMessage.includes("verificar seu email")) {
+      if (errorMessage.includes("verificar seu e-mail")) {
         toast({
-          title: "Email não verificado",
+          title: "E-mail não verificado",
           description:
-            "Você precisa verificar seu email antes de redefinir a senha. Redirecionando...",
+            "Você precisa verificar seu e-mail antes de redefinir a senha. Redirecionando...",
           variant: "destructive",
         });
         setTimeout(() => {
@@ -57,7 +57,7 @@ export default function ForgotPassword() {
         }, 2000);
       } else {
         toast({
-          title: "Erro ao enviar email",
+          title: "Erro ao enviar e-mail",
           description: errorMessage,
           variant: "destructive",
         });
@@ -82,22 +82,22 @@ export default function ForgotPassword() {
           </h1>
           <p className="text-gray-400 text-sm text-center">
             {emailSent
-              ? "Um email foi enviado com instruções para redefinir sua senha"
-              : "Digite seu email para receber instruções de redefinição"}
+              ? "Um e-mail foi enviado com instruções para redefinir sua senha"
+              : "Digite seu e-mail para receber instruções de redefinição"}
           </p>
         </div>
 
         {!emailSent ? (
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-gray-300 text-sm mb-1">Email</label>
+              <label className="block text-gray-300 text-sm mb-1">E-mail</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-[17px] h-[13px] text-gray-400" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="seu@email.com"
+                  placeholder="seu@e-mail.com"
                   disabled={isLoading}
                   className="w-full h-[50px] pl-10 pr-4 bg-[#0A274F] border border-[#4C91FF] rounded-lg text-gray-500 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
                 />
@@ -116,7 +116,7 @@ export default function ForgotPassword() {
           <div className="space-y-6">
             <div className="p-4 bg-green-900/30 border border-green-500/50 rounded-lg">
               <p className="text-green-400 text-sm text-center">
-                Se o email estiver cadastrado, você receberá as instruções em
+                Se o e-mail estiver cadastrado, você receberá as instruções em
                 alguns minutos. Verifique também sua pasta de spam.
               </p>
             </div>

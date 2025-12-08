@@ -201,7 +201,7 @@ export default function ManageUsers() {
               <TableRow className="border-b border-[#4C91FF] hover:bg-[#0A274F]">
                 <TableHead className="text-gray-300">Usuário Login</TableHead>
                 <TableHead className="text-gray-300">Nome</TableHead>
-                <TableHead className="text-gray-300">Email</TableHead>
+                <TableHead className="text-gray-300">E-mail</TableHead>
                 <TableHead className="text-gray-300">Status</TableHead>
                 <TableHead className="text-gray-300">Cadastrado em</TableHead>
                 <TableHead className="text-gray-300">Ações</TableHead>
@@ -314,7 +314,7 @@ export default function ManageUsers() {
 
               <div>
                 <label className="block text-gray-300 text-sm mb-1">
-                  Email
+                  E-mail
                 </label>
                 <input
                   type="email"

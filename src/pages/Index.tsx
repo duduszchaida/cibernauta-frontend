@@ -43,15 +43,15 @@ export default function Index() {
       applyActionCode(auth, oobCode)
         .then(() => {
           toast({
-            title: "Email verificado!",
+            title: "E-mail verificado!",
             description:
               "Sua conta foi ativada com sucesso. Você pode já fechar esta guia e fazer login.",
           });
         })
         .catch((error) => {
-          console.error("Erro ao verificar email:", error);
+          console.error("Erro ao verificar e-mail:", error);
           let errorMessage =
-            "Erro ao verificar email. O link pode estar expirado.";
+            "Erro ao verificar e-mail. O link pode estar expirado.";
 
           if (error.code === "auth/invalid-action-code") {
             errorMessage = "O link de verificação é inválido ou já foi usado.";
@@ -97,7 +97,7 @@ export default function Index() {
       const errorMessage = error.message || "Verifique suas credenciais";
 
       if (
-        errorMessage.includes("Email não verificado") ||
+        errorMessage.includes("E-mail não verificado") ||
         errorMessage.includes("não verificado")
       ) {
         setUserEmail(identifier.includes("@") ? identifier : "");
@@ -123,7 +123,7 @@ export default function Index() {
               <CheckCircle2 className="w-12 h-12 text-white" />
             </div>
             <h1 className="text-white text-2xl font-normal mb-2">
-              Verificando seu email...
+              Verificando seu e-mail...
             </h1>
             <p className="text-gray-300 text-sm">
               Por favor, aguarde um momento
@@ -153,7 +153,7 @@ export default function Index() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-gray-300 text-sm mb-1">
-              Email ou usuário
+              E-mail ou usuário
             </label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-[17px] h-[13px] text-gray-400" />
@@ -161,7 +161,7 @@ export default function Index() {
                 type="text"
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
-                placeholder="Email ou nome de usuário"
+                placeholder="E-mail ou nome de usuário"
                 disabled={isLoading}
                 className="w-full h-[50px] pl-10 pr-4 bg-[#0A274F] border border-[#4C91FF] rounded-lg text-gray-500 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
               />
@@ -227,15 +227,15 @@ export default function Index() {
                 <AlertTriangle className="w-6 h-6 text-yellow-500" />
               </div>
               <AlertDialogTitle className="text-white text-xl">
-                Email não verificado
+                E-mail não verificado
               </AlertDialogTitle>
             </div>
             <AlertDialogDescription className="text-gray-300 text-base">
-              Você precisa verificar seu email antes de fazer login. Verifique
+              Você precisa verificar seu e-mail antes de fazer login. Verifique
               sua caixa de entrada e clique no link de verificação que enviamos.
             </AlertDialogDescription>
             {userEmail && (
-              <p className="text-blue-400 text-sm mt-2">Email: {userEmail}</p>
+              <p className="text-blue-400 text-sm mt-2">E-mail: {userEmail}</p>
             )}
           </AlertDialogHeader>
           <AlertDialogFooter className="flex-col sm:flex-row gap-2">

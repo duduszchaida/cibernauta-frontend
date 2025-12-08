@@ -25,7 +25,7 @@ export default function VerifyEmail() {
       toast({
         title: "Erro",
         description:
-          "Email não fornecido. Por favor, faça o cadastro novamente.",
+          "E-mail não fornecido. Por favor, faça o cadastro novamente.",
         variant: "destructive",
       });
       return;
@@ -35,13 +35,13 @@ export default function VerifyEmail() {
     try {
       await authService.resendVerificationEmail(email);
       toast({
-        title: "Email enviado!",
+        title: "E-mail enviado!",
         description: "Verifique sua caixa de entrada e spam",
       });
       setCooldown(60);
     } catch (error: any) {
       toast({
-        title: "Erro ao enviar email",
+        title: "Erro ao enviar e-mail",
         description:
           error.response?.data?.message || "Tente novamente mais tarde",
         variant: "destructive",
@@ -67,10 +67,10 @@ export default function VerifyEmail() {
           </div>
 
           <h1 className="text-white text-3xl font-normal mb-2 text-center">
-            Verifique seu Email
+            Verifique seu E-mail
           </h1>
           <p className="text-gray-300 text-sm text-center max-w-sm">
-            Enviamos um email de verificação para
+            Enviamos um e-mail de verificação para
           </p>
           {email && (
             <p className="text-blue-400 font-medium mt-1 text-center">
@@ -86,7 +86,7 @@ export default function VerifyEmail() {
               <div>
                 <p className="text-white text-sm font-medium">Passo 1</p>
                 <p className="text-gray-400 text-xs">
-                  Abra sua caixa de entrada de email
+                  Abra sua caixa de entrada de e-mail
                 </p>
               </div>
             </div>
@@ -96,7 +96,7 @@ export default function VerifyEmail() {
               <div>
                 <p className="text-white text-sm font-medium">Passo 2</p>
                 <p className="text-gray-400 text-xs">
-                  Procure pelo email do Cibernauta IFPR
+                  Procure pelo e-mail do Cibernauta IFPR
                 </p>
               </div>
             </div>
@@ -116,7 +116,7 @@ export default function VerifyEmail() {
             <div className="flex items-start gap-2">
               <AlertCircle className="w-4 h-4 text-yellow-400 mt-0.5 flex-shrink-0" />
               <p className="text-gray-400 text-xs">
-                Não encontrou o email? Verifique sua caixa de spam ou clique no
+                Não encontrou o e-mail? Verifique sua caixa de spam ou clique no
                 botão abaixo para reenviar
               </p>
             </div>
@@ -132,11 +132,11 @@ export default function VerifyEmail() {
             ? "Enviando..."
             : cooldown > 0
               ? `Aguarde ${cooldown}s para reenviar`
-              : "Reenviar Email de Verificação"}
+              : "Reenviar E-mail de Verificação"}
         </button>
 
         <p className="text-center text-gray-400 text-sm">
-          Após verificar seu email,{" "}
+          Após verificar seu e-mail,{" "}
           <Link to="/" className="text-blue-400 hover:underline">
             faça login aqui
           </Link>

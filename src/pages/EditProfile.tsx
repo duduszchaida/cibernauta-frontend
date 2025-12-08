@@ -220,14 +220,14 @@ export default function EditProfile() {
 
           <div>
             <label className="block text-gray-300 text-base font-medium mb-2">
-              Email
+              E-mail
             </label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
               <input
                 type="email"
                 value={userEmail}
-                placeholder="seu@email.com"
+                placeholder="seu@e-mail.com"
                 disabled
                 className="w-full h-[56px] pl-12 pr-5 bg-[#0d1f3d] border-2 border-gray-600 rounded-lg text-gray-500 text-base placeholder:text-gray-600 cursor-not-allowed opacity-75"
               />

@@ -210,7 +210,7 @@ export default function ModeratorRequests() {
                     <TableHeader>
                       <TableRow className="border-gray-700 hover:bg-[#1F2937]">
                         <TableHead className="text-gray-300">Usuário</TableHead>
-                        <TableHead className="text-gray-300">Email</TableHead>
+                        <TableHead className="text-gray-300">E-mail</TableHead>
                         <TableHead className="text-gray-300">Data</TableHead>
                         <TableHead className="text-gray-300">Ações</TableHead>
                       </TableRow>
@@ -273,7 +273,7 @@ export default function ModeratorRequests() {
                     <TableHeader>
                       <TableRow className="border-gray-700 hover:bg-[#1F2937]">
                         <TableHead className="text-gray-300">Usuário</TableHead>
-                        <TableHead className="text-gray-300">Email</TableHead>
+                        <TableHead className="text-gray-300">E-mail</TableHead>
                         <TableHead className="text-gray-300">Status</TableHead>
                         <TableHead className="text-gray-300">
                           Revisado por

@@ -83,7 +83,7 @@ export default function Signup() {
       await register(loginUsername, fullName, email, password);
       toast({
         title: "Conta criada!",
-        description: "Verifique seu email para ativar sua conta",
+        description: "Verifique seu e-mail para ativar sua conta",
       });
       navigate("/verify-email", { state: { email } });
     } catch (error: any) {
@@ -109,7 +109,7 @@ export default function Signup() {
           />
           <h1 className="text-white text-3xl font-normal mb-2">Criar Conta</h1>
           <p className="text-gray-400 text-sm">
-            Junte-se à comunidade Cybernauta
+            Junte-se à comunidade Cibernauta
           </p>
         </div>
 
@@ -153,14 +153,14 @@ export default function Signup() {
           </div>
 
           <div>
-            <label className="block text-gray-300 text-sm mb-1">Email</label>
+            <label className="block text-gray-300 text-sm mb-1">E-mail</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-[17px] h-[13px] text-gray-400" />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="seu@email.com"
+                placeholder="seu@e-mail.com"
                 disabled={isLoading}
                 className="w-full h-[50px] pl-10 pr-4 bg-[#0A274F] border border-[#4C91FF] rounded-lg text-gray-500 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
               />
