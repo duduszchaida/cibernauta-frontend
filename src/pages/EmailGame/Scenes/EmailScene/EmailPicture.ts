@@ -4,11 +4,11 @@ import { findSprite } from "../../Sprites/FindSprite";
 import type Position from "../../Position";
 import type Sprite from "../../Sprites/Sprite";
 
-export const PICTURE = "picture"; // Referência de elemento de foto de perfil do email
+export const PICTURE = "picture"; // Referência de elemento de foto de perfil do e-mail
 
 export const SELECT = "select"; // Referência da ação de selecionar anomalia
 
-// Elemento de imagem de perfil do email, retorna a ação de SELECT e sua referência como função de click
+// Elemento de imagem de perfil do e-mail, retorna a ação de SELECT e sua referência como função de click
 export default class EmailPicture extends GameObject {
   reference = PICTURE; // Referência do elemento
   anomaly: boolean; // Indica se é uma anomalia

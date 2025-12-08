@@ -15,8 +15,8 @@ import type { Level } from "./LevelSelectionScene/Level";
 import Scene from "./Scene";
 import { LEVELSELECTION } from "./SceneReferences";
 
-const classRightPoints = 200; // Valor em pontos para cada email classificado corretamente
-const classWrongPoints = -100; // Valor em pontos para cada email classificado incorretamente
+const classRightPoints = 200; // Valor em pontos para cada e-mail classificado corretamente
+const classWrongPoints = -100; // Valor em pontos para cada e-mail classificado incorretamente
 const elementRightPoints = 50; // Valor em pontos para cada elemento selecionado corretamente
 const elementWrongPoints = -25; // Valor em pontos para cada elemento selecionado incorretamente
 

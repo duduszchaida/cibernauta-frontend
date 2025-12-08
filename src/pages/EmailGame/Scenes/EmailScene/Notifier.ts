@@ -4,7 +4,7 @@ import Timer from "../../Elements/Timer";
 import { findSprite } from "../../Sprites/FindSprite";
 import Position from "../../Position";
 
-// Objeto de notificação quando o usuário classifica um email com elementos ou classificação incorreta
+// Objeto de notificação quando o usuário classifica um e-mail com elementos ou classificação incorreta
 export class Notifier extends GameObject {
   spriteClass = findSprite("notif_class"); // Sprite para classificação incorreta
   spriteElement = findSprite("notif_element"); // Sprite para elemento incorreto

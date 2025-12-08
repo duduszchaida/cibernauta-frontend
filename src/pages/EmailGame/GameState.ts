@@ -9,8 +9,6 @@ import {
   SETTINGSPOPUP,
 } from "./Scenes/SettingsScene/SettingsReferences";
 
-// TO-DO: comentar
-
 // Objeto de progresso de nível
 export type LevelProgress = {
   reference: string; // Referência do objeto de nível

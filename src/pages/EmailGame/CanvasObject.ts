@@ -411,7 +411,7 @@ export default class CanvasObject {
   }
 
   /**
-   * Renderiza todos os parágrafos de um dado conteúdo de email
+   * Renderiza todos os parágrafos de um dado conteúdo de e-mail
    * @param paragraphs Lista de parágrafos a serem renderizados
    * @param font Fonte utilizada
    * @param fontSprite Sprite da fonte utilizada

@@ -7,9 +7,9 @@ import Position from "../../Position";
 import type Sprite from "../../Sprites/Sprite";
 import { SELECT } from "./EmailPicture";
 
-export const CONTENT = "content"; // Referência de elemento de conteúdo do email
+export const CONTENT = "content"; // Referência de elemento de conteúdo do e-mail
 
-// Representa uma linha de texto no conteúdo do email
+// Representa uma linha de texto no conteúdo do e-mail
 export type Line = {
   words: string[]; // Palavras na linha
   width: number; // Comprimento da linha em pixels
@@ -18,7 +18,7 @@ export type Line = {
 // Representa uma série de linhas como um parágrafo
 export type Paragraph = Line[];
 
-// Objeto do conteúdo de um email
+// Objeto do conteúdo de um e-mail
 export default class EmailContent extends GameObject {
   paragraphs: Paragraph[] = []; // Lista de parágrafos do objeto
   font = "minecraftia"; // Font do objeto

@@ -1,6 +1,6 @@
 import { MALICIOUS, SAFE, SPAM, type EmailData } from "./EmailData";
 
-// Lista de endereços de email "oficiais"
+// Lista de endereços de e-mail "oficiais"
 export const addresses = {
   grandma: "aparecida48@mail.com",
   cibernauta: "cibernauta@mail.com",
@@ -55,7 +55,7 @@ const pictures = {
 // Lista de export de todos os emails do jogo
 
 export const mailsafeSubscription: EmailData = {
-  text: `Olá SeuNome,\nEstamos confirmando sua inscrição no workshop "Boas Práticas de Segurança Digital", que ocorrerá no dia 12/12 às 14h.\nVocê pode acessar todos os materiais e informações no link do nosso site oficial:\n\nhttps://empresa-segura.com.br/workshop\n\nSe tiver qualquer dúvida, responda por este mesmo email.\n\nAtenciosamente,\nEquipe Empresa Segura`,
+  text: `Olá SeuNome,\nEstamos confirmando sua inscrição no workshop "Boas Práticas de Segurança Digital", que ocorrerá no dia 12/12 às 14h.\nVocê pode acessar todos os materiais e informações no link do nosso site oficial:\n\nhttps://empresa-segura.com.br/workshop\n\nSe tiver qualquer dúvida, responda por este mesmo e-mail.\n\nAtenciosamente,\nEquipe Empresa Segura`,
   address: "empresasegura@mail.zig",
   class: SAFE,
   name: "Emprura",
@@ -65,7 +65,7 @@ export const mailsafeSubscription: EmailData = {
 // Controls Level
 
 export const mailTutorialControls: EmailData = {
-  text: `Olá! E bem vind@ ao treinamento de identificação de emails da equipe Cibernauta.\n\nDaqui em diante, você irá aprender como identificar emails seguros, maliciosos e spam em todas as suas formas.\n\nMas antes de começar, vamos dar uma olhada nos controles que temos aqui.\n\nNa parte lateral da direita, mais ou menos por aqui -->\nTemos a barra de scroll, se clicar nela ou arrasta-la pode mover o conteúdo do email para cima e para baixo.\n\nNão ache estranho se ela às vezes não estiver presente, ela só aparece quando um email é comprido o suficiente para precisar dela.\n\nAlém dela também temos seu painel de botões, para abrir ele basta clicar no botão com a seta no canto esquerdo.\n\nNo painel você tem acesso a o que é preciso para classificar um email.\nPor enquanto só temos os botões de SEGURO (verde e redondo) e MALICIOSO (quadrado vermelho).\n\nPara prosseguir classifique esse email como SEGURO e vamos seguir em frente.`,
+  text: `Olá! E bem vind@ ao treinamento de identificação de emails da equipe Cibernauta.\n\nDaqui em diante, você irá aprender como identificar emails seguros, maliciosos e spam em todas as suas formas.\n\nMas antes de começar, vamos dar uma olhada nos controles que temos aqui.\n\nNa parte lateral da direita, mais ou menos por aqui -->\nTemos a barra de scroll, se clicar nela ou arrasta-la pode mover o conteúdo do e-mail para cima e para baixo.\n\nNão ache estranho se ela às vezes não estiver presente, ela só aparece quando um e-mail é comprido o suficiente para precisar dela.\n\nAlém dela também temos seu painel de botões, para abrir ele basta clicar no botão com a seta no canto esquerdo.\n\nNo painel você tem acesso a o que é preciso para classificar um e-mail.\nPor enquanto só temos os botões de SEGURO (verde e redondo) e MALICIOSO (quadrado vermelho).\n\nPara prosseguir classifique esse e-mail como SEGURO e vamos seguir em frente.`,
   address: addresses.cibernauta,
   class: SAFE,
   name: names.cibernauta,
@@ -75,7 +75,7 @@ export const mailTutorialControls: EmailData = {
 // Classification
 
 export const mailTutorialClass: EmailData = {
-  text: `Agora que tem uma noção básica dos controles, vamos ao que interessa, emails.\n\nNesse próximo treino vamos ver uma série de emails e é o seu trabalho identificar se eles são SEGUROs ou MALICIOSOs.\n\nMas como fazer isso? Existem várias maneiras, mas por enquanto só para aquecer, vamos começar com algo básico.\n\nEmails de pessoas e empresas desconhecidas ou até suspeitas podem ser maliciosos. Se ver um email de alguém que for desconhecido ou suspeito, marque como MALICIOSO, se for de alguém que conhece como Cibernauta ou Mail, uma das empresas que fornece serviço de email, pode marcar como SEGURO.\n\nUma última coisa, no canto de cima, junto com o botão de pause, tem o cronômetro, esse é o tempo que você terá para classificar quantos emails conseguir.\n\nQuando o cronômetro chegar a 0 (ou não houver mais emails), você irá para o placar de pontos, onde pode ver quantos erros e acertos cometeu, e sua pontuação final.\n\nEle só começa a contar quando esse email for classificado e seguirá para o próximo, então assim que estiver pronto, marque esse como SEGURO e boa sorte!`,
+  text: `Agora que tem uma noção básica dos controles, vamos ao que interessa, emails.\n\nNesse próximo treino vamos ver uma série de emails e é o seu trabalho identificar se eles são SEGUROs ou MALICIOSOs.\n\nMas como fazer isso? Existem várias maneiras, mas por enquanto só para aquecer, vamos começar com algo básico.\n\nEmails de pessoas e empresas desconhecidas ou até suspeitas podem ser maliciosos. Se ver um e-mail de alguém que for desconhecido ou suspeito, marque como MALICIOSO, se for de alguém que conhece como Cibernauta ou Mail, uma das empresas que fornece serviço de e-mail, pode marcar como SEGURO.\n\nUma última coisa, no canto de cima, junto com o botão de pause, tem o cronômetro, esse é o tempo que você terá para classificar quantos emails conseguir.\n\nQuando o cronômetro chegar a 0 (ou não houver mais emails), você irá para o placar de pontos, onde pode ver quantos erros e acertos cometeu, e sua pontuação final.\n\nEle só começa a contar quando esse e-mail for classificado e seguirá para o próximo, então assim que estiver pronto, marque esse como SEGURO e boa sorte!`,
   address: addresses.cibernauta,
   class: SAFE,
   name: names.cibernauta,
@@ -91,7 +91,7 @@ export const mailClassMal1: EmailData = {
 };
 
 export const mailClassMal2: EmailData = {
-  text: `Olá,\n\nSeu computador está DESATUALIZADO e em risco crítico.\n\nNos envie seu endereço de email e sua senha antes que seja tarde demais.`,
+  text: `Olá,\n\nSeu computador está DESATUALIZADO e em risco crítico.\n\nNos envie seu endereço de e-mail e sua senha antes que seja tarde demais.`,
   address: "hackers@mail.com",
   class: MALICIOUS,
   name: "Não é Virus",
@@ -125,7 +125,7 @@ export const mailClassSafe2: EmailData = {
 // Elements
 
 export const mailTutorialElements: EmailData = {
-  text: `Agora que passamos por esse aquecimento vamos ver a parte mais crucial do treinamento. Selecionar elementos.\n\nTodo email é composto de elementos, como a foto no canto superior esquerdo, o endereço de onde veio esse email ou até o texto que você está lendo.\n\nAgora, além de classificar os emails, você também pode SELECIONAR seus elementos.\n\nQuando estiver com seu painel aberto, seu cursor do mouse vai virar uma seta em diagonal, isso quer dizer que está no modo de seleção.\n\nNo modo de seleção, qualquer elemento do email que você clicar será selecionado como uma ANOMALIA, ou seja, algo que indica que esse email não é SEGURO. Você pode selecionar mais do que um elemento ao mesmo tempo.\n\nPara essa próxima etapa, vamos começar a partir do princípio que qualquer email oferecendo algo de GRAÇA ou pedindo que você faça algo com URGÊNCIA como realizar um pagamento ou entrar em algum link, é malicioso.\n\nSe ver algo do tipo, marque aonde no texto que isso aparece e classifique como MALICIOSO. Se o texto tiver mais frases do tipo em outros lugares não tem problema, você só precisa selecionar uma delas que já conta.\n\nElementos que forem corretamente marcados como ANOMALIAS te darão pontos extras! Mas elementos selecionados incorretamente irão reduzir sua pontuação.\n\nPronto para seguir em frente?`,
+  text: `Agora que passamos por esse aquecimento vamos ver a parte mais crucial do treinamento. Selecionar elementos.\n\nTodo e-mail é composto de elementos, como a foto no canto superior esquerdo, o endereço de onde veio esse e-mail ou até o texto que você está lendo.\n\nAgora, além de classificar os emails, você também pode SELECIONAR seus elementos.\n\nQuando estiver com seu painel aberto, seu cursor do mouse vai virar uma seta em diagonal, isso quer dizer que está no modo de seleção.\n\nNo modo de seleção, qualquer elemento do e-mail que você clicar será selecionado como uma ANOMALIA, ou seja, algo que indica que esse e-mail não é SEGURO. Você pode selecionar mais do que um elemento ao mesmo tempo.\n\nPara essa próxima etapa, vamos começar a partir do princípio que qualquer e-mail oferecendo algo de GRAÇA ou pedindo que você faça algo com URGÊNCIA como realizar um pagamento ou entrar em algum link, é malicioso.\n\nSe ver algo do tipo, marque aonde no texto que isso aparece e classifique como MALICIOSO. Se o texto tiver mais frases do tipo em outros lugares não tem problema, você só precisa selecionar uma delas que já conta.\n\nElementos que forem corretamente marcados como ANOMALIAS te darão pontos extras! Mas elementos selecionados incorretamente irão reduzir sua pontuação.\n\nPronto para seguir em frente?`,
   address: addresses.cibernauta,
   class: SAFE,
   name: names.cibernauta,
@@ -187,7 +187,7 @@ export const mailElementsSafe1: EmailData = {
 };
 
 export const mailElementsSafe2: EmailData = {
-  text: `Olá!\n\nObrigado por criar uma conta no Fritter. Estamos felizes em ter você aqui!\nPara começar a personalizar sua experiência, recomendamos visitar sua página de configurações:\n\nhttps://fritter.com/configuracoes\n\nLá você pode ajustar notificações, escolher interesses e configurar a segurança da sua conta.\n\nSe precisar de ajuda, basta responder este email ou acessar nossa Central de Suporte.\n\nBem-vindo à conversa!\nEquipe Fritter`,
+  text: `Olá!\n\nObrigado por criar uma conta no Fritter. Estamos felizes em ter você aqui!\nPara começar a personalizar sua experiência, recomendamos visitar sua página de configurações:\n\nhttps://fritter.com/configuracoes\n\nLá você pode ajustar notificações, escolher interesses e configurar a segurança da sua conta.\n\nSe precisar de ajuda, basta responder este e-mail ou acessar nossa Central de Suporte.\n\nBem-vindo à conversa!\nEquipe Fritter`,
   address: addresses.fritter,
   class: SAFE,
   name: names.fritter,
@@ -205,7 +205,7 @@ export const mailElementsSafe3: EmailData = {
 // Notepad / Adresses
 
 export const mailTutorialNotepad: EmailData = {
-  text: `Olá! Para essa próxima etapa você terá uma nova ferramenta, o caderno de informações! Pode ver que tem um botão novo no painel, ele abrirá o caderno.\n\nNeste caderno, você terá informações importantes para ajudar na sua classificação de emails, como o que veremos nesta etapa, endereços de email.\n\nUma coisa importante de saber enquanto estiver na internet, além de que há pessoas com intenções maliciosas, é que elas podem muitas vezes se passar por outras pessoas ou empresas. Uma maneira comum é pelo endereço de email.\n\nCada pessoa e empresa possui seu próprio endereço de email, como o nosso lá encima na esquerda, cibernauta@mail.com, mas como cada um pode escolher o endereço que quiser, muitas pessoas criam endereços parecidos com endereços oficiais.\n\nPor isso é importante quando receber um email de alguma pessoa ou empresa, verificar que o endereço de email é oficial e seguro.\n\nQuando estiver usando a internet, você pode pesquisar quais os endereços de email oficiais de alguma empresa, mas aqui no treinamento eles estarão no caderno.\n\nEm resumo, se ver algum endereço de email que não seja igual aos escritos no caderno, pode marcar ele como uma ANOMALIA, e classifique o email como MALICIOSO.\n\nLembre-se que o que foi ensinado nas etapas anteriores também se aplicam aqui. Agora marque esse email como SEGURO e vamos nessa!`,
+  text: `Olá! Para essa próxima etapa você terá uma nova ferramenta, o caderno de informações! Pode ver que tem um botão novo no painel, ele abrirá o caderno.\n\nNeste caderno, você terá informações importantes para ajudar na sua classificação de emails, como o que veremos nesta etapa, endereços de e-mail.\n\nUma coisa importante de saber enquanto estiver na internet, além de que há pessoas com intenções maliciosas, é que elas podem muitas vezes se passar por outras pessoas ou empresas. Uma maneira comum é pelo endereço de e-mail.\n\nCada pessoa e empresa possui seu próprio endereço de e-mail, como o nosso lá encima na esquerda, cibernauta@mail.com, mas como cada um pode escolher o endereço que quiser, muitas pessoas criam endereços parecidos com endereços oficiais.\n\nPor isso é importante quando receber um e-mail de alguma pessoa ou empresa, verificar que o endereço de e-mail é oficial e seguro.\n\nQuando estiver usando a internet, você pode pesquisar quais os endereços de e-mail oficiais de alguma empresa, mas aqui no treinamento eles estarão no caderno.\n\nEm resumo, se ver algum endereço de e-mail que não seja igual aos escritos no caderno, pode marcar ele como uma ANOMALIA, e classifique o e-mail como MALICIOSO.\n\nLembre-se que o que foi ensinado nas etapas anteriores também se aplicam aqui. Agora marque esse e-mail como SEGURO e vamos nessa!`,
   address: addresses.cibernauta,
   class: SAFE,
   name: names.cibernauta,
@@ -261,7 +261,7 @@ export const mailAddressMal5: EmailData = {
 };
 
 export const mailAddressSafe1: EmailData = {
-  text: `Olá,\n\nEstamos ajustando o sistema de notificações do Fritter para deixá-lo mais rápido e estável.\nVocê pode revisar suas preferências aqui:\n\nhttps://fritter.com/notificacoes\n\nSe algo não estiver funcionando como esperado, basta responder este email.\n\nAtenciosamente,\nEquipe Fritter`,
+  text: `Olá,\n\nEstamos ajustando o sistema de notificações do Fritter para deixá-lo mais rápido e estável.\nVocê pode revisar suas preferências aqui:\n\nhttps://fritter.com/notificacoes\n\nSe algo não estiver funcionando como esperado, basta responder este e-mail.\n\nAtenciosamente,\nEquipe Fritter`,
   address: addresses.fritter,
   class: SAFE,
   name: names.fritter,
@@ -343,7 +343,7 @@ export const mailContactSafe1: EmailData = {
 };
 
 export const mailContactSafe2: EmailData = {
-  text: `Olá!\n\nEstamos escrevendo para informar que sua solicitação recente passou para a fase final de revisão. O problema reportado realmente estava ligado a uma configuração incorreta nos nossos servidores, e já realizamos os ajustes necessários.\n\nRealize um novo login e verifique se tudo está funcionando corretamente. Se encontrar qualquer irregularidade, responda este email diretamente e nosso time dará continuidade ao atendimento.\n\nAgradecemos sua paciência durante o processo.\nAtenciosamente, Tecnus Suporte`,
+  text: `Olá!\n\nEstamos escrevendo para informar que sua solicitação recente passou para a fase final de revisão. O problema reportado realmente estava ligado a uma configuração incorreta nos nossos servidores, e já realizamos os ajustes necessários.\n\nRealize um novo login e verifique se tudo está funcionando corretamente. Se encontrar qualquer irregularidade, responda este e-mail diretamente e nosso time dará continuidade ao atendimento.\n\nAgradecemos sua paciência durante o processo.\nAtenciosamente, Tecnus Suporte`,
   address: addresses.tecnus,
   class: SAFE,
   name: names.tecnus,

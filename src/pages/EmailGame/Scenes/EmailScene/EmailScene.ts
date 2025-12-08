@@ -160,8 +160,8 @@ export default class EmailScene extends Scene {
   }
 
   /**
-   * Gera um email, usando o email inicial do nível se for o primeiro email gerado,
-   * e inicia o timer se não for o primeiro email
+   * Gera um e-mail, usando o e-mail inicial do nível se for o primeiro e-mail gerado,
+   * e inicia o timer se não for o primeiro e-mail
    * @param first
    */
   nextEmail(first: boolean = false) {
@@ -192,7 +192,7 @@ export default class EmailScene extends Scene {
   }
 
   /**
-   * Adiciona à lista de avaliações a avaliação do email e os dados do email atual
+   * Adiciona à lista de avaliações a avaliação do e-mail e os dados do e-mail atual
    * @param classification
    */
   evaluateEmail(classification: typeof SAFE | typeof MALICIOUS | typeof SPAM) {

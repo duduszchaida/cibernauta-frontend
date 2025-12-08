@@ -3,7 +3,7 @@ import Position from "../../Position";
 import { MALICIOUS, SAFE, SPAM } from "./EmailData";
 import { NOTEPAD } from "./Notepad";
 
-export const CLASSEMAIL = "classEmail"; // Referência de ação de classificar um email
+export const CLASSEMAIL = "classEmail"; // Referência de ação de classificar um e-mail
 export const OPENNOTEPAD = "openNotepad"; // Referência de ação de abrir o caderno
 
 // Referências dos tipos de botões

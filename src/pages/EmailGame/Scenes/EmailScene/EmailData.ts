@@ -8,7 +8,7 @@ export type EmailData = {
   address: string; // Endereço de quem enviou
   name: string; // Nome de quem enviou
   picture: string; // Nome do sprite usado para a imagem de perfil
-  class: typeof SAFE | typeof MALICIOUS | typeof SPAM; // Classificação do email
+  class: typeof SAFE | typeof MALICIOUS | typeof SPAM; // Classificação do e-mail
   anomalyAddress?: boolean; // Identifica se o enderço é uma anomalia
   anomalyName?: boolean; // Identifica se o nome é uma anomalia
   anomalyPicture?: boolean; // Identifica se a imagem de perfil é uma anomalia

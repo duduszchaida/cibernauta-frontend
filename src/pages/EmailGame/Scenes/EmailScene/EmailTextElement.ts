@@ -6,10 +6,10 @@ import { findSprite } from "../../Sprites/FindSprite";
 import type CanvasObject from "../../CanvasObject";
 import fontMaps from "../../FontMaps";
 
-export const ADDRESS = "address"; // Referência de elemento de endereço do email
-export const NAME = "name"; // Referência de elemento de nome do email
+export const ADDRESS = "address"; // Referência de elemento de endereço do e-mail
+export const NAME = "name"; // Referência de elemento de nome do e-mail
 
-// Elemento de email com conteúdo de texto, retorna a ação de SELECT e sua referência como função de click
+// Elemento de e-mail com conteúdo de texto, retorna a ação de SELECT e sua referência como função de click
 export default class EmailTextElement extends TextObject {
   anomaly: boolean = false; // Indica se o elemento é uma anomalia
   selected: boolean = false; // Indica se o elemento está selecionado como anomalia

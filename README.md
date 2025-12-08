@@ -75,9 +75,9 @@ Acesse: `http://localhost:5173`
 
 ## 1- Opção
 
-Verificar a conta que você criou, pois chegará um email na conta que você utilizou no cadastro com o link para confirmação.
-Depois rodar no banco o comando `UPDATE users SET role = 'ADMIN' WHERE user_email = 'seu-email@example.com';`,
-altere seu-email@example.com pelo seu email utilizado no cadastro.
+Verificar a conta que você criou, pois chegará um e-mail na conta que você utilizou no cadastro com o link para confirmação.
+Depois rodar no banco o comando `UPDATE users SET role = 'ADMIN' WHERE user_email = 'seu-e-mail@example.com';`,
+altere seu-e-mail@example.com pelo seu e-mail utilizado no cadastro.
 
 ## 2- Opção
 
@@ -87,12 +87,12 @@ Volte ao terminal do backend (Terminal 1) e execute:
 npm run create-admin
 ```
 
-Quando solicitado, digite o email que você usou no cadastro.
+Quando solicitado, digite o e-mail que você usou no cadastro.
 
 O script irá:
 
 - Promover sua conta para administrador
-- Verificar automaticamente o email (sem necessidade de clicar em links de verificação)
+- Verificar automaticamente o e-mail (sem necessidade de clicar em links de verificação)
 
 Agora você tem acesso completo ao sistema.
 

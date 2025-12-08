@@ -2,7 +2,7 @@ import { PICTURE } from "./EmailPicture";
 import { ADDRESS, NAME } from "./EmailTextElement";
 import type { CONTENT } from "./EmailContent";
 
-// Avaliação de email
+// Avaliação de e-mail
 // Representa se cada elemento foi selecionado/classificado corretamente
 // true = acerto
 // false = erro

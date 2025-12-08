@@ -10,12 +10,12 @@ import EmailTextElement, { ADDRESS, NAME } from "./EmailTextElement.ts";
 // Dicionário de seleção de anomalias, para cada referência de um elemento, guarda se ele foi selecionado como anomalia
 export type AnomalySelection = Record<string, boolean>;
 
-// Gerencia a interação do jogador com um email
+// Gerencia a interação do jogador com um e-mail
 export default class EmailInterface {
-  emailData!: EmailData; // Dados do email atual
-  emailContent!: EmailContent; // Conteúdo do email atual
-  anomalies!: AnomalySelection; // Dicionário de quais elementos do email atual são anomalias
-  anomalyParagraphs!: number[]; // Parágrafos do email atual que contém anomalia
+  emailData!: EmailData; // Dados do e-mail atual
+  emailContent!: EmailContent; // Conteúdo do e-mail atual
+  anomalies!: AnomalySelection; // Dicionário de quais elementos do e-mail atual são anomalias
+  anomalyParagraphs!: number[]; // Parágrafos do e-mail atual que contém anomalia
   scrollBar: ScrollBar | null = null; // Objeto de barra de scroll
   selectedAnomalies: AnomalySelection = {
     name: false,
@@ -23,16 +23,16 @@ export default class EmailInterface {
     address: false,
     picture: false,
   }; // Anomalias selecionadas pelo usuário
-  [PICTURE]!: EmailPicture; // Elemento de foto de perfil do email
-  [ADDRESS]!: EmailTextElement; // Elemento de endereço do email
-  [NAME]!: EmailTextElement; // Elemento de nome do email
+  [PICTURE]!: EmailPicture; // Elemento de foto de perfil do e-mail
+  [ADDRESS]!: EmailTextElement; // Elemento de endereço do e-mail
+  [NAME]!: EmailTextElement; // Elemento de nome do e-mail
 
   constructor(data: EmailData) {
     this.newData(data);
   }
 
   /**
-   * Com um dado EmailData atualiza os elementos e propriedades relacionadas ao email atual
+   * Com um dado EmailData atualiza os elementos e propriedades relacionadas ao e-mail atual
    * @param data
    */
   newData(data: EmailData) {
@@ -102,7 +102,7 @@ export default class EmailInterface {
   }
 
   /**
-   * Altera estado de selecionado de um elemento de email a partir de uma dada referência
+   * Altera estado de selecionado de um elemento de e-mail a partir de uma dada referência
    * @param reference
    */
   selectAnomaly(reference: string) {
@@ -119,7 +119,7 @@ export default class EmailInterface {
   }
 
   /**
-   * Atualiza qual o parágrafo selecionado do conteúdo do email atual dado um index de parágrafo
+   * Atualiza qual o parágrafo selecionado do conteúdo do e-mail atual dado um index de parágrafo
    * @param paragraphId
    */
   selectParagraph(paragraphId: number) {
@@ -131,7 +131,7 @@ export default class EmailInterface {
   }
 
   /**
-   * Executa a função de scroll do email e da bara de scroll com um dado numero
+   * Executa a função de scroll do e-mail e da bara de scroll com um dado numero
    * @param scroll
    */
   scrollEmail(scroll: number) {
@@ -140,7 +140,7 @@ export default class EmailInterface {
   }
 
   /**
-   * Executa a função de scrollTo do email e da bara de scroll com uma dada altura
+   * Executa a função de scrollTo do e-mail e da bara de scroll com uma dada altura
    * @param height
    */
   scrollEmailTo(height: number) {
@@ -149,7 +149,7 @@ export default class EmailInterface {
   }
 
   /**
-   * Compara a seleção de anomalias com as anomalias do email atual e retorna um Evaluation a partir delas e uma dada classificação
+   * Compara a seleção de anomalias com as anomalias do e-mail atual e retorna um Evaluation a partir delas e uma dada classificação
    * @param classification
    * @returns
    */
