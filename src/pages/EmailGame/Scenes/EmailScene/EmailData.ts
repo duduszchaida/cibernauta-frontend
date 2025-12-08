@@ -2,7 +2,7 @@ export const SAFE = "safe";
 export const MALICIOUS = "malicious";
 export const SPAM = "spam";
 
-// Dados dos emails
+// Dados dos e-mails
 export type EmailData = {
   text: string; // Texto do conteúdo
   address: string; // Endereço de quem enviou

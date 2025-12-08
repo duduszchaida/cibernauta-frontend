@@ -20,7 +20,7 @@ import { Notifier as Notifier } from "./Notifier";
 import type CanvasObject from "../../CanvasObject";
 import { findSprite } from "../../Sprites/FindSprite";
 
-// Borda genêrica da cena de emails
+// Borda genêrica da cena de e-mails
 const emailBorder = new GameObject({
   spriteName: "email_border",
   width: 352,
@@ -36,7 +36,7 @@ const selectCover = new GameObject({
   ignoreClick: true,
 });
 
-// Elemento da tela de pause da cena de emails
+// Elemento da tela de pause da cena de e-mails
 class PauseScreen extends GameObject {
   notepad: boolean;
   notepadControlsSprite = findSprite("pause_screen_notepad");
@@ -67,14 +67,14 @@ class PauseScreen extends GameObject {
   }
 }
 
-// Cena de classificar emails
+// Cena de classificar e-mails
 export default class EmailScene extends Scene {
-  emailInterface: EmailInterface = new EmailInterface(mailTutorialControls); // Interface de emails
-  emailDataList: EmailData[] = []; // Lista de dados dos emails
+  emailInterface: EmailInterface = new EmailInterface(mailTutorialControls); // Interface de e-mails
+  emailDataList: EmailData[] = []; // Lista de dados dos e-mails
   buttonPannel = new ButtonPannel(); // Painel de botões
   notepad: Notepad; // Caderno
   buttons: GameObject[] = []; // Lista dos objetos dos botões usados no painel de botões
-  timer: Timer; // Timer do limíte de tempo para classificar emails
+  timer: Timer; // Timer do limíte de tempo para classificar e-mails
   notifier: Notifier = new Notifier();
 
   paused: boolean = false; // Indica se o jogo está pausado
@@ -83,7 +83,7 @@ export default class EmailScene extends Scene {
   pauseButton = new PauseButton(); // Objeto de botão de pause da cena
 
   level: Level; // Nível atual
-  evaluations: { evaluation: Evaluation; emailData: EmailData }[] = []; // Lisa de avaliações dos emails do nível
+  evaluations: { evaluation: Evaluation; emailData: EmailData }[] = []; // Lisa de avaliações dos e-mails do nível
 
   constructor(level: Level) {
     super({
@@ -122,7 +122,7 @@ export default class EmailScene extends Scene {
   }
 
   /**
-   * Atualiza a interface de emails comum dado EmailData, ou um aleatório da emailDataList
+   * Atualiza a interface de e-mails comum dado EmailData, ou um aleatório da emailDataList
    * e atualiza a lista de objetos da cena
    * @param emailData
    */
